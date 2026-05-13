@@ -1,0 +1,29 @@
+{
+  "counts": { "active": 3, "completed": 0 },
+  "active": [
+    {
+      "id": "a1",
+      "type": "assignment",
+      "category": "Assignment · Time series forecasting",
+      "title": "Test rich text in assignment",
+      "when": "28 May 24 12:00 AM - 31 May 26 11:59 PM",
+      "action": "Submit"
+    },
+    {
+      "id": "a2",
+      "type": "quiz",
+      "category": "Quiz · Time series forecasting",
+      "title": "20 Question",
+      "when": "01 Apr 25 12:00 AM - 09 Jul 26 11:59 PM",
+      "action": "Attempt"
+    },
+    {
+      "id": "a3",
+      "type": "quiz",
+      "category": "Quiz · Time series forecasting",
+      "title": "21 Question",
+      "when": "01 Apr 25 12:00 AM - 01 Jan 27 11:59 PM",
+      "action": "Attempt"
+    }
+  ]
+}

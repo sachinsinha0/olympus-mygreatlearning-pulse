@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+*.tsbuildinfo
+
+# Vercel
+.vercel
+
+# Editor / tooling
+.claude/
+.playwright-mcp/
+.DS_Store
+
+# Local env
+.env
+.env.local
+.env.*.local
+
+# Design mocks (kept locally, not pushed)
+/*.png
+prod-styles.json

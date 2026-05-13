@@ -1,0 +1,890 @@
+[
+  {
+    "id": "pulse-10",
+    "issueNumber": 10,
+    "title": "Claude Code, Cursor, and the New Coding Loop",
+    "description": "Agentic CLIs and IDEs have eaten autocomplete. What teams are actually shipping with Claude Code, Cursor, and Codex CLI in May 2026.",
+    "releasedAt": "2026-05-13",
+    "durationMinutes": 55,
+    "tags": [
+      "code-gen",
+      "agents"
+    ],
+    "isFoundations": false,
+    "coverColor": "primary",
+    "coverImageUrl": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&q=80&auto=format&fit=crop",
+    "author": {
+      "name": "Anjali Rao",
+      "role": "Senior AI Engineer · Anthropic",
+      "bio": "Works on Claude Code. 8 yrs in developer tooling and ML infra.",
+      "avatarUrl": null
+    },
+    "outcomes": [
+      "Pick between Claude Code, Cursor agent mode, and Codex CLI for your workflow",
+      "Wire a sub-agent to handle reviews, tests, or migrations",
+      "Run an AI code-review loop that doesn't rubber-stamp",
+      "Spot where agentic coding still backfires in May 2026"
+    ],
+    "curriculum": [
+      {
+        "type": "segment",
+        "title": "Segment 1 · Editor agents in May 2026",
+        "duration": 10
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 1",
+        "questions": 5
+      },
+      {
+        "type": "segment",
+        "title": "Segment 2 · Claude Code vs Cursor vs Codex CLI",
+        "duration": 14
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 2",
+        "questions": 5
+      },
+      {
+        "type": "segment",
+        "title": "Segment 3 · Sub-agents and the review loop",
+        "duration": 11
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 3",
+        "questions": 5
+      },
+      {
+        "type": "segment",
+        "title": "Segment 4 · Where this breaks (and what to skip)",
+        "duration": 8
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 4",
+        "questions": 5
+      },
+      {
+        "type": "demo",
+        "title": "Hands-on Demo · Ship a sub-agent that opens a PR",
+        "duration": 28
+      },
+      {
+        "type": "discussion",
+        "title": "What's your read? The cohort is already weighing in."
+      }
+    ],
+    "stats": {
+      "completionCount": 0,
+      "ratingCount": 0,
+      "ratingAvg": 0,
+      "weeklyReaders": 64,
+      "topDiscussionQuote": null
+    },
+    "courseUrl": "/courses/pulse-10",
+    "consumed": false,
+    "progress": 0
+  },
+  {
+    "id": "pulse-9",
+    "issueNumber": 9,
+    "title": "Computer-Using Agents, In the Wild",
+    "description": "From Anthropic Computer Use to OpenAI Operator and Google's browsing agent: where these actually work today, and where they still need a human.",
+    "releasedAt": "2026-04-29",
+    "durationMinutes": 50,
+    "tags": [
+      "agents",
+      "ops"
+    ],
+    "isFoundations": false,
+    "coverColor": "teal",
+    "coverImageUrl": "https://images.unsplash.com/photo-1543286386-713bdd548da4?w=800&q=80&auto=format&fit=crop",
+    "author": {
+      "name": "Vikram Iyer",
+      "role": "Head of AI · Razorpay",
+      "bio": "Building autonomous workflows for finance ops. ex-Meta.",
+      "avatarUrl": null
+    },
+    "outcomes": [
+      "Map the computer-use landscape: Anthropic, OpenAI Operator, Project Mariner",
+      "Build a guarded browser task with rollback",
+      "Decide when an agent should ask vs act",
+      "Measure where browser agents reliably break"
+    ],
+    "curriculum": [
+      {
+        "type": "segment",
+        "title": "Segment 1 · Why 2026 is the year of computer use",
+        "duration": 9
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 1",
+        "questions": 5
+      },
+      {
+        "type": "segment",
+        "title": "Segment 2 · The four leading agent runtimes",
+        "duration": 13
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 2",
+        "questions": 5
+      },
+      {
+        "type": "segment",
+        "title": "Segment 3 · Guardrails, rollback, and human-in-loop",
+        "duration": 11
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 3",
+        "questions": 5
+      },
+      {
+        "type": "segment",
+        "title": "Segment 4 · What still breaks on real sites",
+        "duration": 9
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 4",
+        "questions": 5
+      },
+      {
+        "type": "demo",
+        "title": "Hands-on Demo · A bounded computer-use task",
+        "duration": 26
+      },
+      {
+        "type": "discussion",
+        "title": "What's your read? The cohort is already weighing in."
+      }
+    ],
+    "stats": {
+      "completionCount": 84,
+      "ratingCount": 22,
+      "ratingAvg": 4.6,
+      "weeklyReaders": 92,
+      "topDiscussionQuote": null
+    },
+    "courseUrl": "/courses/pulse-9",
+    "consumed": true,
+    "progress": 45
+  },
+  {
+    "id": "pulse-8",
+    "issueNumber": 8,
+    "title": "MCP in Production",
+    "description": "Model Context Protocol moved from spec to standard. How to actually wire agents to your tools and data without rebuilding the connector layer for every model.",
+    "releasedAt": "2026-04-15",
+    "durationMinutes": 50,
+    "tags": [
+      "mcp",
+      "agents",
+      "ops"
+    ],
+    "isFoundations": true,
+    "coverColor": "deepPurple",
+    "coverImageUrl": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80&auto=format&fit=crop",
+    "author": {
+      "name": "Maya Krishnan",
+      "role": "Founding Engineer · Braintrust",
+      "bio": "Builds eval and tool-call infrastructure. Previously at OpenAI on RLHF.",
+      "avatarUrl": null
+    },
+    "outcomes": [
+      "Stand up an MCP server in 30 minutes",
+      "Connect Claude, Cursor, and Goose to the same toolset",
+      "Pick auth and scoping patterns that don't bite later",
+      "Decide which four MCPs are worth shipping first"
+    ],
+    "curriculum": [
+      {
+        "type": "segment",
+        "title": "Segment 1 · MCP: what it solved",
+        "duration": 10
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 1",
+        "questions": 5
+      },
+      {
+        "type": "segment",
+        "title": "Segment 2 · Anatomy of an MCP server",
+        "duration": 13
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 2",
+        "questions": 5
+      },
+      {
+        "type": "segment",
+        "title": "Segment 3 · Auth, scoping, and rate limits",
+        "duration": 11
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 3",
+        "questions": 5
+      },
+      {
+        "type": "segment",
+        "title": "Segment 4 · The four MCPs worth shipping first",
+        "duration": 9
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 4",
+        "questions": 5
+      },
+      {
+        "type": "demo",
+        "title": "Hands-on Demo · Build a real MCP server",
+        "duration": 30
+      },
+      {
+        "type": "discussion",
+        "title": "What's your read? The cohort is already weighing in."
+      }
+    ],
+    "stats": {
+      "completionCount": 312,
+      "ratingCount": 48,
+      "ratingAvg": 4.7,
+      "weeklyReaders": 138,
+      "topDiscussionQuote": {
+        "quote": "The auth-scoping section saved us from re-architecting our connector layer twice.",
+        "author": "Rahul S., Staff Eng"
+      }
+    },
+    "courseUrl": "/courses/pulse-8",
+    "consumed": true,
+    "progress": 100
+  },
+  {
+    "id": "pulse-7",
+    "issueNumber": 7,
+    "title": "Thinking Models, Earned Their Cost",
+    "description": "o3, Claude Sonnet 4.5 Thinking, Gemini 2.5: when test-time compute earns its price, and when it just burns tokens.",
+    "releasedAt": "2026-03-25",
+    "durationMinutes": 45,
+    "tags": [
+      "reasoning",
+      "evals"
+    ],
+    "isFoundations": false,
+    "coverColor": "lightGreen",
+    "coverImageUrl": "https://images.unsplash.com/photo-1496449903678-68ddcb189a24?w=800&q=80&auto=format&fit=crop",
+    "author": {
+      "name": "Anjali Rao",
+      "role": "Senior AI Engineer · Anthropic",
+      "bio": "Works on Claude Code. 8 yrs in developer tooling and ML infra.",
+      "avatarUrl": null
+    },
+    "outcomes": [
+      "Tell test-time compute from training-time intelligence",
+      "Pick reasoning vs base model for each task type",
+      "Prompt thinking models without choking on tokens",
+      "Read a thinking-model latency and cost budget honestly"
+    ],
+    "curriculum": [
+      {
+        "type": "segment",
+        "title": "Segment 1 · What changed with o1 and after",
+        "duration": 9
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 1",
+        "questions": 5
+      },
+      {
+        "type": "segment",
+        "title": "Segment 2 · Where reasoning earns its cost",
+        "duration": 12
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 2",
+        "questions": 5
+      },
+      {
+        "type": "segment",
+        "title": "Segment 3 · Prompting reasoners (stop overthinking it)",
+        "duration": 9
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 3",
+        "questions": 5
+      },
+      {
+        "type": "segment",
+        "title": "Segment 4 · A working cost-per-decision frame",
+        "duration": 8
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 4",
+        "questions": 5
+      },
+      {
+        "type": "demo",
+        "title": "Hands-on Demo · Wire a reasoning router",
+        "duration": 24
+      },
+      {
+        "type": "discussion",
+        "title": "What's your read? The cohort is already weighing in."
+      }
+    ],
+    "stats": {
+      "completionCount": 421,
+      "ratingCount": 76,
+      "ratingAvg": 4.5,
+      "weeklyReaders": 104,
+      "topDiscussionQuote": null
+    },
+    "courseUrl": "/courses/pulse-7",
+    "consumed": true,
+    "progress": 100
+  },
+  {
+    "id": "pulse-6",
+    "issueNumber": 6,
+    "title": "Video, Practically",
+    "description": "Sora 2, Veo 3, and Runway Gen-4: what their APIs actually unlock once you stop trying to make Pixar movies.",
+    "releasedAt": "2026-03-04",
+    "durationMinutes": 50,
+    "tags": [
+      "multimodal"
+    ],
+    "isFoundations": false,
+    "coverColor": "amber",
+    "coverImageUrl": "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800&q=80&auto=format&fit=crop",
+    "author": {
+      "name": "Priya Menon",
+      "role": "Product Engineer · Pixis",
+      "bio": "Builds creative-AI products for marketing teams. ex-Adobe.",
+      "avatarUrl": null
+    },
+    "outcomes": [
+      "Send a prompt to Sora 2, Veo 3, and Runway and compare honestly",
+      "Pick the right model for ads, product, and explainers",
+      "Plan around the 6-to-30 second clip limits",
+      "Skip the demos that won't render at scale"
+    ],
+    "curriculum": [
+      {
+        "type": "segment",
+        "title": "Segment 1 · The 2026 video-gen stack",
+        "duration": 10
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 1",
+        "questions": 5
+      },
+      {
+        "type": "segment",
+        "title": "Segment 2 · Prompts, references, and seeds",
+        "duration": 12
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 2",
+        "questions": 5
+      },
+      {
+        "type": "segment",
+        "title": "Segment 3 · Cost, latency, and clip-length math",
+        "duration": 10
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 3",
+        "questions": 5
+      },
+      {
+        "type": "segment",
+        "title": "Segment 4 · Use cases that ship today",
+        "duration": 8
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 4",
+        "questions": 5
+      },
+      {
+        "type": "demo",
+        "title": "Hands-on Demo · A 30-second product clip, end to end",
+        "duration": 28
+      },
+      {
+        "type": "discussion",
+        "title": "What's your read? The cohort is already weighing in."
+      }
+    ],
+    "stats": {
+      "completionCount": 286,
+      "ratingCount": 54,
+      "ratingAvg": 4.4,
+      "weeklyReaders": 71,
+      "topDiscussionQuote": null
+    },
+    "courseUrl": "/courses/pulse-6",
+    "consumed": true,
+    "progress": 100
+  },
+  {
+    "id": "pulse-5",
+    "issueNumber": 5,
+    "title": "RAG With a Million Tokens",
+    "description": "Long context is here and cheap. Do you still need a retrieval pipeline? And if yes, what should it look like in 2026?",
+    "releasedAt": "2026-02-11",
+    "durationMinutes": 55,
+    "tags": [
+      "rag",
+      "foundations"
+    ],
+    "isFoundations": true,
+    "coverColor": "primary",
+    "coverImageUrl": "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&q=80&auto=format&fit=crop",
+    "author": {
+      "name": "Karan Bhatia",
+      "role": "Staff Engineer · Glean",
+      "bio": "Works on Glean's retrieval stack. 6 yrs in search and ML infra.",
+      "avatarUrl": null
+    },
+    "outcomes": [
+      "Decide when long context replaces RAG and when it doesn't",
+      "Combine sparse, dense, and graph retrieval correctly",
+      "Add a reranker that pays off (and one that doesn't)",
+      "Diagnose the four common 2026 RAG failure modes"
+    ],
+    "curriculum": [
+      {
+        "type": "segment",
+        "title": "Segment 1 · Long context vs retrieval, honestly",
+        "duration": 12
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 1",
+        "questions": 5
+      },
+      {
+        "type": "segment",
+        "title": "Segment 2 · Hybrid retrieval that holds up",
+        "duration": 13
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 2",
+        "questions": 5
+      },
+      {
+        "type": "segment",
+        "title": "Segment 3 · Graph RAG, when it earns its weight",
+        "duration": 11
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 3",
+        "questions": 5
+      },
+      {
+        "type": "segment",
+        "title": "Segment 4 · Why your RAG is still wrong",
+        "duration": 9
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 4",
+        "questions": 5
+      },
+      {
+        "type": "demo",
+        "title": "Hands-on Demo · A working hybrid RAG with reranking",
+        "duration": 28
+      },
+      {
+        "type": "discussion",
+        "title": "What's your read? The cohort is already weighing in."
+      }
+    ],
+    "stats": {
+      "completionCount": 612,
+      "ratingCount": 128,
+      "ratingAvg": 4.6,
+      "weeklyReaders": 142,
+      "topDiscussionQuote": null
+    },
+    "courseUrl": "/courses/pulse-5",
+    "consumed": true,
+    "progress": 100
+  },
+  {
+    "id": "pulse-4",
+    "issueNumber": 4,
+    "title": "Voice Agents, Real-Time",
+    "description": "Realtime APIs hit mainstream. The voice-agent stack, latency budgets, and the production gotchas nobody warns you about.",
+    "releasedAt": "2026-01-21",
+    "durationMinutes": 50,
+    "tags": [
+      "multimodal",
+      "ops"
+    ],
+    "isFoundations": false,
+    "coverColor": "deepPurple",
+    "coverImageUrl": "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800&q=80&auto=format&fit=crop",
+    "author": {
+      "name": "Vikram Iyer",
+      "role": "Head of AI · Razorpay",
+      "bio": "Building autonomous workflows for finance ops. ex-Meta.",
+      "avatarUrl": null
+    },
+    "outcomes": [
+      "Map the realtime stack: OpenAI, Gemini Live, ElevenLabs, Sesame",
+      "Hit a 500ms end-to-end latency budget",
+      "Handle interruption, turn-taking, and tool-use mid-call",
+      "Decide when voice belongs in the product and when it doesn't"
+    ],
+    "curriculum": [
+      {
+        "type": "segment",
+        "title": "Segment 1 · The realtime stack in 2026",
+        "duration": 11
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 1",
+        "questions": 5
+      },
+      {
+        "type": "segment",
+        "title": "Segment 2 · Latency budgets that actually hold",
+        "duration": 12
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 2",
+        "questions": 5
+      },
+      {
+        "type": "segment",
+        "title": "Segment 3 · Tool-use mid-call without breaking",
+        "duration": 10
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 3",
+        "questions": 5
+      },
+      {
+        "type": "segment",
+        "title": "Segment 4 · When voice is wrong for your product",
+        "duration": 8
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 4",
+        "questions": 5
+      },
+      {
+        "type": "demo",
+        "title": "Hands-on Demo · A voice agent you can ship",
+        "duration": 26
+      },
+      {
+        "type": "discussion",
+        "title": "What's your read? The cohort is already weighing in."
+      }
+    ],
+    "stats": {
+      "completionCount": 478,
+      "ratingCount": 96,
+      "ratingAvg": 4.4,
+      "weeklyReaders": 71,
+      "topDiscussionQuote": null
+    },
+    "courseUrl": "/courses/pulse-4",
+    "consumed": false,
+    "progress": 0
+  },
+  {
+    "id": "pulse-3",
+    "issueNumber": 3,
+    "title": "Evals That Aren't a Vibe Check",
+    "description": "If you don't measure it, you're guessing. A working playbook for evaluating LLM features in 2026: rubrics, regression suites, and LLM-as-judge done right.",
+    "releasedAt": "2025-12-17",
+    "durationMinutes": 50,
+    "tags": [
+      "evals",
+      "ops",
+      "foundations"
+    ],
+    "isFoundations": true,
+    "coverColor": "amber",
+    "coverImageUrl": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80&auto=format&fit=crop",
+    "author": {
+      "name": "Maya Krishnan",
+      "role": "Founding Engineer · Braintrust",
+      "bio": "Builds eval and tool-call infrastructure. Previously at OpenAI on RLHF.",
+      "avatarUrl": null
+    },
+    "outcomes": [
+      "Design an eval set that catches regressions",
+      "Score open-ended outputs without a human in the loop every time",
+      "Wire evals into CI for an LLM app",
+      "Know when LLM-as-judge is fine and when it lies"
+    ],
+    "curriculum": [
+      {
+        "type": "segment",
+        "title": "Segment 1 · Why vibe checks fail at scale",
+        "duration": 11
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 1",
+        "questions": 5
+      },
+      {
+        "type": "segment",
+        "title": "Segment 2 · Building the eval set",
+        "duration": 13
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 2",
+        "questions": 5
+      },
+      {
+        "type": "segment",
+        "title": "Segment 3 · LLM-as-judge, honestly",
+        "duration": 10
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 3",
+        "questions": 5
+      },
+      {
+        "type": "segment",
+        "title": "Segment 4 · Evals in CI without slowing teams",
+        "duration": 9
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 4",
+        "questions": 5
+      },
+      {
+        "type": "demo",
+        "title": "Hands-on Demo · Ship an eval harness",
+        "duration": 28
+      },
+      {
+        "type": "discussion",
+        "title": "What's your read? The cohort is already weighing in."
+      }
+    ],
+    "stats": {
+      "completionCount": 743,
+      "ratingCount": 152,
+      "ratingAvg": 4.7,
+      "weeklyReaders": 124,
+      "topDiscussionQuote": {
+        "quote": "The 'eval-by-LLM is not eval' bit alone rewrote our review pipeline.",
+        "author": "Rohan S., Eng Lead"
+      }
+    },
+    "courseUrl": "/courses/pulse-3",
+    "consumed": false,
+    "progress": 0
+  },
+  {
+    "id": "pulse-2",
+    "issueNumber": 2,
+    "title": "The IDE Agent Wars",
+    "description": "Cursor, Windsurf, Devin, Lovable, Bolt. Who's actually shipping the most code, and where the moat is by mid-2025.",
+    "releasedAt": "2025-09-24",
+    "durationMinutes": 45,
+    "tags": [
+      "code-gen"
+    ],
+    "isFoundations": false,
+    "coverColor": "teal",
+    "coverImageUrl": "https://images.unsplash.com/photo-1568667256549-094345857637?w=800&q=80&auto=format&fit=crop",
+    "author": {
+      "name": "Anjali Rao",
+      "role": "Senior AI Engineer · Anthropic",
+      "bio": "Works on Claude Code. 8 yrs in developer tooling and ML infra.",
+      "avatarUrl": null
+    },
+    "outcomes": [
+      "Tell agent-IDEs apart: Cursor, Windsurf, Devin, Lovable, Bolt",
+      "Map who wins on which task type",
+      "Avoid the three traps of agentic builders",
+      "Pick a stack for your team for the next two quarters"
+    ],
+    "curriculum": [
+      {
+        "type": "segment",
+        "title": "Segment 1 · The agentic-IDE landscape",
+        "duration": 11
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 1",
+        "questions": 5
+      },
+      {
+        "type": "segment",
+        "title": "Segment 2 · Inline edits vs autonomous tasks",
+        "duration": 11
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 2",
+        "questions": 5
+      },
+      {
+        "type": "segment",
+        "title": "Segment 3 · The three traps of one-shot builders",
+        "duration": 9
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 3",
+        "questions": 5
+      },
+      {
+        "type": "segment",
+        "title": "Segment 4 · A 90-day adoption plan",
+        "duration": 8
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 4",
+        "questions": 5
+      },
+      {
+        "type": "demo",
+        "title": "Hands-on Demo · Build the same feature in three IDEs",
+        "duration": 24
+      },
+      {
+        "type": "discussion",
+        "title": "What's your read? The cohort is already weighing in."
+      }
+    ],
+    "stats": {
+      "completionCount": 905,
+      "ratingCount": 198,
+      "ratingAvg": 4.6,
+      "weeklyReaders": 168,
+      "topDiscussionQuote": null
+    },
+    "courseUrl": "/courses/pulse-2",
+    "consumed": false,
+    "progress": 0
+  },
+  {
+    "id": "pulse-1",
+    "issueNumber": 1,
+    "title": "Claude 4, GPT-5, and the Model Map",
+    "description": "The first Pulse. A working map of foundation models in mid-2025: who's good at what, what each costs, and where the moats actually sit.",
+    "releasedAt": "2025-05-28",
+    "durationMinutes": 50,
+    "tags": [
+      "foundations"
+    ],
+    "isFoundations": true,
+    "coverColor": "lightGreen",
+    "coverImageUrl": "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&q=80&auto=format&fit=crop",
+    "author": {
+      "name": "Harish K. Subramanian",
+      "role": "Academic Director · Great Learning",
+      "bio": "Leads curriculum for AI programs at Great Learning. 15 yrs in education.",
+      "avatarUrl": null
+    },
+    "outcomes": [
+      "See the foundation-model landscape as a working engineer would",
+      "Sort hype from capability across Anthropic, OpenAI, Google, Meta, xAI",
+      "Know which capabilities are commoditised vs defensible",
+      "Have a frame for reading the next twelve Pulse releases"
+    ],
+    "curriculum": [
+      {
+        "type": "segment",
+        "title": "Segment 1 · The 2025 model map",
+        "duration": 10
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 1",
+        "questions": 5
+      },
+      {
+        "type": "segment",
+        "title": "Segment 2 · Capabilities, costs, limits",
+        "duration": 12
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 2",
+        "questions": 5
+      },
+      {
+        "type": "segment",
+        "title": "Segment 3 · Where the moat sits",
+        "duration": 11
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 3",
+        "questions": 5
+      },
+      {
+        "type": "segment",
+        "title": "Segment 4 · How to read Pulse",
+        "duration": 7
+      },
+      {
+        "type": "tyu",
+        "title": "Test Your Understanding 4",
+        "questions": 5
+      },
+      {
+        "type": "demo",
+        "title": "Hands-on Demo · Your personal model map",
+        "duration": 22
+      },
+      {
+        "type": "discussion",
+        "title": "What's your read? The cohort is already weighing in."
+      }
+    ],
+    "stats": {
+      "completionCount": 1142,
+      "ratingCount": 264,
+      "ratingAvg": 4.8,
+      "weeklyReaders": 210,
+      "topDiscussionQuote": {
+        "quote": "Best single mental model I've had for AI in two years.",
+        "author": "Anita G., PM"
+      }
+    },
+    "courseUrl": "/courses/pulse-1",
+    "consumed": false,
+    "progress": 0
+  }
+]

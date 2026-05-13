@@ -1,0 +1,80 @@
+{
+  "videosCompleted": 4,
+  "videosTotal": 18,
+  "resourcesViewed": 6,
+  "resourcesTotal": 12,
+  "progress": 32,
+  "resume": {
+    "sectionId": "s1",
+    "itemId": "v1-3",
+    "title": "Tool Routing and Cost Controls",
+    "timeLeft": "24 Mins 12 Secs Left"
+  },
+  "sections": [
+    {
+      "id": "s1",
+      "label": "Section 1: Foundations",
+      "videosCount": 3,
+      "resourcesCount": 5,
+      "progress": 63,
+      "expandedDefault": true,
+      "videos": [
+        { "id": "v1-1", "title": "What Pulse Covers This Cycle", "duration": "23 Mins 39 Secs" },
+        { "id": "v1-2", "title": "Why Tool Routing Matters", "duration": "14 Mins 15 Secs" },
+        { "id": "v1-3", "title": "Tool Routing and Cost Controls", "duration": "24 Mins 12 Secs" }
+      ],
+      "presentations": [
+        { "id": "p1-1", "title": "Pulse Cycle Overview", "size": "768 KB", "viewed": true },
+        { "id": "p1-2", "title": "Tool Routing Patterns", "size": "745 KB", "viewed": true },
+        { "id": "p1-3", "title": "Cost Controls Reference", "size": "545 KB", "viewed": true }
+      ],
+      "readings": [
+        { "id": "r1-1", "title": "Hands-on Demo Brief", "viewed": true },
+        { "id": "r1-2", "title": "Editorial Notes from the Vetter", "viewed": true }
+      ]
+    },
+    {
+      "id": "s2",
+      "label": "Section 2: Applied",
+      "videosCount": 6,
+      "resourcesCount": 3,
+      "progress": 33,
+      "videos": [
+        { "id": "v2-1", "title": "Build a Tool-Routing Agent in 30 Minutes", "duration": "18 Mins 22 Secs" },
+        { "id": "v2-2", "title": "Evaluating Output Quality", "duration": "15 Mins 04 Secs" },
+        { "id": "v2-3", "title": "Adding Guardrails for Cost", "duration": "21 Mins 47 Secs" },
+        { "id": "v2-4", "title": "Debugging Tool Selection Failures", "duration": "12 Mins 38 Secs" },
+        { "id": "v2-5", "title": "Comparing Open vs Closed Models", "duration": "17 Mins 12 Secs" },
+        { "id": "v2-6", "title": "End-to-End Walkthrough", "duration": "28 Mins 50 Secs" }
+      ],
+      "presentations": [
+        { "id": "p2-1", "title": "Build Walkthrough Slides", "size": "612 KB", "viewed": true },
+        { "id": "p2-2", "title": "Evaluation Rubric", "size": "284 KB", "viewed": false }
+      ],
+      "readings": [
+        { "id": "r2-1", "title": "Cost Profile Cheatsheet", "viewed": false }
+      ]
+    },
+    {
+      "id": "s3",
+      "label": "Section 3: Outcome Check",
+      "videosCount": 6,
+      "resourcesCount": 2,
+      "progress": 0,
+      "videos": [
+        { "id": "v3-1", "title": "Hands-on Submission Walkthrough", "duration": "11 Mins 02 Secs" },
+        { "id": "v3-2", "title": "Common Pitfalls to Avoid", "duration": "09 Mins 18 Secs" },
+        { "id": "v3-3", "title": "Reviewer Feedback Patterns", "duration": "14 Mins 30 Secs" },
+        { "id": "v3-4", "title": "Iterating on a Failing Run", "duration": "16 Mins 45 Secs" },
+        { "id": "v3-5", "title": "Sharing Your Build with the Cohort", "duration": "08 Mins 22 Secs" },
+        { "id": "v3-6", "title": "What to Apply at Work Tomorrow", "duration": "13 Mins 11 Secs" }
+      ],
+      "presentations": [
+        { "id": "p3-1", "title": "Submission Template", "size": "92 KB", "viewed": false }
+      ],
+      "readings": [
+        { "id": "r3-1", "title": "Outcome Self-Assessment", "viewed": false }
+      ]
+    }
+  ]
+}

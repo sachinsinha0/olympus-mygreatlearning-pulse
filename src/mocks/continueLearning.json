@@ -1,0 +1,18 @@
+[
+  {
+    "id": "c1",
+    "title": "Python for Data Science",
+    "moduleLabel": "Basics of Python · 3 Mins 52 Secs Left",
+    "cta": "Resume",
+    "pattern": "pattern1",
+    "thumbBg": "#2a9d8f"
+  },
+  {
+    "id": "c2",
+    "title": "Introduction to Big Data",
+    "moduleLabel": "3 Hadoop Architecture · 24 Mins 12 Secs Left",
+    "cta": "Resume",
+    "pattern": "pattern9",
+    "thumbBg": "#acb562"
+  }
+]

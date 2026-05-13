@@ -1,0 +1,97 @@
+{
+  "active": [
+    {
+      "id": "a1",
+      "title": "Generative AI Foundations",
+      "pattern": "pattern1",
+      "thumbBg": "#5b8dd9",
+      "progress": 32,
+      "atRisk": false
+    },
+    {
+      "id": "a2",
+      "title": "Prompt Engineering for Builders",
+      "pattern": "pattern9",
+      "thumbBg": "#7fb3b3",
+      "progress": 25,
+      "marks": "0/110",
+      "atRisk": true
+    },
+    {
+      "id": "a3",
+      "title": "LLM Evaluation and Observability",
+      "pattern": "pattern1",
+      "thumbBg": "#6f5fb8",
+      "progress": 58,
+      "atRisk": false
+    },
+    {
+      "id": "a4",
+      "title": "AI Agents in Production",
+      "pattern": "pattern9",
+      "thumbBg": "#d68a3a",
+      "progress": 12,
+      "marks": "18/200",
+      "atRisk": true
+    }
+  ],
+  "selfPaced": [
+    {
+      "id": "s1",
+      "title": "Mentor Group Discussions",
+      "pattern": "pattern1",
+      "thumbBg": "#4f6cb8",
+      "progress": 0
+    }
+  ],
+  "closed": [
+    {
+      "id": "c1",
+      "title": "Python for Data Science",
+      "pattern": "pattern1",
+      "thumbBg": "#2a9d8f",
+      "progress": 100,
+      "score": "A"
+    },
+    {
+      "id": "c2",
+      "title": "SQL for Analysts",
+      "pattern": "pattern9",
+      "thumbBg": "#7251c2",
+      "progress": 84,
+      "score": "A-"
+    },
+    {
+      "id": "c3",
+      "title": "Statistics Fundamentals",
+      "pattern": "pattern1",
+      "thumbBg": "#c97c3a",
+      "progress": 72,
+      "score": "B+"
+    },
+    {
+      "id": "c4",
+      "title": "Linear Algebra Primer",
+      "pattern": "pattern9",
+      "thumbBg": "#3d8c4a",
+      "progress": 96,
+      "score": "A+"
+    },
+    {
+      "id": "c5",
+      "title": "Data Visualization in Tableau",
+      "pattern": "pattern1",
+      "thumbBg": "#b85a7a",
+      "progress": 67,
+      "score": "Incomplete"
+    },
+    {
+      "id": "c6",
+      "title": "Intro to Machine Learning",
+      "pattern": "pattern9",
+      "thumbBg": "#4a7bbf",
+      "progress": 89,
+      "score": "A"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "programName": "Post Graduate Program in Data Science and Business Analytics - 1",
+  "programCode": "PGP-DSBA UT Austin JAN19",
+  "courses": { "complete": 1, "incomplete": 3, "atRisk": 2 },
+  "stats": {
+    "attendancePct": 46.77,
+    "rank": 1
+  }
+}
