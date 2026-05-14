@@ -153,10 +153,10 @@ function MarketingHero() {
           alt=""
           sx={{
             position: "absolute",
-            right: -48,
-            top: -64,
+            right: -56,
+            top: -40,
             bottom: 0,
-            height: "128%",
+            height: "118%",
             width: "auto",
             display: { xs: "none", md: "block" },
             pointerEvents: "none",
