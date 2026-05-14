@@ -216,8 +216,9 @@ export function PulseV2Hero() {
           <Box
             key={p.title}
             sx={(theme) => ({
-              px: { xs: 3, md: 4 },
-              py: 2.5,
+              px: { xs: 2.5, md: 2.5 },
+              py: 2,
+              minWidth: 0,
               borderRight: {
                 xs: "none",
                 md: i < PILLARS.length - 1 ? `1px solid ${theme.palette.outlineVariant.main}` : "none",
