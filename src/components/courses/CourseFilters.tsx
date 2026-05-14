@@ -19,11 +19,14 @@ export function CourseFilters({ selected, counts, onSelect }: Props) {
     <Stack
       direction="row"
       alignItems="center"
-      justifyContent="center"
-      gap={1.5}
+      justifyContent={{ xs: "flex-start", sm: "center" }}
+      gap={{ xs: 1, sm: 1.5 }}
       sx={{
         py: 1.5,
+        px: { xs: 2, sm: 0 },
         bgcolor: "surfaceContainer.highest",
+        flexWrap: "wrap",
+        overflowX: { xs: "auto", sm: "visible" },
       }}
     >
       <Typography
@@ -33,7 +36,8 @@ export function CourseFilters({ selected, counts, onSelect }: Props) {
           letterSpacing: "1.2px",
           textTransform: "uppercase",
           color: "text.secondary",
-          mr: 1,
+          mr: { xs: 0, sm: 1 },
+          display: { xs: "none", sm: "block" },
         }}
       >
         Course Filters:

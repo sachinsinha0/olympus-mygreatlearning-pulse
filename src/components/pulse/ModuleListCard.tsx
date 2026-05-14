@@ -79,8 +79,8 @@ export function ModuleListCard({
       onClick={onCardClick}
       sx={(theme) => ({
         cursor: isUpcoming ? "default" : "pointer",
-        p: 3,
-        borderRadius: "14px",
+        p: { xs: 2, md: 3 },
+        borderRadius: "12px",
         opacity: isUpcoming ? 0.65 : isLocked ? 0.78 : 1,
         transition:
           "border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease",
@@ -95,7 +95,7 @@ export function ModuleListCard({
             },
       })}
     >
-      <Stack direction="row" gap={3} alignItems="flex-start">
+      <Stack direction="row" gap={{ xs: 2, md: 3 }} alignItems="flex-start">
         <ToolLogo issue={issue} />
 
         <Stack gap={2} sx={{ flex: 1, minWidth: 0 }}>
@@ -110,8 +110,8 @@ export function ModuleListCard({
                 <Typography
                   sx={{
                     fontSize: 10,
-                    fontWeight: 600,
-                    letterSpacing: 1.2,
+                    fontWeight: 700,
+                    letterSpacing: 1.4,
                     textTransform: "uppercase",
                     lineHeight: "16px",
                     color: isUpcoming ? "text.disabled" : "primary.main",
@@ -216,7 +216,7 @@ export function ModuleListCard({
                   sx={{
                     fontSize: 11,
                     fontWeight: 700,
-                    letterSpacing: 1.2,
+                    letterSpacing: 1.4,
                     textTransform: "uppercase",
                     lineHeight: "16.5px",
                     color: isUpcoming ? "text.disabled" : "primary.main",
@@ -282,12 +282,12 @@ function ToolLogo({ issue }: { issue: PulseIssue }) {
       alt={issue.toolName ?? issue.title}
       variant="rounded"
       sx={(theme) => ({
-        width: 64,
-        height: 64,
+        width: { xs: 48, sm: 56, md: 64 },
+        height: { xs: 48, sm: 56, md: 64 },
         bgcolor: theme.palette.primary.light,
         color: theme.palette.primary.main,
         border: `1px solid ${theme.palette.outlineVariant.main}`,
-        fontSize: 22,
+        fontSize: { xs: 18, md: 22 },
         fontWeight: 700,
         borderRadius: "10.67px",
         flexShrink: 0,

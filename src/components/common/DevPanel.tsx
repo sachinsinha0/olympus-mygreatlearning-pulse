@@ -46,7 +46,8 @@ export function DevPanel() {
       onClose={() => setOpen(false)}
       PaperProps={{
         sx: {
-          width: 420,
+          width: { xs: "100%", sm: 420 },
+          maxWidth: 420,
           bgcolor: "surfaceContainer.highest",
           borderLeft: 1,
           borderColor: "outlineVariant.main",

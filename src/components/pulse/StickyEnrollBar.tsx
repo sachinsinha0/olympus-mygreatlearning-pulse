@@ -26,8 +26,8 @@ export function StickyEnrollBar({ issue }: { issue: PulseIssue }) {
         bgcolor: theme.palette.surfaceContainer.highest,
         borderTop: 1,
         borderColor: theme.palette.outlineVariant.main,
-        px: 3,
-        py: 1.5,
+        px: { xs: 2, md: 3 },
+        py: { xs: 1.25, md: 1.5 },
         transform: show ? "translateY(0)" : "translateY(100%)",
         transition: "transform 0.24s ease",
         boxShadow:
@@ -49,7 +49,7 @@ export function StickyEnrollBar({ issue }: { issue: PulseIssue }) {
           </Typography>
           <Typography
             sx={{
-              fontSize: 16,
+              fontSize: { xs: 14, md: 16 },
               fontWeight: 600,
               color: "text.primary",
               whiteSpace: "nowrap",

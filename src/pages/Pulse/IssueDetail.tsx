@@ -20,7 +20,7 @@ export function IssueDetail() {
     return (
       <Box sx={{ minHeight: "100vh", bgcolor: "background.default" }}>
         <TopNav />
-        <Box sx={{ maxWidth: 1184, mx: "auto", pt: 6, textAlign: "center" }}>
+        <Box sx={{ maxWidth: 1184, mx: "auto", px: { xs: 2, md: 3, lg: 0 }, pt: 6, textAlign: "center" }}>
           <Typography variant="subtitle1">Issue not found</Typography>
           <Button component={Link} to="/pulse" sx={{ mt: 2 }}>
             Back to Pulse
@@ -33,7 +33,7 @@ export function IssueDetail() {
   return (
     <Box sx={{ minHeight: "100vh", bgcolor: "background.default", pb: 12 }}>
       <TopNav />
-      <Box sx={{ maxWidth: 1184, mx: "auto", pt: 3 }}>
+      <Box sx={{ maxWidth: 1184, mx: "auto", px: { xs: 2, md: 3, lg: 0 }, pt: 3 }}>
         <Button
           component={Link}
           to="/pulse"

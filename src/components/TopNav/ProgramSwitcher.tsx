@@ -8,10 +8,13 @@ const PROGRAMS = [
   { id: "pgp-aiml", code: "PGP-AIML", name: "Post Graduate Program in AI & ML" },
 ] as const;
 
-export function ProgramSwitcher() {
+type Variant = "topbar" | "drawer";
+
+export function ProgramSwitcher({ variant = "topbar" }: { variant?: Variant } = {}) {
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
   const [selected, setSelected] = useState<string>("pgp-babi-intl-1");
   const current = PROGRAMS.find((p) => p.id === selected) ?? PROGRAMS[0];
+  const isDrawer = variant === "drawer";
   return (
     <>
       <Button
@@ -19,8 +22,8 @@ export function ProgramSwitcher() {
         endIcon={<ChevronDown size={14} />}
         disableRipple
         sx={{
-          height: 32,
-          px: 1,
+          height: isDrawer ? 44 : 32,
+          px: isDrawer ? 1.5 : 1,
           py: 0,
           borderRadius: "8px",
           border: 1,
@@ -29,14 +32,22 @@ export function ProgramSwitcher() {
           color: "primary.main",
           fontWeight: 500,
           fontSize: 14,
-          justifyContent: "space-between",
-          width: 134,
-          minWidth: 134,
+          justifyContent: isDrawer ? "center" : "space-between",
+          width: isDrawer ? "100%" : 134,
+          minWidth: isDrawer ? "100%" : 134,
           "&:hover": { borderColor: "outline.main", bgcolor: "surfaceContainer.high" },
-          "& .MuiButton-endIcon": { ml: 0.5, color: "primary.main" },
+          "& .MuiButton-endIcon": { ml: 0.75, color: "primary.main" },
         }}
       >
-        <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", flex: 1, textAlign: "left" }}>
+        <span
+          style={{
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            flex: isDrawer ? "0 0 auto" : 1,
+            textAlign: isDrawer ? "center" : "left",
+          }}
+        >
           {current.code}
         </span>
       </Button>

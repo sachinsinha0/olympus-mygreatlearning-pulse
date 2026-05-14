@@ -35,7 +35,7 @@ export function CourseDetail() {
   return (
     <Box sx={{ minHeight: "100vh", bgcolor: "background.default" }}>
       <TopNav />
-      <Box sx={{ maxWidth: 1184, mx: "auto", px: 0, pt: 3, pb: 6 }}>
+      <Box sx={{ maxWidth: 1184, mx: "auto", px: { xs: 2, md: 3, lg: 0 }, pt: 3, pb: 6 }}>
         <Stack
           direction="row"
           alignItems="center"
@@ -54,12 +54,17 @@ export function CourseDetail() {
             Back to Courses
           </Typography>
         </Stack>
-        <Card sx={{ p: 4, bgcolor: "surfaceContainer.highest", boxShadow: "none", borderRadius: "8px" }}>
-          <Stack direction="row" gap={3} alignItems="flex-start" sx={{ mb: 3 }}>
+        <Card sx={{ p: { xs: 2.5, md: 4 }, bgcolor: "surfaceContainer.highest", boxShadow: "none", borderRadius: "8px" }}>
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            gap={{ xs: 2, md: 3 }}
+            alignItems={{ xs: "stretch", sm: "flex-start" }}
+            sx={{ mb: 3 }}
+          >
             <Box
               sx={{
-                width: 144,
-                height: 144,
+                width: { xs: 96, sm: 112, md: 144 },
+                height: { xs: 96, sm: 112, md: 144 },
                 borderRadius: "8px",
                 bgcolor: course.thumbBg,
                 flexShrink: 0,
@@ -73,13 +78,13 @@ export function CourseDetail() {
                 component="img"
                 src={PATTERNS[course.pattern] || pattern1}
                 alt=""
-                sx={{ width: 144, height: 144 }}
+                sx={{ width: "100%", height: "100%" }}
               />
             </Box>
             <Box sx={{ flex: 1, minWidth: 0, pt: 0.5 }}>
               <Typography
                 sx={{
-                  fontSize: 24,
+                  fontSize: { xs: 22, md: 24 },
                   fontWeight: 700,
                   lineHeight: "32px",
                   letterSpacing: "-0.4px",
@@ -89,14 +94,19 @@ export function CourseDetail() {
               >
                 {course.title}
               </Typography>
-              <Stack direction="row" alignItems="center" gap={1.5} sx={{ color: "text.secondary", mb: 1.5 }}>
+              <Stack
+                direction={{ xs: "column", sm: "row" }}
+                alignItems={{ xs: "flex-start", sm: "center" }}
+                gap={{ xs: 0.5, sm: 1.5 }}
+                sx={{ color: "text.secondary", mb: 1.5, flexWrap: "wrap" }}
+              >
                 <Stack direction="row" alignItems="center" gap={0.75}>
                   <PlayCircle size={16} />
                   <Typography sx={{ fontSize: 13, letterSpacing: "-0.2px" }}>
                     {detail.videosCompleted} / {detail.videosTotal} Videos Completed
                   </Typography>
                 </Stack>
-                <Typography sx={{ fontSize: 13 }}>·</Typography>
+                <Typography sx={{ fontSize: 13, display: { xs: "none", sm: "block" } }}>·</Typography>
                 <Stack direction="row" alignItems="center" gap={0.75}>
                   <BookOpen size={16} />
                   <Typography sx={{ fontSize: 13, letterSpacing: "-0.2px" }}>
@@ -165,18 +175,24 @@ export function CourseDetail() {
             >
               Resume Where You Left
             </Typography>
-            <Stack direction="row" alignItems="center" gap={2}>
-              <Box sx={{ color: "text.primary", display: "flex" }}>
-                <PlayCircle size={28} />
-              </Box>
-              <Box sx={{ flex: 1, minWidth: 0 }}>
-                <Typography sx={{ fontSize: 15, fontWeight: 600, color: "text.primary", letterSpacing: "-0.2px" }}>
-                  {detail.resume.title}
-                </Typography>
-                <Typography sx={{ fontSize: 12, color: "text.secondary", letterSpacing: "-0.2px", mt: 0.25 }}>
-                  {detail.resume.timeLeft}
-                </Typography>
-              </Box>
+            <Stack
+              direction={{ xs: "column", sm: "row" }}
+              alignItems={{ xs: "stretch", sm: "center" }}
+              gap={{ xs: 1.5, sm: 2 }}
+            >
+              <Stack direction="row" alignItems="center" gap={2} sx={{ flex: 1, minWidth: 0 }}>
+                <Box sx={{ color: "text.primary", display: "flex", flexShrink: 0 }}>
+                  <PlayCircle size={28} />
+                </Box>
+                <Box sx={{ flex: 1, minWidth: 0 }}>
+                  <Typography sx={{ fontSize: 15, fontWeight: 600, color: "text.primary", letterSpacing: "-0.2px" }}>
+                    {detail.resume.title}
+                  </Typography>
+                  <Typography sx={{ fontSize: 12, color: "text.secondary", letterSpacing: "-0.2px", mt: 0.25 }}>
+                    {detail.resume.timeLeft}
+                  </Typography>
+                </Box>
+              </Stack>
               <Button
                 variant="contained"
                 startIcon={<Play size={16} fill="currentColor" />}
@@ -188,6 +204,8 @@ export function CourseDetail() {
                   fontSize: 14,
                   fontWeight: 600,
                   boxShadow: "none",
+                  whiteSpace: "nowrap",
+                  alignSelf: { xs: "flex-start", sm: "center" },
                   "&:hover": { bgcolor: "primary.main", boxShadow: "none", opacity: 0.92 },
                 }}
               >
@@ -199,6 +217,8 @@ export function CourseDetail() {
           <Tabs
             value={tab}
             onChange={(_, v) => setTab(v)}
+            variant="scrollable"
+            scrollButtons={false}
             sx={{
               borderBottom: 1,
               borderColor: "outlineVariant.main",

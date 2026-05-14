@@ -58,12 +58,12 @@ export function SectionAccordion({
         alignItems="center"
         justifyContent="space-between"
         onClick={locked ? undefined : () => setOpen((v) => !v)}
-        sx={{ px: 3, py: 2.5, cursor: locked ? "default" : "pointer" }}
+        sx={{ px: { xs: 2, md: 3 }, py: { xs: 2, md: 2.5 }, cursor: locked ? "default" : "pointer", gap: 1.5 }}
       >
         <Box sx={{ flex: 1, minWidth: 0 }}>
           <Typography
             sx={{
-              fontSize: 16,
+              fontSize: { xs: 15, md: 16 },
               fontWeight: 600,
               lineHeight: "24px",
               color: open ? "primary.main" : "text.primary",
@@ -75,7 +75,7 @@ export function SectionAccordion({
           <Typography sx={{ fontSize: 13, color: "text.secondary", letterSpacing: "-0.2px", mb: 0.75 }}>
             {videosCount} Videos · {resourcesCount} Resources
           </Typography>
-          <Stack direction="row" alignItems="center" gap={1} sx={{ maxWidth: 240 }}>
+          <Stack direction="row" alignItems="center" gap={1} sx={{ maxWidth: { xs: "100%", sm: 240 } }}>
             <Box
               sx={{
                 flex: 1,
@@ -111,7 +111,7 @@ export function SectionAccordion({
       </Stack>
 
       {open && hasItems && (
-        <Stack gap={1.25} sx={{ px: 3, pb: 3 }}>
+        <Stack gap={1.25} sx={{ px: { xs: 2, md: 3 }, pb: { xs: 2.5, md: 3 } }}>
           {items!.map((it) => {
             if (it.type === "video") {
               return (
@@ -155,7 +155,7 @@ export function SectionAccordion({
       )}
 
       {open && !hasItems && hasContent && (
-        <Stack gap={1.25} sx={{ px: 3, pb: 3 }}>
+        <Stack gap={1.25} sx={{ px: { xs: 2, md: 3 }, pb: { xs: 2.5, md: 3 } }}>
           {videos?.map((v, i) => (
             <ContentRow
               key={v.id}

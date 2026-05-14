@@ -50,15 +50,15 @@ export function ProfileMenu() {
     { label: "Logout", Icon: LogOut },
   ];
   return (
-    <Stack direction="row" alignItems="center" gap={0.5}>
-      <IconButton sx={{ width: 44, height: 44, borderRadius: "10px" }}>
-        <Search size={22} />
+    <Stack direction="row" alignItems="center" gap={{ xs: 0.25, sm: 0.5 }}>
+      <IconButton sx={{ width: { xs: 36, sm: 44 }, height: { xs: 36, sm: 44 }, borderRadius: "10px" }}>
+        <Search size={20} />
       </IconButton>
-      <IconButton sx={{ width: 44, height: 44, borderRadius: "10px" }}>
+      <IconButton sx={{ width: 44, height: 44, borderRadius: "10px", display: { xs: "none", sm: "inline-flex" } }}>
         <HelpCircle size={22} />
       </IconButton>
       <Box sx={{ position: "relative" }}>
-        <IconButton sx={{ width: 44, height: 44, borderRadius: "10px" }}>
+        <IconButton sx={{ width: { xs: 36, sm: 44 }, height: { xs: 36, sm: 44 }, borderRadius: "10px" }}>
           <Bell size={22} />
         </IconButton>
         <Box
@@ -77,10 +77,10 @@ export function ProfileMenu() {
       <Box
         onClick={(e) => setAnchor(e.currentTarget)}
         sx={{
-          width: 40,
-          height: 40,
+          width: { xs: 36, sm: 40 },
+          height: { xs: 36, sm: 40 },
           borderRadius: "50%",
-          ml: 1,
+          ml: { xs: 0.5, sm: 1 },
           overflow: "hidden",
           bgcolor: "surfaceContainer.high",
           display: "flex",

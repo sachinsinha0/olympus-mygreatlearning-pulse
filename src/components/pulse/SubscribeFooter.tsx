@@ -65,7 +65,7 @@ export function SubscribeFooter() {
               sx={{
                 fontSize: 11,
                 fontWeight: 700,
-                letterSpacing: 1.6,
+                letterSpacing: 1.4,
                 textTransform: "uppercase",
                 color: "primary.main",
                 lineHeight: "16px",

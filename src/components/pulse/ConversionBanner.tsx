@@ -109,11 +109,12 @@ function BannerShell({ tone, children }: { tone: "primary" | "error"; children: 
     <Box
       sx={(theme) => ({
         display: "flex",
-        alignItems: "center",
+        flexDirection: { xs: "column", sm: "row" },
+        alignItems: { xs: "stretch", sm: "center" },
         justifyContent: "space-between",
-        gap: 2,
-        px: 2.5,
-        py: 1.5,
+        gap: { xs: 1.5, sm: 2 },
+        px: { xs: 2, md: 2.5 },
+        py: { xs: 1.75, md: 1.5 },
         border: 1,
         borderColor: theme.palette.outlineVariant.main,
         borderRadius: "12px",

@@ -115,7 +115,7 @@ export function PulseHome() {
   return (
     <Box sx={{ minHeight: "100vh", bgcolor: "background.default" }}>
       <TopNav />
-      <Box sx={{ maxWidth: 1184, mx: "auto", pt: 3, pb: 6 }}>
+      <Box sx={{ maxWidth: 1184, mx: "auto", px: { xs: 2, md: 3, lg: 0 }, pt: 3, pb: 6 }}>
         {/* Top banner — every state except Paid. Hidden in Design V2. */}
         {!isPaid && !isDesignV2 && (
           <Box sx={{ mb: 2.5 }}>

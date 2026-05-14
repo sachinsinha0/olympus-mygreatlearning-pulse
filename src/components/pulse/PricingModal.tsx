@@ -28,13 +28,14 @@ export function PricingModal() {
       PaperProps={{
         sx: {
           bgcolor: "background.paper",
-          borderRadius: "16px",
-          m: 2,
+          borderRadius: { xs: "14px", md: "16px" },
+          m: { xs: 1.5, md: 2 },
+          width: { xs: "calc(100% - 24px)", md: "auto" },
           overflow: "visible",
         },
       }}
     >
-      <Box sx={{ position: "relative", px: { xs: 3, md: 4 }, pt: { xs: 4, md: 4.5 }, pb: { xs: 3, md: 3.5 } }}>
+      <Box sx={{ position: "relative", px: { xs: 2.5, md: 4 }, pt: { xs: 3.5, md: 4.5 }, pb: { xs: 2.5, md: 3.5 } }}>
         <IconButton
           onClick={closePricingModal}
           size="small"
@@ -69,7 +70,7 @@ export function PricingModal() {
 
         <Box
           sx={(theme) => ({
-            p: 3,
+            p: { xs: 2.25, md: 3 },
             borderRadius: "12px",
             border: `1px solid ${theme.palette.outlineVariant.main}`,
             bgcolor: theme.palette.background.paper,
@@ -78,7 +79,7 @@ export function PricingModal() {
           <Stack direction="row" alignItems="baseline" gap={0.625} sx={{ mb: 0.5 }}>
             <Typography
               sx={{
-                fontSize: 42,
+                fontSize: { xs: 36, md: 42 },
                 fontWeight: 700,
                 letterSpacing: "-1.2px",
                 color: "text.primary",

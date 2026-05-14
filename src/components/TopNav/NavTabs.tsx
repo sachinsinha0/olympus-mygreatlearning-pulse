@@ -19,7 +19,9 @@ const tabs: Tab[] = [
   { id: "pulse", label: "Pulse", Icon: Sparkles, path: "/pulse", badge: "New" },
 ];
 
-export function NavTabs() {
+type Variant = "topbar" | "drawer";
+
+export function NavTabs({ variant = "topbar", onNavigate }: { variant?: Variant; onNavigate?: () => void } = {}) {
   const theme = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
@@ -28,31 +30,45 @@ export function NavTabs() {
     if (path.startsWith("#")) return false;
     return location.pathname.startsWith(path);
   };
+
+  const isDrawer = variant === "drawer";
+
   return (
-    <Stack direction="row" gap={2} sx={{ ml: 1 }}>
+    <Stack
+      direction={isDrawer ? "column" : "row"}
+      gap={isDrawer ? 0.5 : 2}
+      sx={{ ml: isDrawer ? 0 : 1, width: isDrawer ? "100%" : "auto" }}
+    >
       {tabs.map(({ id, label, Icon, path, badge }) => {
         const selected = isActive(path);
-        const color = selected ? theme.palette.primary.main : theme.palette.text.primary;
+        // Drawer: icons are always primary-tinted (Olympus pattern). Topbar: icon follows label color.
+        const iconColor = isDrawer ? theme.palette.primary.main : (selected ? theme.palette.primary.main : theme.palette.text.primary);
+        const labelColor = selected ? theme.palette.primary.main : theme.palette.text.primary;
         const routable = !path.startsWith("#");
         return (
           <Button
             key={id}
-            onClick={() => { if (routable) navigate(path); }}
-            startIcon={<Icon size={18} strokeWidth={2} color={color} />}
+            onClick={() => {
+              if (routable) navigate(path);
+              onNavigate?.();
+            }}
+            startIcon={<Icon size={18} strokeWidth={2} color={iconColor} />}
             disableRipple
             sx={{
-              height: 40,
+              height: isDrawer ? 48 : 40,
               px: 2,
               py: 1,
               borderRadius: "8px",
               fontSize: 14,
               fontWeight: 500,
-              color,
-              bgcolor: "transparent",
+              color: labelColor,
+              bgcolor: isDrawer && selected ? "primary.light" : "transparent",
               cursor: routable ? "pointer" : "default",
               opacity: routable ? 1 : 0.95,
+              justifyContent: isDrawer ? "flex-start" : "center",
+              width: isDrawer ? "100%" : "auto",
               "& .MuiButton-startIcon": { mr: 1 },
-              "&:hover": { bgcolor: "surfaceContainer.high" },
+              "&:hover": { bgcolor: isDrawer ? "primary.light" : "surfaceContainer.high" },
             }}
           >
             {label}

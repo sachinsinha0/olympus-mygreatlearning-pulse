@@ -158,7 +158,7 @@ function MarketingHero() {
             bottom: 0,
             height: "118%",
             width: "auto",
-            display: { xs: "none", md: "block" },
+            display: { xs: "none", lg: "block" },
             pointerEvents: "none",
             objectFit: "cover",
             objectPosition: "right center",
@@ -176,7 +176,7 @@ function MarketingHero() {
             px: { xs: 3, md: 5 },
             pt: 4,
             pb: 4,
-            maxWidth: { xs: "100%", md: 620 },
+            maxWidth: { xs: "100%", lg: 620 },
           }}
         >
           <Typography
@@ -348,7 +348,7 @@ function PaidWelcomeStrip() {
             sx={(theme) => ({
               px: 1,
               py: 0.5,
-              borderRadius: "8px",
+              borderRadius: "6px",
               bgcolor: theme.palette.primary.light,
               color: theme.palette.primary.main,
             })}
@@ -422,7 +422,7 @@ function PaidWelcomeStrip() {
                   fontWeight: 700,
                   letterSpacing: 1.4,
                   textTransform: "uppercase",
-                  color: "text.secondary",
+                  color: "primary.main",
                 }}
               >
                 Continue where you left
@@ -534,7 +534,7 @@ function ExpiredBanner() {
               sx={(theme) => ({
                 fontSize: 11,
                 fontWeight: 700,
-                letterSpacing: 1.6,
+                letterSpacing: 1.4,
                 textTransform: "uppercase",
                 color: theme.palette.extended.warning.color,
               })}
@@ -641,7 +641,7 @@ function TrialExpiredBanner() {
               sx={(theme) => ({
                 fontSize: 11,
                 fontWeight: 700,
-                letterSpacing: 1.6,
+                letterSpacing: 1.4,
                 textTransform: "uppercase",
                 color: theme.palette.extended.warning.color,
               })}

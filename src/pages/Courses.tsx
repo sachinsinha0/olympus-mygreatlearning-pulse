@@ -37,7 +37,7 @@ export function Courses() {
     <Box sx={{ minHeight: "100vh", bgcolor: "background.default" }}>
       <TopNav />
       <CourseFilters selected={filter} counts={counts} onSelect={setFilter} />
-      <Box sx={{ maxWidth: 1184, mx: "auto", px: 0, pt: 3, pb: 6 }}>
+      <Box sx={{ maxWidth: 1184, mx: "auto", px: { xs: 2, md: 3, lg: 0 }, pt: 3, pb: 6 }}>
         <Stack gap={4}>
           {visible.map((section) => (
             <Stack key={section.key} gap={2}>
@@ -55,7 +55,7 @@ export function Courses() {
               <Box
                 sx={{
                   display: "grid",
-                  gridTemplateColumns: "repeat(3, 1fr)",
+                  gridTemplateColumns: { xs: "1fr", sm: "repeat(2, 1fr)", md: "repeat(3, 1fr)" },
                   gap: 2,
                 }}
               >

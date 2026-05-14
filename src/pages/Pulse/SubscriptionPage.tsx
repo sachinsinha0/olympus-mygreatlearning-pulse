@@ -51,7 +51,7 @@ export function SubscriptionPage() {
   return (
     <Box sx={{ minHeight: "100vh", bgcolor: "background.default" }}>
       <TopNav />
-      <Box sx={{ maxWidth: 640, mx: "auto", pt: 3, pb: 6 }}>
+      <Box sx={{ maxWidth: 640, mx: "auto", px: { xs: 2, sm: 3, md: 0 }, pt: 3, pb: 6 }}>
         {isPaid ? (
           <Stack gap={2}>
             <PlanHeroCard
@@ -114,14 +114,14 @@ function PlanHeroCard({
         borderColor: theme.palette.outlineVariant.main,
         borderRadius: "12px",
         bgcolor: theme.palette.background.paper,
-        p: 3,
+        p: { xs: 2.25, md: 3 },
       })}
     >
-      <Stack direction="row" gap={2.5} alignItems="flex-start">
+      <Stack direction="row" gap={{ xs: 2, md: 2.5 }} alignItems="flex-start">
         <Box
           sx={(theme) => ({
-            width: 56,
-            height: 56,
+            width: { xs: 48, md: 56 },
+            height: { xs: 48, md: 56 },
             borderRadius: "12px",
             bgcolor: theme.palette.extended.deepOrange.colorContainer,
             color: theme.palette.extended.deepOrange.color,
@@ -131,7 +131,7 @@ function PlanHeroCard({
             flexShrink: 0,
           })}
         >
-          <Sparkles size={26} strokeWidth={2} />
+          <Sparkles size={24} strokeWidth={2} />
         </Box>
         <Stack gap={0.5} sx={{ flex: 1, minWidth: 0 }}>
           <Box
@@ -139,7 +139,7 @@ function PlanHeroCard({
               alignSelf: "flex-start",
               px: 1,
               py: 0.375,
-              borderRadius: "8px",
+              borderRadius: "6px",
               bgcolor: theme.palette.primary.light,
               color: theme.palette.primary.main,
             })}
@@ -148,7 +148,7 @@ function PlanHeroCard({
               Active
             </Typography>
           </Box>
-          <Typography sx={{ fontSize: 20, fontWeight: 700, letterSpacing: "-0.3px", color: "text.primary", mt: 0.5 }}>
+          <Typography sx={{ fontSize: { xs: 18, md: 20 }, fontWeight: 700, letterSpacing: "-0.3px", color: "text.primary", mt: 0.5 }}>
             Pulse · {planLabel}
           </Typography>
           <Typography sx={{ fontSize: 13, color: "text.secondary", letterSpacing: "-0.2px" }}>
@@ -191,7 +191,7 @@ function LearningJourneyCard({
         borderColor: theme.palette.outlineVariant.main,
         borderRadius: "12px",
         bgcolor: theme.palette.background.paper,
-        p: 3,
+        p: { xs: 2.25, md: 3 },
       })}
     >
       <Typography sx={{ fontSize: 15, fontWeight: 600, color: "text.primary", letterSpacing: "-0.2px", mb: 2 }}>
@@ -215,11 +215,11 @@ function LearningJourneyCard({
 
 function StatRow({ tile }: { tile: StatTile }) {
   return (
-    <Stack direction="row" alignItems="center" gap={1.5}>
+    <Stack direction="row" alignItems="center" gap={1.5} sx={{ minWidth: 0 }}>
       <Box
         sx={(theme) => ({
-          width: 44,
-          height: 44,
+          width: { xs: 40, md: 44 },
+          height: { xs: 40, md: 44 },
           borderRadius: "10px",
           bgcolor: theme.palette.extended[tile.toneKey].colorContainer,
           color: theme.palette.extended[tile.toneKey].color,
@@ -231,8 +231,8 @@ function StatRow({ tile }: { tile: StatTile }) {
       >
         {tile.icon}
       </Box>
-      <Stack gap={0.125}>
-        <Typography sx={{ fontSize: 22, fontWeight: 700, letterSpacing: "-0.4px", color: "text.primary", lineHeight: 1.1, fontVariantNumeric: "tabular-nums" }}>
+      <Stack gap={0.125} sx={{ minWidth: 0 }}>
+        <Typography sx={{ fontSize: { xs: 20, md: 22 }, fontWeight: 700, letterSpacing: "-0.4px", color: "text.primary", lineHeight: 1.1, fontVariantNumeric: "tabular-nums" }}>
           {tile.value}
         </Typography>
         <Typography sx={{ fontSize: 13, color: "text.secondary", letterSpacing: "-0.2px" }}>
