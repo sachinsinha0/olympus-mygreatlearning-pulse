@@ -15,10 +15,10 @@ function formatDate(d: string | null): string {
 }
 
 export function SubscriptionCard(_props: Props = { variant: "active" }) {
-  const { activeUntil, plan } = usePricing();
+  const { activeUntil } = usePricing();
   const navigate = useNavigate();
-  const planLabel = plan === "annual" ? "Annual" : "Monthly";
-  const priceLabel = plan ? PLAN_PRICE[plan].display : "$100/mo";
+  const planLabel = "Annual";
+  const priceLabel = PLAN_PRICE.annual.display;
 
   return (
     <Box

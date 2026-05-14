@@ -32,5 +32,5 @@ export function usePulseCta(courseUrl?: string): PulseCta {
   }
 
   // Expired → renew
-  return { label: "Renew · from $100/mo", action: "renew", onClick: openPricingModal };
+  return { label: "Renew Pulse", action: "renew", onClick: openPricingModal };
 }

@@ -45,7 +45,7 @@ export function ConversionBanner() {
           onClick={openPricingModal}
           sx={{ height: 36, px: 2, fontSize: 13, fontWeight: 600, flexShrink: 0 }}
         >
-          Subscribe · from $100/mo
+          Subscribe to Pulse
         </Button>
       </BannerShell>
     );

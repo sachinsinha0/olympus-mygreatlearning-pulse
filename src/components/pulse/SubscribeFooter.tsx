@@ -101,13 +101,14 @@ export function SubscribeFooter() {
         <Button
           variant="contained"
           disableElevation
-          endIcon={<ArrowRight size={16} />}
+          endIcon={<ArrowRight size={18} />}
           onClick={openPricingModal}
           sx={{
-            height: 38,
+            height: 40,
             px: 2,
-            fontSize: 13,
-            fontWeight: 600,
+            fontSize: 15,
+            fontWeight: 500,
+            letterSpacing: "-0.2px",
             whiteSpace: "nowrap",
             flexShrink: 0,
             alignSelf: { xs: "stretch", md: "center" },

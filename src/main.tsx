@@ -9,6 +9,7 @@ import { ColorModeProvider } from "./theme/ColorModeContext";
 import { PricingProvider } from "./lib/pulse/pricing";
 import { ReleaseProvider } from "./lib/pulse/release";
 import { DesignVersionProvider } from "./lib/pulse/designVersion";
+import { LearningProgressProvider } from "./lib/pulse/learningProgress";
 import { App } from "./App";
 
 createRoot(document.getElementById("root")!).render(
@@ -17,6 +18,7 @@ createRoot(document.getElementById("root")!).render(
       <DesignVersionProvider>
       <ReleaseProvider>
       <PricingProvider>
+      <LearningProgressProvider>
       <CssBaseline />
       <GlobalStyles
         styles={(theme) => ({
@@ -32,6 +34,7 @@ createRoot(document.getElementById("root")!).render(
         })}
       />
       <App />
+      </LearningProgressProvider>
       </PricingProvider>
       </ReleaseProvider>
       </DesignVersionProvider>

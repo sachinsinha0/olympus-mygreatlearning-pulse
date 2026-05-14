@@ -132,8 +132,8 @@ export function PulseHome() {
           <PulseHero issues={recent} />
         )}
 
-        {/* SubscriptionCard — Paid only */}
-        {isPaid && (
+        {/* SubscriptionCard — V1 Paid only (V2 paid has Manage link inside welcome strip) */}
+        {isPaid && !isDesignV2 && (
           <Box sx={{ mt: 2.5 }}>
             <SubscriptionCard variant="active" />
           </Box>
@@ -176,7 +176,7 @@ export function PulseHome() {
           <DefaultGrid filtered={filtered} />
         )}
 
-        {isDesignV2 && (
+        {isDesignV2 && !isPaid && (
           <Box sx={{ mt: { xs: 5, md: 6 } }}>
             <SubscribeFooter />
           </Box>

@@ -1,9 +1,10 @@
 import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Box, Button, Card, Stack, Tab, Tabs, Typography } from "@mui/material";
-import { Bell, BookOpen, Play, PlayCircle } from "lucide-react";
+import { Bell, BookOpen, Check, Play, PlayCircle } from "lucide-react";
 import { TopNav } from "../../components/TopNav/TopNav";
 import { SectionAccordion, type OrderedItem } from "../../components/courses/SectionAccordion";
+import { useLearningProgress } from "../../lib/pulse/learningProgress";
 import type { PulseIssue } from "../../lib/pulse/types";
 import issuesData from "../../mocks/pulse-issues.json";
 import detail from "../../mocks/pulseCourseDetail.json";
@@ -17,6 +18,7 @@ export function PulseCoursePage() {
   const [params] = useSearchParams();
   const moduleId = params.get("module");
   const [tab, setTab] = useState(0);
+  const { hasCompleted, markCompleted, unmarkCompleted } = useLearningProgress();
 
   // Same 4 module order used on the home grouped grid.
   const modulesOrder = useMemo(() => {
@@ -37,6 +39,16 @@ export function PulseCoursePage() {
     modulesOrder.findIndex((m) => m.id === moduleId) >= 0
       ? modulesOrder.findIndex((m) => m.id === moduleId)
       : 0;
+
+  const focused = modulesOrder[expandedIndex];
+  const focusedCompleted = focused ? hasCompleted(focused.id) : false;
+  const isFocusedReleased = focused ? expandedIndex < 2 : false;
+
+  const onToggleComplete = () => {
+    if (!focused || !isFocusedReleased) return;
+    if (focusedCompleted) unmarkCompleted(focused.id);
+    else markCompleted(focused.id);
+  };
 
   return (
     <Box sx={{ minHeight: "100vh", bgcolor: "background.default" }}>
@@ -87,44 +99,55 @@ export function PulseCoursePage() {
                   </Typography>
                 </Stack>
               </Stack>
-              <Stack direction="row" alignItems="center" gap={1.5} sx={{ mb: 2 }}>
-                <Box
+              <Stack direction="row" gap={1} sx={{ mt: 0.5, flexWrap: "wrap" }}>
+                <Button
+                  variant="outlined"
+                  startIcon={<Bell size={16} />}
                   sx={{
-                    flex: 1,
-                    height: 4,
-                    borderRadius: 2,
-                    bgcolor: "outlineVariant.main",
-                    overflow: "hidden",
+                    height: 36,
+                    px: 2,
+                    borderColor: "outlineVariant.main",
+                    color: "primary.main",
+                    fontSize: 14,
+                    fontWeight: 500,
+                    "&:hover": { borderColor: "primary.main", bgcolor: "primary.light" },
                   }}
                 >
-                  <Box
+                  Announcements
+                </Button>
+                {isFocusedReleased && focused && (
+                  <Button
+                    variant={focusedCompleted ? "contained" : "outlined"}
+                    disableElevation
+                    startIcon={<Check size={16} strokeWidth={focusedCompleted ? 2.5 : 2} />}
+                    onClick={onToggleComplete}
                     sx={(theme) => ({
-                      width: `${detail.progress}%`,
-                      height: "100%",
-                      bgcolor: theme.palette.primary.main,
-                      borderRadius: 2,
+                      height: 36,
+                      px: 2,
+                      fontSize: 14,
+                      fontWeight: 500,
+                      textTransform: "none",
+                      ...(focusedCompleted
+                        ? {
+                            bgcolor: theme.palette.extended.success.color,
+                            color: theme.palette.extended.success.onColor,
+                            "&:hover": { bgcolor: theme.palette.extended.success.color, opacity: 0.92 },
+                          }
+                        : {
+                            borderColor: theme.palette.outlineVariant.main,
+                            color: theme.palette.text.primary,
+                            "&:hover": {
+                              borderColor: theme.palette.extended.success.color,
+                              color: theme.palette.extended.success.color,
+                              bgcolor: "transparent",
+                            },
+                          }),
                     })}
-                  />
-                </Box>
-                <Typography sx={{ fontSize: 13, fontWeight: 600, color: "text.primary", letterSpacing: "-0.2px" }}>
-                  {detail.progress}%
-                </Typography>
+                  >
+                    {focusedCompleted ? "Marked complete" : "Mark complete"}
+                  </Button>
+                )}
               </Stack>
-              <Button
-                variant="outlined"
-                startIcon={<Bell size={16} />}
-                sx={{
-                  height: 36,
-                  px: 2,
-                  borderColor: "outlineVariant.main",
-                  color: "primary.main",
-                  fontSize: 14,
-                  fontWeight: 500,
-                  "&:hover": { borderColor: "primary.main", bgcolor: "primary.light" },
-                }}
-              >
-                Announcements
-              </Button>
             </Box>
           </Stack>
 

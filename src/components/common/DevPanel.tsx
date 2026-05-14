@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Box, Button, Drawer, IconButton, MenuItem, Select, Stack, Typography } from "@mui/material";
 import type { SelectChangeEvent } from "@mui/material";
 import { ChevronDown, ChevronUp, RotateCcw, X } from "lucide-react";
-import { usePricing, type PricingState, type Plan } from "../../lib/pulse/pricing";
+import { usePricing, type PricingState } from "../../lib/pulse/pricing";
 import { useRelease, type Release, V1_ISSUE_LIMIT } from "../../lib/pulse/release";
 import {
   useDesignVersion,
@@ -10,12 +10,21 @@ import {
   DEFAULT_DESIGN_VERSION,
   type DesignVersion,
 } from "../../lib/pulse/designVersion";
+import { useLearningProgress } from "../../lib/pulse/learningProgress";
 
 export function DevPanel() {
   const [open, setOpen] = useState(false);
-  const { state, plan, activeUntil, trialStartedAt, setState, setPlan, setActiveUntil, startTrial, reset } = usePricing();
+  const { state, activeUntil, trialStartedAt, setState, setActiveUntil, startTrial, reset: resetPricing } = usePricing();
   const { release, setRelease } = useRelease();
   const { designVersion, setDesignVersion } = useDesignVersion();
+  const { reset: resetLearning } = useLearningProgress();
+
+  const resetAll = () => {
+    resetPricing();
+    resetLearning();
+    setRelease("v1");
+    setDesignVersion(DEFAULT_DESIGN_VERSION);
+  };
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -100,32 +109,34 @@ export function DevPanel() {
             ]}
           />
 
-          {state === "paid" && (
-            <Stack gap={0.75} sx={{ mt: 2 }}>
-              <Label>Plan</Label>
-              <SegmentedControl<Plan>
-                value={plan ?? "monthly"}
-                onChange={setPlan}
-                options={[
-                  { value: "monthly", label: "Monthly · $100/mo" },
-                  { value: "annual", label: "Annual · $999/yr" },
-                ]}
-              />
-            </Stack>
-          )}
-
           {state === "trial" && (
             <Stack gap={0.75} sx={{ mt: 2 }}>
               <Label>Trial status</Label>
-              <SegmentedControl<"not-started" | "started">
-                value={trialStartedAt ? "started" : "not-started"}
+              <SegmentedControl<"not-started" | "started" | "expired">
+                value={
+                  !trialStartedAt
+                    ? "not-started"
+                    : activeUntil && new Date(activeUntil).getTime() < Date.now()
+                    ? "expired"
+                    : "started"
+                }
                 onChange={(v) => {
-                  if (v === "started") startTrial();
-                  else setState("trial");
+                  if (v === "started") {
+                    startTrial();
+                  } else if (v === "expired") {
+                    // Trial that ended: trial started, activeUntil now in the past.
+                    startTrial();
+                    const yesterday = new Date();
+                    yesterday.setDate(yesterday.getDate() - 1);
+                    setActiveUntil(yesterday.toISOString().slice(0, 10));
+                  } else {
+                    setState("trial");
+                  }
                 }}
                 options={[
                   { value: "not-started", label: "Not started" },
                   { value: "started", label: "Started" },
+                  { value: "expired", label: "Expired" },
                 ]}
               />
             </Stack>
@@ -158,25 +169,32 @@ export function DevPanel() {
           </Stack>
           )}
 
-          <Stack direction="row" alignItems="center" gap={0.5} sx={{ mt: 2 }}>
-            <IconButton onClick={reset} size="small" disableRipple sx={{ color: "text.secondary" }}>
-              <RotateCcw size={14} />
-            </IconButton>
-            <Typography
-              onClick={reset}
-              sx={{
-                fontSize: 12,
-                fontWeight: 500,
-                color: "text.secondary",
-                cursor: "pointer",
-                letterSpacing: "-0.2px",
-                "&:hover": { color: "primary.main" },
-              }}
-            >
-              Reset to default (Trial · 30 days)
-            </Typography>
-          </Stack>
         </Section>
+
+        <Box sx={{ height: 24 }} />
+
+        <Button
+          variant="outlined"
+          fullWidth
+          disableElevation
+          onClick={resetAll}
+          startIcon={<RotateCcw size={14} />}
+          sx={(theme) => ({
+            height: 38,
+            fontSize: 13,
+            fontWeight: 600,
+            textTransform: "none",
+            borderRadius: "8px",
+            borderColor: theme.palette.outlineVariant.main,
+            color: theme.palette.text.primary,
+            "&:hover": {
+              borderColor: theme.palette.text.primary,
+              bgcolor: "transparent",
+            },
+          })}
+        >
+          Reset everything to default
+        </Button>
       </Box>
     </Drawer>
   );

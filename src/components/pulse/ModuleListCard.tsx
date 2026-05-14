@@ -4,8 +4,9 @@ import { Check, Lock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import type { PulseIssue } from "../../lib/pulse/types";
 import { formatIssueDate } from "../../lib/format";
-import { usePricing } from "../../lib/pulse/pricing";
+import { isTrialExpired, usePricing } from "../../lib/pulse/pricing";
 import { useUnitLabel } from "../../lib/pulse/terminology";
+import { useLearningProgress } from "../../lib/pulse/learningProgress";
 import { usePageLoader } from "../common/PageLoader";
 
 export type ModuleListCardStatus = "released" | "upcoming";
@@ -21,21 +22,29 @@ export function ModuleListCard({
 }) {
   const navigate = useNavigate();
   const unit = useUnitLabel();
-  const { state, trialStartedAt, openPricingModal, startTrial } = usePricing();
+  const { state, trialStartedAt, activeUntil, openPricingModal, startTrial } = usePricing();
   const { runWithPageLoader } = usePageLoader();
+  const { hasStarted, markStarted } = useLearningProgress();
   const [loading, setLoading] = useState(false);
 
   const isUpcoming = status === "upcoming";
-  const isLocked = state === "expired";
+  const trialExpired = isTrialExpired(state, trialStartedAt, activeUntil);
+  const isLocked = state === "expired" || trialExpired;
   const isPreTrial = state === "trial" && !trialStartedAt;
+  const started = hasStarted(issue.id);
 
-  const ctaLabel = isLocked
+  const ctaLabel = state === "expired"
     ? "Renew to unlock"
+    : trialExpired
+    ? "Subscribe to unlock"
     : isPreTrial
     ? "Start 30-day trial"
+    : started
+    ? "Continue Learning"
     : "Start Learning";
 
   const navigateToModule = () => {
+    markStarted(issue.id);
     runWithPageLoader(() => {
       navigate(`/pulse/course?module=${issue.id}`);
     }, 700);
@@ -72,11 +81,13 @@ export function ModuleListCard({
         cursor: isUpcoming ? "default" : "pointer",
         p: 3,
         borderRadius: "14px",
-        opacity: isUpcoming ? 0.65 : 1,
+        opacity: isUpcoming ? 0.65 : isLocked ? 0.78 : 1,
         transition:
           "border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease",
         "&:hover": isUpcoming
           ? undefined
+          : isLocked
+          ? { borderColor: theme.palette.outlineVariant.main }
           : {
               transform: "translateY(-1px)",
               borderColor: theme.palette.primary.main,
@@ -153,7 +164,7 @@ export function ModuleListCard({
                 disableElevation
                 disabled={isUpcoming || loading}
                 startIcon={
-                  isUpcoming ? (
+                  isUpcoming || isLocked ? (
                     <Lock size={14} strokeWidth={2.25} />
                   ) : loading ? (
                     <CircularProgress size={14} thickness={5} sx={{ color: "inherit" }} />

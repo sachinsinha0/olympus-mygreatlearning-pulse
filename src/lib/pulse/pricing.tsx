@@ -1,11 +1,10 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 
 export type PricingState = "trial" | "paid" | "expired";
-export type Plan = "monthly" | "annual";
+export type Plan = "annual";
 
-export const PLAN_PRICE: Record<Plan, { display: string; perMo: string }> = {
-  monthly: { display: "$100/mo", perMo: "$100/mo" },
-  annual: { display: "$999/yr", perMo: "$83.25/mo" },
+export const PLAN_PRICE: Record<Plan, { display: string; perMo: string; billing: string }> = {
+  annual: { display: "$25/mo", perMo: "$25/mo", billing: "Billed annually" },
 };
 
 type PricingCtx = {
@@ -55,7 +54,7 @@ function getInitial(): Stored {
       const parsed = JSON.parse(raw) as Partial<Stored> & { state?: string };
       const validStates = ["trial", "paid", "expired"];
       const s = parsed.state && validStates.includes(parsed.state) ? (parsed.state as PricingState) : "trial";
-      const p = parsed.plan === "monthly" || parsed.plan === "annual" ? parsed.plan : null;
+      const p = parsed.plan === "annual" ? parsed.plan : null;
       const a = parsed.activeUntil ?? null;
       const t = parsed.trialStartedAt ?? null;
       return { state: s, plan: p, activeUntil: a, trialStartedAt: t };
@@ -82,7 +81,7 @@ export function PricingProvider({ children }: { children: ReactNode }) {
       if (s === "paid") {
         return {
           state: "paid",
-          plan: prev.plan ?? "monthly",
+          plan: prev.plan ?? "annual",
           activeUntil: prev.activeUntil ?? daysFromNow(30),
           trialStartedAt: null,
         };
@@ -112,8 +111,7 @@ export function PricingProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const subscribe = useCallback((p: Plan) => {
-    const renewalDays = p === "annual" ? 365 : 30;
-    setStored({ state: "paid", plan: p, activeUntil: daysFromNow(renewalDays), trialStartedAt: null });
+    setStored({ state: "paid", plan: p, activeUntil: daysFromNow(365), trialStartedAt: null });
     setModalOpen(false);
   }, []);
 
@@ -170,4 +168,13 @@ export function daysUntil(date: string | null): number {
   const target = new Date(date).getTime();
   const now = Date.now();
   return Math.max(0, Math.ceil((target - now) / (1000 * 60 * 60 * 24)));
+}
+
+export function isTrialExpired(
+  state: PricingState,
+  trialStartedAt: string | null,
+  activeUntil: string | null,
+): boolean {
+  if (state !== "trial" || !trialStartedAt || !activeUntil) return false;
+  return new Date(activeUntil).getTime() < Date.now();
 }
