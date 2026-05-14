@@ -104,8 +104,9 @@ export function SubscribeFooter() {
           endIcon={<ArrowRight size={18} />}
           onClick={openPricingModal}
           sx={{
-            height: 40,
+            height: { xs: 44, md: 40 },
             px: 2,
+            width: { xs: "100%", md: "auto" },
             fontSize: 15,
             fontWeight: 500,
             letterSpacing: "-0.2px",

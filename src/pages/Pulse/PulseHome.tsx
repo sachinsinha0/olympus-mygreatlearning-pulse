@@ -13,7 +13,7 @@ import { IssueCard } from "../../components/pulse/IssueCard";
 import { ModuleListCard } from "../../components/pulse/ModuleListCard";
 import { SubscribeFooter } from "../../components/pulse/SubscribeFooter";
 import { PulseV2Hero } from "../../components/pulse/PulseV2Hero";
-import { usePricing } from "../../lib/pulse/pricing";
+import { isTrialExpired, usePricing } from "../../lib/pulse/pricing";
 import { useRelease, V1_ISSUE_LIMIT } from "../../lib/pulse/release";
 import { useDesignVersion } from "../../lib/pulse/designVersion";
 import { useUnitLabel } from "../../lib/pulse/terminology";
@@ -38,7 +38,8 @@ export function PulseHome() {
   const [query, setQuery] = useState("");
   const [tag, setTag] = useState<TopicTag | "all">("all");
   const [sort, setSort] = useState<SortKey>("latest");
-  const { state, trialStartedAt } = usePricing();
+  const { state, trialStartedAt, activeUntil } = usePricing();
+  const trialExpired = isTrialExpired(state, trialStartedAt, activeUntil);
   const { release } = useRelease();
   const { designVersion } = useDesignVersion();
   const isV1 = release === "v1";
@@ -177,7 +178,16 @@ export function PulseHome() {
         )}
 
         {isDesignV2 && !isPaid && (
-          <Box sx={{ mt: { xs: 5, md: 6 } }}>
+          <Box
+            sx={{
+              mt: { xs: 5, md: 6 },
+              // Hide on phones for expired / trial-expired — the warning banner up top already pushes renew.
+              display: {
+                xs: state === "expired" || trialExpired ? "none" : "block",
+                md: "block",
+              },
+            }}
+          >
             <SubscribeFooter />
           </Box>
         )}

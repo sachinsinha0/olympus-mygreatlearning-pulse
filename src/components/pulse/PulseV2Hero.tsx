@@ -110,7 +110,10 @@ export function PulseV2Hero() {
     return (
       <Stack gap={2}>
         <TrialExpiredBanner />
-        <MarketingHero />
+        {/* Phones already have the Subscribe CTA on the banner above; the marketing pitch below is redundant scroll. Tablet/desktop keep it. */}
+        <Box sx={{ display: { xs: "none", md: "block" } }}>
+          <MarketingHero />
+        </Box>
       </Stack>
     );
   }
@@ -142,9 +145,43 @@ function MarketingHero() {
         overflow: "hidden",
         borderRadius: "16px",
         border: `1px solid ${theme.palette.outlineVariant.main}`,
-        background: "linear-gradient(to right, #ffffff 0%, #ffffff 50%, #c1cedb 100%)",
+        bgcolor: { xs: theme.palette.background.paper, md: "transparent" },
+        background: {
+          xs: "none",
+          md: "linear-gradient(to right, #ffffff 0%, #ffffff 50%, #c1cedb 100%)",
+        },
       })}
     >
+      {/* Mobile-only: hero image stacked on top of the text. Hidden at md+.
+          Modest container height; the image itself is scaled up inside via transform so the subject
+          (laptop / phone / blocks on the right of the source image) reads bigger without making the
+          container tall. transform-origin matches object-position so the subject stays anchored
+          while the rest expands beyond and gets clipped. */}
+      <Box
+        sx={{
+          display: { xs: "block", md: "none" },
+          width: "100%",
+          height: { xs: 180, sm: 210 },
+          overflow: "hidden",
+        }}
+      >
+        <Box
+          component="img"
+          src="/hero/hero%20image.jpg"
+          alt=""
+          sx={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            // Anchor to the right edge so the source's right-side content stays visible.
+            objectPosition: "right center",
+            // Scale up from the right edge: image grows leftward only, right edge stays pinned.
+            transform: { xs: "translate(16px, -12px) scale(1.2)", sm: "translate(16px, -12px) scale(1.25)" },
+            transformOrigin: "right center",
+          }}
+        />
+      </Box>
+
       <Box sx={{ position: "relative", overflow: "hidden" }}>
         <Box
           aria-hidden
@@ -173,9 +210,9 @@ function MarketingHero() {
           gap={2.5}
           sx={{
             position: "relative",
-            px: { xs: 3, md: 5 },
-            pt: 4,
-            pb: 4,
+            px: { xs: 2, md: 5 },
+            pt: { xs: 2, md: 4 },
+            pb: { xs: 2, md: 4 },
             maxWidth: { xs: "100%", lg: 620 },
           }}
         >
@@ -204,7 +241,7 @@ function MarketingHero() {
             {copy.subtitle}
           </Typography>
 
-          <Box>
+          <Box sx={{ width: { xs: "100%", md: "auto" } }}>
             <Button
               variant="contained"
               disableElevation
@@ -218,8 +255,9 @@ function MarketingHero() {
               }
               onClick={handleCta}
               sx={{
-                height: 40,
+                height: { xs: 44, md: 40 },
                 px: 2,
+                width: { xs: "100%", md: "auto" },
                 fontSize: 15,
                 fontWeight: 500,
                 letterSpacing: "-0.2px",
@@ -249,7 +287,7 @@ function MarketingHero() {
             key={p.title}
             sx={(theme) => ({
               px: { xs: 2.5, md: 2.5 },
-              py: 2,
+              py: { xs: 1.5, md: 2 },
               minWidth: 0,
               borderRight: {
                 xs: "none",
@@ -267,13 +305,14 @@ function MarketingHero() {
                 fontWeight: 600,
                 lineHeight: "20px",
                 color: "rgba(33, 33, 33, 0.92)",
-                mb: 0.5,
+                mb: { xs: 0, md: 0.5 },
               }}
             >
               {p.title}
             </Typography>
             <Typography
               sx={{
+                display: { xs: "none", md: "block" },
                 fontSize: 14,
                 lineHeight: 1.43,
                 color: "rgba(33, 33, 33, 0.72)",
@@ -445,15 +484,16 @@ function PaidWelcomeStrip() {
               startIcon={<Play size={14} fill="currentColor" />}
               onClick={onResume}
               sx={{
-                height: 40,
+                height: { xs: 44, sm: 40 },
                 px: 2.25,
+                width: { xs: "100%", sm: "auto" },
                 fontSize: 14,
                 fontWeight: 600,
                 whiteSpace: "nowrap",
                 borderRadius: "8px",
                 textTransform: "none",
                 flexShrink: 0,
-                alignSelf: { xs: "flex-start", sm: "center" },
+                alignSelf: { xs: "stretch", sm: "center" },
               }}
             >
               Resume
@@ -567,6 +607,7 @@ function ExpiredBanner() {
           sx={{
             height: 44,
             px: 2.5,
+            width: { xs: "100%", md: "auto" },
             fontSize: 15,
             fontWeight: 600,
             whiteSpace: "nowrap",
@@ -672,6 +713,7 @@ function TrialExpiredBanner() {
           sx={{
             height: 44,
             px: 2.5,
+            width: { xs: "100%", md: "auto" },
             fontSize: 15,
             fontWeight: 600,
             whiteSpace: "nowrap",

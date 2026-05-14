@@ -74,6 +74,174 @@ export function ModuleListCard({
   const onCardClick = isUpcoming ? undefined : onStart;
   const outcomes = issue.outcomes.slice(0, 2);
 
+  const eyebrowRow = (
+    <Stack direction="row" gap={1} alignItems="center">
+      <Typography
+        sx={{
+          fontSize: 10,
+          fontWeight: 700,
+          letterSpacing: 1.4,
+          textTransform: "uppercase",
+          lineHeight: "16px",
+          color: isUpcoming ? "text.disabled" : "primary.main",
+        }}
+      >
+        {unit.numbered(displayNumber ?? issue.issueNumber)}
+      </Typography>
+      <Dot />
+      <Typography
+        sx={{
+          fontSize: 12,
+          fontWeight: 400,
+          lineHeight: "16px",
+          letterSpacing: "-0.2px",
+          color: isUpcoming ? "text.disabled" : "text.secondary",
+        }}
+      >
+        {formatIssueDate(issue.releasedAt)}
+      </Typography>
+    </Stack>
+  );
+
+  const titleEl = (
+    <Typography
+      sx={{
+        fontSize: 18,
+        fontWeight: 600,
+        lineHeight: "20px",
+        letterSpacing: "-0.4px",
+        color: "text.primary",
+      }}
+    >
+      {issue.title}
+    </Typography>
+  );
+
+  const descriptionEl = (
+    <Typography
+      sx={{
+        fontSize: 14,
+        fontWeight: 400,
+        lineHeight: "20px",
+        letterSpacing: "-0.2px",
+        color: "text.secondary",
+      }}
+    >
+      {issue.description}
+    </Typography>
+  );
+
+  const ctaButton = (compact: boolean) => (
+    <Button
+      variant="outlined"
+      disableElevation
+      disabled={isUpcoming || loading}
+      startIcon={
+        isUpcoming || isLocked ? (
+          <Lock size={14} strokeWidth={2.25} />
+        ) : loading ? (
+          <CircularProgress size={14} thickness={5} sx={{ color: "inherit" }} />
+        ) : undefined
+      }
+      onClick={(e) => {
+        e.stopPropagation();
+        if (!isUpcoming) onStart();
+      }}
+      sx={(theme) => ({
+        height: compact ? 32 : 44,
+        px: 1.5,
+        py: 0.75,
+        width: compact ? "auto" : "100%",
+        fontSize: 14,
+        fontWeight: 500,
+        letterSpacing: "-0.2px",
+        lineHeight: "20px",
+        borderRadius: "8px",
+        borderColor: theme.palette.outlineVariant.main,
+        color: theme.palette.primary.main,
+        textTransform: "none",
+        whiteSpace: "nowrap",
+        "&:hover": {
+          borderColor: theme.palette.primary.main,
+          bgcolor: theme.palette.primary.light,
+        },
+        "&.Mui-disabled": {
+          borderColor: theme.palette.outlineVariant.main,
+          color: theme.palette.text.disabled,
+        },
+      })}
+    >
+      {isUpcoming ? "Coming soon" : ctaLabel}
+    </Button>
+  );
+
+  const outcomesBlock = outcomes.length > 0 && (
+    <>
+      <Divider
+        sx={(theme) => ({
+          borderColor: theme.palette.outlineVariant.main,
+          opacity: 0.7,
+          mb: 1.5,
+        })}
+      />
+      <Stack gap={1}>
+        <Typography
+          sx={{
+            fontSize: 11,
+            fontWeight: 700,
+            letterSpacing: 1.4,
+            textTransform: "uppercase",
+            lineHeight: "16.5px",
+            color: isUpcoming ? "text.disabled" : "primary.main",
+          }}
+        >
+          Learning Outcomes
+        </Typography>
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
+            columnGap: 0.625,
+            rowGap: 0.75,
+          }}
+        >
+          {outcomes.map((o, i) => (
+            <Stack
+              key={i}
+              direction="row"
+              gap={1}
+              alignItems="center"
+              sx={{ minWidth: 0 }}
+            >
+              <Box
+                sx={(theme) => ({
+                  flexShrink: 0,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: isUpcoming ? theme.palette.text.disabled : theme.palette.primary.main,
+                })}
+              >
+                <Check size={16} strokeWidth={2.25} />
+              </Box>
+              <Typography
+                sx={{
+                  fontSize: 12,
+                  fontWeight: 400,
+                  lineHeight: "16px",
+                  letterSpacing: "-0.2px",
+                  color: "text.primary",
+                }}
+              >
+                {o}
+              </Typography>
+            </Stack>
+          ))}
+        </Box>
+      </Stack>
+    </>
+  );
+
   return (
     <Card
       onClick={onCardClick}
@@ -95,180 +263,36 @@ export function ModuleListCard({
             },
       })}
     >
-      <Stack direction="row" gap={{ xs: 2, md: 3 }} alignItems="flex-start">
-        <ToolLogo issue={issue} />
-
-        <Stack gap={2} sx={{ flex: 1, minWidth: 0 }}>
-          {/* Header row: title block + CTA */}
-          <Stack
-            direction={{ xs: "column", md: "row" }}
-            gap={{ xs: 1.5, md: 3 }}
-            alignItems={{ xs: "stretch", md: "center" }}
-          >
-            <Stack gap={0.5} sx={{ flex: 1, minWidth: 0 }}>
-              <Stack direction="row" gap={1} alignItems="center">
-                <Typography
-                  sx={{
-                    fontSize: 10,
-                    fontWeight: 700,
-                    letterSpacing: 1.4,
-                    textTransform: "uppercase",
-                    lineHeight: "16px",
-                    color: isUpcoming ? "text.disabled" : "primary.main",
-                  }}
-                >
-                  {unit.numbered(displayNumber ?? issue.issueNumber)}
-                </Typography>
-                <Dot />
-                <Typography
-                  sx={{
-                    fontSize: 12,
-                    fontWeight: 400,
-                    lineHeight: "16px",
-                    letterSpacing: "-0.2px",
-                    color: isUpcoming ? "text.disabled" : "text.secondary",
-                  }}
-                >
-                  {formatIssueDate(issue.releasedAt)}
-                </Typography>
+      {/* Desktop layout (md+) — preserved as-is */}
+      <Box sx={{ display: { xs: "none", md: "block" } }}>
+        <Stack direction="row" gap={3} alignItems="flex-start">
+          <ToolLogo issue={issue} />
+          <Stack gap={2} sx={{ flex: 1, minWidth: 0 }}>
+            <Stack direction="row" gap={3} alignItems="center">
+              <Stack gap={0.5} sx={{ flex: 1, minWidth: 0 }}>
+                {eyebrowRow}
+                {titleEl}
+                {descriptionEl}
               </Stack>
-
-              <Typography
-                sx={{
-                  fontSize: 18,
-                  fontWeight: 600,
-                  lineHeight: "20px",
-                  letterSpacing: "-0.4px",
-                  color: "text.primary",
-                }}
-              >
-                {issue.title}
-              </Typography>
-
-              <Typography
-                sx={{
-                  fontSize: 14,
-                  fontWeight: 400,
-                  lineHeight: "20px",
-                  letterSpacing: "-0.2px",
-                  color: "text.secondary",
-                }}
-              >
-                {issue.description}
-              </Typography>
+              <Box sx={{ flexShrink: 0, alignSelf: "center" }}>{ctaButton(true)}</Box>
             </Stack>
-
-            <Box sx={{ flexShrink: 0, alignSelf: { xs: "flex-start", md: "center" } }}>
-              <Button
-                variant="outlined"
-                disableElevation
-                disabled={isUpcoming || loading}
-                startIcon={
-                  isUpcoming || isLocked ? (
-                    <Lock size={14} strokeWidth={2.25} />
-                  ) : loading ? (
-                    <CircularProgress size={14} thickness={5} sx={{ color: "inherit" }} />
-                  ) : undefined
-                }
-                onClick={(e) => {
-                  e.stopPropagation();
-                  if (!isUpcoming) onStart();
-                }}
-                sx={(theme) => ({
-                  height: 32,
-                  px: 1.5,
-                  py: 0.75,
-                  fontSize: 14,
-                  fontWeight: 500,
-                  letterSpacing: "-0.2px",
-                  lineHeight: "20px",
-                  borderRadius: "8px",
-                  borderColor: theme.palette.outlineVariant.main,
-                  color: theme.palette.primary.main,
-                  textTransform: "none",
-                  whiteSpace: "nowrap",
-                  "&:hover": {
-                    borderColor: theme.palette.primary.main,
-                    bgcolor: theme.palette.primary.light,
-                  },
-                  "&.Mui-disabled": {
-                    borderColor: theme.palette.outlineVariant.main,
-                    color: theme.palette.text.disabled,
-                  },
-                })}
-              >
-                {isUpcoming ? "Coming soon" : ctaLabel}
-              </Button>
-            </Box>
+            {outcomesBlock}
           </Stack>
-
-          {outcomes.length > 0 && (
-            <>
-              <Divider
-                sx={(theme) => ({
-                  borderColor: theme.palette.outlineVariant.main,
-                  opacity: 0.7,
-                })}
-              />
-
-              <Stack gap={1}>
-                <Typography
-                  sx={{
-                    fontSize: 11,
-                    fontWeight: 700,
-                    letterSpacing: 1.4,
-                    textTransform: "uppercase",
-                    lineHeight: "16.5px",
-                    color: isUpcoming ? "text.disabled" : "primary.main",
-                  }}
-                >
-                  Learning Outcomes
-                </Typography>
-                <Box
-                  sx={{
-                    display: "grid",
-                    gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
-                    columnGap: 0.625,
-                    rowGap: 0.75,
-                  }}
-                >
-                  {outcomes.map((o, i) => (
-                    <Stack
-                      key={i}
-                      direction="row"
-                      gap={1}
-                      alignItems="center"
-                      sx={{ minWidth: 0 }}
-                    >
-                      <Box
-                        sx={(theme) => ({
-                          flexShrink: 0,
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          color: isUpcoming ? theme.palette.text.disabled : theme.palette.primary.main,
-                        })}
-                      >
-                        <Check size={16} strokeWidth={2.25} />
-                      </Box>
-                      <Typography
-                        sx={{
-                          fontSize: 12,
-                          fontWeight: 400,
-                          lineHeight: "16px",
-                          letterSpacing: "-0.2px",
-                          color: "text.primary",
-                        }}
-                      >
-                        {o}
-                      </Typography>
-                    </Stack>
-                  ))}
-                </Box>
-              </Stack>
-            </>
-          )}
         </Stack>
+      </Box>
+
+      {/* Mobile layout (xs/sm) — Figma-style: header row uses logo+title only, then description/CTA/outcomes span full card width */}
+      <Stack gap={1.5} sx={{ display: { xs: "flex", md: "none" } }}>
+        <Stack direction="row" gap={2} alignItems="flex-start">
+          <ToolLogo issue={issue} />
+          <Stack gap={0.5} sx={{ flex: 1, minWidth: 0 }}>
+            {eyebrowRow}
+            {titleEl}
+          </Stack>
+        </Stack>
+        {!isLocked && descriptionEl}
+        {ctaButton(false)}
+        {!isLocked && outcomesBlock}
       </Stack>
     </Card>
   );
