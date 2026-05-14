@@ -1,11 +1,10 @@
 import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Box, Button, Card, Stack, Tab, Tabs, Typography } from "@mui/material";
-import { Bell, BookOpen, Check, Play, PlayCircle } from "lucide-react";
+import { Bell, BookOpen, Play, PlayCircle } from "lucide-react";
 import { TopNav } from "../../components/TopNav/TopNav";
 import { SectionAccordion, type OrderedItem } from "../../components/courses/SectionAccordion";
 import { CourseStickyBar } from "../../components/pulse/CourseStickyBar";
-import { useLearningProgress } from "../../lib/pulse/learningProgress";
 import type { PulseIssue } from "../../lib/pulse/types";
 import issuesData from "../../mocks/pulse-issues.json";
 import detail from "../../mocks/pulseCourseDetail.json";
@@ -19,7 +18,6 @@ export function PulseCoursePage() {
   const [params] = useSearchParams();
   const moduleId = params.get("module");
   const [tab, setTab] = useState(0);
-  const { hasCompleted, markCompleted, unmarkCompleted } = useLearningProgress();
 
   // Same 4 module order used on the home grouped grid.
   const modulesOrder = useMemo(() => {
@@ -41,47 +39,23 @@ export function PulseCoursePage() {
       ? modulesOrder.findIndex((m) => m.id === moduleId)
       : 0;
 
-  const focused = modulesOrder[expandedIndex];
-  const focusedCompleted = focused ? hasCompleted(focused.id) : false;
-  const isFocusedReleased = focused ? expandedIndex < 2 : false;
-
-  const onToggleComplete = () => {
-    if (!focused || !isFocusedReleased) return;
-    if (focusedCompleted) unmarkCompleted(focused.id);
-    else markCompleted(focused.id);
-  };
-
-  const overallProgress = useMemo(() => {
-    const releasedModules = modulesOrder.slice(0, 2);
-    if (releasedModules.length === 0) return 0;
-    const completed = releasedModules.filter((m) => hasCompleted(m.id)).length;
-    return Math.round((completed / releasedModules.length) * 100);
-  }, [modulesOrder, hasCompleted]);
-
   return (
     <Box sx={{ minHeight: "100vh", bgcolor: "background.default" }}>
       <TopNav />
-      {/* Full-bleed dark primary hero band */}
-      <Box
-        sx={(theme) => ({
-          bgcolor: theme.palette.primary.main,
-          color: theme.palette.primary.contrastText,
-          px: { xs: 2, md: 3, lg: 0 },
-          py: { xs: 3, md: 4 },
-        })}
-      >
-        <Box sx={{ maxWidth: 1184, mx: "auto" }}>
+      <Box sx={{ maxWidth: 1184, mx: "auto", px: { xs: 2, md: 3, lg: 0 }, pt: 3, pb: { xs: 12, lg: 6 } }}>
+        <Card sx={{ p: { xs: 2.5, md: 4 }, bgcolor: "surfaceContainer.highest", boxShadow: "none", borderRadius: "8px" }}>
           <Stack
             direction={{ xs: "column", sm: "row" }}
             gap={{ xs: 2, md: 3 }}
             alignItems={{ xs: "stretch", sm: "flex-start" }}
+            sx={{ mb: 3 }}
           >
             <Box
               sx={{
-                width: { xs: 80, sm: 96, md: 120 },
-                height: { xs: 80, sm: 96, md: 120 },
+                width: { xs: 96, sm: 112, md: 144 },
+                height: { xs: 96, sm: 112, md: 144 },
                 borderRadius: "8px",
-                bgcolor: "rgba(255, 255, 255, 0.12)",
+                bgcolor: "#7fb3b3",
                 flexShrink: 0,
                 display: "flex",
                 alignItems: "center",
@@ -94,23 +68,11 @@ export function PulseCoursePage() {
             <Box sx={{ flex: 1, minWidth: 0, pt: 0.5 }}>
               <Typography
                 sx={{
-                  fontSize: 11,
+                  fontSize: { xs: 22, md: 24 },
                   fontWeight: 700,
-                  letterSpacing: "1.4px",
-                  textTransform: "uppercase",
-                  color: "rgba(255, 255, 255, 0.8)",
-                  mb: 1,
-                }}
-              >
-                Bi-weekly Pulse Module
-              </Typography>
-              <Typography
-                sx={{
-                  fontSize: { xs: 24, md: 30 },
-                  fontWeight: 700,
-                  lineHeight: 1.15,
-                  letterSpacing: "-0.5px",
-                  color: "inherit",
+                  lineHeight: "32px",
+                  letterSpacing: "-0.4px",
+                  color: "text.primary",
                   mb: 1.5,
                 }}
               >
@@ -120,7 +82,7 @@ export function PulseCoursePage() {
                 direction={{ xs: "column", sm: "row" }}
                 alignItems={{ xs: "flex-start", sm: "center" }}
                 gap={{ xs: 0.5, sm: 1.5 }}
-                sx={{ mb: 2, flexWrap: "wrap", color: "rgba(255, 255, 255, 0.85)" }}
+                sx={{ color: "text.secondary", mb: 1.5, flexWrap: "wrap" }}
               >
                 <Stack direction="row" alignItems="center" gap={0.75}>
                   <PlayCircle size={16} />
@@ -136,85 +98,25 @@ export function PulseCoursePage() {
                   </Typography>
                 </Stack>
               </Stack>
-              <Stack direction="row" alignItems="center" gap={1.5} sx={{ mb: 2, maxWidth: 480 }}>
-                <Box
-                  sx={{
-                    flex: 1,
-                    height: 6,
-                    borderRadius: 3,
-                    bgcolor: "rgba(255, 255, 255, 0.2)",
-                    overflow: "hidden",
-                  }}
-                >
-                  <Box
-                    sx={{
-                      width: `${overallProgress}%`,
-                      height: "100%",
-                      bgcolor: "#ffffff",
-                      borderRadius: 3,
-                    }}
-                  />
-                </Box>
-                <Typography sx={{ fontSize: 13, fontWeight: 600, fontVariantNumeric: "tabular-nums" }}>
-                  {overallProgress}%
-                </Typography>
-              </Stack>
-              <Stack direction="row" gap={1} sx={{ flexWrap: "wrap" }}>
-                <Button
-                  variant="outlined"
-                  startIcon={<Bell size={16} />}
-                  sx={{
-                    height: 36,
-                    px: 2,
-                    borderColor: "rgba(255, 255, 255, 0.4)",
-                    color: "inherit",
-                    fontSize: 14,
-                    fontWeight: 500,
-                    textTransform: "none",
-                    "&:hover": { borderColor: "#ffffff", bgcolor: "rgba(255, 255, 255, 0.08)" },
-                  }}
-                >
-                  Announcements
-                </Button>
-                {isFocusedReleased && focused && (
-                  <Button
-                    variant={focusedCompleted ? "contained" : "outlined"}
-                    disableElevation
-                    startIcon={<Check size={16} strokeWidth={focusedCompleted ? 2.5 : 2} />}
-                    onClick={onToggleComplete}
-                    sx={(theme) => ({
-                      height: 36,
-                      px: 2,
-                      fontSize: 14,
-                      fontWeight: 500,
-                      textTransform: "none",
-                      ...(focusedCompleted
-                        ? {
-                            bgcolor: theme.palette.extended.success.color,
-                            color: theme.palette.extended.success.onColor,
-                            "&:hover": { bgcolor: theme.palette.extended.success.color, opacity: 0.92 },
-                          }
-                        : {
-                            borderColor: "rgba(255, 255, 255, 0.4)",
-                            color: "inherit",
-                            "&:hover": {
-                              borderColor: "#ffffff",
-                              bgcolor: "rgba(255, 255, 255, 0.08)",
-                            },
-                          }),
-                    })}
-                  >
-                    {focusedCompleted ? "Marked complete" : "Mark complete"}
-                  </Button>
-                )}
-              </Stack>
+              <Button
+                variant="outlined"
+                startIcon={<Bell size={16} />}
+                sx={{
+                  mt: 0.5,
+                  height: 36,
+                  px: 2,
+                  borderColor: "outlineVariant.main",
+                  color: "primary.main",
+                  fontSize: 14,
+                  fontWeight: 500,
+                  "&:hover": { borderColor: "primary.main", bgcolor: "primary.light" },
+                }}
+              >
+                Announcements
+              </Button>
             </Box>
           </Stack>
-        </Box>
-      </Box>
 
-      <Box sx={{ maxWidth: 1184, mx: "auto", px: { xs: 2, md: 3, lg: 0 }, pt: 3, pb: { xs: 12, lg: 6 } }}>
-        <Card sx={{ p: { xs: 2.5, md: 4 }, bgcolor: "surfaceContainer.highest", boxShadow: "none", borderRadius: "8px" }}>
           <Box
             sx={(theme) => ({
               p: 2,
