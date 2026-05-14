@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { Box, Drawer, IconButton, MenuItem, Select, Stack, Typography } from "@mui/material";
+import { Box, Button, Drawer, IconButton, MenuItem, Select, Stack, Typography } from "@mui/material";
 import type { SelectChangeEvent } from "@mui/material";
-import { ChevronDown, RotateCcw, X } from "lucide-react";
+import { ChevronDown, ChevronUp, RotateCcw, X } from "lucide-react";
 import { usePricing, type PricingState, type Plan } from "../../lib/pulse/pricing";
 import { useRelease, type Release, V1_ISSUE_LIMIT } from "../../lib/pulse/release";
 import {
@@ -80,28 +80,12 @@ export function DevPanel() {
         </IconButton>
       </Stack>
       <Box sx={{ p: 2.5, flex: 1, overflow: "auto" }}>
-        <Section title="Release Version">
-          <SegmentedControl<Release>
-            value={release}
-            onChange={setRelease}
-            options={[
-              { value: "v1", label: `V1 · ${V1_ISSUE_LIMIT} courses` },
-              { value: "v2", label: "V2 · Full" },
-            ]}
-          />
-          <Typography
-            sx={{
-              mt: 1,
-              fontSize: 12,
-              color: "text.secondary",
-              lineHeight: 1.45,
-            }}
-          >
-            {release === "v1"
-              ? `V1: first ${V1_ISSUE_LIMIT} releases only. Hides Most Popular and all learner social-proof (ratings, completions, weekly readers).`
-              : "V2: full catalog with cohort/social-proof metadata."}
-          </Typography>
-        </Section>
+        <VersionControl
+          release={release}
+          setRelease={setRelease}
+          designVersion={designVersion}
+          setDesignVersion={setDesignVersion}
+        />
 
         <Box sx={{ height: 24 }} />
 
@@ -193,87 +177,199 @@ export function DevPanel() {
             </Typography>
           </Stack>
         </Section>
-
-        <Box sx={{ height: 24 }} />
-
-        <Section title="Design Version">
-          <Select<DesignVersion>
-            value={designVersion}
-            onChange={(e: SelectChangeEvent<DesignVersion>) =>
-              setDesignVersion(e.target.value as DesignVersion)
-            }
-            IconComponent={(props) => (
-              <Box
-                {...props}
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  pointerEvents: "none",
-                  pr: 1.25,
-                  color: "text.secondary",
-                }}
-              >
-                <ChevronDown size={16} />
-              </Box>
-            )}
-            sx={(theme) => ({
-              height: 40,
-              fontSize: 13,
-              fontWeight: 500,
-              bgcolor: "surfaceContainer.highest",
-              "& .MuiSelect-select": {
-                py: 1,
-                pl: 1.5,
-                pr: "32px !important",
-              },
-              "& .MuiOutlinedInput-notchedOutline": {
-                borderColor: theme.palette.outlineVariant.main,
-              },
-              "&:hover .MuiOutlinedInput-notchedOutline": {
-                borderColor: theme.palette.text.disabled,
-              },
-              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                borderColor: theme.palette.primary.main,
-                borderWidth: 1,
-              },
-            })}
-            MenuProps={{
-              PaperProps: {
-                sx: {
-                  mt: 0.5,
-                  borderRadius: "10px",
-                  bgcolor: "surfaceContainer.highest",
-                  border: 1,
-                  borderColor: "outlineVariant.main",
-                  boxShadow: "0 8px 24px rgba(0,0,0,0.10)",
-                },
-              },
-            }}
-          >
-            {DESIGN_VERSIONS.map((opt) => (
-              <MenuItem
-                key={opt.value}
-                value={opt.value}
-                sx={{ py: 1, gap: 0.75 }}
-              >
-                <Typography
-                  sx={{ fontSize: 13, fontWeight: 500, color: "text.primary", lineHeight: 1.2 }}
-                >
-                  {opt.label}
-                </Typography>
-                {opt.value === DEFAULT_DESIGN_VERSION && (
-                  <Typography
-                    sx={{ fontSize: 11, color: "text.secondary", lineHeight: 1.2 }}
-                  >
-                    (Default)
-                  </Typography>
-                )}
-              </MenuItem>
-            ))}
-          </Select>
-        </Section>
       </Box>
     </Drawer>
+  );
+}
+
+function VersionControl({
+  release,
+  setRelease,
+  designVersion,
+  setDesignVersion,
+}: {
+  release: Release;
+  setRelease: (r: Release) => void;
+  designVersion: DesignVersion;
+  setDesignVersion: (v: DesignVersion) => void;
+}) {
+  const [expanded, setExpanded] = useState(false);
+  const [pendingRelease, setPendingRelease] = useState<Release>(release);
+  const [pendingDesign, setPendingDesign] = useState<DesignVersion>(designVersion);
+
+  // When the accordion opens, sync pending values from current context so it reflects fresh state.
+  useEffect(() => {
+    if (expanded) {
+      setPendingRelease(release);
+      setPendingDesign(designVersion);
+    }
+  }, [expanded, release, designVersion]);
+
+  const hasChanges =
+    pendingRelease !== release || pendingDesign !== designVersion;
+
+  const onSave = () => {
+    if (pendingRelease !== release) setRelease(pendingRelease);
+    if (pendingDesign !== designVersion) setDesignVersion(pendingDesign);
+    setExpanded(false);
+  };
+
+  return (
+    <Box
+      sx={(theme) => ({
+        border: 1,
+        borderColor: theme.palette.outlineVariant.main,
+        borderRadius: "10px",
+        overflow: "hidden",
+        bgcolor: "surfaceContainer.highest",
+      })}
+    >
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="space-between"
+        onClick={() => setExpanded((v) => !v)}
+        sx={{ px: 1.75, py: 1.5, cursor: "pointer", userSelect: "none" }}
+      >
+        <Stack gap={0.25}>
+          <Typography
+            sx={{
+              fontSize: 11,
+              fontWeight: 600,
+              letterSpacing: "1.2px",
+              textTransform: "uppercase",
+              color: "text.secondary",
+            }}
+          >
+            Version Control
+          </Typography>
+          <Typography sx={{ fontSize: 12, color: "text.secondary" }}>
+            Release {release.toUpperCase()} · Design {designVersion.toUpperCase()}
+          </Typography>
+        </Stack>
+        <Box sx={{ color: "text.secondary", display: "flex" }}>
+          {expanded ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+        </Box>
+      </Stack>
+
+      {expanded && (
+        <Box
+          sx={(theme) => ({
+            px: 1.75,
+            pt: 1,
+            pb: 1.75,
+            borderTop: 1,
+            borderColor: theme.palette.outlineVariant.main,
+          })}
+        >
+          <Stack gap={1} sx={{ mb: 2 }}>
+            <Label>Release Version</Label>
+            <SegmentedControl<Release>
+              value={pendingRelease}
+              onChange={setPendingRelease}
+              options={[
+                { value: "v1", label: `V1 · ${V1_ISSUE_LIMIT} courses` },
+                { value: "v2", label: "V2 · Full" },
+              ]}
+            />
+            <Typography sx={{ fontSize: 12, color: "text.secondary", lineHeight: 1.45 }}>
+              {pendingRelease === "v1"
+                ? `V1: first ${V1_ISSUE_LIMIT} releases only. Hides Most Popular and all learner social-proof.`
+                : "V2: full catalog with cohort/social-proof metadata."}
+            </Typography>
+          </Stack>
+
+          <Stack gap={1} sx={{ mb: 2 }}>
+            <Label>Design Version</Label>
+            <Select<DesignVersion>
+              value={pendingDesign}
+              onChange={(e: SelectChangeEvent<DesignVersion>) =>
+                setPendingDesign(e.target.value as DesignVersion)
+              }
+              IconComponent={(props) => (
+                <Box
+                  {...props}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    pointerEvents: "none",
+                    pr: 1.25,
+                    color: "text.secondary",
+                  }}
+                >
+                  <ChevronDown size={16} />
+                </Box>
+              )}
+              sx={(theme) => ({
+                height: 40,
+                fontSize: 13,
+                fontWeight: 500,
+                bgcolor: "surfaceContainer.lowest",
+                "& .MuiSelect-select": {
+                  py: 1,
+                  pl: 1.5,
+                  pr: "32px !important",
+                },
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: theme.palette.outlineVariant.main,
+                },
+                "&:hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: theme.palette.text.disabled,
+                },
+                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                  borderColor: theme.palette.primary.main,
+                  borderWidth: 1,
+                },
+              })}
+              MenuProps={{
+                PaperProps: {
+                  sx: {
+                    mt: 0.5,
+                    borderRadius: "10px",
+                    bgcolor: "surfaceContainer.highest",
+                    border: 1,
+                    borderColor: "outlineVariant.main",
+                    boxShadow: "0 8px 24px rgba(0,0,0,0.10)",
+                  },
+                },
+              }}
+            >
+              {DESIGN_VERSIONS.map((opt) => (
+                <MenuItem key={opt.value} value={opt.value} sx={{ py: 1, gap: 0.75 }}>
+                  <Typography
+                    sx={{ fontSize: 13, fontWeight: 500, color: "text.primary", lineHeight: 1.2 }}
+                  >
+                    {opt.label}
+                  </Typography>
+                  {opt.value === DEFAULT_DESIGN_VERSION && (
+                    <Typography sx={{ fontSize: 11, color: "text.secondary", lineHeight: 1.2 }}>
+                      (Default)
+                    </Typography>
+                  )}
+                </MenuItem>
+              ))}
+            </Select>
+          </Stack>
+
+          <Button
+            variant="contained"
+            disableElevation
+            fullWidth
+            disabled={!hasChanges}
+            onClick={onSave}
+            sx={{
+              height: 38,
+              fontSize: 13,
+              fontWeight: 600,
+              textTransform: "none",
+              borderRadius: "8px",
+            }}
+          >
+            {hasChanges ? "Save changes" : "No changes to save"}
+          </Button>
+        </Box>
+      )}
+    </Box>
   );
 }
 

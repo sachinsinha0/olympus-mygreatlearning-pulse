@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Box, Button, Dialog, IconButton, Stack, Typography } from "@mui/material";
 import { Check, X } from "lucide-react";
 import { usePricing, type Plan } from "../../lib/pulse/pricing";
+import { usePageLoader } from "../common/PageLoader";
 
 type TierProps = {
   plan: Plan;
@@ -98,7 +99,14 @@ function PlanCard({ plan, selected, onSelect, recommended }: TierProps) {
 
 export function PricingModal() {
   const { pricingModalOpen, closePricingModal, subscribe, state } = usePricing();
+  const { runWithPageLoader } = usePageLoader();
   const [selected, setSelected] = useState<Plan>("annual");
+
+  const handleSubscribe = () => {
+    runWithPageLoader(() => {
+      subscribe(selected);
+    }, 800);
+  };
 
   return (
     <Dialog
@@ -158,7 +166,7 @@ export function PricingModal() {
         <Button
           variant="contained"
           disableElevation
-          onClick={() => subscribe(selected)}
+          onClick={handleSubscribe}
           sx={{ height: 44, px: 3, fontSize: 15, fontWeight: 600 }}
         >
           {selected === "annual" ? "Subscribe · $999/yr" : "Subscribe · $100/mo"}

@@ -1,10 +1,12 @@
-import { Avatar, Box, Button, Card, Divider, Stack, Typography } from "@mui/material";
+import { useState } from "react";
+import { Avatar, Box, Button, Card, CircularProgress, Divider, Stack, Typography } from "@mui/material";
 import { Check, Lock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import type { PulseIssue } from "../../lib/pulse/types";
 import { formatIssueDate } from "../../lib/format";
 import { usePricing } from "../../lib/pulse/pricing";
 import { useUnitLabel } from "../../lib/pulse/terminology";
+import { usePageLoader } from "../common/PageLoader";
 
 export type ModuleListCardStatus = "released" | "upcoming";
 
@@ -20,6 +22,8 @@ export function ModuleListCard({
   const navigate = useNavigate();
   const unit = useUnitLabel();
   const { state, trialStartedAt, openPricingModal, startTrial } = usePricing();
+  const { runWithPageLoader } = usePageLoader();
+  const [loading, setLoading] = useState(false);
 
   const isUpcoming = status === "upcoming";
   const isLocked = state === "expired";
@@ -29,15 +33,33 @@ export function ModuleListCard({
     ? "Renew to unlock"
     : isPreTrial
     ? "Start 30-day trial"
-    : "Start";
+    : "Start Learning";
+
+  const navigateToModule = () => {
+    runWithPageLoader(() => {
+      navigate(`/pulse/course?module=${issue.id}`);
+    }, 700);
+  };
 
   const onStart = () => {
+    if (loading) return;
     if (isLocked) {
+      // Just opens the pricing dialog — no loader.
       openPricingModal();
       return;
     }
-    if (isPreTrial) startTrial();
-    navigate(`/pulse/course?module=${issue.id}`);
+    if (isPreTrial) {
+      // Button loader during the trial-start state change, then full-page loader for nav.
+      setLoading(true);
+      setTimeout(() => {
+        startTrial();
+        setLoading(false);
+        navigateToModule();
+      }, 500);
+      return;
+    }
+    // Trial-active or paid: just full-page loader for the navigation.
+    navigateToModule();
   };
 
   const onCardClick = isUpcoming ? undefined : onStart;
@@ -129,8 +151,14 @@ export function ModuleListCard({
               <Button
                 variant="outlined"
                 disableElevation
-                disabled={isUpcoming}
-                startIcon={isUpcoming ? <Lock size={14} strokeWidth={2.25} /> : undefined}
+                disabled={isUpcoming || loading}
+                startIcon={
+                  isUpcoming ? (
+                    <Lock size={14} strokeWidth={2.25} />
+                  ) : loading ? (
+                    <CircularProgress size={14} thickness={5} sx={{ color: "inherit" }} />
+                  ) : undefined
+                }
                 onClick={(e) => {
                   e.stopPropagation();
                   if (!isUpcoming) onStart();

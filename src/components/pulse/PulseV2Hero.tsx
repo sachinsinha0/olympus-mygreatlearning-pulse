@@ -1,12 +1,16 @@
-import { Box, Button, Stack, Typography } from "@mui/material";
+import { useState } from "react";
+import { Box, Button, CircularProgress, Stack, Typography } from "@mui/material";
 import { ArrowRight } from "lucide-react";
 import { usePricing, daysUntil } from "../../lib/pulse/pricing";
+
+type CtaMode = "button-loader" | "none";
 
 type HeroCopy = {
   headline: React.ReactNode;
   subtitle: string;
   primaryCtaLabel: string;
   onPrimaryCta: () => void;
+  ctaMode: CtaMode;
 };
 
 type PillarItem = { title: string; body: string };
@@ -30,7 +34,10 @@ function useHeroCopy(): HeroCopy {
   const { state, trialStartedAt, activeUntil, startTrial, openPricingModal } = usePricing();
 
   const scrollToModules = () => {
-    document.getElementById("pulse-modules")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    const target =
+      document.getElementById("released-modules") ??
+      document.getElementById("pulse-modules");
+    target?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   if (state === "paid") {
@@ -46,6 +53,7 @@ function useHeroCopy(): HeroCopy {
         "Every Pulse module is yours. Pick where you left off, or jump into the newest one below.",
       primaryCtaLabel: "Browse modules",
       onPrimaryCta: scrollToModules,
+      ctaMode: "none",
     };
   }
 
@@ -62,6 +70,7 @@ function useHeroCopy(): HeroCopy {
         "Your past modules are still in the archive. Renew to unlock the new releases coming every two weeks.",
       primaryCtaLabel: "Renew · from $100/mo",
       onPrimaryCta: openPricingModal,
+      ctaMode: "none",
     };
   }
 
@@ -72,13 +81,14 @@ function useHeroCopy(): HeroCopy {
         <>
           You're in. {days} day{days === 1 ? "" : "s"} left.
           <br />
-          Start with the latest module.
+          Subscribe to keep your access.
         </>
       ),
       subtitle:
-        "Each module ends with something you can use this week, not just facts to read. Try one and see.",
-      primaryCtaLabel: "Start the latest module",
-      onPrimaryCta: scrollToModules,
+        "Subscribe before your trial ends to keep every released module plus the new ones coming every two weeks.",
+      primaryCtaLabel: "Subscribe to Pulse",
+      onPrimaryCta: openPricingModal,
+      ctaMode: "none",
     };
   }
 
@@ -87,18 +97,33 @@ function useHeroCopy(): HeroCopy {
       <>
         AI moves faster than any curriculum.
         <br />
-        Pulse keeps you in step.
+        Pulse keeps you ahead.
       </>
     ),
     subtitle:
       "A new applied module every two weeks on what's actually shipping in AI. You leave each one with a skill you can use, not just news to read.",
     primaryCtaLabel: "Start 30-day trial",
     onPrimaryCta: startTrial,
+    ctaMode: "button-loader",
   };
 }
 
 export function PulseV2Hero() {
   const copy = useHeroCopy();
+  const [loading, setLoading] = useState(false);
+
+  const handleCta = () => {
+    if (loading) return;
+    if (copy.ctaMode === "button-loader") {
+      setLoading(true);
+      setTimeout(() => {
+        copy.onPrimaryCta();
+        setLoading(false);
+      }, 500);
+    } else {
+      copy.onPrimaryCta();
+    }
+  };
 
   return (
     <Box
@@ -110,11 +135,10 @@ export function PulseV2Hero() {
         background: "linear-gradient(to right, #ffffff 0%, #ffffff 50%, #c1cedb 100%)",
       })}
     >
-      {/* Top section: text left, illustration right */}
+      {/* Top section: text left, illustration right. Height follows content. */}
       <Box
         sx={{
           position: "relative",
-          minHeight: { xs: "auto", md: 360 },
           overflow: "hidden",
         }}
       >
@@ -126,8 +150,8 @@ export function PulseV2Hero() {
           alt=""
           sx={{
             position: "absolute",
-            right: -60,
-            top: 0,
+            right: -64,
+            top: -24,
             bottom: 0,
             height: "110%",
             width: "auto",
@@ -147,9 +171,9 @@ export function PulseV2Hero() {
           gap={2.5}
           sx={{
             position: "relative",
-            px: { xs: 3, md: 8 },
-            pt: { xs: 4, md: 4.5 },
-            pb: { xs: 4, md: 4.5 },
+            px: { xs: 3, md: 5 },
+            pt: 4,
+            pb: 4,
             maxWidth: { xs: "100%", md: 620 },
           }}
         >
@@ -182,8 +206,15 @@ export function PulseV2Hero() {
             <Button
               variant="contained"
               disableElevation
-              endIcon={<ArrowRight size={18} />}
-              onClick={copy.onPrimaryCta}
+              disabled={loading}
+              endIcon={
+                loading ? (
+                  <CircularProgress size={16} thickness={5} sx={{ color: "inherit" }} />
+                ) : (
+                  <ArrowRight size={18} />
+                )
+              }
+              onClick={handleCta}
               sx={{
                 height: 40,
                 px: 2,

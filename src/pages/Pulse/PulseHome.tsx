@@ -218,7 +218,7 @@ function V1V2GroupedGrid({
   return (
     <Stack gap={4} sx={{ mt: 4 }}>
       {groups.released.length > 0 && (
-        <Stack gap={2}>
+        <Stack id="released-modules" gap={2} sx={{ scrollMarginTop: 96 }}>
           <SectionHeader title="Released" count={groups.released.length} />
           <Stack gap={1.5}>
             {groups.released.map((issue, i) => (
