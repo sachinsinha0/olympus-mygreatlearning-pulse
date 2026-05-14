@@ -1,9 +1,14 @@
 import { useState } from "react";
 import { Box, Stack, Typography } from "@mui/material";
-import { ChevronDown, ChevronUp, PlayCircle, FileText, BookOpen, ChevronRight, CheckCircle2, Download } from "lucide-react";
+import { ChevronDown, ChevronUp, PlayCircle, FileText, BookOpen, ChevronRight, CheckCircle2, Download, Lock } from "lucide-react";
 
 type VideoItem = { id: string; title: string; duration: string };
 type ResourceItem = { id: string; title: string; size?: string; viewed?: boolean };
+
+export type OrderedItem =
+  | { id: string; type: "video"; title: string; duration?: string }
+  | { id: string; type: "tyu"; title: string; size?: string; viewed?: boolean }
+  | { id: string; type: "reading"; title: string; viewed?: boolean };
 
 type Props = {
   label: string;
@@ -15,6 +20,8 @@ type Props = {
   presentations?: ResourceItem[];
   readings?: ResourceItem[];
   highlightedId?: string;
+  locked?: boolean;
+  items?: OrderedItem[];
 };
 
 export function SectionAccordion({
@@ -27,9 +34,13 @@ export function SectionAccordion({
   presentations,
   readings,
   highlightedId,
+  locked,
+  items,
 }: Props) {
-  const [open, setOpen] = useState(!!expandedDefault);
-  const hasContent = (videos?.length ?? 0) + (presentations?.length ?? 0) + (readings?.length ?? 0) > 0;
+  const [open, setOpen] = useState(!locked && !!expandedDefault);
+  const hasItems = (items?.length ?? 0) > 0;
+  const hasContent =
+    hasItems || (videos?.length ?? 0) + (presentations?.length ?? 0) + (readings?.length ?? 0) > 0;
 
   return (
     <Box
@@ -39,14 +50,15 @@ export function SectionAccordion({
         borderRadius: "8px",
         bgcolor: "surfaceContainer.highest",
         overflow: "hidden",
+        opacity: locked ? 0.65 : 1,
       }}
     >
       <Stack
         direction="row"
         alignItems="center"
         justifyContent="space-between"
-        onClick={() => setOpen((v) => !v)}
-        sx={{ px: 3, py: 2.5, cursor: "pointer" }}
+        onClick={locked ? undefined : () => setOpen((v) => !v)}
+        sx={{ px: 3, py: 2.5, cursor: locked ? "default" : "pointer" }}
       >
         <Box sx={{ flex: 1, minWidth: 0 }}>
           <Typography
@@ -87,12 +99,62 @@ export function SectionAccordion({
             </Typography>
           </Stack>
         </Box>
-        <Box sx={{ color: "text.primary", display: "flex", alignItems: "center" }}>
-          {open ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+        <Box sx={{ color: locked ? "text.disabled" : "text.primary", display: "flex", alignItems: "center" }}>
+          {locked ? (
+            <Lock size={18} strokeWidth={2.25} />
+          ) : open ? (
+            <ChevronUp size={20} />
+          ) : (
+            <ChevronDown size={20} />
+          )}
         </Box>
       </Stack>
 
-      {open && hasContent && (
+      {open && hasItems && (
+        <Stack gap={1.25} sx={{ px: 3, pb: 3 }}>
+          {items!.map((it) => {
+            if (it.type === "video") {
+              return (
+                <ContentRow
+                  key={it.id}
+                  icon={<PlayCircle size={18} />}
+                  title={it.title}
+                  subtitle={it.duration}
+                  highlighted={it.id === highlightedId}
+                />
+              );
+            }
+            if (it.type === "tyu") {
+              return (
+                <ContentRow
+                  key={it.id}
+                  icon={<FileText size={18} />}
+                  title={it.title}
+                  subtitle={it.size}
+                  highlighted={it.id === highlightedId}
+                  rightSlot={
+                    <Stack direction="row" alignItems="center" gap={1.5}>
+                      {it.viewed && <ViewedTag />}
+                      <Download size={16} color="#45464f" />
+                    </Stack>
+                  }
+                />
+              );
+            }
+            return (
+              <ContentRow
+                key={it.id}
+                icon={<BookOpen size={18} />}
+                title={it.title}
+                highlighted={it.id === highlightedId}
+                rightSlot={it.viewed ? <ViewedTag /> : undefined}
+              />
+            );
+          })}
+        </Stack>
+      )}
+
+      {open && !hasItems && hasContent && (
         <Stack gap={1.25} sx={{ px: 3, pb: 3 }}>
           {videos?.map((v, i) => (
             <ContentRow

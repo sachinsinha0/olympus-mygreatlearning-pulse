@@ -1,0 +1,69 @@
+{
+  "videosCompleted": 3,
+  "videosTotal": 11,
+  "resourcesViewed": 4,
+  "resourcesTotal": 10,
+  "progress": 32,
+  "resume": {
+    "sectionId": "m1",
+    "itemId": "m1-v3",
+    "title": "Segment 3: The trade-offs",
+    "timeLeft": "07 Mins 03 Secs Left"
+  },
+  "sections": [
+    {
+      "id": "m1",
+      "label": "Module 1: Claude Cowork",
+      "videosCount": 5,
+      "resourcesCount": 5,
+      "progress": 60,
+      "expandedDefault": true,
+      "items": [
+        { "id": "m1-v1", "type": "video", "title": "Segment 1: The Shift", "duration": "7 Mins 2 Secs" },
+        { "id": "m1-p1", "type": "tyu", "title": "Test Your Understanding 1", "size": "5 Questions", "viewed": true },
+        { "id": "m1-v2", "type": "video", "title": "Segment 2: The architecture", "duration": "7 Mins 3 Secs" },
+        { "id": "m1-p2", "type": "tyu", "title": "Test Your Understanding 2", "size": "5 Questions", "viewed": true },
+        { "id": "m1-v3", "type": "video", "title": "Segment 3: The trade-offs", "duration": "7 Mins 3 Secs" },
+        { "id": "m1-p3", "type": "tyu", "title": "Test Your Understanding 3", "size": "5 Questions", "viewed": false },
+        { "id": "m1-v4", "type": "video", "title": "Segment 4: The rubric", "duration": "5 Mins 57 Secs" },
+        { "id": "m1-p4", "type": "tyu", "title": "Test Your Understanding 4", "size": "5 Questions", "viewed": false },
+        { "id": "m1-v5", "type": "video", "title": "Hands-on Demo", "duration": "12 Mins" },
+        { "id": "m1-r1", "type": "reading", "title": "What's your read? The cohort is already weighing in.", "viewed": false }
+      ]
+    },
+    {
+      "id": "m2",
+      "label": "Module 2: Claude in Your Spreadsheet",
+      "videosCount": 6,
+      "resourcesCount": 5,
+      "progress": 0,
+      "items": [
+        { "id": "m2-v1", "type": "video", "title": "Segment 1: The Spreadsheet Wakes Up", "duration": "8 Mins" },
+        { "id": "m2-p1", "type": "tyu", "title": "Test Your Understanding 1", "size": "5 Questions", "viewed": false },
+        { "id": "m2-v2", "type": "video", "title": "Segment 2: Read. Reason. Reach. Record.", "duration": "9 Mins" },
+        { "id": "m2-p2", "type": "tyu", "title": "Test Your Understanding 2", "size": "5 Questions", "viewed": false },
+        { "id": "m2-v3", "type": "video", "title": "Segment 3: The Cost of Letting Go", "duration": "7 Mins" },
+        { "id": "m2-p3", "type": "tyu", "title": "Test Your Understanding 3", "size": "5 Questions", "viewed": false },
+        { "id": "m2-v4", "type": "video", "title": "Segment 4: How to Pilot Safely", "duration": "6 Mins" },
+        { "id": "m2-p4", "type": "tyu", "title": "Test Your Understanding 4", "size": "5 Questions", "viewed": false },
+        { "id": "m2-v5", "type": "video", "title": "Hands-on Demo Part 1: The Spreadsheet Audit", "duration": "14 Mins" },
+        { "id": "m2-v6", "type": "video", "title": "Hands-on Demo Part 2: Building a DCF Valuation", "duration": "18 Mins" },
+        { "id": "m2-r1", "type": "reading", "title": "What's your read? The cohort is already weighing in.", "viewed": false }
+      ]
+    },
+    {
+      "id": "m3",
+      "label": "Module 3: OpenAI Codex",
+      "videosCount": 5,
+      "resourcesCount": 5,
+      "progress": 0
+    },
+    {
+      "id": "m4",
+      "label": "Module 4: Open Claw, The Open-Source Agent",
+      "videosCount": 5,
+      "resourcesCount": 5,
+      "progress": 0
+    }
+  ]
+}

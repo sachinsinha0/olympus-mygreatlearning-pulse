@@ -5,12 +5,13 @@ import { formatIssueDate, formatDuration, formatNumber } from "../../lib/format"
 import { usePulseCta } from "../../lib/pulse/cta";
 import { stage, showStars } from "../../lib/pulse/socialProof";
 import { useRelease } from "../../lib/pulse/release";
+import { useUnitLabel } from "../../lib/pulse/terminology";
 import { IssueCover } from "./IssueCover";
 
 type StatItem = { value: React.ReactNode; label: string };
 
 export function DetailHero({ issue }: { issue: PulseIssue }) {
-  const releaseLabel = String(issue.issueNumber).padStart(2, "0");
+  const unit = useUnitLabel();
   const cta = usePulseCta(issue.courseUrl);
   const { stats } = issue;
   const s = stage(issue);
@@ -87,7 +88,7 @@ export function DetailHero({ issue }: { issue: PulseIssue }) {
               color: "primary.main",
             }}
           >
-            Pulse · Release {releaseLabel}
+            Pulse · {unit.numbered(issue.issueNumber)}
           </Typography>
           <Typography sx={{ fontSize: 11, color: "text.disabled" }}>·</Typography>
           <Typography

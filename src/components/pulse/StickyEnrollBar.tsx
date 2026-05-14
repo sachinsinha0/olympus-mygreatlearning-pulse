@@ -3,10 +3,12 @@ import { Box, Button, Stack, Typography } from "@mui/material";
 import { ArrowRight } from "lucide-react";
 import type { PulseIssue } from "../../lib/pulse/types";
 import { usePulseCta } from "../../lib/pulse/cta";
+import { useUnitLabel } from "../../lib/pulse/terminology";
 
 export function StickyEnrollBar({ issue }: { issue: PulseIssue }) {
   const [show, setShow] = useState(false);
   const cta = usePulseCta(issue.courseUrl);
+  const unit = useUnitLabel();
   useEffect(() => {
     const onScroll = () => setShow(window.scrollY > 320);
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -43,7 +45,7 @@ export function StickyEnrollBar({ issue }: { issue: PulseIssue }) {
       >
         <Box sx={{ minWidth: 0 }}>
           <Typography variant="overline" sx={{ color: "text.secondary", letterSpacing: 1.2 }}>
-            Release {String(issue.issueNumber).padStart(2, "0")}
+            {unit.numbered(issue.issueNumber)}
           </Typography>
           <Typography
             sx={{

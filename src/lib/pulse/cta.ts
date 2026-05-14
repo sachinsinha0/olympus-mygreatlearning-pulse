@@ -28,9 +28,9 @@ export function usePulseCta(courseUrl?: string): PulseCta {
 
   // Pre-trial (state=trial, !trialStartedAt) → Start Trial nudge
   if (state === "trial") {
-    return { label: "Start 7-day trial", action: "start-trial", onClick: onPreTrial };
+    return { label: "Start 30-day trial", action: "start-trial", onClick: onPreTrial };
   }
 
   // Expired → renew
-  return { label: "Renew · from $29/mo", action: "renew", onClick: openPricingModal };
+  return { label: "Renew · from $100/mo", action: "renew", onClick: openPricingModal };
 }

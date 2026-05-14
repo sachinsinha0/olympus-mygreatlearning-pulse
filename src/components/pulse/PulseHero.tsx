@@ -13,7 +13,7 @@ export function PulseHero({ issues }: { issues: PulseIssue[] }) {
   const stack = issues.slice(0, 3);
   const releaseLabel = latest ? String(latest.issueNumber).padStart(2, "0") : "01";
   const isPreTrial = state === "trial" && !trialStartedAt;
-  const heroCtaLabel = isPreTrial ? "Start 7-day trial" : "Start";
+  const heroCtaLabel = isPreTrial ? "Start 30-day trial" : "Start";
   const onHeroCta = () => {
     if (isPreTrial) {
       startTrial();

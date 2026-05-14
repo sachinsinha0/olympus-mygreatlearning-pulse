@@ -7,6 +7,7 @@ import { Courses } from "./pages/Courses";
 import { CourseDetail } from "./pages/CourseDetail";
 import { PulseHome } from "./pages/Pulse/PulseHome";
 import { IssueDetail } from "./pages/Pulse/IssueDetail";
+import { PulseCoursePage } from "./pages/Pulse/PulseCoursePage";
 import { SubscriptionPage } from "./pages/Pulse/SubscriptionPage";
 
 function ScrollToTop() {
@@ -29,6 +30,7 @@ export function App() {
         <Route path="/courses/:id" element={<CourseDetail />} />
         <Route path="/pulse" element={<PulseHome />} />
         <Route path="/pulse/subscription" element={<SubscriptionPage />} />
+        <Route path="/pulse/course" element={<PulseCoursePage />} />
         <Route path="/pulse/issue/:id" element={<IssueDetail />} />
       </Routes>
     </BrowserRouter>

@@ -8,11 +8,13 @@ import "@fontsource/inter/700.css";
 import { ColorModeProvider } from "./theme/ColorModeContext";
 import { PricingProvider } from "./lib/pulse/pricing";
 import { ReleaseProvider } from "./lib/pulse/release";
+import { DesignVersionProvider } from "./lib/pulse/designVersion";
 import { App } from "./App";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ColorModeProvider>
+      <DesignVersionProvider>
       <ReleaseProvider>
       <PricingProvider>
       <CssBaseline />
@@ -32,6 +34,7 @@ createRoot(document.getElementById("root")!).render(
       <App />
       </PricingProvider>
       </ReleaseProvider>
+      </DesignVersionProvider>
     </ColorModeProvider>
   </StrictMode>
 );

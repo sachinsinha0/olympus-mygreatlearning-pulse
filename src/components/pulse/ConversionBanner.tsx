@@ -45,7 +45,7 @@ export function ConversionBanner() {
           onClick={openPricingModal}
           sx={{ height: 36, px: 2, fontSize: 13, fontWeight: 600, flexShrink: 0 }}
         >
-          Subscribe · from $29/mo
+          Subscribe · from $100/mo
         </Button>
       </BannerShell>
     );
@@ -60,7 +60,7 @@ export function ConversionBanner() {
           <Icon Comp={Clock} tone="primary" />
           <Stack sx={{ minWidth: 0 }}>
             <Typography sx={{ fontSize: 14, fontWeight: 600, color: "text.primary", letterSpacing: "-0.2px" }}>
-              7-day trial · {dayLabel} left
+              30-day trial · {dayLabel} left
             </Typography>
             <Typography sx={{ fontSize: 12, color: "text.secondary", letterSpacing: "-0.2px" }}>
               Subscribe before your trial ends to keep building with Pulse.
@@ -85,7 +85,7 @@ export function ConversionBanner() {
         <Icon Comp={Sparkles} tone="primary" />
         <Stack sx={{ minWidth: 0 }}>
           <Typography sx={{ fontSize: 14, fontWeight: 600, color: "text.primary", letterSpacing: "-0.2px" }}>
-            Try Pulse free for 7 days
+            Try Pulse free for 30 days
           </Typography>
           <Typography sx={{ fontSize: 12, color: "text.secondary", letterSpacing: "-0.2px" }}>
             Full access to every release and the archive. No card required.
@@ -98,7 +98,7 @@ export function ConversionBanner() {
         onClick={startTrial}
         sx={{ height: 36, px: 2, fontSize: 13, fontWeight: 600, flexShrink: 0 }}
       >
-        Start 7-day trial
+        Start 30-day trial
       </Button>
     </BannerShell>
   );

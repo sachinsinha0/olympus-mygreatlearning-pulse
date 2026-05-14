@@ -14,14 +14,14 @@ const Ctx = createContext<ReleaseCtx | null>(null);
 const STORAGE_KEY = "pulse-release";
 
 function getInitial(): Release {
-  if (typeof window === "undefined") return "v2";
+  if (typeof window === "undefined") return "v1";
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw === "v1" || raw === "v2") return raw;
   } catch {
     // fall through
   }
-  return "v2";
+  return "v1";
 }
 
 export function ReleaseProvider({ children }: { children: ReactNode }) {

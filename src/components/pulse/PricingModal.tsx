@@ -43,38 +43,44 @@ function PlanCard({ plan, selected, onSelect, recommended }: TierProps) {
         },
       })}
     >
-      {recommended && (
-        <Box
-          sx={(theme) => ({
-            position: "absolute",
-            top: -10,
-            left: 16,
-            px: 1,
-            py: 0.25,
-            borderRadius: "999px",
-            bgcolor: theme.palette.primary.main,
-            color: theme.palette.primary.contrastText,
-            fontSize: 11,
-            fontWeight: 600,
-            letterSpacing: "-0.2px",
-          })}
-        >
-          Best value
-        </Box>
-      )}
-      <Typography sx={{ fontSize: 14, fontWeight: 600, color: "text.primary", letterSpacing: "-0.2px", mb: 1.5 }}>
-        {isAnnual ? "Annual" : "Monthly"}
-      </Typography>
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="space-between"
+        gap={1}
+        sx={{ mb: 1.5 }}
+      >
+        <Typography sx={{ fontSize: 14, fontWeight: 600, color: "text.primary", letterSpacing: "-0.2px" }}>
+          {isAnnual ? "Annual" : "Monthly"}
+        </Typography>
+        {recommended && (
+          <Box
+            sx={(theme) => ({
+              px: 1,
+              py: 0.25,
+              borderRadius: "999px",
+              bgcolor: theme.palette.primary.main,
+              color: theme.palette.primary.contrastText,
+              fontSize: 11,
+              fontWeight: 600,
+              letterSpacing: "-0.2px",
+              whiteSpace: "nowrap",
+            })}
+          >
+            Best value
+          </Box>
+        )}
+      </Stack>
       <Stack direction="row" alignItems="baseline" gap={0.5} sx={{ mb: 0.5 }}>
         <Typography sx={{ fontSize: 36, fontWeight: 700, letterSpacing: "-1px", color: "text.primary" }}>
-          {isAnnual ? "$249" : "$29"}
+          {isAnnual ? "$999" : "$100"}
         </Typography>
         <Typography sx={{ fontSize: 14, color: "text.secondary", letterSpacing: "-0.2px" }}>
           {isAnnual ? "/yr" : "/mo"}
         </Typography>
       </Stack>
       <Typography sx={{ fontSize: 12, color: "text.secondary", letterSpacing: "-0.2px", mb: 2.5 }}>
-        {isAnnual ? "Save 28% · $20.75/mo" : "Cancel anytime."}
+        {isAnnual ? "Save 17% · $83.25/mo" : "Cancel anytime."}
       </Typography>
       <Stack gap={1}>
         {FEATURES[plan].map((f) => (
@@ -155,7 +161,7 @@ export function PricingModal() {
           onClick={() => subscribe(selected)}
           sx={{ height: 44, px: 3, fontSize: 15, fontWeight: 600 }}
         >
-          {selected === "annual" ? "Subscribe · $249/yr" : "Subscribe · $29/mo"}
+          {selected === "annual" ? "Subscribe · $999/yr" : "Subscribe · $100/mo"}
         </Button>
       </Stack>
     </Dialog>

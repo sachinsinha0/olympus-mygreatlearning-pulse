@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import type { PulseIssue } from "../../lib/pulse/types";
 import { formatIssueDate, formatDuration } from "../../lib/format";
 import { usePricing } from "../../lib/pulse/pricing";
+import { useUnitLabel } from "../../lib/pulse/terminology";
 import { IssueCover } from "./IssueCover";
 
 type Props = {
@@ -14,6 +15,7 @@ type Props = {
 export function PaidHero({ thisWeek, inProgress }: Props) {
   const navigate = useNavigate();
   const { state, openPricingModal } = usePricing();
+  const unit = useUnitLabel();
   const goToIssue = (id: string) => {
     if (state === "expired") openPricingModal();
     else navigate(`/pulse/issue/${id}`);
@@ -56,7 +58,7 @@ export function PaidHero({ thisWeek, inProgress }: Props) {
                 mb: 1,
               }}
             >
-              This week's release · Release {String(thisWeek.issueNumber).padStart(2, "0")}
+              This week's {unit.singular.toLowerCase()} · {unit.numbered(thisWeek.issueNumber)}
             </Typography>
             <Typography
               sx={{

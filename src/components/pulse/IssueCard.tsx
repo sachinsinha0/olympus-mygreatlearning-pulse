@@ -2,13 +2,14 @@ import { Box, Card, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import type { PulseIssue } from "../../lib/pulse/types";
 import { formatIssueDate, daysSince } from "../../lib/format";
+import { useUnitLabel } from "../../lib/pulse/terminology";
 import { IssueCover } from "./IssueCover";
 import { IssueMeta } from "./IssueMeta";
 
 export function IssueCard({ issue }: { issue: PulseIssue }) {
   const navigate = useNavigate();
+  const unit = useUnitLabel();
   const isNew = daysSince(issue.releasedAt) < 7;
-  const releaseLabel = String(issue.issueNumber).padStart(2, "0");
 
   return (
     <Card
@@ -34,7 +35,7 @@ export function IssueCard({ issue }: { issue: PulseIssue }) {
               color: "text.secondary",
             }}
           >
-            Release {releaseLabel} · {formatIssueDate(issue.releasedAt)}
+            {unit.numbered(issue.issueNumber)} · {formatIssueDate(issue.releasedAt)}
           </Typography>
           {isNew && (
             <Box

@@ -2,6 +2,7 @@ import { Box, InputBase, MenuItem, Select, Stack } from "@mui/material";
 import { Search } from "lucide-react";
 import type { TopicTag } from "../../lib/pulse/types";
 import { FILTER_TAGS, TAG_LABELS } from "../../lib/pulse/types";
+import { useUnitLabel } from "../../lib/pulse/terminology";
 
 export type SortKey = "latest" | "popular" | "rated";
 
@@ -22,6 +23,7 @@ type Props = {
 
 export function BrowseControls({ query, onQuery, activeTag, onTag, sort, onSort }: Props) {
   const chips: (TopicTag | "all")[] = ["all", ...FILTER_TAGS];
+  const unit = useUnitLabel();
   return (
     <Stack gap={2}>
       <Stack direction="row" gap={1.5} alignItems="center">
@@ -44,7 +46,7 @@ export function BrowseControls({ query, onQuery, activeTag, onTag, sort, onSort 
           <InputBase
             value={query}
             onChange={(e) => onQuery(e.target.value)}
-            placeholder="Search releases by title or topic"
+            placeholder={`Search ${unit.plural.toLowerCase()} by title or topic`}
             sx={{ flex: 1, fontSize: 14, color: "text.primary" }}
           />
         </Box>

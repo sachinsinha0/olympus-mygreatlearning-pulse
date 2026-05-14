@@ -18,7 +18,7 @@ export function SubscriptionCard(_props: Props = { variant: "active" }) {
   const { activeUntil, plan } = usePricing();
   const navigate = useNavigate();
   const planLabel = plan === "annual" ? "Annual" : "Monthly";
-  const priceLabel = plan ? PLAN_PRICE[plan].display : "$29/mo";
+  const priceLabel = plan ? PLAN_PRICE[plan].display : "$100/mo";
 
   return (
     <Box

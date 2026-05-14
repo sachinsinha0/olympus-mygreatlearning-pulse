@@ -4,8 +4,8 @@ export type PricingState = "trial" | "paid" | "expired";
 export type Plan = "monthly" | "annual";
 
 export const PLAN_PRICE: Record<Plan, { display: string; perMo: string }> = {
-  monthly: { display: "$29/mo", perMo: "$29/mo" },
-  annual: { display: "$249/yr", perMo: "$20.75/mo" },
+  monthly: { display: "$100/mo", perMo: "$100/mo" },
+  annual: { display: "$999/yr", perMo: "$83.25/mo" },
 };
 
 type PricingCtx = {
@@ -108,7 +108,7 @@ export function PricingProvider({ children }: { children: ReactNode }) {
   const closePricingModal = useCallback(() => setModalOpen(false), []);
 
   const startTrial = useCallback(() => {
-    setStored({ state: "trial", plan: null, activeUntil: daysFromNow(7), trialStartedAt: todayISO() });
+    setStored({ state: "trial", plan: null, activeUntil: daysFromNow(30), trialStartedAt: todayISO() });
   }, []);
 
   const subscribe = useCallback((p: Plan) => {

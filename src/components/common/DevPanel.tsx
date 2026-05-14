@@ -1,13 +1,21 @@
 import { useEffect, useState } from "react";
-import { Box, Drawer, IconButton, Stack, Typography } from "@mui/material";
-import { RotateCcw, X } from "lucide-react";
+import { Box, Drawer, IconButton, MenuItem, Select, Stack, Typography } from "@mui/material";
+import type { SelectChangeEvent } from "@mui/material";
+import { ChevronDown, RotateCcw, X } from "lucide-react";
 import { usePricing, type PricingState, type Plan } from "../../lib/pulse/pricing";
 import { useRelease, type Release, V1_ISSUE_LIMIT } from "../../lib/pulse/release";
+import {
+  useDesignVersion,
+  DESIGN_VERSIONS,
+  DEFAULT_DESIGN_VERSION,
+  type DesignVersion,
+} from "../../lib/pulse/designVersion";
 
 export function DevPanel() {
   const [open, setOpen] = useState(false);
   const { state, plan, activeUntil, trialStartedAt, setState, setPlan, setActiveUntil, startTrial, reset } = usePricing();
   const { release, setRelease } = useRelease();
+  const { designVersion, setDesignVersion } = useDesignVersion();
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -115,8 +123,8 @@ export function DevPanel() {
                 value={plan ?? "monthly"}
                 onChange={setPlan}
                 options={[
-                  { value: "monthly", label: "Monthly · $29/mo" },
-                  { value: "annual", label: "Annual · $249/yr" },
+                  { value: "monthly", label: "Monthly · $100/mo" },
+                  { value: "annual", label: "Annual · $999/yr" },
                 ]}
               />
             </Stack>
@@ -181,9 +189,88 @@ export function DevPanel() {
                 "&:hover": { color: "primary.main" },
               }}
             >
-              Reset to default (Trial · 7 days)
+              Reset to default (Trial · 30 days)
             </Typography>
           </Stack>
+        </Section>
+
+        <Box sx={{ height: 24 }} />
+
+        <Section title="Design Version">
+          <Select<DesignVersion>
+            value={designVersion}
+            onChange={(e: SelectChangeEvent<DesignVersion>) =>
+              setDesignVersion(e.target.value as DesignVersion)
+            }
+            IconComponent={(props) => (
+              <Box
+                {...props}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  pointerEvents: "none",
+                  pr: 1.25,
+                  color: "text.secondary",
+                }}
+              >
+                <ChevronDown size={16} />
+              </Box>
+            )}
+            sx={(theme) => ({
+              height: 40,
+              fontSize: 13,
+              fontWeight: 500,
+              bgcolor: "surfaceContainer.highest",
+              "& .MuiSelect-select": {
+                py: 1,
+                pl: 1.5,
+                pr: "32px !important",
+              },
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: theme.palette.outlineVariant.main,
+              },
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: theme.palette.text.disabled,
+              },
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                borderColor: theme.palette.primary.main,
+                borderWidth: 1,
+              },
+            })}
+            MenuProps={{
+              PaperProps: {
+                sx: {
+                  mt: 0.5,
+                  borderRadius: "10px",
+                  bgcolor: "surfaceContainer.highest",
+                  border: 1,
+                  borderColor: "outlineVariant.main",
+                  boxShadow: "0 8px 24px rgba(0,0,0,0.10)",
+                },
+              },
+            }}
+          >
+            {DESIGN_VERSIONS.map((opt) => (
+              <MenuItem
+                key={opt.value}
+                value={opt.value}
+                sx={{ py: 1, gap: 0.75 }}
+              >
+                <Typography
+                  sx={{ fontSize: 13, fontWeight: 500, color: "text.primary", lineHeight: 1.2 }}
+                >
+                  {opt.label}
+                </Typography>
+                {opt.value === DEFAULT_DESIGN_VERSION && (
+                  <Typography
+                    sx={{ fontSize: 11, color: "text.secondary", lineHeight: 1.2 }}
+                  >
+                    (Default)
+                  </Typography>
+                )}
+              </MenuItem>
+            ))}
+          </Select>
         </Section>
       </Box>
     </Drawer>

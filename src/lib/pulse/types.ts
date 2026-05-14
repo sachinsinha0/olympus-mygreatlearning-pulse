@@ -63,6 +63,8 @@ export type PulseIssue = {
   courseUrl: string;
   consumed?: boolean;
   progress?: number;
+  toolName?: string;
+  toolLogo?: string | null;
 };
 
 export const TAG_LABELS: Record<TopicTag, string> = {

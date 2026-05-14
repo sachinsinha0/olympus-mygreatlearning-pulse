@@ -1,9 +1,85 @@
 [
   {
+    "id": "pulse-12",
+    "issueNumber": 12,
+    "title": "OpenAI Codex",
+    "description": "The new Codex environment is properly agentic. What it does, where it beats Claude Code, where it still falls over.",
+    "releasedAt": "2026-05-27",
+    "durationMinutes": 50,
+    "tags": [
+      "multimodal",
+      "agents"
+    ],
+    "isFoundations": false,
+    "coverColor": "teal",
+    "author": {
+      "name": "TBA",
+      "role": "",
+      "bio": "",
+      "avatarUrl": null
+    },
+    "outcomes": [
+      "Tell Codex tasks apart from Claude Code tasks",
+      "Hook Codex into your existing PR review loop",
+      "Measure where the new Codex agent actually saves time"
+    ],
+    "curriculum": [],
+    "stats": {
+      "completionCount": 0,
+      "ratingCount": 0,
+      "ratingAvg": 0,
+      "weeklyReaders": 0,
+      "topDiscussionQuote": null
+    },
+    "courseUrl": "/courses/pulse-12",
+    "consumed": false,
+    "progress": 0,
+    "toolName": "OpenAI Codex",
+    "toolLogo": "/tool-logos/openai-codex.png"
+  },
+  {
+    "id": "pulse-11",
+    "issueNumber": 11,
+    "title": "Open Claw, The Open-Source Agent",
+    "description": "Open Claw is the open-source agent stack teams are quietly switching to. We try it, and report back.",
+    "releasedAt": "2026-06-10",
+    "durationMinutes": 50,
+    "tags": [
+      "agents",
+      "foundations"
+    ],
+    "isFoundations": false,
+    "coverColor": "deepPurple",
+    "author": {
+      "name": "TBA",
+      "role": "",
+      "bio": "",
+      "avatarUrl": null
+    },
+    "outcomes": [
+      "Stand up Open Claw against a real codebase in 30 minutes",
+      "Compare Open Claw output to Claude and Codex on the same task",
+      "Pick the integration points worth keeping when you switch later"
+    ],
+    "curriculum": [],
+    "stats": {
+      "completionCount": 0,
+      "ratingCount": 0,
+      "ratingAvg": 0,
+      "weeklyReaders": 0,
+      "topDiscussionQuote": null
+    },
+    "courseUrl": "/courses/pulse-11",
+    "consumed": false,
+    "progress": 0,
+    "toolName": "Open Claw",
+    "toolLogo": "/tool-logos/open-claw.png"
+  },
+  {
     "id": "pulse-10",
     "issueNumber": 10,
-    "title": "Claude Code, Cursor, and the New Coding Loop",
-    "description": "Agentic CLIs and IDEs have eaten autocomplete. What teams are actually shipping with Claude Code, Cursor, and Codex CLI in May 2026.",
+    "title": "Claude Cowork",
+    "description": "Claude Cowork lets multiple humans and an agent share one workspace. Where it actually works today, and where it still drags.",
     "releasedAt": "2026-05-13",
     "durationMinutes": 55,
     "tags": [
@@ -20,10 +96,9 @@
       "avatarUrl": null
     },
     "outcomes": [
-      "Pick between Claude Code, Cursor agent mode, and Codex CLI for your workflow",
-      "Wire a sub-agent to handle reviews, tests, or migrations",
-      "Run an AI code-review loop that doesn't rubber-stamp",
-      "Spot where agentic coding still backfires in May 2026"
+      "Wire Claude into a shared coworking session your team will actually use",
+      "Decide when to let the agent commit and when to keep it in draft",
+      "Spot the seams where multi-human + agent collaboration still cracks"
     ],
     "curriculum": [
       {
@@ -85,13 +160,15 @@
     },
     "courseUrl": "/courses/pulse-10",
     "consumed": false,
-    "progress": 0
+    "progress": 0,
+    "toolName": "Claude Cowork",
+    "toolLogo": "/tool-logos/claude-cowork.png"
   },
   {
     "id": "pulse-9",
     "issueNumber": 9,
-    "title": "Computer-Using Agents, In the Wild",
-    "description": "From Anthropic Computer Use to OpenAI Operator and Google's browsing agent: where these actually work today, and where they still need a human.",
+    "title": "Claude in Your Spreadsheet",
+    "description": "Claude sitting inside a spreadsheet: drop-in formulas, agent rows, and what changes when the cell is the prompt.",
     "releasedAt": "2026-04-29",
     "durationMinutes": 50,
     "tags": [
@@ -108,10 +185,9 @@
       "avatarUrl": null
     },
     "outcomes": [
-      "Map the computer-use landscape: Anthropic, OpenAI Operator, Project Mariner",
-      "Build a guarded browser task with rollback",
-      "Decide when an agent should ask vs act",
-      "Measure where browser agents reliably break"
+      "Pick the right shape of Claude call for a sheet workflow",
+      "Build an agent row that survives real messy data",
+      "Avoid the three failures every team hits in week two"
     ],
     "curriculum": [
       {
@@ -172,8 +248,10 @@
       "topDiscussionQuote": null
     },
     "courseUrl": "/courses/pulse-9",
-    "consumed": true,
-    "progress": 45
+    "consumed": false,
+    "progress": 0,
+    "toolName": "Claude",
+    "toolLogo": "/tool-logos/claude.png"
   },
   {
     "id": "pulse-8",
@@ -265,7 +343,9 @@
     },
     "courseUrl": "/courses/pulse-8",
     "consumed": true,
-    "progress": 100
+    "progress": 100,
+    "toolName": "Model Context Protocol",
+    "toolLogo": "https://cdn.simpleicons.org/anthropic"
   },
   {
     "id": "pulse-7",
@@ -353,7 +433,9 @@
     },
     "courseUrl": "/courses/pulse-7",
     "consumed": true,
-    "progress": 100
+    "progress": 100,
+    "toolName": "OpenAI o1 / Reasoning",
+    "toolLogo": null
   },
   {
     "id": "pulse-6",
@@ -440,7 +522,9 @@
     },
     "courseUrl": "/courses/pulse-6",
     "consumed": true,
-    "progress": 100
+    "progress": 100,
+    "toolName": "Veo & Sora",
+    "toolLogo": null
   },
   {
     "id": "pulse-5",
@@ -528,7 +612,9 @@
     },
     "courseUrl": "/courses/pulse-5",
     "consumed": true,
-    "progress": 100
+    "progress": 100,
+    "toolName": "Gemini Long-Context",
+    "toolLogo": "https://cdn.simpleicons.org/google"
   },
   {
     "id": "pulse-4",
@@ -616,7 +702,9 @@
     },
     "courseUrl": "/courses/pulse-4",
     "consumed": false,
-    "progress": 0
+    "progress": 0,
+    "toolName": "OpenAI Realtime API",
+    "toolLogo": null
   },
   {
     "id": "pulse-3",
@@ -708,7 +796,9 @@
     },
     "courseUrl": "/courses/pulse-3",
     "consumed": false,
-    "progress": 0
+    "progress": 0,
+    "toolName": "Evals Frameworks",
+    "toolLogo": null
   },
   {
     "id": "pulse-2",
@@ -795,7 +885,9 @@
     },
     "courseUrl": "/courses/pulse-2",
     "consumed": false,
-    "progress": 0
+    "progress": 0,
+    "toolName": "Cursor & Copilot",
+    "toolLogo": "https://cdn.simpleicons.org/github"
   },
   {
     "id": "pulse-1",
@@ -885,6 +977,8 @@
     },
     "courseUrl": "/courses/pulse-1",
     "consumed": false,
-    "progress": 0
+    "progress": 0,
+    "toolName": "Frontier Model Map",
+    "toolLogo": "https://cdn.simpleicons.org/anthropic"
   }
 ]

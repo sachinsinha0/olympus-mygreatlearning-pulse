@@ -3,6 +3,7 @@ import type { Theme } from "@mui/material/styles";
 import { Sparkles, Code2, Search, Brain, MessageSquare, Image as ImageIcon, ShieldCheck, Activity, BookOpen, Lightbulb, Plug } from "lucide-react";
 import type { CoverColor, PulseIssue, TopicTag } from "../../lib/pulse/types";
 import { glLight } from "../../theme/tokens";
+import { useUnitLabel } from "../../lib/pulse/terminology";
 
 const TAG_ICON: Record<TopicTag, typeof Sparkles> = {
   agents: Sparkles,
@@ -57,6 +58,7 @@ const ASPECT: Record<Variant, string> = {
 export function IssueCover({ issue, variant = "default" }: { issue: PulseIssue; variant?: Variant }) {
   const Icon = TAG_ICON[issue.tags[0] ?? "foundations"];
   const key = COLOR_KEY[issue.coverColor];
+  const unit = useUnitLabel();
 
   if (variant === "editorial") {
     return <EditorialCover issue={issue} colorKey={key} />;
@@ -114,7 +116,7 @@ export function IssueCover({ issue, variant = "default" }: { issue: PulseIssue; 
           position: "relative",
         }}
       >
-        Release {String(issue.issueNumber).padStart(2, "0")}
+        {unit.numbered(issue.issueNumber)}
       </Typography>
       {variant !== "small" && (
         <Box sx={{ position: "relative", textAlign: "right" }}>
@@ -132,6 +134,7 @@ function EditorialCover({
   issue: PulseIssue;
   colorKey: keyof Theme["palette"]["extended"] | "primary";
 }) {
+  const unit = useUnitLabel();
   const issueLabel = String(issue.issueNumber).padStart(2, "0");
   const tagLabel = TAG_LABEL[issue.tags[0] ?? "foundations"];
   const layout = issue.issueNumber % 3;
@@ -425,7 +428,7 @@ function EditorialCover({
               opacity: 0.7,
             }}
           >
-            Release {issueLabel}
+            {unit.numbered(issue.issueNumber)}
           </Typography>
         </Box>
       </Box>
