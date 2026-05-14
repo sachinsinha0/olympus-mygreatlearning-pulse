@@ -65,12 +65,7 @@ function PageLoaderOverlay({ visible }: { visible: boolean }) {
         left: 0,
         right: 0,
         bottom: 0,
-        bgcolor:
-          theme.palette.mode === "dark"
-            ? "rgba(13, 14, 17, 0.55)"
-            : "rgba(255, 255, 255, 0.65)",
-        backdropFilter: "blur(2px)",
-        WebkitBackdropFilter: "blur(2px)",
+        bgcolor: theme.palette.background.default,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
