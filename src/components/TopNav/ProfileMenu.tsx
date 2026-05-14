@@ -16,6 +16,7 @@ import {
   Moon,
   Sun,
   LogOut,
+  Wrench,
   type LucideIcon,
 } from "lucide-react";
 import { useColorMode } from "../../theme/ColorModeContext";
@@ -46,6 +47,11 @@ export function ProfileMenu() {
       label: mode === "dark" ? "Change to light mode" : "Change to dark mode",
       Icon: mode === "dark" ? Sun : Moon,
       onClick: toggle,
+    },
+    {
+      label: "Open Dev Panel",
+      Icon: Wrench,
+      onClick: () => window.dispatchEvent(new Event("dev-panel:open")),
     },
     { label: "Logout", Icon: LogOut },
   ];

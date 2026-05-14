@@ -35,8 +35,13 @@ export function DevPanel() {
         setOpen(false);
       }
     };
+    const onOpen = () => setOpen(true);
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    window.addEventListener("dev-panel:open", onOpen);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("dev-panel:open", onOpen);
+    };
   }, [open]);
 
   return (
