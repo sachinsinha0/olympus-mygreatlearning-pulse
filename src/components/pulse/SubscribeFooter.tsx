@@ -5,6 +5,91 @@ import { usePricing } from "../../lib/pulse/pricing";
 export function SubscribeFooter() {
   const { openPricingModal } = usePricing();
 
+  const iconTile = (
+    <Box
+      sx={(theme) => ({
+        width: 48,
+        height: 48,
+        borderRadius: "12px",
+        bgcolor: theme.palette.primary.light,
+        color: theme.palette.primary.main,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexShrink: 0,
+        border: `1px solid ${theme.palette.outlineVariant.main}`,
+      })}
+    >
+      <CalendarClock size={22} strokeWidth={2} />
+    </Box>
+  );
+
+  const eyebrow = (
+    <Typography
+      sx={{
+        fontSize: 11,
+        fontWeight: 700,
+        letterSpacing: 1.4,
+        textTransform: "uppercase",
+        color: "primary.main",
+        lineHeight: "16px",
+      }}
+    >
+      New module every two weeks
+    </Typography>
+  );
+
+  const titleEl = (
+    <Typography
+      sx={{
+        fontSize: { xs: 18, md: 20 },
+        fontWeight: 700,
+        letterSpacing: "-0.4px",
+        lineHeight: 1.25,
+        color: "text.primary",
+      }}
+    >
+      Get every new module the day it drops.
+    </Typography>
+  );
+
+  const bodyEl = (
+    <Typography
+      sx={{
+        fontSize: 14,
+        color: "text.secondary",
+        lineHeight: 1.5,
+        maxWidth: 620,
+      }}
+    >
+      Subscribe and you'll see each release the moment it's live, plus the
+      full archive of past modules whenever you want to revisit one.
+    </Typography>
+  );
+
+  const subscribeButton = (fullWidth: boolean) => (
+    <Button
+      variant="contained"
+      disableElevation
+      endIcon={<ArrowRight size={18} />}
+      onClick={openPricingModal}
+      sx={{
+        height: fullWidth ? 44 : 40,
+        px: 2,
+        width: fullWidth ? "100%" : "auto",
+        fontSize: 15,
+        fontWeight: 500,
+        letterSpacing: "-0.2px",
+        whiteSpace: "nowrap",
+        flexShrink: 0,
+        borderRadius: "8px",
+        textTransform: "none",
+      }}
+    >
+      Subscribe to Pulse
+    </Button>
+  );
+
   return (
     <Box
       sx={(theme) => ({
@@ -17,14 +102,15 @@ export function SubscribeFooter() {
           theme.palette.mode === "dark"
             ? "0 6px 24px rgba(0,0,0,0.35)"
             : "0 8px 28px rgba(15, 23, 42, 0.06)",
-        px: { xs: 2.5, md: 4 },
-        py: { xs: 3, md: 3.5 },
+        px: { xs: 2, md: 4 },
+        py: { xs: 2, md: 3.5 },
       })}
     >
-      {/* Subtle glow accent in the top-right */}
+      {/* Subtle glow accent in the top-right — desktop only; on mobile it overlaps the stacked content */}
       <Box
         aria-hidden
         sx={(theme) => ({
+          display: { xs: "none", md: "block" },
           position: "absolute",
           top: -40,
           right: -60,
@@ -36,89 +122,39 @@ export function SubscribeFooter() {
         })}
       />
 
+      {/* Desktop layout (md+) — icon + content on left, CTA right-aligned */}
       <Stack
-        direction={{ xs: "column", md: "row" }}
-        gap={{ xs: 2, md: 3 }}
-        alignItems={{ xs: "flex-start", md: "center" }}
+        direction="row"
+        gap={3}
+        alignItems="center"
         justifyContent="space-between"
-        sx={{ position: "relative" }}
+        sx={{ position: "relative", display: { xs: "none", md: "flex" } }}
       >
         <Stack direction="row" gap={2.25} alignItems="flex-start" sx={{ minWidth: 0 }}>
-          <Box
-            sx={(theme) => ({
-              width: 48,
-              height: 48,
-              borderRadius: "12px",
-              bgcolor: theme.palette.primary.light,
-              color: theme.palette.primary.main,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              flexShrink: 0,
-              border: `1px solid ${theme.palette.outlineVariant.main}`,
-            })}
-          >
-            <CalendarClock size={22} strokeWidth={2} />
-          </Box>
+          {iconTile}
           <Stack gap={0.75} sx={{ minWidth: 0 }}>
-            <Typography
-              sx={{
-                fontSize: 11,
-                fontWeight: 700,
-                letterSpacing: 1.4,
-                textTransform: "uppercase",
-                color: "primary.main",
-                lineHeight: "16px",
-              }}
-            >
-              New module every two weeks
-            </Typography>
-            <Typography
-              sx={{
-                fontSize: { xs: 18, md: 20 },
-                fontWeight: 700,
-                letterSpacing: "-0.4px",
-                lineHeight: 1.25,
-                color: "text.primary",
-              }}
-            >
-              Get every new module the day it drops.
-            </Typography>
-            <Typography
-              sx={{
-                fontSize: 14,
-                color: "text.secondary",
-                lineHeight: 1.5,
-                maxWidth: 620,
-              }}
-            >
-              Subscribe and you'll see each release the moment it's live, plus the
-              full archive of past modules whenever you want to revisit one.
-            </Typography>
+            {eyebrow}
+            {titleEl}
+            {bodyEl}
           </Stack>
         </Stack>
+        {subscribeButton(false)}
+      </Stack>
 
-        <Button
-          variant="contained"
-          disableElevation
-          endIcon={<ArrowRight size={18} />}
-          onClick={openPricingModal}
-          sx={{
-            height: { xs: 44, md: 40 },
-            px: 2,
-            width: { xs: "100%", md: "auto" },
-            fontSize: 15,
-            fontWeight: 500,
-            letterSpacing: "-0.2px",
-            whiteSpace: "nowrap",
-            flexShrink: 0,
-            alignSelf: { xs: "stretch", md: "center" },
-            borderRadius: "8px",
-            textTransform: "none",
-          }}
-        >
-          Subscribe to Pulse
-        </Button>
+      {/* Mobile layout (xs/sm) — same shape as ModuleListCard mobile: header [icon][eyebrow+title], then body, then full-width CTA */}
+      <Stack
+        gap={1.5}
+        sx={{ position: "relative", display: { xs: "flex", md: "none" } }}
+      >
+        <Stack direction="row" gap={2} alignItems="flex-start">
+          {iconTile}
+          <Stack gap={0.5} sx={{ flex: 1, minWidth: 0 }}>
+            {eyebrow}
+            {titleEl}
+          </Stack>
+        </Stack>
+        {bodyEl}
+        {subscribeButton(true)}
       </Stack>
     </Box>
   );

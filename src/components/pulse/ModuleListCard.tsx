@@ -290,9 +290,9 @@ export function ModuleListCard({
             {titleEl}
           </Stack>
         </Stack>
-        {!isLocked && descriptionEl}
+        {descriptionEl}
         {ctaButton(false)}
-        {!isLocked && outcomesBlock}
+        {outcomesBlock}
       </Stack>
     </Card>
   );
