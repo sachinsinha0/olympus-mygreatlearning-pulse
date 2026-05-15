@@ -124,7 +124,10 @@ export const magnaSpacing = (step: number): number => {
 export const breakpoints = {
   xs: 360,
   sm: 600,
-  md: 768,
+  // md was 768 (iPad portrait) but the mobile UI works through tablet too.
+  // Lift md to 1024 so tablet (iPad/Air/Pro 11") renders the mobile responsive UI,
+  // and desktop responsive UI only kicks in at iPad Pro 13" / laptop (1024+).
+  md: 1024,
   lg: 1024,
   xl: 1280,
   xl2: 1536,

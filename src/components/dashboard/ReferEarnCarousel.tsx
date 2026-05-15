@@ -68,7 +68,7 @@ export function ReferEarnCarousel() {
   }, []);
 
   return (
-    <Stack gap={1.5}>
+    <Stack gap={1}>
       <Box
         ref={viewportRef}
         onMouseEnter={() => setPaused(true)}
