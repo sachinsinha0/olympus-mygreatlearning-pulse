@@ -22,16 +22,16 @@ type PillarItem = { title: string; body: string };
 
 const PILLARS: PillarItem[] = [
   {
-    title: "New module every two weeks",
-    body: "New module every two weeks, 26 a year. Your AI knowledge keeps pace with the field.",
+    title: "A real curriculum, not a feed to scroll",
+    body: "Modules are sequenced as AI evolves, so you build a real map of the field, not scattered videos.",
   },
   {
-    title: "Hands-on demos",
-    body: "Module ends with a hands-on demo, not just videos to watch. You finish with a skill you can apply.",
+    title: "If we couldn't use it, we don't ship it",
+    body: "Every module is tested by our team on real work first, so what you learn is what actually delivers.",
   },
   {
-    title: "Sequenced and outcome-driven",
-    body: "Each release builds on the last, moving from awareness to understanding to application.",
+    title: "Something you actually use at work",
+    body: "Pulse helps you apply what you learn in real work, not just finish more videos and modules.",
   },
 ];
 
