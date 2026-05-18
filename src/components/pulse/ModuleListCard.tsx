@@ -179,7 +179,7 @@ export function ModuleListCard({
   );
 
   const outcomesBlock = outcomes.length > 0 && (
-    <Stack gap={0.875} sx={{ mt: 0.5 }}>
+    <Stack gap={1.25} sx={{ mt: 0.5 }}>
       {outcomes.map((o, i) => (
         <Stack
           key={i}
@@ -220,7 +220,7 @@ export function ModuleListCard({
       onClick={onCardClick}
       sx={(theme) => ({
         cursor: isUpcoming ? "default" : "pointer",
-        p: { xs: 2, md: 3 },
+        p: { xs: 2.5, md: 3 },
         borderRadius: "12px",
         opacity: isUpcoming ? 0.65 : isLocked ? 0.78 : 1,
         transition:
@@ -255,10 +255,10 @@ export function ModuleListCard({
       </Box>
 
       {/* Mobile layout (xs/sm) — Figma-style: header row uses logo+title only, then description/CTA/outcomes span full card width */}
-      <Stack gap={1.5} sx={{ display: { xs: "flex", md: "none" } }}>
+      <Stack gap={2.5} sx={{ display: { xs: "flex", md: "none" } }}>
         <Stack direction="row" gap={2} alignItems="flex-start">
           <ToolLogo issue={issue} />
-          <Stack gap={0.5} sx={{ flex: 1, minWidth: 0 }}>
+          <Stack gap={0.75} sx={{ flex: 1, minWidth: 0 }}>
             {eyebrowRow}
             {titleEl}
           </Stack>

@@ -29,8 +29,8 @@ export function PricingModal() {
         sx: {
           bgcolor: "background.paper",
           borderRadius: { xs: "14px", md: "16px" },
-          m: { xs: 1.5, md: 2 },
-          width: { xs: "calc(100% - 24px)", md: 520 },
+          m: { xs: 2, md: 2 },
+          width: { xs: "calc(100% - 32px)", md: 520 },
           maxWidth: { md: 520 },
           overflow: "visible",
         },
