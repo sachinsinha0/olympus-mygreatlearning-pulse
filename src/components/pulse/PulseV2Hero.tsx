@@ -210,9 +210,9 @@ function MarketingHero() {
           sx={{
             position: "absolute",
             right: -56,
-            top: -40,
+            top: -56,
             bottom: 0,
-            height: "118%",
+            height: "128%",
             width: "auto",
             display: { xs: "none", lg: "block" },
             pointerEvents: "none",
@@ -230,8 +230,8 @@ function MarketingHero() {
           sx={{
             position: "relative",
             px: { xs: 2, md: 5 },
-            pt: { xs: 2, md: 4 },
-            pb: { xs: 2, md: 4 },
+            pt: { xs: 2, md: 5 },
+            pb: { xs: 2, md: 5 },
             maxWidth: { xs: "100%", lg: 620 },
           }}
         >

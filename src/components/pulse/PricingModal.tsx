@@ -24,14 +24,13 @@ export function PricingModal() {
       open={pricingModalOpen}
       onClose={closePricingModal}
       maxWidth={false}
-      fullWidth
       PaperProps={{
         sx: {
           bgcolor: "background.paper",
           borderRadius: { xs: "14px", md: "16px" },
           m: { xs: 2, md: 2 },
           width: { xs: "calc(100% - 32px)", md: 520 },
-          maxWidth: { md: 520 },
+          maxWidth: { xs: "calc(100% - 32px)", md: 520 },
           overflow: "visible",
         },
       }}

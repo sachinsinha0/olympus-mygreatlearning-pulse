@@ -1,7 +1,6 @@
-import { useMemo, useState } from "react";
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, Typography } from "@mui/material";
-import { Activity, BookOpen, CheckCircle2, Sparkles } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useMemo } from "react";
+import { Box, Stack, Typography } from "@mui/material";
+import { BookOpen, CheckCircle2, Clock4, Monitor, Sparkles } from "lucide-react";
 import { TopNav } from "../../components/TopNav/TopNav";
 import { usePricing } from "../../lib/pulse/pricing";
 import { useLearningProgress } from "../../lib/pulse/learningProgress";
@@ -20,10 +19,8 @@ function formatDate(d: string | null): string {
 }
 
 export function SubscriptionPage() {
-  const navigate = useNavigate();
-  const { state, activeUntil, setState } = usePricing();
+  const { state, activeUntil } = usePricing();
   const { hasStarted, hasCompleted } = useLearningProgress();
-  const [cancelOpen, setCancelOpen] = useState(false);
 
   const isPaid = state === "paid";
   const planLabel = "Annual";
@@ -42,24 +39,14 @@ export function SubscriptionPage() {
     };
   }, [hasStarted, hasCompleted]);
 
-  const onCancel = () => {
-    setState("expired");
-    setCancelOpen(false);
-    navigate("/pulse");
-  };
-
   return (
     <Box sx={{ minHeight: "100vh", bgcolor: "background.default" }}>
       <TopNav />
       <Box sx={{ maxWidth: 640, mx: "auto", px: { xs: 2, sm: 3, md: 0 }, pt: 3, pb: 6 }}>
         {isPaid ? (
           <Stack gap={2}>
-            <PlanHeroCard
-              planLabel={planLabel}
-              renewsOn={activeUntil}
-            />
+            <PlanHeroCard planLabel={planLabel} renewsOn={activeUntil} />
             <LearningJourneyCard stats={stats} />
-            <CancelRow onCancel={() => setCancelOpen(true)} />
           </Stack>
         ) : (
           <>
@@ -72,30 +59,6 @@ export function SubscriptionPage() {
           </>
         )}
       </Box>
-
-      <Dialog open={cancelOpen} onClose={() => setCancelOpen(false)} maxWidth="xs" fullWidth>
-        <DialogTitle sx={{ fontSize: 18, fontWeight: 700, letterSpacing: "-0.3px" }}>
-          Cancel subscription?
-        </DialogTitle>
-        <DialogContent>
-          <Typography sx={{ fontSize: 14, color: "text.secondary", lineHeight: 1.5 }}>
-            Your access ends on {formatDate(activeUntil)}. After that, your archive is locked and you'll miss the new module dropping every two weeks.
-          </Typography>
-        </DialogContent>
-        <DialogActions sx={{ px: 3, pb: 2.5 }}>
-          <Button onClick={() => setCancelOpen(false)} sx={{ textTransform: "none", fontWeight: 500 }}>
-            Keep subscription
-          </Button>
-          <Button
-            onClick={onCancel}
-            variant="outlined"
-            color="error"
-            sx={{ textTransform: "none", fontWeight: 600 }}
-          >
-            Cancel anyway
-          </Button>
-        </DialogActions>
-      </Dialog>
     </Box>
   );
 }
@@ -179,9 +142,9 @@ function LearningJourneyCard({
 }) {
   const tiles: StatTile[] = [
     { label: "Modules Started", value: stats.modulesStarted, icon: <BookOpen size={20} strokeWidth={2} />, toneKey: "indigo" },
+    { label: "In Progress", value: stats.modulesInProgress, icon: <Clock4 size={20} strokeWidth={2} />, toneKey: "purple" },
     { label: "Modules Completed", value: stats.modulesCompleted, icon: <CheckCircle2 size={20} strokeWidth={2} />, toneKey: "teal" },
-    { label: "In Progress", value: stats.modulesInProgress, icon: <Activity size={20} strokeWidth={2} />, toneKey: "purple" },
-    { label: "Hands-on Demos Completed", value: stats.demosCompleted, icon: <Sparkles size={20} strokeWidth={2} />, toneKey: "deepOrange" },
+    { label: "Hands-on Demos Completed", value: stats.demosCompleted, icon: <Monitor size={20} strokeWidth={2} />, toneKey: "deepOrange" },
   ];
 
   return (
@@ -201,6 +164,8 @@ function LearningJourneyCard({
         sx={{
           display: "grid",
           gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
+          gridTemplateRows: { sm: "1fr 1fr" },
+          gridAutoFlow: { xs: "row", sm: "column" },
           rowGap: 2,
           columnGap: 3,
         }}
@@ -243,27 +208,3 @@ function StatRow({ tile }: { tile: StatTile }) {
   );
 }
 
-function CancelRow({ onCancel }: { onCancel: () => void }) {
-  return (
-    <Box sx={{ mt: 1, textAlign: "center" }}>
-      <Box
-        component="button"
-        onClick={onCancel}
-        sx={(theme) => ({
-          background: "none",
-          border: "none",
-          p: 0,
-          cursor: "pointer",
-          fontFamily: "inherit",
-          fontSize: 13,
-          fontWeight: 500,
-          color: theme.palette.text.secondary,
-          letterSpacing: "-0.2px",
-          "&:hover": { color: theme.palette.error.main, textDecoration: "underline" },
-        })}
-      >
-        Cancel subscription
-      </Box>
-    </Box>
-  );
-}
