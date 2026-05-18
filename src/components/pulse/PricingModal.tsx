@@ -4,9 +4,9 @@ import { usePricing } from "../../lib/pulse/pricing";
 import { usePageLoader } from "../common/PageLoader";
 
 const FEATURES = [
-  "New tools and trends every two weeks.",
+  "New AI tools and trends every two weeks.",
   "30–60 minutes, designed to fit your schedule.",
-  "Apply what you learn in real projects.",
+  "Apply what you learn at work immediately.",
 ];
 
 export function PricingModal() {

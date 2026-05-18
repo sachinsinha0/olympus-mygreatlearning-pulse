@@ -23,7 +23,7 @@ type PillarItem = { title: string; body: string; Icon: LucideIcon };
 const PILLARS: PillarItem[] = [
   {
     title: "Stay ahead of the AI curve",
-    body: "New tools and trends every two weeks.",
+    body: "New AI tools and trends every two weeks.",
     Icon: Sparkles,
   },
   {
@@ -33,7 +33,7 @@ const PILLARS: PillarItem[] = [
   },
   {
     title: "Use it at work",
-    body: "Apply what you learn in real projects.",
+    body: "Apply what you learn at work immediately.",
     Icon: Briefcase,
   },
 ];
@@ -88,7 +88,7 @@ function useHeroCopy(): HeroCopy {
     </>
   );
   const subtitle =
-    "A biweekly learning module on the AI tools, models, and workflows reshaping work, distilled into 30–60 minutes you can actually apply.";
+    "A biweekly learning module on the new AI tools, models, and workflows reshaping work, distilled into 30–60 minutes you can actually apply.";
 
   if (trialActive || trialEnded) {
     return {

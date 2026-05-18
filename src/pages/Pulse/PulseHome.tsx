@@ -37,7 +37,7 @@ export function PulseHome() {
         <Stack gap={4} sx={{ mt: 4 }}>
           {groups.released.length > 0 && (
             <Stack id="released-modules" gap={2} sx={{ scrollMarginTop: 96 }}>
-              <SectionHeader title="AI Pulse Modules" count={groups.released.length} />
+              <SectionHeader title="AI Pulse Modules" />
               <Stack gap={1.5}>
                 {groups.released.map((issue, i) => (
                   <ModuleListCard
