@@ -67,16 +67,8 @@ export function PulseHome() {
           )}
         </Stack>
 
-        {!isPaid && (
-          <Box
-            sx={{
-              mt: { xs: 5, md: 6 },
-              display: {
-                xs: state === "expired" || trialExpired ? "none" : "block",
-                md: "block",
-              },
-            }}
-          >
+        {!isPaid && state !== "expired" && !trialExpired && (
+          <Box sx={{ mt: { xs: 5, md: 6 } }}>
             <SubscribeFooter />
           </Box>
         )}

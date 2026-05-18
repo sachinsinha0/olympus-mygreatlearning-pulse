@@ -1,5 +1,5 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
-import { ArrowRight, CalendarClock } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { usePricing } from "../../lib/pulse/pricing";
 
 export function SubscribeFooter() {
@@ -20,7 +20,7 @@ export function SubscribeFooter() {
         border: `1px solid ${theme.palette.outlineVariant.main}`,
       })}
     >
-      <CalendarClock size={22} strokeWidth={2} />
+      <Sparkles size={22} strokeWidth={2} />
     </Box>
   );
 
