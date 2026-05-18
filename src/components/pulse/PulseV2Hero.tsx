@@ -1,10 +1,9 @@
 import { useMemo, useState } from "react";
 import { Box, Button, CircularProgress, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, CalendarClock, Lock, Play } from "lucide-react";
-import { isTrialExpired, usePricing } from "../../lib/pulse/pricing";
-import { useLearningProgress } from "../../lib/pulse/learningProgress";
-import { usePageLoader } from "../common/PageLoader";
+import { ArrowRight, Briefcase, CalendarClock, Clock, Lock, Sparkles } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+import { daysUntil, isTrialExpired, usePricing } from "../../lib/pulse/pricing";
 import type { PulseIssue } from "../../lib/pulse/types";
 import issuesData from "../../mocks/pulse-issues.json";
 
@@ -16,22 +15,26 @@ type HeroCopy = {
   primaryCtaLabel: string;
   onPrimaryCta: () => void;
   ctaMode: CtaMode;
+  trialStatus?: { expiresAt: string; daysLeft: number };
 };
 
-type PillarItem = { title: string; body: string };
+type PillarItem = { title: string; body: string; Icon: LucideIcon };
 
 const PILLARS: PillarItem[] = [
   {
-    title: "A real curriculum, not a feed to scroll",
-    body: "Modules are sequenced as AI evolves, so you build a real map of the field, not scattered videos.",
+    title: "Stay ahead of the AI curve",
+    body: "New tools and trends every two weeks.",
+    Icon: Sparkles,
   },
   {
-    title: "If we couldn't use it, we don't ship it",
-    body: "Every module is tested by our team on real work first, so what you learn is what actually delivers.",
+    title: "Bite-sized modules",
+    body: "30–60 minutes, designed to fit your schedule.",
+    Icon: Clock,
   },
   {
-    title: "Something you actually use at work",
-    body: "Pulse helps you apply what you learn in real work, not just finish more videos and modules.",
+    title: "Use it at work",
+    body: "Apply what you learn in real projects.",
+    Icon: Briefcase,
   },
 ];
 
@@ -65,19 +68,27 @@ function scrollToModules() {
 }
 
 function useHeroCopy(): HeroCopy {
+  const navigate = useNavigate();
   const { state, trialStartedAt, activeUntil, startTrial, openPricingModal } = usePricing();
+
+  const firstModule = useMemo(() => {
+    const today = new Date().toISOString().slice(0, 10);
+    return [...allIssues]
+      .filter((i) => i.releasedAt <= today)
+      .sort((a, b) => b.releasedAt.localeCompare(a.releasedAt))[0];
+  }, []);
   const trialActive = state === "trial" && !!trialStartedAt && !isTrialExpired(state, trialStartedAt, activeUntil);
   const trialEnded = isTrialExpired(state, trialStartedAt, activeUntil);
 
   const headline = (
     <>
-      AI moves faster than any curriculum.
+      AI moves fast.
       <br />
       Pulse keeps you ahead.
     </>
   );
   const subtitle =
-    "A new applied module every two weeks on what's actually shipping in AI. You leave each one with a skill you can use.";
+    "A biweekly learning module on the AI tools, models, and workflows reshaping work, distilled into 30–60 minutes you can actually apply.";
 
   if (trialActive || trialEnded) {
     return {
@@ -86,6 +97,10 @@ function useHeroCopy(): HeroCopy {
       primaryCtaLabel: "Subscribe to Pulse",
       onPrimaryCta: openPricingModal,
       ctaMode: "none",
+      trialStatus:
+        trialActive && activeUntil
+          ? { expiresAt: activeUntil, daysLeft: daysUntil(activeUntil) }
+          : undefined,
     };
   }
 
@@ -95,7 +110,11 @@ function useHeroCopy(): HeroCopy {
     primaryCtaLabel: "Start 30-day trial",
     onPrimaryCta: () => {
       startTrial();
-      setTimeout(scrollToModules, 40);
+      if (firstModule) {
+        navigate(`/pulse/course?module=${firstModule.id}&trial=started`);
+      } else {
+        setTimeout(scrollToModules, 40);
+      }
     },
     ctaMode: "button-loader",
   };
@@ -216,6 +235,7 @@ function MarketingHero() {
             maxWidth: { xs: "100%", lg: 620 },
           }}
         >
+          {copy.trialStatus && <TrialStatusChip status={copy.trialStatus} />}
           <Typography
             component="h1"
             sx={{
@@ -283,8 +303,11 @@ function MarketingHero() {
         })}
       >
         {PILLARS.map((p, i) => (
-          <Box
+          <Stack
             key={p.title}
+            direction="row"
+            alignItems="flex-start"
+            gap={1.25}
             sx={(theme) => ({
               px: { xs: 2.5, md: 2.5 },
               py: { xs: 1.5, md: 2 },
@@ -299,60 +322,79 @@ function MarketingHero() {
               },
             })}
           >
-            <Typography
-              sx={{
-                fontSize: 14,
-                fontWeight: 600,
-                lineHeight: "20px",
-                color: "rgba(33, 33, 33, 0.92)",
-                mb: { xs: 0, md: 0.5 },
-              }}
+            <Box
+              sx={(theme) => ({
+                flexShrink: 0,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: theme.palette.primary.main,
+                mt: "1px",
+              })}
             >
-              {p.title}
-            </Typography>
-            <Typography
-              sx={{
-                display: { xs: "none", md: "block" },
-                fontSize: 14,
-                lineHeight: 1.43,
-                color: "rgba(33, 33, 33, 0.72)",
-              }}
-            >
-              {p.body}
-            </Typography>
-          </Box>
+              <p.Icon size={18} strokeWidth={2} />
+            </Box>
+            <Stack gap={0.5} sx={{ minWidth: 0 }}>
+              <Typography
+                sx={{
+                  fontSize: 14,
+                  fontWeight: 600,
+                  lineHeight: "20px",
+                  color: "rgba(33, 33, 33, 0.92)",
+                }}
+              >
+                {p.title}
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: 14,
+                  lineHeight: 1.43,
+                  color: "rgba(33, 33, 33, 0.72)",
+                }}
+              >
+                {p.body}
+              </Typography>
+            </Stack>
+          </Stack>
         ))}
       </Box>
     </Box>
   );
 }
 
+function TrialStatusChip({ status }: { status: { expiresAt: string; daysLeft: number } }) {
+  const expiry = new Date(status.expiresAt).toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+  return (
+    <Box
+      sx={(theme) => ({
+        alignSelf: "flex-start",
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 0.75,
+        px: 1.25,
+        py: 0.625,
+        bgcolor: theme.palette.primary.light,
+        color: theme.palette.primary.main,
+        borderRadius: "8px",
+        fontSize: 13,
+        fontWeight: 600,
+        letterSpacing: "-0.1px",
+        lineHeight: "18px",
+      })}
+    >
+      <CalendarClock size={15} strokeWidth={2.25} />
+      <span>Free trial is active till {expiry}</span>
+    </Box>
+  );
+}
+
 function PaidWelcomeStrip() {
   const navigate = useNavigate();
-  const { runWithPageLoader } = usePageLoader();
-  const { hasStarted } = useLearningProgress();
   const goToManage = () => navigate("/pulse/subscription");
-
-  // Chronological ordering for "Module N" labels — oldest = 1, newest = last.
-  const chronoNumber = useMemo(() => {
-    const sorted = [...allIssues].sort((a, b) => a.releasedAt.localeCompare(b.releasedAt));
-    const map = new Map<string, number>();
-    sorted.forEach((i, idx) => map.set(i.id, idx + 1));
-    return (id: string) => map.get(id) ?? 0;
-  }, []);
-
-  const resumeIssue = useMemo(() => {
-    const today = new Date().toISOString().slice(0, 10);
-    const released = allIssues
-      .filter((i) => i.releasedAt <= today)
-      .sort((a, b) => b.releasedAt.localeCompare(a.releasedAt));
-    return released.find((i) => hasStarted(i.id));
-  }, [hasStarted]);
-
-  const onResume = () => {
-    if (!resumeIssue) return;
-    runWithPageLoader(() => navigate(`/pulse/course?module=${resumeIssue.id}`), 700);
-  };
 
   return (
     <Box
@@ -385,14 +427,14 @@ function PaidWelcomeStrip() {
           </Typography>
           <Box
             sx={(theme) => ({
-              px: 1,
-              py: 0.5,
-              borderRadius: "6px",
+              px: 1.25,
+              py: 0.625,
+              borderRadius: "8px",
               bgcolor: theme.palette.primary.light,
               color: theme.palette.primary.main,
             })}
           >
-            <Typography sx={{ fontSize: 12, fontWeight: 600, letterSpacing: "-0.2px" }}>
+            <Typography sx={{ fontSize: 13, fontWeight: 600, letterSpacing: "-0.1px", lineHeight: "18px" }}>
               Subscription Active
             </Typography>
           </Box>
@@ -437,70 +479,6 @@ function PaidWelcomeStrip() {
         A new applied module on what's actually shipping in AI. You leave each one with a skill you can use.
       </Typography>
 
-      {/* Continue where you left — only shown once user has started at least one module */}
-      {resumeIssue && (
-        <Box
-          sx={(theme) => ({
-            mt: 2.5,
-            px: { xs: 2, md: 2.5 },
-            py: 2,
-            borderRadius: "10px",
-            bgcolor: theme.palette.primary.light,
-          })}
-        >
-          <Stack
-            direction={{ xs: "column", sm: "row" }}
-            gap={{ xs: 1.5, sm: 2 }}
-            alignItems={{ xs: "stretch", sm: "center" }}
-            justifyContent="space-between"
-          >
-            <Stack gap={0.5} sx={{ minWidth: 0, flex: 1 }}>
-              <Typography
-                sx={{
-                  fontSize: 11,
-                  fontWeight: 700,
-                  letterSpacing: 1.4,
-                  textTransform: "uppercase",
-                  color: "primary.main",
-                }}
-              >
-                Continue where you left
-              </Typography>
-              <Typography
-                sx={{
-                  fontSize: 16,
-                  fontWeight: 600,
-                  color: "text.primary",
-                  letterSpacing: "-0.2px",
-                  lineHeight: 1.3,
-                }}
-              >
-                Module {chronoNumber(resumeIssue.id)} · {resumeIssue.title}
-              </Typography>
-            </Stack>
-            <Button
-              variant="contained"
-              disableElevation
-              startIcon={<Play size={14} fill="currentColor" />}
-              onClick={onResume}
-              sx={{
-                height: { xs: 44, sm: 40 },
-                px: 2.25,
-                width: { xs: "100%", sm: "auto" },
-                fontSize: 14,
-                fontWeight: 600,
-                whiteSpace: "nowrap",
-                borderRadius: "8px",
-                textTransform: "none",
-                flexShrink: 0,
-                alignSelf: { xs: "stretch", sm: "center" },
-              }}
-            >
-              Resume
-            </Button>
-          </Stack>
-        </Box>
-      )}
     </Box>
   );
 }
@@ -625,7 +603,14 @@ function ExpiredBanner() {
 }
 
 function TrialExpiredBanner() {
-  const { openPricingModal } = usePricing();
+  const { openPricingModal, activeUntil } = usePricing();
+  const endedOn = activeUntil
+    ? new Date(activeUntil).toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      })
+    : null;
 
   return (
     <Box
@@ -687,7 +672,7 @@ function TrialExpiredBanner() {
                 color: theme.palette.extended.warning.color,
               })}
             >
-              Free trial ended
+              {endedOn ? `Free trial ended · ${endedOn}` : "Free trial ended"}
             </Typography>
             <Typography
               sx={{

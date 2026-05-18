@@ -137,14 +137,14 @@ function PlanHeroCard({
           <Box
             sx={(theme) => ({
               alignSelf: "flex-start",
-              px: 1,
-              py: 0.375,
-              borderRadius: "6px",
+              px: 1.25,
+              py: 0.625,
+              borderRadius: "8px",
               bgcolor: theme.palette.primary.light,
               color: theme.palette.primary.main,
             })}
           >
-            <Typography sx={{ fontSize: 11, fontWeight: 600, letterSpacing: "-0.2px" }}>
+            <Typography sx={{ fontSize: 13, fontWeight: 600, letterSpacing: "-0.1px", lineHeight: "18px" }}>
               Active
             </Typography>
           </Box>

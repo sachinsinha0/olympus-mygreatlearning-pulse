@@ -1,7 +1,7 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Box, Button, Card, Stack, Tab, Tabs, Typography } from "@mui/material";
-import { Bell, BookOpen, Play, PlayCircle } from "lucide-react";
+import { Box, Button, Card, Dialog, Stack, Tab, Tabs, Typography } from "@mui/material";
+import { BookOpen, PartyPopper, Play, PlayCircle, StickyNote } from "lucide-react";
 import { TopNav } from "../../components/TopNav/TopNav";
 import { SectionAccordion, type OrderedItem } from "../../components/courses/SectionAccordion";
 import { CourseStickyBar } from "../../components/pulse/CourseStickyBar";
@@ -15,9 +15,20 @@ const TABS = ["Learning", "Notes"];
 const allIssues = issuesData as PulseIssue[];
 
 export function PulseCoursePage() {
-  const [params] = useSearchParams();
+  const [params, setParams] = useSearchParams();
   const moduleId = params.get("module");
   const [tab, setTab] = useState(0);
+  const [trialDialogOpen, setTrialDialogOpen] = useState(false);
+
+  useEffect(() => {
+    if (params.get("trial") === "started") {
+      setTrialDialogOpen(true);
+      const next = new URLSearchParams(params);
+      next.delete("trial");
+      setParams(next, { replace: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Same 4 module order used on the home grouped grid.
   const modulesOrder = useMemo(() => {
@@ -98,22 +109,6 @@ export function PulseCoursePage() {
                   </Typography>
                 </Stack>
               </Stack>
-              <Button
-                variant="outlined"
-                startIcon={<Bell size={16} />}
-                sx={{
-                  mt: 0.5,
-                  height: 36,
-                  px: 2,
-                  borderColor: "outlineVariant.main",
-                  color: "primary.main",
-                  fontSize: 14,
-                  fontWeight: 500,
-                  "&:hover": { borderColor: "primary.main", bgcolor: "primary.light" },
-                }}
-              >
-                Announcements
-              </Button>
             </Box>
           </Stack>
 
@@ -223,14 +218,121 @@ export function PulseCoursePage() {
               })}
             </Stack>
           )}
-          {tab > 0 && (
-            <Box sx={{ py: 6, textAlign: "center", color: "text.secondary" }}>
-              <Typography sx={{ fontSize: 14 }}>{TABS[tab]} coming soon.</Typography>
-            </Box>
-          )}
+          {tab === 1 && <NotesEmptyState />}
         </Card>
       </Box>
       <CourseStickyBar resumeTitle={detail.resume.title} />
+      <TrialStartedDialog open={trialDialogOpen} onClose={() => setTrialDialogOpen(false)} />
     </Box>
+  );
+}
+
+function NotesEmptyState() {
+  return (
+    <Stack alignItems="center" gap={2.5} sx={{ py: { xs: 6, md: 8 }, px: 2, textAlign: "center" }}>
+      <Box
+        sx={(theme) => ({
+          width: 96,
+          height: 96,
+          borderRadius: "999px",
+          bgcolor: theme.palette.primary.light,
+          color: theme.palette.primary.main,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        })}
+      >
+        <StickyNote size={44} strokeWidth={1.75} />
+      </Box>
+      <Stack gap={0.75} sx={{ maxWidth: 420 }}>
+        <Typography
+          sx={{
+            fontSize: { xs: 18, md: 20 },
+            fontWeight: 700,
+            letterSpacing: "-0.4px",
+            color: "text.primary",
+          }}
+        >
+          No notes found
+        </Typography>
+        <Typography sx={{ fontSize: 14, color: "text.secondary", lineHeight: 1.5, letterSpacing: "-0.2px" }}>
+          Add notes for quick reminders as you learn and they will be added here automatically.
+        </Typography>
+      </Stack>
+    </Stack>
+  );
+}
+
+function TrialStartedDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
+  return (
+    <Dialog
+      open={open}
+      onClose={onClose}
+      maxWidth={false}
+      fullWidth
+      PaperProps={{
+        sx: {
+          bgcolor: "background.paper",
+          borderRadius: { xs: "14px", md: "16px" },
+          m: { xs: 1.5, md: 2 },
+          width: { xs: "calc(100% - 24px)", md: 440 },
+          maxWidth: { md: 440 },
+          overflow: "visible",
+        },
+      }}
+    >
+      <Box sx={{ px: { xs: 3, md: 4 }, pt: { xs: 4, md: 4.5 }, pb: { xs: 3, md: 3.5 } }}>
+        <Stack alignItems="center" gap={2.25}>
+          <Box
+            sx={(theme) => ({
+              width: 72,
+              height: 72,
+              borderRadius: "999px",
+              bgcolor: theme.palette.primary.main,
+              color: theme.palette.primary.contrastText,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              boxShadow: `0 0 0 8px ${theme.palette.primary.light}`,
+            })}
+          >
+            <PartyPopper size={32} strokeWidth={2} />
+          </Box>
+          <Stack gap={1} sx={{ textAlign: "center" }}>
+            <Typography
+              sx={{
+                fontSize: { xs: 22, md: 24 },
+                fontWeight: 700,
+                lineHeight: 1.2,
+                letterSpacing: "-0.5px",
+                color: "text.primary",
+              }}
+            >
+              Your free trial has started
+            </Typography>
+            <Typography sx={{ fontSize: 14, color: "text.secondary", lineHeight: 1.5, letterSpacing: "-0.2px" }}>
+              You have 30 days of full access to Pulse. Dive in and apply what you learn.
+            </Typography>
+          </Stack>
+          <Button
+            variant="contained"
+            disableElevation
+            fullWidth
+            onClick={onClose}
+            sx={{
+              mt: 0.5,
+              height: 46,
+              fontSize: 15,
+              fontWeight: 600,
+              letterSpacing: "-0.2px",
+              textTransform: "none",
+              borderRadius: "10px",
+            }}
+          >
+            Start learning
+          </Button>
+        </Stack>
+      </Box>
+    </Dialog>
   );
 }

@@ -2,8 +2,8 @@
   {
     "id": "pulse-12",
     "issueNumber": 12,
-    "title": "OpenAI Codex",
-    "description": "The new Codex environment is properly agentic. What it does, where it beats Claude Code, where it still falls over.",
+    "title": "The Month Claude Became a Platform",
+    "description": "Figma's stock dipped on a Friday. Claude Design wasn't the story, it was a symptom.",
     "releasedAt": "2026-05-27",
     "durationMinutes": 50,
     "tags": [
@@ -19,9 +19,9 @@
       "avatarUrl": null
     },
     "outcomes": [
-      "Tell Codex tasks apart from Claude Code tasks",
-      "Hook Codex into your existing PR review loop",
-      "Measure where the new Codex agent actually saves time"
+      "Identify the six Anthropic updates that redefined what \"using Claude\" means",
+      "Map each update to where it changes how Claude is used day-to-day",
+      "Adapt your team's workflow to use Claude as a workspace, not just a window"
     ],
     "curriculum": [],
     "stats": {
@@ -34,14 +34,14 @@
     "courseUrl": "/courses/pulse-12",
     "consumed": false,
     "progress": 0,
-    "toolName": "OpenAI Codex",
-    "toolLogo": "/tool-logos/openai-codex.png"
+    "toolName": "Claude Design",
+    "toolLogo": "/tool-logos/claude-design.png"
   },
   {
     "id": "pulse-11",
     "issueNumber": 11,
-    "title": "Open Claw, The Open-Source Agent",
-    "description": "Open Claw is the open-source agent stack teams are quietly switching to. We try it, and report back.",
+    "title": "The \"Zero-to-Slide\" Workflow",
+    "description": "The blank slide is officially dead. Turn a messy brain dump into a boardroom-ready deck before your coffee gets cold.",
     "releasedAt": "2026-06-10",
     "durationMinutes": 50,
     "tags": [
@@ -57,9 +57,9 @@
       "avatarUrl": null
     },
     "outcomes": [
-      "Stand up Open Claw against a real codebase in 30 minutes",
-      "Compare Open Claw output to Claude and Codex on the same task",
-      "Pick the integration points worth keeping when you switch later"
+      "Transform raw documents and scattered notes into high-fidelity structured decks",
+      "Convert a messy brain dump into a boardroom-ready presentation",
+      "Reuse the same repeatable workflow on any future deck"
     ],
     "curriculum": [],
     "stats": {
@@ -72,14 +72,14 @@
     "courseUrl": "/courses/pulse-11",
     "consumed": false,
     "progress": 0,
-    "toolName": "Open Claw",
-    "toolLogo": "/tool-logos/open-claw.png"
+    "toolName": "Gemma Slide",
+    "toolLogo": "/tool-logos/gemma-slide.png"
   },
   {
     "id": "pulse-10",
     "issueNumber": 10,
-    "title": "Claude Cowork",
-    "description": "Claude Cowork lets multiple humans and an agent share one workspace. Where it actually works today, and where it still drags.",
+    "title": "What OpenClaw built. How Cowork makes most of it safe.",
+    "description": "OpenClaw set the architecture for autonomous agents. Cowork packages the same architecture but narrows two of the four primitives by design. This module maps both.",
     "releasedAt": "2026-05-13",
     "durationMinutes": 55,
     "tags": [
@@ -96,9 +96,9 @@
       "avatarUrl": null
     },
     "outcomes": [
-      "Wire Claude into a shared coworking session your team will actually use",
-      "Decide when to let the agent commit and when to keep it in draft",
-      "Spot the seams where multi-human + agent collaboration still cracks"
+      "Build a working agent on OpenClaw's four primitives at full power",
+      "Configure Claude Cowork to run the same architecture without administering a stack",
+      "Apply a shared rubric to evaluate OpenClaw, Cowork, and any agent product shipping next"
     ],
     "curriculum": [
       {
@@ -167,8 +167,8 @@
   {
     "id": "pulse-9",
     "issueNumber": 9,
-    "title": "Claude in Your Spreadsheet",
-    "description": "Claude sitting inside a spreadsheet: drop-in formulas, agent rows, and what changes when the cell is the prompt.",
+    "title": "The Spreadsheet that Thinks",
+    "description": "Stop fighting broken VLOOKUPs and hours of manual data entry. What if your spreadsheet could read your data and understand what you want to do with it?",
     "releasedAt": "2026-04-29",
     "durationMinutes": 50,
     "tags": [
@@ -185,9 +185,9 @@
       "avatarUrl": null
     },
     "outcomes": [
-      "Pick the right shape of Claude call for a sheet workflow",
-      "Build an agent row that survives real messy data",
-      "Avoid the three failures every team hits in week two"
+      "Bring the power of LLMs directly into your spreadsheet grids",
+      "Replace broken VLOOKUPs and nested IFs with natural-language prompts",
+      "Automate the most painful parts of your weekly data work"
     ],
     "curriculum": [
       {

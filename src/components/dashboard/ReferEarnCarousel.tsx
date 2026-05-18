@@ -191,7 +191,8 @@ function PromoCard({ slide }: { slide: Promo }) {
             direction="row"
             gap={1}
             alignItems="center"
-            sx={{ mb: 1, flexWrap: "wrap" }}
+            justifyContent="space-between"
+            sx={{ mb: 1 }}
           >
             <Typography
               sx={{
@@ -199,6 +200,8 @@ function PromoCard({ slide }: { slide: Promo }) {
                 fontWeight: 600,
                 lineHeight: "20px",
                 color: "text.primary",
+                minWidth: 0,
+                flex: 1,
               }}
             >
               {slide.headline}
@@ -207,6 +210,7 @@ function PromoCard({ slide }: { slide: Promo }) {
               <Box
                 component="span"
                 sx={(theme) => ({
+                  flexShrink: 0,
                   px: 1,
                   py: 0.25,
                   fontSize: 12,

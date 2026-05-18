@@ -7,16 +7,12 @@ import "@fontsource/inter/600.css";
 import "@fontsource/inter/700.css";
 import { ColorModeProvider } from "./theme/ColorModeContext";
 import { PricingProvider } from "./lib/pulse/pricing";
-import { ReleaseProvider } from "./lib/pulse/release";
-import { DesignVersionProvider } from "./lib/pulse/designVersion";
 import { LearningProgressProvider } from "./lib/pulse/learningProgress";
 import { App } from "./App";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ColorModeProvider>
-      <DesignVersionProvider>
-      <ReleaseProvider>
       <PricingProvider>
       <LearningProgressProvider>
       <CssBaseline />
@@ -36,8 +32,6 @@ createRoot(document.getElementById("root")!).render(
       <App />
       </LearningProgressProvider>
       </PricingProvider>
-      </ReleaseProvider>
-      </DesignVersionProvider>
     </ColorModeProvider>
   </StrictMode>
 );

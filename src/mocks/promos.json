@@ -3,9 +3,9 @@
     "id": "pulse",
     "icon": "pulse",
     "chip": "New",
-    "headline": "Stay updated with Pulse",
-    "body": "A biweekly module on what's actually changing in AI. Hands-on, human-vetted.",
-    "cta": "Start Learning",
+    "headline": "Stay ahead with AI Pulse",
+    "body": "Biweekly modules on the AI tools and workflows reshaping work.",
+    "cta": "Explore AI Pulse",
     "ctaColor": "primary",
     "href": "/pulse"
   },

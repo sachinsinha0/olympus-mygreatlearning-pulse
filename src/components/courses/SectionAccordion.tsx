@@ -75,29 +75,31 @@ export function SectionAccordion({
           <Typography sx={{ fontSize: 13, color: "text.secondary", letterSpacing: "-0.2px", mb: 0.75 }}>
             {videosCount} Videos · {resourcesCount} Resources
           </Typography>
-          <Stack direction="row" alignItems="center" gap={1} sx={{ maxWidth: { xs: "100%", sm: 240 } }}>
-            <Box
-              sx={{
-                flex: 1,
-                height: 4,
-                borderRadius: 2,
-                bgcolor: "outlineVariant.main",
-                overflow: "hidden",
-              }}
-            >
+          {!locked && (
+            <Stack direction="row" alignItems="center" gap={1} sx={{ maxWidth: { xs: "100%", sm: 240 } }}>
               <Box
-                sx={(theme) => ({
-                  width: `${progress}%`,
-                  height: "100%",
-                  bgcolor: open ? theme.palette.primary.main : "#757680",
+                sx={{
+                  flex: 1,
+                  height: 4,
                   borderRadius: 2,
-                })}
-              />
-            </Box>
-            <Typography sx={{ fontSize: 12, fontWeight: 600, color: "text.primary", letterSpacing: "-0.2px" }}>
-              {progress}%
-            </Typography>
-          </Stack>
+                  bgcolor: "outlineVariant.main",
+                  overflow: "hidden",
+                }}
+              >
+                <Box
+                  sx={(theme) => ({
+                    width: `${progress}%`,
+                    height: "100%",
+                    bgcolor: open ? theme.palette.primary.main : "#757680",
+                    borderRadius: 2,
+                  })}
+                />
+              </Box>
+              <Typography sx={{ fontSize: 12, fontWeight: 600, color: "text.primary", letterSpacing: "-0.2px" }}>
+                {progress}%
+              </Typography>
+            </Stack>
+          )}
         </Box>
         <Box sx={{ color: locked ? "text.disabled" : "text.primary", display: "flex", alignItems: "center" }}>
           {locked ? (

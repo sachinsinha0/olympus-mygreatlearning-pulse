@@ -43,10 +43,11 @@ export function ModuleListCard({
     ? "Continue Learning"
     : "Start Learning";
 
-  const navigateToModule = () => {
+  const navigateToModule = (withTrialFlag = false) => {
     markStarted(issue.id);
     runWithPageLoader(() => {
-      navigate(`/pulse/course?module=${issue.id}`);
+      const suffix = withTrialFlag ? "&trial=started" : "";
+      navigate(`/pulse/course?module=${issue.id}${suffix}`);
     }, 700);
   };
 
@@ -63,7 +64,7 @@ export function ModuleListCard({
       setTimeout(() => {
         startTrial();
         setLoading(false);
-        navigateToModule();
+        navigateToModule(true);
       }, 500);
       return;
     }
@@ -72,7 +73,7 @@ export function ModuleListCard({
   };
 
   const onCardClick = isUpcoming ? undefined : onStart;
-  const outcomes = issue.outcomes.slice(0, 2);
+  const outcomes = issue.outcomes.slice(0, 4);
 
   const eyebrowRow = (
     <Stack direction="row" gap={1} alignItems="center">
@@ -157,7 +158,7 @@ export function ModuleListCard({
         letterSpacing: "-0.2px",
         lineHeight: "20px",
         borderRadius: "8px",
-        borderColor: theme.palette.outlineVariant.main,
+        borderColor: theme.palette.primary.main,
         color: theme.palette.primary.main,
         textTransform: "none",
         whiteSpace: "nowrap",

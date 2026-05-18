@@ -35,7 +35,7 @@ export function SubscribeFooter() {
         lineHeight: "16px",
       }}
     >
-      New module every two weeks
+      Ready to start?
     </Typography>
   );
 
@@ -49,7 +49,7 @@ export function SubscribeFooter() {
         color: "text.primary",
       }}
     >
-      Get every new module the day it drops.
+      Get full access today.
     </Typography>
   );
 
@@ -62,8 +62,8 @@ export function SubscribeFooter() {
         maxWidth: 620,
       }}
     >
-      Subscribe and you'll see each release the moment it's live, plus the
-      full archive of past modules whenever you want to revisit one.
+      New module every two weeks. Each one short, hands-on, and applied to
+      real work.
     </Typography>
   );
 
@@ -106,22 +106,6 @@ export function SubscribeFooter() {
         py: { xs: 2, md: 3.5 },
       })}
     >
-      {/* Subtle glow accent in the top-right — desktop only; on mobile it overlaps the stacked content */}
-      <Box
-        aria-hidden
-        sx={(theme) => ({
-          display: { xs: "none", md: "block" },
-          position: "absolute",
-          top: -40,
-          right: -60,
-          width: 360,
-          height: 200,
-          background: `radial-gradient(closest-side, ${theme.palette.primary.light} 0%, transparent 75%)`,
-          opacity: 0.7,
-          pointerEvents: "none",
-        })}
-      />
-
       {/* Desktop layout (md+) — icon + content on left, CTA right-aligned */}
       <Stack
         direction="row"

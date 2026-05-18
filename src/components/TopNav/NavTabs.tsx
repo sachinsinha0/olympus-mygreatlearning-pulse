@@ -16,7 +16,7 @@ const tabs: Tab[] = [
   { id: "courses", label: "Courses", Icon: Tv, path: "/courses" },
   { id: "excelerate", label: "Excelerate", Icon: Briefcase, path: "#excelerate" },
   { id: "connect", label: "Connect", Icon: HeartHandshake, path: "#connect" },
-  { id: "pulse", label: "Pulse", Icon: Sparkles, path: "/pulse", badge: "New" },
+  { id: "pulse", label: "AI Pulse", Icon: Sparkles, path: "/pulse", badge: "New" },
 ];
 
 type Variant = "topbar" | "drawer";
