@@ -98,7 +98,7 @@
     "outcomes": [
       "Build a working agent on OpenClaw's four primitives at full power",
       "Configure Claude Cowork to run the same architecture without administering a stack",
-      "Apply a shared rubric to evaluate OpenClaw, Cowork, and any agent product shipping next"
+      "Apply a shared rubric to evaluate OpenClaw, Cowork, and any agent product"
     ],
     "curriculum": [
       {
