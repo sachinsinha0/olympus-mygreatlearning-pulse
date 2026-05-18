@@ -149,7 +149,7 @@ export function ModuleListCard({
         if (!isUpcoming) onStart();
       }}
       sx={(theme) => ({
-        height: compact ? 40 : 48,
+        height: compact ? 36 : 44,
         px: 2,
         py: 1,
         width: compact ? "auto" : "100%",
