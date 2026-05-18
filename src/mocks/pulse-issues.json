@@ -19,9 +19,10 @@
       "avatarUrl": null
     },
     "outcomes": [
-      "Identify the six Anthropic updates that redefined what \"using Claude\" means",
-      "Map each update to where it changes how Claude is used day-to-day",
-      "Adapt your team's workflow to use Claude as a workspace, not just a window"
+      "Understand how Claude evolved beyond a chatbot",
+      "Explore the biggest Anthropic AI updates",
+      "Learn how AI tools are becoming full workspaces",
+      "See how modern AI changes the way teams work"
     ],
     "curriculum": [],
     "stats": {
@@ -57,9 +58,10 @@
       "avatarUrl": null
     },
     "outcomes": [
-      "Transform raw documents and scattered notes into high-fidelity structured decks",
-      "Convert a messy brain dump into a boardroom-ready presentation",
-      "Reuse the same repeatable workflow on any future deck"
+      "Turn rough ideas into polished presentations",
+      "Create structured slides faster with AI",
+      "Save hours spent on formatting decks",
+      "Build presentation workflows that scale"
     ],
     "curriculum": [],
     "stats": {
@@ -96,9 +98,10 @@
       "avatarUrl": null
     },
     "outcomes": [
-      "Build a working agent on OpenClaw's four primitives at full power",
-      "Configure Claude Cowork to run the same architecture without administering a stack",
-      "Apply a shared rubric to evaluate OpenClaw, Cowork, and any agent product"
+      "Understand autonomous AI agents",
+      "Learn how Cowork makes AI safer",
+      "Compare open-source vs managed AI",
+      "Build an AI workflow in minutes"
     ],
     "curriculum": [
       {
@@ -185,9 +188,9 @@
       "avatarUrl": null
     },
     "outcomes": [
-      "Bring the power of LLMs directly into your spreadsheet grids",
-      "Replace broken VLOOKUPs and nested IFs with natural-language prompts",
-      "Automate the most painful parts of your weekly data work"
+      "Use AI to automate spreadsheet tasks",
+      "Reduce manual work and complex formulas",
+      "Make spreadsheets understand your intent"
     ],
     "curriculum": [
       {

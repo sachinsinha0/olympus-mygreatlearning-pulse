@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Avatar, Box, Button, Card, CircularProgress, Divider, Stack, Typography } from "@mui/material";
+import { Avatar, Box, Button, Card, CircularProgress, Stack, Typography } from "@mui/material";
 import { Check, Lock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import type { PulseIssue } from "../../lib/pulse/types";
@@ -79,7 +79,7 @@ export function ModuleListCard({
     <Stack direction="row" gap={1} alignItems="center">
       <Typography
         sx={{
-          fontSize: 10,
+          fontSize: 11,
           fontWeight: 700,
           letterSpacing: 1.4,
           textTransform: "uppercase",
@@ -108,10 +108,10 @@ export function ModuleListCard({
     <Typography
       sx={{
         fontSize: 18,
-        fontWeight: 600,
-        lineHeight: "20px",
+        fontWeight: 700,
+        lineHeight: "24px",
         letterSpacing: "-0.4px",
-        color: "text.primary",
+        color: isUpcoming ? "text.secondary" : "text.primary",
       }}
     >
       {issue.title}
@@ -121,9 +121,9 @@ export function ModuleListCard({
   const descriptionEl = (
     <Typography
       sx={{
-        fontSize: 14,
+        fontSize: 16,
         fontWeight: 400,
-        lineHeight: "20px",
+        lineHeight: "24px",
         letterSpacing: "-0.2px",
         color: "text.secondary",
       }}
@@ -134,14 +134,14 @@ export function ModuleListCard({
 
   const ctaButton = (compact: boolean) => (
     <Button
-      variant="outlined"
+      variant="contained"
       disableElevation
       disabled={isUpcoming || loading}
       startIcon={
         isUpcoming || isLocked ? (
-          <Lock size={14} strokeWidth={2.25} />
+          <Lock size={16} strokeWidth={2.25} />
         ) : loading ? (
-          <CircularProgress size={14} thickness={5} sx={{ color: "inherit" }} />
+          <CircularProgress size={16} thickness={5} sx={{ color: "inherit" }} />
         ) : undefined
       }
       onClick={(e) => {
@@ -149,25 +149,27 @@ export function ModuleListCard({
         if (!isUpcoming) onStart();
       }}
       sx={(theme) => ({
-        height: compact ? 32 : 44,
-        px: 1.5,
-        py: 0.75,
+        height: compact ? 40 : 48,
+        px: 2,
+        py: 1,
         width: compact ? "auto" : "100%",
-        fontSize: 14,
+        fontSize: 15,
         fontWeight: 500,
         letterSpacing: "-0.2px",
-        lineHeight: "20px",
+        lineHeight: "22px",
         borderRadius: "8px",
-        borderColor: theme.palette.primary.main,
+        bgcolor: theme.palette.primary.light,
         color: theme.palette.primary.main,
         textTransform: "none",
         whiteSpace: "nowrap",
+        boxShadow: "none",
         "&:hover": {
-          borderColor: theme.palette.primary.main,
           bgcolor: theme.palette.primary.light,
+          filter: "brightness(0.95)",
+          boxShadow: "none",
         },
         "&.Mui-disabled": {
-          borderColor: theme.palette.outlineVariant.main,
+          bgcolor: theme.palette.action.disabledBackground,
           color: theme.palette.text.disabled,
         },
       })}
@@ -177,70 +179,40 @@ export function ModuleListCard({
   );
 
   const outcomesBlock = outcomes.length > 0 && (
-    <>
-      <Divider
-        sx={(theme) => ({
-          borderColor: theme.palette.outlineVariant.main,
-          opacity: 0.7,
-          mb: 1.5,
-        })}
-      />
-      <Stack gap={1}>
-        <Typography
-          sx={{
-            fontSize: 11,
-            fontWeight: 700,
-            letterSpacing: 1.4,
-            textTransform: "uppercase",
-            lineHeight: "16.5px",
-            color: isUpcoming ? "text.disabled" : "primary.main",
-          }}
+    <Stack gap={0.875} sx={{ mt: 0.5 }}>
+      {outcomes.map((o, i) => (
+        <Stack
+          key={i}
+          direction="row"
+          gap={1.25}
+          alignItems="center"
+          sx={{ minWidth: 0 }}
         >
-          Learning Outcomes
-        </Typography>
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
-            columnGap: 0.625,
-            rowGap: 0.75,
-          }}
-        >
-          {outcomes.map((o, i) => (
-            <Stack
-              key={i}
-              direction="row"
-              gap={1}
-              alignItems="center"
-              sx={{ minWidth: 0 }}
-            >
-              <Box
-                sx={(theme) => ({
-                  flexShrink: 0,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: isUpcoming ? theme.palette.text.disabled : theme.palette.primary.main,
-                })}
-              >
-                <Check size={16} strokeWidth={2.25} />
-              </Box>
-              <Typography
-                sx={{
-                  fontSize: 12,
-                  fontWeight: 400,
-                  lineHeight: "16px",
-                  letterSpacing: "-0.2px",
-                  color: "text.primary",
-                }}
-              >
-                {o}
-              </Typography>
-            </Stack>
-          ))}
-        </Box>
-      </Stack>
-    </>
+          <Box
+            sx={(theme) => ({
+              flexShrink: 0,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: isUpcoming ? theme.palette.text.disabled : theme.palette.primary.main,
+            })}
+          >
+            <Check size={16} strokeWidth={2.5} />
+          </Box>
+          <Typography
+            sx={{
+              fontSize: 14,
+              fontWeight: 400,
+              lineHeight: "20px",
+              letterSpacing: "-0.2px",
+              color: isUpcoming ? "text.disabled" : "text.primary",
+            }}
+          >
+            {o}
+          </Typography>
+        </Stack>
+      ))}
+    </Stack>
   );
 
   return (
@@ -264,18 +236,18 @@ export function ModuleListCard({
             },
       })}
     >
-      {/* Desktop layout (md+) — preserved as-is */}
+      {/* Desktop layout (md+) — single column under header for easy top-to-bottom scan */}
       <Box sx={{ display: { xs: "none", md: "block" } }}>
         <Stack direction="row" gap={3} alignItems="flex-start">
           <ToolLogo issue={issue} />
-          <Stack gap={2} sx={{ flex: 1, minWidth: 0 }}>
-            <Stack direction="row" gap={3} alignItems="center">
-              <Stack gap={0.5} sx={{ flex: 1, minWidth: 0 }}>
+          <Stack gap={1} sx={{ flex: 1, minWidth: 0 }}>
+            <Stack direction="row" gap={5} alignItems="flex-start" justifyContent="space-between">
+              <Stack gap={0.75} sx={{ flex: 1, minWidth: 0 }}>
                 {eyebrowRow}
                 {titleEl}
                 {descriptionEl}
               </Stack>
-              <Box sx={{ flexShrink: 0, alignSelf: "center" }}>{ctaButton(true)}</Box>
+              <Box sx={{ flexShrink: 0, pt: 0.5 }}>{ctaButton(true)}</Box>
             </Stack>
             {outcomesBlock}
           </Stack>
@@ -292,8 +264,8 @@ export function ModuleListCard({
           </Stack>
         </Stack>
         {descriptionEl}
-        {ctaButton(false)}
         {outcomesBlock}
+        {ctaButton(false)}
       </Stack>
     </Card>
   );
