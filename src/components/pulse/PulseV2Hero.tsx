@@ -513,16 +513,21 @@ function ExpiredBanner() {
 
       <Stack
         direction={{ xs: "column", md: "row" }}
-        gap={{ xs: 2.5, md: 3 }}
+        gap={{ xs: 2, md: 3 }}
         alignItems={{ xs: "stretch", md: "center" }}
         justifyContent="space-between"
         sx={{ position: "relative" }}
       >
-        <Stack direction="row" gap={2.25} alignItems="flex-start" sx={{ minWidth: 0 }}>
+        <Stack
+          direction={{ xs: "column", md: "row" }}
+          gap={{ xs: 2, md: 2.25 }}
+          alignItems="flex-start"
+          sx={{ minWidth: 0 }}
+        >
           <Box
             sx={(theme) => ({
-              width: 44,
-              height: 44,
+              width: { xs: 64, md: 44 },
+              height: { xs: 64, md: 44 },
               borderRadius: "12px",
               bgcolor: theme.palette.background.paper,
               color: theme.palette.extended.warning.color,
@@ -533,7 +538,7 @@ function ExpiredBanner() {
               border: `1px solid ${theme.palette.extended.warning.color}`,
             })}
           >
-            <Lock size={20} strokeWidth={2.25} />
+            <Lock size={28} strokeWidth={2.25} style={{ display: "block" }} />
           </Box>
           <Stack gap={0.75} sx={{ minWidth: 0 }}>
             <Typography
@@ -573,14 +578,14 @@ function ExpiredBanner() {
           sx={{
             height: 44,
             px: 2.5,
-            width: { xs: "100%", md: "auto" },
+            width: { xs: "100%", sm: "auto" },
             fontSize: 15,
             fontWeight: 600,
             whiteSpace: "nowrap",
             borderRadius: "8px",
             textTransform: "none",
             flexShrink: 0,
-            alignSelf: { xs: "stretch", md: "center" },
+            alignSelf: { xs: "stretch", sm: "flex-start", md: "center" },
           }}
         >
           Renew Pulse
@@ -628,16 +633,21 @@ function TrialExpiredBanner() {
 
       <Stack
         direction={{ xs: "column", md: "row" }}
-        gap={{ xs: 2.5, md: 3 }}
+        gap={{ xs: 2, md: 3 }}
         alignItems={{ xs: "stretch", md: "center" }}
         justifyContent="space-between"
         sx={{ position: "relative" }}
       >
-        <Stack direction="row" gap={2.25} alignItems="flex-start" sx={{ minWidth: 0 }}>
+        <Stack
+          direction={{ xs: "column", md: "row" }}
+          gap={{ xs: 2, md: 2.25 }}
+          alignItems="flex-start"
+          sx={{ minWidth: 0 }}
+        >
           <Box
             sx={(theme) => ({
-              width: 44,
-              height: 44,
+              width: { xs: 64, md: 44 },
+              height: { xs: 64, md: 44 },
               borderRadius: "12px",
               bgcolor: theme.palette.background.paper,
               color: theme.palette.extended.warning.color,
@@ -648,7 +658,7 @@ function TrialExpiredBanner() {
               border: `1px solid ${theme.palette.extended.warning.color}`,
             })}
           >
-            <Lock size={20} strokeWidth={2.25} />
+            <Lock size={28} strokeWidth={2.25} style={{ display: "block" }} />
           </Box>
           <Stack gap={0.75} sx={{ minWidth: 0 }}>
             <Typography
@@ -686,14 +696,14 @@ function TrialExpiredBanner() {
           sx={{
             height: 44,
             px: 2.5,
-            width: { xs: "100%", md: "auto" },
+            width: { xs: "100%", sm: "auto" },
             fontSize: 15,
             fontWeight: 600,
             whiteSpace: "nowrap",
             borderRadius: "8px",
             textTransform: "none",
             flexShrink: 0,
-            alignSelf: { xs: "stretch", md: "center" },
+            alignSelf: { xs: "stretch", sm: "flex-start", md: "center" },
           }}
         >
           Subscribe to Pulse

@@ -5,11 +5,11 @@ import { usePricing } from "../../lib/pulse/pricing";
 export function SubscribeFooter() {
   const { openPricingModal } = usePricing();
 
-  const iconTile = (
+  const iconTile = (size: number) => (
     <Box
       sx={(theme) => ({
-        width: 48,
-        height: 48,
+        width: size,
+        height: size,
         borderRadius: "12px",
         bgcolor: theme.palette.primary.light,
         color: theme.palette.primary.main,
@@ -20,7 +20,7 @@ export function SubscribeFooter() {
         border: `1px solid ${theme.palette.outlineVariant.main}`,
       })}
     >
-      <Sparkles size={22} strokeWidth={2} />
+      <Sparkles size={size === 64 ? 28 : 22} strokeWidth={2} />
     </Box>
   );
 
@@ -76,7 +76,8 @@ export function SubscribeFooter() {
       sx={{
         height: fullWidth ? 44 : 40,
         px: 2,
-        width: fullWidth ? "100%" : "auto",
+        width: fullWidth ? { xs: "100%", sm: "auto" } : "auto",
+        alignSelf: fullWidth ? { xs: "stretch", sm: "flex-start" } : "auto",
         fontSize: 15,
         fontWeight: 500,
         letterSpacing: "-0.2px",
@@ -115,7 +116,7 @@ export function SubscribeFooter() {
         sx={{ position: "relative", display: { xs: "none", md: "flex" } }}
       >
         <Stack direction="row" gap={2.25} alignItems="flex-start" sx={{ minWidth: 0 }}>
-          {iconTile}
+          {iconTile(48)}
           <Stack gap={0.75} sx={{ minWidth: 0 }}>
             {eyebrow}
             {titleEl}
@@ -125,17 +126,15 @@ export function SubscribeFooter() {
         {subscribeButton(false)}
       </Stack>
 
-      {/* Mobile layout (xs/sm) — same shape as ModuleListCard mobile: header [icon][eyebrow+title], then body, then full-width CTA */}
+      {/* Mobile + tablet (xs/sm) — Olympus dev-handoff stack: icon alone on top, then eyebrow, title, body, CTA. CTA full-width on phones, auto-width on tablet. */}
       <Stack
-        gap={1.5}
+        gap={2}
         sx={{ position: "relative", display: { xs: "flex", md: "none" } }}
       >
-        <Stack direction="row" gap={2} alignItems="flex-start">
-          {iconTile}
-          <Stack gap={0.5} sx={{ flex: 1, minWidth: 0 }}>
-            {eyebrow}
-            {titleEl}
-          </Stack>
+        {iconTile(64)}
+        <Stack gap={0.75}>
+          {eyebrow}
+          {titleEl}
         </Stack>
         {bodyEl}
         {subscribeButton(true)}
