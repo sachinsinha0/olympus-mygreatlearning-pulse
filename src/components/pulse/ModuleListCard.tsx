@@ -48,7 +48,7 @@ export function ModuleListCard({
     runWithPageLoader(() => {
       const suffix = withTrialFlag ? "&trial=started" : "";
       navigate(`/pulse/course?module=${issue.id}${suffix}`);
-    }, 700);
+    }, withTrialFlag ? 950 : 700);
   };
 
   const onStart = () => {
@@ -59,13 +59,9 @@ export function ModuleListCard({
       return;
     }
     if (isPreTrial) {
-      // Button loader during the trial-start state change, then full-page loader for nav.
-      setLoading(true);
-      setTimeout(() => {
-        startTrial();
-        setLoading(false);
-        navigateToModule(true);
-      }, 500);
+      // Full-page loader masks the trial-start state change + navigation in one motion.
+      startTrial();
+      navigateToModule(true);
       return;
     }
     // Trial-active or paid: just full-page loader for the navigation.

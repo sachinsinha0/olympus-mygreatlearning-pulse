@@ -1,9 +1,10 @@
-import { useMemo, useState } from "react";
-import { Box, Button, CircularProgress, Stack, Typography } from "@mui/material";
+import { useMemo } from "react";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, Briefcase, CalendarClock, Clock, Lock, Sparkles } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { daysUntil, isTrialExpired, usePricing } from "../../lib/pulse/pricing";
+import { usePageLoader } from "../common/PageLoader";
 import type { PulseIssue } from "../../lib/pulse/types";
 import issuesData from "../../mocks/pulse-issues.json";
 
@@ -69,6 +70,7 @@ function scrollToModules() {
 
 function useHeroCopy(): HeroCopy {
   const navigate = useNavigate();
+  const { runWithPageLoader } = usePageLoader();
   const { state, trialStartedAt, activeUntil, startTrial, openPricingModal } = usePricing();
 
   const firstModule = useMemo(() => {
@@ -109,14 +111,17 @@ function useHeroCopy(): HeroCopy {
     subtitle,
     primaryCtaLabel: "Start 30-day trial",
     onPrimaryCta: () => {
-      startTrial();
       if (firstModule) {
-        navigate(`/pulse/course?module=${firstModule.id}&trial=started`);
+        runWithPageLoader(() => {
+          startTrial();
+          navigate(`/pulse/course?module=${firstModule.id}&trial=started`);
+        }, 950);
       } else {
+        startTrial();
         setTimeout(scrollToModules, 40);
       }
     },
-    ctaMode: "button-loader",
+    ctaMode: "none",
   };
 }
 
@@ -142,19 +147,9 @@ export function PulseV2Hero() {
 
 function MarketingHero() {
   const copy = useHeroCopy();
-  const [loading, setLoading] = useState(false);
 
   const handleCta = () => {
-    if (loading) return;
-    if (copy.ctaMode === "button-loader") {
-      setLoading(true);
-      setTimeout(() => {
-        copy.onPrimaryCta();
-        setLoading(false);
-      }, 500);
-    } else {
-      copy.onPrimaryCta();
-    }
+    copy.onPrimaryCta();
   };
 
   return (
@@ -209,10 +204,10 @@ function MarketingHero() {
           alt=""
           sx={{
             position: "absolute",
-            right: -56,
+            right: -68,
             top: -56,
             bottom: 0,
-            height: "128%",
+            height: copy.trialStatus ? "118%" : "124%",
             width: "auto",
             display: { xs: "none", lg: "block" },
             pointerEvents: "none",
@@ -229,10 +224,10 @@ function MarketingHero() {
           gap={2.5}
           sx={{
             position: "relative",
-            px: { xs: 2, md: 5 },
+            px: { xs: 2, md: 4 },
             pt: { xs: 2, md: 5 },
             pb: { xs: 2, md: 5 },
-            maxWidth: { xs: "100%", lg: 620 },
+            maxWidth: { xs: "100%", lg: 680 },
           }}
         >
           {copy.trialStatus && <TrialStatusChip status={copy.trialStatus} />}
@@ -251,11 +246,11 @@ function MarketingHero() {
 
           <Typography
             sx={{
-              fontSize: 14,
-              lineHeight: "20px",
-              letterSpacing: "0.28px",
+              fontSize: 16,
+              lineHeight: "24px",
+              letterSpacing: "-0.2px",
               color: "rgba(0, 0, 0, 0.56)",
-              maxWidth: 520,
+              textWrap: "balance",
             }}
           >
             {copy.subtitle}
@@ -265,14 +260,7 @@ function MarketingHero() {
             <Button
               variant="contained"
               disableElevation
-              disabled={loading}
-              endIcon={
-                loading ? (
-                  <CircularProgress size={16} thickness={5} sx={{ color: "inherit" }} />
-                ) : (
-                  <ArrowRight size={18} />
-                )
-              }
+              endIcon={<ArrowRight size={18} />}
               onClick={handleCta}
               sx={{
                 height: { xs: 44, md: 40 },

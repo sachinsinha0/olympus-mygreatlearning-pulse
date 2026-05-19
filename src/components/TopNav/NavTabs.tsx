@@ -1,5 +1,5 @@
 import { Box, Button, Stack, useTheme } from "@mui/material";
-import { Home, Calendar, Tv, Briefcase, HeartHandshake, Sparkles } from "lucide-react";
+import { Home, Calendar, Tv, Briefcase, Sparkles } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 type Tab = {
@@ -15,7 +15,6 @@ const tabs: Tab[] = [
   { id: "activities", label: "Activities", Icon: Calendar, path: "#activities" },
   { id: "courses", label: "Courses", Icon: Tv, path: "/courses" },
   { id: "excelerate", label: "Excelerate", Icon: Briefcase, path: "#excelerate" },
-  { id: "connect", label: "Connect", Icon: HeartHandshake, path: "#connect" },
   { id: "pulse", label: "AI Pulse", Icon: Sparkles, path: "/pulse", badge: "New" },
 ];
 

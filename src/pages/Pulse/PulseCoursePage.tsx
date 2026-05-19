@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Box, Button, Card, Dialog, Stack, Tab, Tabs, Typography } from "@mui/material";
-import { BookOpen, PartyPopper, Play, PlayCircle, StickyNote } from "lucide-react";
+import { BookOpen, CheckCircle, Play, PlayCircle, StickyNote } from "lucide-react";
 import { TopNav } from "../../components/TopNav/TopNav";
 import { SectionAccordion, type OrderedItem } from "../../components/courses/SectionAccordion";
 import { CourseStickyBar } from "../../components/pulse/CourseStickyBar";
@@ -22,10 +22,13 @@ export function PulseCoursePage() {
 
   useEffect(() => {
     if (params.get("trial") === "started") {
-      setTrialDialogOpen(true);
+      // Wait for the trial-start page loader to finish before showing the dialog
+      // so they don't visually stack (loader is held for ~950ms by the caller).
+      const t = setTimeout(() => setTrialDialogOpen(true), 1000);
       const next = new URLSearchParams(params);
       next.delete("trial");
       setParams(next, { replace: true });
+      return () => clearTimeout(t);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -269,7 +272,6 @@ function TrialStartedDialog({ open, onClose }: { open: boolean; onClose: () => v
       open={open}
       onClose={onClose}
       maxWidth={false}
-      fullWidth
       PaperProps={{
         sx: {
           bgcolor: "background.paper",
@@ -285,18 +287,13 @@ function TrialStartedDialog({ open, onClose }: { open: boolean; onClose: () => v
         <Stack alignItems="center" gap={2.25}>
           <Box
             sx={(theme) => ({
-              width: 72,
-              height: 72,
-              borderRadius: "999px",
-              bgcolor: theme.palette.primary.main,
-              color: theme.palette.primary.contrastText,
+              color: theme.palette.extended.success.color,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              boxShadow: `0 0 0 8px ${theme.palette.primary.light}`,
             })}
           >
-            <PartyPopper size={32} strokeWidth={2} />
+            <CheckCircle size={64} strokeWidth={1.75} />
           </Box>
           <Stack gap={1} sx={{ textAlign: "center" }}>
             <Typography
