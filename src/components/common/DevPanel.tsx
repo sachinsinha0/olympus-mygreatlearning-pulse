@@ -86,7 +86,20 @@ export function DevPanel() {
         <Section title="Pulse Pricing">
           <SegmentedControl
             value={state}
-            onChange={setState}
+            onChange={(v) => {
+              setState(v);
+              if (v === "paid") {
+                // Subscribing today → membership runs for one year.
+                const oneYear = new Date();
+                oneYear.setFullYear(oneYear.getFullYear() + 1);
+                setActiveUntil(oneYear.toISOString().slice(0, 10));
+              } else if (v === "expired") {
+                // Subscription that ended yesterday.
+                const yesterday = new Date();
+                yesterday.setDate(yesterday.getDate() - 1);
+                setActiveUntil(yesterday.toISOString().slice(0, 10));
+              }
+            }}
             options={[
               { value: "trial", label: "Trial" },
               { value: "paid", label: "Paid" },

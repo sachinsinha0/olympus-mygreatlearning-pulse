@@ -308,7 +308,7 @@ function TrialStartedDialog({ open, onClose }: { open: boolean; onClose: () => v
               Your free trial has started
             </Typography>
             <Typography sx={{ fontSize: 14, color: "text.secondary", lineHeight: 1.5, letterSpacing: "-0.2px" }}>
-              You have 30 days of full access to Pulse. Dive in and apply what you learn.
+              You have 30 days of full access to AI Pulse. Dive in and apply what you learn.
             </Typography>
           </Stack>
           <Button
