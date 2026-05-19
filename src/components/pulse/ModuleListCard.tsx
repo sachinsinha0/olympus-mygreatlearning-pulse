@@ -148,7 +148,8 @@ export function ModuleListCard({
         height: compact ? 36 : 44,
         px: 2,
         py: 1,
-        width: compact ? "auto" : "100%",
+        width: compact ? "auto" : { xs: "100%", sm: "auto" },
+        alignSelf: compact ? "auto" : { xs: "stretch", sm: "flex-start" },
         fontSize: 15,
         fontWeight: 500,
         letterSpacing: "-0.2px",
@@ -250,14 +251,12 @@ export function ModuleListCard({
         </Stack>
       </Box>
 
-      {/* Mobile layout (xs/sm) — Figma-style: header row uses logo+title only, then description/CTA/outcomes span full card width */}
-      <Stack gap={2.5} sx={{ display: { xs: "flex", md: "none" } }}>
-        <Stack direction="row" gap={2} alignItems="flex-start">
-          <ToolLogo issue={issue} />
-          <Stack gap={0.75} sx={{ flex: 1, minWidth: 0 }}>
-            {eyebrowRow}
-            {titleEl}
-          </Stack>
+      {/* Mobile + tablet layout (xs/sm) — Olympus dev handoff: logo top, then eyebrow + title + description + outcomes stacked, CTA at bottom. CTA full-width on phones, auto-width on tablet. */}
+      <Stack gap={2} sx={{ display: { xs: "flex", md: "none" } }}>
+        <ToolLogo issue={issue} />
+        <Stack gap={0.75}>
+          {eyebrowRow}
+          {titleEl}
         </Stack>
         {descriptionEl}
         {outcomesBlock}
@@ -275,12 +274,12 @@ function ToolLogo({ issue }: { issue: PulseIssue }) {
       alt={issue.toolName ?? issue.title}
       variant="rounded"
       sx={(theme) => ({
-        width: { xs: 48, sm: 56, md: 64 },
-        height: { xs: 48, sm: 56, md: 64 },
+        width: 64,
+        height: 64,
         bgcolor: theme.palette.primary.light,
         color: theme.palette.primary.main,
         border: `1px solid ${theme.palette.outlineVariant.main}`,
-        fontSize: { xs: 18, md: 22 },
+        fontSize: 22,
         fontWeight: 700,
         borderRadius: "10.67px",
         flexShrink: 0,
