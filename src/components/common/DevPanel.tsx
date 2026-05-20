@@ -3,15 +3,18 @@ import { Box, Button, Drawer, IconButton, Stack, Typography } from "@mui/materia
 import { RotateCcw, X } from "lucide-react";
 import { usePricing, type PricingState } from "../../lib/pulse/pricing";
 import { useLearningProgress } from "../../lib/pulse/learningProgress";
+import { clearIntroSeen, useHasSeenIntro } from "../../lib/pulse/onboarding";
 
 export function DevPanel() {
   const [open, setOpen] = useState(false);
   const { state, activeUntil, trialStartedAt, setState, setActiveUntil, startTrial, reset: resetPricing } = usePricing();
   const { reset: resetLearning } = useLearningProgress();
+  const introSeen = useHasSeenIntro();
 
   const resetAll = () => {
     resetPricing();
     resetLearning();
+    clearIntroSeen();
   };
 
   useEffect(() => {
@@ -167,6 +170,37 @@ export function DevPanel() {
           </Stack>
           )}
 
+        </Section>
+
+        <Box sx={{ height: 24 }} />
+
+        <Section title="Onboarding">
+          <Button
+            variant="outlined"
+            fullWidth
+            disableElevation
+            disabled={!introSeen}
+            onClick={() => clearIntroSeen()}
+            sx={(theme) => ({
+              height: 38,
+              fontSize: 13,
+              fontWeight: 600,
+              textTransform: "none",
+              borderRadius: "8px",
+              borderColor: theme.palette.outlineVariant.main,
+              color: theme.palette.text.primary,
+              "&:hover": {
+                borderColor: theme.palette.text.primary,
+                bgcolor: "transparent",
+              },
+              "&.Mui-disabled": {
+                color: theme.palette.text.disabled,
+                borderColor: theme.palette.outlineVariant.main,
+              },
+            })}
+          >
+            {introSeen ? "Reset onboarding (show intro again)" : "Onboarding not yet seen"}
+          </Button>
         </Section>
 
         <Box sx={{ height: 24 }} />

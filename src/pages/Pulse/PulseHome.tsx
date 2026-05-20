@@ -1,10 +1,12 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { Box, Stack, Typography } from "@mui/material";
 import { TopNav } from "../../components/TopNav/TopNav";
 import { ModuleListCard } from "../../components/pulse/ModuleListCard";
 import { SubscribeFooter } from "../../components/pulse/SubscribeFooter";
 import { PulseV2Hero } from "../../components/pulse/PulseV2Hero";
 import { isTrialExpired, usePricing } from "../../lib/pulse/pricing";
+import { hasSeenIntro } from "../../lib/pulse/onboarding";
 import { useUnitLabel } from "../../lib/pulse/terminology";
 import type { PulseIssue } from "../../lib/pulse/types";
 import issuesData from "../../mocks/pulse-issues.json";
@@ -13,8 +15,16 @@ const allIssues = issuesData as PulseIssue[];
 
 export function PulseHome() {
   const { state, trialStartedAt, activeUntil } = usePricing();
+  const navigate = useNavigate();
   const trialExpired = isTrialExpired(state, trialStartedAt, activeUntil);
   const isPaid = state === "paid";
+
+  useEffect(() => {
+    if (!hasSeenIntro() && state === "trial" && !trialStartedAt) {
+      navigate("/pulse/intro", { replace: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const groups = useMemo(() => {
     const today = new Date().toISOString().slice(0, 10);

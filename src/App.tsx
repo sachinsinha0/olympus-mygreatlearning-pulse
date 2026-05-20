@@ -7,6 +7,7 @@ import { Dashboard } from "./pages/Dashboard";
 import { Courses } from "./pages/Courses";
 import { CourseDetail } from "./pages/CourseDetail";
 import { PulseHome } from "./pages/Pulse/PulseHome";
+import { PulseIntroPage } from "./pages/Pulse/PulseIntroPage";
 import { PulseCoursePage } from "./pages/Pulse/PulseCoursePage";
 import { SubscriptionPage } from "./pages/Pulse/SubscriptionPage";
 
@@ -30,6 +31,7 @@ export function App() {
           <Route path="/courses" element={<Courses />} />
           <Route path="/courses/:id" element={<CourseDetail />} />
           <Route path="/pulse" element={<PulseHome />} />
+          <Route path="/pulse/intro" element={<PulseIntroPage />} />
           <Route path="/pulse/subscription" element={<SubscriptionPage />} />
           <Route path="/pulse/course" element={<PulseCoursePage />} />
         </Routes>
