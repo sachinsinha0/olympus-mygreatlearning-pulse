@@ -41,6 +41,11 @@ const marqueeScroll = keyframes`
   to { transform: translate3d(-50%,0,0); }
 `;
 
+const titleEntrance = keyframes`
+  0%   { background-position: -130% 50%; }
+  100% { background-position: 0% 50%; }
+`;
+
 const titleBreath = keyframes`
   0%, 100% { background-position: 0% 50%; }
   50%      { background-position: 100% 50%; }
@@ -94,7 +99,7 @@ export function PulseIntroPage() {
         key: "value",
         stepLabel: "What's inside",
         title: "New AI tools. Real examples.\nUse at work.",
-        body: "We show you new AI tools from OpenAI, Anthropic, Google and more, with real examples you can use at work.",
+        body: "Hands-on modules on what's new from OpenAI, Anthropic, Google and other labs. So you walk away with something you can use at work.",
         // Bright primary with a hint of cyan — optimistic
         accent: {
           from: theme.palette.primary.main,
@@ -268,9 +273,36 @@ function SlideContent({ slide, active }: { slide: Slide; active: boolean }) {
           }}
         >
           {titleLines.map((line, lineIdx) => {
+            const highlight = lineIdx === 0 && slide.key === "welcome";
+
+            if (highlight) {
+              return (
+                <Box
+                  key={lineIdx}
+                  component="span"
+                  sx={{
+                    display: "block",
+                    fontWeight: 800,
+                    letterSpacing: "-0.04em",
+                    backgroundImage: `linear-gradient(110deg, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 22%, #60A5FA 40%, #DBEAFE 50%, #60A5FA 60%, ${theme.palette.primary.main} 78%, ${theme.palette.primary.dark} 100%)`,
+                    backgroundSize: "200% 100%",
+                    backgroundPosition: "0% 50%",
+                    backgroundRepeat: "no-repeat",
+                    WebkitBackgroundClip: "text",
+                    backgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    color: "transparent",
+                    animation: `${enterUp} 720ms cubic-bezier(0.22, 0.61, 0.36, 1) 140ms both, ${titleEntrance} 2000ms cubic-bezier(0.16, 1, 0.3, 1) 200ms both, ${titleBreath} 10s ease-in-out 2400ms infinite`,
+                    filter: `drop-shadow(0 8px 22px ${alpha(theme.palette.primary.main, 0.28)}) drop-shadow(0 2px 6px ${alpha(theme.palette.primary.dark, 0.18)})`,
+                  }}
+                >
+                  {line}
+                </Box>
+              );
+            }
+
             const words = line.split(" ");
             const wordsBefore = titleLines.slice(0, lineIdx).reduce((n, l) => n + l.split(" ").length, 0);
-            const highlight = lineIdx === 0 && slide.key === "welcome";
             return (
               <Box
                 key={lineIdx}
@@ -279,21 +311,6 @@ function SlideContent({ slide, active }: { slide: Slide; active: boolean }) {
                   flexWrap: "wrap",
                   justifyContent: "center",
                   gap: "0.25em",
-                  ...(highlight && {
-                    fontWeight: 800,
-                    letterSpacing: "-0.04em",
-                    backgroundImage: `linear-gradient(110deg, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 25%, #1E40AF 50%, ${theme.palette.primary.main} 75%, ${theme.palette.primary.dark} 100%)`,
-                    backgroundSize: "220% 100%",
-                    backgroundPosition: "0% 50%",
-                    backgroundRepeat: "no-repeat",
-                    WebkitBackgroundClip: "text",
-                    backgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    color: "transparent",
-                    animation: `${titleBreath} 7s ease-in-out infinite`,
-                    animationDelay: "1200ms",
-                    filter: `drop-shadow(0 8px 22px ${alpha(theme.palette.primary.main, 0.25)}) drop-shadow(0 2px 6px ${alpha(theme.palette.primary.dark, 0.18)})`,
-                  }),
                 }}
               >
                 {words.map((word, i) => {
@@ -475,12 +492,12 @@ function PrimaryCTA({
         fontWeight: 600,
         letterSpacing: "-0.2px",
         textTransform: "none",
-        borderRadius: 999,
+        borderRadius: "8px",
         color: t.palette.background.default,
-        bgcolor: t.palette.text.primary,
+        bgcolor: t.palette.primary.main,
         boxShadow: "none",
         "&:hover": {
-          bgcolor: t.palette.text.primary,
+          bgcolor: t.palette.primary.main,
           filter: "brightness(1.08)",
           boxShadow: "none",
         },
