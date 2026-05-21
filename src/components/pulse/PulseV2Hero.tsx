@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, Briefcase, CalendarClock, ChevronRight, Clock, Lock, Sparkles } from "lucide-react";
+import { ArrowRight, Briefcase, CalendarClock, Clock, Lock, Play, Sparkles } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { daysUntil, isTrialExpired, usePricing } from "../../lib/pulse/pricing";
 import { usePageLoader } from "../common/PageLoader";
@@ -396,7 +396,7 @@ function ReplayIntroButton() {
     <Box
       component="button"
       onClick={onClick}
-      aria-label="Watch the intro again"
+      aria-label="Replay intro"
       sx={{
         position: "absolute",
         top: { xs: 12, md: 16 },
@@ -428,8 +428,8 @@ function ReplayIntroButton() {
         },
       }}
     >
-      <span>Watch Intro</span>
-      <ChevronRight size={14} strokeWidth={2.25} />
+      <Play size={13} strokeWidth={2} style={{ display: "block" }} />
+      <span>Replay intro</span>
     </Box>
   );
 }
