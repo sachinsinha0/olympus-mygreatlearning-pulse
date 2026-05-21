@@ -728,7 +728,7 @@ function CadenceVisual({ accent, active }: { accent: Slide["accent"]; active: bo
     const tick = (now: number) => {
       const t = Math.min(1, (now - start) / duration);
       const eased = 1 - Math.pow(1 - t, 3);
-      setCount(Math.round(eased * 24));
+      setCount(Math.round(eased * 26));
       if (t < 1) raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);

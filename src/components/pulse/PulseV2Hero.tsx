@@ -473,38 +473,41 @@ function PaidWelcomeStrip() {
         py: { xs: 3, md: 3.5 },
       })}
     >
-      {/* Top row: title + chip + Manage Subscription */}
+      {/* Top row: brand mark + Manage Subscription */}
       <Stack
-        direction={{ xs: "column", md: "row" }}
-        gap={{ xs: 2, md: 3 }}
-        alignItems={{ xs: "stretch", md: "center" }}
+        direction="row"
+        alignItems="center"
         justifyContent="space-between"
+        gap={2}
+        sx={{ flexWrap: "wrap" }}
       >
-        <Stack direction="row" alignItems="center" gap={1.5} sx={{ flexWrap: "wrap" }}>
+        <Stack direction="row" alignItems="center" gap={1.25}>
           <Typography
             sx={{
-              fontSize: { xs: 22, md: 26 },
+              fontSize: 15,
               fontWeight: 700,
-              letterSpacing: "-0.5px",
-              lineHeight: 1.2,
+              letterSpacing: "-0.2px",
               color: "text.primary",
             }}
           >
-            Welcome to Pulse
+            AI Pulse
+          </Typography>
+          <Typography
+            sx={{
+              fontSize: 13,
+              fontWeight: 400,
+              letterSpacing: "-0.1px",
+              color: "text.secondary",
+            }}
+          >
+            by
           </Typography>
           <Box
-            sx={(theme) => ({
-              px: 1.25,
-              py: 0.625,
-              borderRadius: "8px",
-              bgcolor: theme.palette.primary.light,
-              color: theme.palette.primary.main,
-            })}
-          >
-            <Typography sx={{ fontSize: 13, fontWeight: 600, letterSpacing: "-0.1px", lineHeight: "18px" }}>
-              Subscription Active
-            </Typography>
-          </Box>
+            component="img"
+            src={glLogo}
+            alt="Great Learning"
+            sx={{ height: 22, width: "auto", display: "block" }}
+          />
         </Stack>
         <Button
           variant="outlined"
@@ -521,7 +524,6 @@ function PaidWelcomeStrip() {
             borderColor: theme.palette.outlineVariant.main,
             color: theme.palette.text.primary,
             flexShrink: 0,
-            alignSelf: { xs: "flex-start", md: "center" },
             "&:hover": {
               borderColor: theme.palette.text.primary,
               bgcolor: "transparent",
@@ -530,6 +532,34 @@ function PaidWelcomeStrip() {
         >
           Manage Subscription
         </Button>
+      </Stack>
+
+      {/* Title row */}
+      <Stack direction="row" alignItems="center" gap={1.5} sx={{ flexWrap: "wrap", mt: { xs: 2, md: 2.25 } }}>
+        <Typography
+          sx={{
+            fontSize: { xs: 22, md: 26 },
+            fontWeight: 700,
+            letterSpacing: "-0.5px",
+            lineHeight: 1.2,
+            color: "text.primary",
+          }}
+        >
+          Welcome to Pulse
+        </Typography>
+        <Box
+          sx={(theme) => ({
+            px: 1.25,
+            py: 0.625,
+            borderRadius: "8px",
+            bgcolor: theme.palette.primary.light,
+            color: theme.palette.primary.main,
+          })}
+        >
+          <Typography sx={{ fontSize: 13, fontWeight: 600, letterSpacing: "-0.1px", lineHeight: "18px" }}>
+            Subscription Active
+          </Typography>
+        </Box>
       </Stack>
 
       {/* What is Pulse — body text */}
