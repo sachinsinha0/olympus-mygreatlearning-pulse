@@ -1,11 +1,15 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, Button, Stack, Typography, keyframes, alpha, useTheme } from "@mui/material";
-import { ArrowRight, BookOpen, FileQuestion, PlayCircle } from "lucide-react";
+import { Avatar, Box, Button, Stack, Typography, keyframes, alpha, useTheme } from "@mui/material";
+import { ArrowRight } from "lucide-react";
 import glLogo from "../../assets/gl-logo.svg";
 import { TopNav } from "../../components/TopNav/TopNav";
 import { markIntroSeen } from "../../lib/pulse/onboarding";
 import { usePageLoader } from "../../components/common/PageLoader";
+import issuesData from "../../mocks/pulse-issues.json";
+import type { PulseIssue } from "../../lib/pulse/types";
+
+const allIssues = issuesData as PulseIssue[];
 
 const SLIDE_COUNT = 3;
 
@@ -86,8 +90,8 @@ export function PulseIntroPage() {
       {
         key: "cadence",
         stepLabel: "Release",
-        title: "One module every two weeks.",
-        body: "30 to 60 minutes each. Short enough to fit your day, deep enough to leave you with something usable.",
+        title: "One cutting-edge AI tool. Every two weeks.",
+        body: "30 to 60 minutes each. Short enough to fit your day, deep enough to apply at work the same day.",
         accent: {
           from: "#3B82F6",
           to: theme.palette.primary.dark,
@@ -875,39 +879,55 @@ function StatCard({
 }
 
 function ValueVisual() {
-  const types = [
-    { icon: PlayCircle, label: "Video", meta: "Watch the segment" },
-    { icon: FileQuestion, label: "Quiz", meta: "Check what stuck" },
-    { icon: BookOpen, label: "Hands-on", meta: "Try it inside the player" },
-  ];
+  const cards = useMemo(() => {
+    const today = new Date().toISOString().slice(0, 10);
+    const released = [...allIssues]
+      .filter((i) => i.releasedAt <= today)
+      .sort((a, b) => b.releasedAt.localeCompare(a.releasedAt));
+    const upcoming = [...allIssues]
+      .filter((i) => i.releasedAt > today)
+      .sort((a, b) => a.releasedAt.localeCompare(b.releasedAt));
+    const thisWeek = released[0];
+    const upNext = upcoming[0];
+    return [
+      thisWeek && {
+        eyebrow: "Released this week",
+        issue: thisWeek,
+        live: true,
+      },
+      upNext && {
+        eyebrow: "Next · in two weeks",
+        issue: upNext,
+        live: false,
+      },
+    ].filter(Boolean) as { eyebrow: string; issue: PulseIssue; live: boolean }[];
+  }, []);
 
   return (
     <Stack
-      direction="row"
+      direction={{ xs: "column", md: "row" }}
       alignItems="stretch"
       justifyContent="center"
       gap={{ xs: 2, md: 3 }}
       sx={{
         width: "100%",
-        maxWidth: 960,
+        maxWidth: 720,
         animation: `${enterScale} 700ms cubic-bezier(0.22,0.61,0.36,1) both`,
         animationDelay: "380ms",
       }}
     >
-      {types.map((t, i) => {
-        const Icon = t.icon;
+      {cards.map((c, i) => {
+        const title = c.issue.toolName ?? c.issue.title;
+        const fallback = title.charAt(0).toUpperCase();
         return (
           <Stack
             key={i}
-            direction="row"
-            alignItems="center"
-            gap={2}
+            gap={1.25}
             sx={(theme) => ({
-              width: { xs: "100%", md: 264 },
+              flex: 1,
               minWidth: 0,
-              flexShrink: 0,
-              px: { xs: 2, md: 2.25 },
-              py: { xs: 1.75, md: 2 },
+              px: { xs: 2.25, md: 2.75 },
+              py: { xs: 2, md: 2.5 },
               borderRadius: 2,
               border: `1px solid ${theme.palette.outlineVariant.main}`,
               bgcolor: theme.palette.background.paper,
@@ -915,46 +935,83 @@ function ValueVisual() {
               textAlign: "left",
             })}
           >
-            <Box
-              sx={(theme) => ({
-                width: 44,
-                height: 44,
-                borderRadius: "10px",
-                display: "grid",
-                placeItems: "center",
-                color: theme.palette.background.default,
-                bgcolor: theme.palette.primary.main,
-                flexShrink: 0,
-              })}
-            >
-              <Icon size={22} strokeWidth={2.25} />
-            </Box>
-            <Stack gap={0.25} sx={{ minWidth: 0 }}>
-              <Typography
-                sx={{
-                  fontSize: { xs: 14, md: 15 },
+            <Stack direction="row" alignItems="center" gap={1.5}>
+              <Avatar
+                src={c.issue.toolLogo ?? undefined}
+                alt={title}
+                variant="rounded"
+                sx={(theme) => ({
+                  width: 48,
+                  height: 48,
+                  bgcolor: theme.palette.primary.light,
+                  color: theme.palette.primary.main,
+                  border: `1px solid ${theme.palette.outlineVariant.main}`,
+                  fontSize: 18,
                   fontWeight: 700,
-                  color: "text.primary",
-                  letterSpacing: "-0.2px",
-                  textAlign: "left",
-                  lineHeight: 1.25,
-                }}
+                  borderRadius: "10px",
+                  flexShrink: 0,
+                  overflow: "hidden",
+                })}
               >
-                {t.label}
-              </Typography>
-              <Typography
-                sx={{
-                  fontSize: 12,
-                  fontWeight: 500,
-                  color: "text.secondary",
-                  letterSpacing: "-0.1px",
-                  textAlign: "left",
-                  lineHeight: 1.4,
-                }}
-              >
-                {t.meta}
-              </Typography>
+                {fallback}
+              </Avatar>
+              <Stack gap={0.5} sx={{ minWidth: 0 }}>
+                <Stack direction="row" alignItems="center" gap={0.75}>
+                  {c.live && (
+                    <Box
+                      sx={(theme) => ({
+                        width: 6,
+                        height: 6,
+                        borderRadius: "50%",
+                        bgcolor: theme.palette.primary.main,
+                        flexShrink: 0,
+                      })}
+                    />
+                  )}
+                  <Typography
+                    sx={(theme) => ({
+                      fontSize: 11,
+                      fontWeight: 700,
+                      letterSpacing: 1.2,
+                      textTransform: "uppercase",
+                      color: c.live ? theme.palette.primary.main : theme.palette.text.secondary,
+                      lineHeight: 1.2,
+                    })}
+                  >
+                    {c.eyebrow}
+                  </Typography>
+                </Stack>
+                <Typography
+                  sx={{
+                    fontSize: { xs: 17, md: 18 },
+                    fontWeight: 700,
+                    color: "text.primary",
+                    letterSpacing: "-0.3px",
+                    lineHeight: 1.2,
+                    textAlign: "left",
+                  }}
+                  noWrap
+                >
+                  {title}
+                </Typography>
+              </Stack>
             </Stack>
+            <Typography
+              sx={{
+                fontSize: { xs: 13, md: 14 },
+                fontWeight: 500,
+                color: "text.secondary",
+                letterSpacing: "-0.1px",
+                lineHeight: 1.45,
+                textAlign: "left",
+                display: "-webkit-box",
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: "vertical",
+                overflow: "hidden",
+              }}
+            >
+              {c.issue.description}
+            </Typography>
           </Stack>
         );
       })}
