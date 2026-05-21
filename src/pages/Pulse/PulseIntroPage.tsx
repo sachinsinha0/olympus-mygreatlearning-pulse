@@ -41,8 +41,13 @@ const marqueeScroll = keyframes`
   to { transform: translate3d(-50%,0,0); }
 `;
 
+const titleFadeIn = keyframes`
+  from { opacity: 0; transform: translate3d(0, 14px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+`;
+
 const titleEntrance = keyframes`
-  0%   { background-position: -130% 50%; }
+  0%   { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 `;
 
@@ -75,7 +80,7 @@ export function PulseIntroPage() {
         key: "welcome",
         stepLabel: "Welcome",
         title: "AI Pulse.\nYour AI learning channel.",
-        body: "Learn the new AI tools and how people are using them at work.",
+        body: "Learn new AI tools and how people are using them at work.",
         // Icy cool wash — sky-leaning blues
         accent: {
           from: theme.palette.primary.main,
@@ -99,7 +104,7 @@ export function PulseIntroPage() {
         key: "value",
         stepLabel: "What's inside",
         title: "New AI tools. Real examples.\nUse at work.",
-        body: "Hands-on modules on what's new from OpenAI, Anthropic, Google and other labs. So you walk away with something you can use at work.",
+        body: "Hands-on modules on what's new from OpenAI, Anthropic, Google and other labs, so you walk away with something you can use at work.",
         // Bright primary with a hint of cyan — optimistic
         accent: {
           from: theme.palette.primary.main,
@@ -284,16 +289,18 @@ function SlideContent({ slide, active }: { slide: Slide; active: boolean }) {
                     display: "block",
                     fontWeight: 800,
                     letterSpacing: "-0.04em",
-                    backgroundImage: `linear-gradient(110deg, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 22%, #60A5FA 40%, #DBEAFE 50%, #60A5FA 60%, ${theme.palette.primary.main} 78%, ${theme.palette.primary.dark} 100%)`,
-                    backgroundSize: "200% 100%",
+                    backgroundImage: `linear-gradient(100deg, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 22%, #60A5FA 40%, #DBEAFE 50%, #60A5FA 60%, ${theme.palette.primary.main} 78%, ${theme.palette.primary.dark} 100%)`,
+                    backgroundSize: "180% 100%",
                     backgroundPosition: "0% 50%",
                     backgroundRepeat: "no-repeat",
                     WebkitBackgroundClip: "text",
                     backgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     color: "transparent",
-                    animation: `${enterUp} 720ms cubic-bezier(0.22, 0.61, 0.36, 1) 140ms both, ${titleEntrance} 2000ms cubic-bezier(0.16, 1, 0.3, 1) 200ms both, ${titleBreath} 10s ease-in-out 2400ms infinite`,
-                    filter: `drop-shadow(0 8px 22px ${alpha(theme.palette.primary.main, 0.28)}) drop-shadow(0 2px 6px ${alpha(theme.palette.primary.dark, 0.18)})`,
+                    willChange: "background-position",
+                    transform: "translateZ(0)",
+                    backfaceVisibility: "hidden",
+                    animation: `${titleFadeIn} 800ms cubic-bezier(0.22, 0.61, 0.36, 1) 140ms both, ${titleEntrance} 1800ms cubic-bezier(0.4, 0, 0.2, 1) 240ms both, ${titleBreath} 10s ease-in-out 2200ms infinite`,
                   }}
                 >
                   {line}
@@ -342,7 +349,8 @@ function SlideContent({ slide, active }: { slide: Slide; active: boolean }) {
             lineHeight: { xs: "24px", md: "30px" },
             letterSpacing: "-0.2px",
             color: "text.secondary",
-            maxWidth: 600,
+            maxWidth: 720,
+            textWrap: "balance",
             animation: `${enterUp} 700ms ease both`,
             animationDelay: `${220 + totalWords * 60}ms`,
           }}
