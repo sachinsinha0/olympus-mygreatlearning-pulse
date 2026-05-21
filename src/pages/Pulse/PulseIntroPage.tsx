@@ -15,6 +15,7 @@ const SLIDE_COUNT = 3;
 
 const LOGO_ITEMS: { slug: string; label: string; inline?: "openai" }[] = [
   { slug: "anthropic", label: "Anthropic" },
+  { slug: "claude", label: "Claude" },
   { slug: "openai", label: "OpenAI", inline: "openai" },
   { slug: "google", label: "Google" },
   { slug: "googlegemini", label: "Gemini" },
@@ -40,20 +41,9 @@ const marqueeScroll = keyframes`
   to { transform: translate3d(-50%,0,0); }
 `;
 
-const auroraDriftA = keyframes`
-  0%, 100% { transform: translate3d(-10%, -15%, 0) scale(1); }
-  50%      { transform: translate3d(15%, 10%, 0) scale(1.15); }
-`;
-
-const auroraDriftB = keyframes`
-  0%, 100% { transform: translate3d(20%, 25%, 0) scale(1.1); }
-  50%      { transform: translate3d(-15%, -5%, 0) scale(1); }
-`;
-
-const shimmerSweep = keyframes`
-  0%   { transform: translateX(-120%) skewX(-12deg); }
-  60%  { transform: translateX(220%) skewX(-12deg); }
-  100% { transform: translateX(220%) skewX(-12deg); }
+const titleBreath = keyframes`
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
 `;
 
 type SlideKey = "welcome" | "cadence" | "value";
@@ -81,21 +71,23 @@ export function PulseIntroPage() {
         stepLabel: "Welcome",
         title: "AI Pulse.\nYour AI learning channel.",
         body: "Learn the new AI tools and how people are using them at work.",
+        // Icy cool wash — sky-leaning blues
         accent: {
           from: theme.palette.primary.main,
-          to: "#3B82F6",
-          glow: theme.palette.primary.light,
+          to: "#60A5FA",
+          glow: "#DBEAFE",
         },
       },
       {
         key: "cadence",
         stepLabel: "Release",
-        title: "One cutting-edge AI tool. Every two weeks.",
+        title: "One cutting-edge AI tool.\nEvery two weeks.",
         body: "30 to 60 minutes each. Short enough to fit your day, deep enough to apply at work the same day.",
+        // Deeper indigo — confident
         accent: {
           from: "#3B82F6",
-          to: theme.palette.primary.dark,
-          glow: theme.palette.primary.light,
+          to: "#4338CA",
+          glow: "#C7D2FE",
         },
       },
       {
@@ -103,9 +95,10 @@ export function PulseIntroPage() {
         stepLabel: "What's inside",
         title: "New AI tools. Real examples.\nUse at work.",
         body: "We show you new AI tools from OpenAI, Anthropic, Google and more, with real examples you can use at work.",
+        // Bright primary with a hint of cyan — optimistic
         accent: {
           from: theme.palette.primary.main,
-          to: theme.palette.primary.dark,
+          to: "#0EA5E9",
           glow: theme.palette.primary.light,
         },
       },
@@ -163,8 +156,7 @@ export function PulseIntroPage() {
 
   return (
     <Box sx={{ minHeight: "100vh", bgcolor: "background.default", position: "relative", overflow: "hidden" }}>
-      <Aurora accent={slide.accent} />
-      <CenterSpotlight />
+      <SlideBackdrop accent={slide.accent} />
       <NoiseOverlay />
 
       <TopNav />
@@ -191,7 +183,7 @@ export function PulseIntroPage() {
             alignItems: "center",
             justifyContent: "center",
             px: { xs: 3, md: 6 },
-            py: { xs: 3, md: 4 },
+            py: { xs: 5, md: 8 },
           }}
         >
           {slides.map((s, i) => {
@@ -207,7 +199,7 @@ export function PulseIntroPage() {
                   alignItems: "center",
                   justifyContent: "center",
                   px: { xs: 3, md: 6 },
-                  py: { xs: 3, md: 5 },
+                  py: { xs: 5, md: 8 },
                   opacity: active ? 1 : 0,
                   transform: active
                     ? "translateY(0)"
@@ -236,7 +228,7 @@ export function PulseIntroPage() {
           }}
         >
           <Stepper slides={slides} active={index} onJump={goTo} />
-          <PrimaryCTA onClick={onPrimary} accent={slide.accent}>
+          <PrimaryCTA onClick={onPrimary}>
             {isLast ? "Explore AI Pulse" : "Continue"}
           </PrimaryCTA>
         </Stack>
@@ -248,6 +240,7 @@ export function PulseIntroPage() {
 /* ───────────────────────── Slide content ───────────────────────── */
 
 function SlideContent({ slide, active }: { slide: Slide; active: boolean }) {
+  const theme = useTheme();
   const titleLines = slide.title.split("\n");
   const totalWords = titleLines.reduce((n, line) => n + line.split(" ").length, 0);
 
@@ -277,6 +270,7 @@ function SlideContent({ slide, active }: { slide: Slide; active: boolean }) {
           {titleLines.map((line, lineIdx) => {
             const words = line.split(" ");
             const wordsBefore = titleLines.slice(0, lineIdx).reduce((n, l) => n + l.split(" ").length, 0);
+            const highlight = lineIdx === 0 && slide.key === "welcome";
             return (
               <Box
                 key={lineIdx}
@@ -285,21 +279,39 @@ function SlideContent({ slide, active }: { slide: Slide; active: boolean }) {
                   flexWrap: "wrap",
                   justifyContent: "center",
                   gap: "0.25em",
+                  ...(highlight && {
+                    fontWeight: 800,
+                    letterSpacing: "-0.04em",
+                    backgroundImage: `linear-gradient(110deg, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 25%, #1E40AF 50%, ${theme.palette.primary.main} 75%, ${theme.palette.primary.dark} 100%)`,
+                    backgroundSize: "220% 100%",
+                    backgroundPosition: "0% 50%",
+                    backgroundRepeat: "no-repeat",
+                    WebkitBackgroundClip: "text",
+                    backgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    color: "transparent",
+                    animation: `${titleBreath} 7s ease-in-out infinite`,
+                    animationDelay: "1200ms",
+                    filter: `drop-shadow(0 8px 22px ${alpha(theme.palette.primary.main, 0.25)}) drop-shadow(0 2px 6px ${alpha(theme.palette.primary.dark, 0.18)})`,
+                  }),
                 }}
               >
-                {words.map((word, i) => (
-                  <Box
-                    component="span"
-                    key={i}
-                    sx={{
-                      display: "inline-block",
-                      animation: `${enterUp} 720ms cubic-bezier(0.22, 0.61, 0.36, 1) both`,
-                      animationDelay: `${140 + (wordsBefore + i) * 60}ms`,
-                    }}
-                  >
-                    {word}
-                  </Box>
-                ))}
+                {words.map((word, i) => {
+                  const entryDelay = 140 + (wordsBefore + i) * 60;
+                  return (
+                    <Box
+                      component="span"
+                      key={i}
+                      sx={{
+                        display: "inline-block",
+                        animation: `${enterUp} 720ms cubic-bezier(0.22, 0.61, 0.36, 1) both`,
+                        animationDelay: `${entryDelay}ms`,
+                      }}
+                    >
+                      {word}
+                    </Box>
+                  );
+                })}
               </Box>
             );
           })}
@@ -441,144 +453,70 @@ function Stepper({
 
 function PrimaryCTA({
   onClick,
-  accent,
   children,
 }: {
   onClick: () => void;
-  accent: Slide["accent"];
   children: React.ReactNode;
 }) {
   return (
-    <Box
-      sx={{
+    <Button
+      variant="contained"
+      disableElevation
+      endIcon={<ArrowRight size={16} />}
+      onClick={onClick}
+      sx={(t) => ({
         position: "relative",
+        height: 48,
+        px: 3,
+        minWidth: { xs: "100%", sm: 200 },
         width: { xs: "100%", sm: "auto" },
         maxWidth: 380,
-      }}
-    >
-      {/* Outer glow */}
-      <Box
-        sx={{
-          position: "absolute",
-          inset: -2,
-          borderRadius: 999,
-          background: `linear-gradient(135deg, ${accent.from}, ${accent.to})`,
-          opacity: 0.18,
-          filter: "blur(10px)",
-          transition: "opacity 400ms ease",
-          pointerEvents: "none",
-        }}
-      />
-      <Button
-        variant="contained"
-        disableElevation
-        endIcon={<ArrowRight size={18} />}
-        onClick={onClick}
-        sx={(t) => ({
-          position: "relative",
-          height: 56,
-          px: 4,
-          minWidth: { xs: "100%", sm: 240 },
-          width: { xs: "100%", sm: "auto" },
-          fontSize: 15,
-          fontWeight: 600,
-          letterSpacing: "-0.2px",
-          textTransform: "none",
-          borderRadius: 999,
-          color: t.palette.background.default,
+        fontSize: 15,
+        fontWeight: 600,
+        letterSpacing: "-0.2px",
+        textTransform: "none",
+        borderRadius: 999,
+        color: t.palette.background.default,
+        bgcolor: t.palette.text.primary,
+        boxShadow: "none",
+        "&:hover": {
           bgcolor: t.palette.text.primary,
+          filter: "brightness(1.08)",
           boxShadow: "none",
-          overflow: "hidden",
-          "&::before": {
-            content: '""',
-            position: "absolute",
-            top: 0,
-            left: 0,
-            height: "100%",
-            width: "40%",
-            background: `linear-gradient(90deg, transparent, ${alpha("#ffffff", 0.35)}, transparent)`,
-            transform: "translateX(-120%) skewX(-12deg)",
-            animation: `${shimmerSweep} 3.4s ease-in-out infinite`,
-            pointerEvents: "none",
-          },
-          "&:hover": {
-            bgcolor: t.palette.text.primary,
-            filter: "brightness(1.08)",
-            boxShadow: "none",
-            transform: "translateY(-1px)",
-          },
-          "& .MuiButton-endIcon": {
-            transition: "transform 280ms cubic-bezier(0.22,0.61,0.36,1)",
-          },
-          "&:hover .MuiButton-endIcon": {
-            transform: "translateX(4px)",
-          },
-          transition: "transform 200ms ease, filter 200ms ease",
-        })}
-      >
-        {children}
-      </Button>
-    </Box>
+        },
+        "& .MuiButton-endIcon": {
+          transition: "transform 280ms cubic-bezier(0.22,0.61,0.36,1)",
+        },
+        "&:hover .MuiButton-endIcon": {
+          transform: "translateX(3px)",
+        },
+        transition: "filter 200ms ease",
+      })}
+    >
+      {children}
+    </Button>
   );
 }
 
 /* ───────────────────────── Backdrop ───────────────────────── */
 
-function Aurora({ accent }: { accent: Slide["accent"] }) {
+function SlideBackdrop({ accent }: { accent: Slide["accent"] }) {
   return (
     <Box
       aria-hidden
-      sx={{
+      sx={(t) => ({
         position: "absolute",
         inset: 0,
-        overflow: "hidden",
         pointerEvents: "none",
         zIndex: 0,
-      }}
-    >
-      <Box
-        sx={{
-          position: "absolute",
-          top: "-20%",
-          left: "-20%",
-          width: "80vw",
-          height: "80vw",
-          borderRadius: "50%",
-          background: `radial-gradient(circle at 50% 50%, ${alpha(accent.from, 0.28)} 0%, ${alpha(accent.from, 0)} 60%)`,
-          filter: "blur(60px)",
-          animation: `${auroraDriftA} 18s ease-in-out infinite`,
-          transition: "background 800ms ease",
-        }}
-      />
-      <Box
-        sx={{
-          position: "absolute",
-          bottom: "-25%",
-          right: "-15%",
-          width: "70vw",
-          height: "70vw",
-          borderRadius: "50%",
-          background: `radial-gradient(circle at 50% 50%, ${alpha(accent.to, 0.24)} 0%, ${alpha(accent.to, 0)} 60%)`,
-          filter: "blur(70px)",
-          animation: `${auroraDriftB} 22s ease-in-out infinite`,
-          transition: "background 800ms ease",
-        }}
-      />
-      <Box
-        sx={{
-          position: "absolute",
-          top: "30%",
-          left: "40%",
-          width: "40vw",
-          height: "40vw",
-          borderRadius: "50%",
-          background: `radial-gradient(circle at 50% 50%, ${alpha(accent.glow, 0.22)} 0%, ${alpha(accent.glow, 0)} 60%)`,
-          filter: "blur(80px)",
-          animation: `${auroraDriftA} 26s ease-in-out infinite reverse`,
-          transition: "background 800ms ease",
-        }}
-      />
-    </Box>
+        background: `
+          radial-gradient(ellipse 70% 55% at 88% 8%, ${alpha(accent.from, 0.10)} 0%, transparent 60%),
+          radial-gradient(ellipse 75% 60% at 8% 92%, ${alpha(accent.to, 0.08)} 0%, transparent 62%),
+          linear-gradient(180deg, ${t.palette.background.default} 0%, ${alpha(accent.glow, 0.28)} 100%)
+        `,
+        transition: "background 600ms ease",
+      })}
+    />
   );
 }
 
@@ -628,21 +566,6 @@ function BrandMark() {
   );
 }
 
-function CenterSpotlight() {
-  return (
-    <Box
-      aria-hidden
-      sx={(t) => ({
-        position: "absolute",
-        inset: 0,
-        pointerEvents: "none",
-        zIndex: 1,
-        background: `radial-gradient(ellipse 70% 55% at 50% 50%, ${alpha(t.palette.background.default, 0.7)} 0%, ${alpha(t.palette.background.default, 0)} 70%)`,
-      })}
-    />
-  );
-}
-
 function NoiseOverlay() {
   // Inline SVG turbulence — adds subtle film grain without an asset.
   const svg =
@@ -666,8 +589,8 @@ function NoiseOverlay() {
         zIndex: 1,
         backgroundImage: `url("${svg}")`,
         backgroundSize: "160px 160px",
-        opacity: 0.06,
-        mixBlendMode: "overlay",
+        opacity: 0.028,
+        mixBlendMode: "multiply",
       }}
     />
   );
@@ -691,19 +614,30 @@ function TickerVisual({ active }: { accent: Slide["accent"]; active: boolean }) 
       }}
     >
       <Box sx={{ overflow: "hidden", py: 2 }}>
-        <Stack
-          direction="row"
-          alignItems="center"
-          gap={{ xs: 4, md: 6 }}
+        <Box
           sx={{
+            display: "flex",
+            alignItems: "center",
             width: "max-content",
-            animation: active ? `${marqueeScroll} 64s linear infinite` : "none",
+            animation: `${marqueeScroll} 64s linear infinite`,
+            animationPlayState: active ? "running" : "paused",
+            willChange: "transform",
           }}
         >
           {doubled.map((item, i) => (
-            <BrandLogo key={`${item.slug}-${i}`} slug={item.slug} label={item.label} inline={item.inline} />
+            <Box
+              key={`${item.slug}-${i}`}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                flexShrink: 0,
+                pr: { xs: 4, md: 6 },
+              }}
+            >
+              <BrandLogo slug={item.slug} label={item.label} inline={item.inline} />
+            </Box>
           ))}
-        </Stack>
+        </Box>
       </Box>
     </Box>
   );
@@ -812,10 +746,11 @@ function StatCard({
         pt: { xs: 2.25, md: 3 },
         pb: { xs: 1.75, md: 2.25 },
         borderRadius: 3,
-        border: `1px solid ${alpha(t.palette.text.primary, 0.08)}`,
-        bgcolor: alpha(t.palette.background.paper, 0.7),
-        backdropFilter: "blur(12px)",
-        WebkitBackdropFilter: "blur(12px)",
+        border: `1px solid ${alpha(t.palette.common.white, 0.7)}`,
+        bgcolor: alpha(t.palette.background.paper, 0.55),
+        backdropFilter: "blur(22px) saturate(160%)",
+        WebkitBackdropFilter: "blur(22px) saturate(160%)",
+        boxShadow: `0 1px 0 ${alpha(t.palette.common.white, 0.6)} inset, 0 12px 32px ${alpha(t.palette.primary.dark, 0.08)}, 0 2px 8px ${alpha(t.palette.common.black, 0.04)}`,
         textAlign: "left",
         overflow: "hidden",
         "&::before": highlight
@@ -928,10 +863,12 @@ function ValueVisual() {
               minWidth: 0,
               px: { xs: 2.25, md: 2.75 },
               py: { xs: 2, md: 2.5 },
-              borderRadius: 2,
-              border: `1px solid ${theme.palette.outlineVariant.main}`,
-              bgcolor: theme.palette.background.paper,
-              boxShadow: `0 2px 12px ${alpha(theme.palette.common.black, 0.04)}`,
+              borderRadius: 3,
+              border: `1px solid ${alpha(theme.palette.common.white, 0.7)}`,
+              bgcolor: alpha(theme.palette.background.paper, 0.55),
+              backdropFilter: "blur(22px) saturate(160%)",
+              WebkitBackdropFilter: "blur(22px) saturate(160%)",
+              boxShadow: `0 1px 0 ${alpha(theme.palette.common.white, 0.6)} inset, 0 12px 32px ${alpha(theme.palette.primary.dark, 0.08)}, 0 2px 8px ${alpha(theme.palette.common.black, 0.04)}`,
               textAlign: "left",
             })}
           >
