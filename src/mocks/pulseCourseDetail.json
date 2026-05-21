@@ -13,26 +13,64 @@
   "sections": [
     {
       "id": "m1",
+      "moduleId": "pulse-10",
       "label": "Module 1: Claude Cowork",
       "videosCount": 5,
       "resourcesCount": 5,
       "progress": 60,
       "expandedDefault": true,
       "items": [
-        { "id": "m1-v1", "type": "video", "title": "Segment 1: The Shift", "duration": "7 Mins 2 Secs" },
-        { "id": "m1-p1", "type": "tyu", "title": "Test Your Understanding 1", "size": "5 Questions", "viewed": true },
+        {
+          "id": "m1-intro",
+          "type": "overview",
+          "title": "Overview",
+          "moduleLabel": "Module 1",
+          "moduleTitle": "What OpenClaw built. How Cowork makes it usable at work.",
+          "summary": "OpenClaw introduced the core architecture behind autonomous agents. Cowork applies many of the same ideas, while intentionally limiting higher-risk capabilities to make agent workflows safer and easier to use in real work environments.",
+          "description": "Claude Cowork is Anthropic's agentic AI product for knowledge work. It is designed to handle tasks autonomously across desktop files, folders, and applications, with human oversight kept in place for consequential decisions. This module covers what Claude Cowork is, how it relates to Claude's tool-use and computer-use capabilities, the trade-offs of delegating real work to an agent, and a framework for choosing a first workflow that is appropriate for agent-assisted automation.",
+          "objectives": [
+            "Describe what an AI agent is and how it differs from a chat-based assistant.",
+            "Identify the core building blocks used in agent systems like Claude: tool use, computer use, task execution, and human review.",
+            "Compare the trade-offs between autonomy and oversight in real workflows.",
+            "Apply a decision framework to choose an appropriate first workflow for agent automation.",
+            "Outline a rollout plan that includes guardrails, reviewer roles, and a manual override."
+          ],
+          "topics": [
+            { "title": "The shift", "description": "Defines the difference between chat-based AI and agent-based AI, and explains how accountability changes when an agent executes tasks on a user's behalf." },
+            { "title": "The architecture", "description": "Walks through the components commonly used in agent systems: how a task is framed, how the agent uses tools, how it works across files and apps, and how its output is verified. Introduces the questions to ask before allowing an agent to run autonomously." },
+            { "title": "The trade-offs", "description": "Examines the practical trade-offs of agent-driven workflows, including speed, consistency, and the need for human oversight on high-impact decisions." },
+            { "title": "The rubric", "description": "Presents a structured framework for deciding which workflows are good candidates for an AI agent and which should remain human-led." }
+          ],
+          "prerequisites": "No setup or installation needed. You are working with one of Anthropic's desktop products, and the hands-on demo is an interactive workflow that lets you practice step by step.",
+          "estimatedMinutes": 40
+        },
+        {
+          "id": "m1-v1",
+          "type": "video",
+          "title": "Segment 1: The shift",
+          "duration": "7 Mins 2 Secs",
+          "summary": "This segment introduces the shift from chat-based AI to agent-based AI. Instead of typing a question and receiving a one-off answer, you delegate concrete jobs to an AI agent that runs across files, folders, and applications on your behalf, with you stepping in for consequential decisions. The segment explains why this changes the kind of work that can be automated, how accountability moves between the human and the agent, and what to keep in mind before letting an agent run autonomously. It closes by framing this transition as the foundation for the rest of the module.",
+          "topics": [
+            { "time": "00:10", "title": "From chat-based AI to agent-based AI", "body": "Chat-based AI is reactive: you ask, it answers. Agent-based AI is proactive: you assign a goal, and the agent executes multi-step work over time, returning when the job is done." },
+            { "time": "01:16", "title": "Delegating a task to an agent inside a defined scope", "body": "Each agent runs within a scope you define: which tools it can use, which files it can read, what kinds of decisions it can make on its own. The boundary is the contract." },
+            { "time": "02:24", "title": "New categories of work that become possible with agents", "body": "Tasks that previously needed continuous human attention (monitoring, reviewing, drafting follow-ups) are now candidates for delegation. The human is called in at decision points rather than throughout." },
+            { "time": "02:51", "title": "How accountability changes when the agent acts on your behalf", "body": "When an agent takes actions in your tools, the responsibility for those actions stays with you. The segment covers how to set up the relationship so that the agent's work is reviewable." }
+          ]
+        },
+        { "id": "m1-p1", "type": "tyu", "title": "Test Your Understanding 1", "size": "5 Questions", "viewed": true, "quizType": "Graded Quiz", "totalMarks": 5, "timeLimit": "5 Mins", "instructions": "Carefully read through the scenario presented in the question and pick the correct answer." },
         { "id": "m1-v2", "type": "video", "title": "Segment 2: The architecture", "duration": "7 Mins 3 Secs" },
-        { "id": "m1-p2", "type": "tyu", "title": "Test Your Understanding 2", "size": "5 Questions", "viewed": true },
+        { "id": "m1-p2", "type": "tyu", "title": "Test Your Understanding 2", "size": "5 Questions", "viewed": true, "quizType": "Graded Quiz", "totalMarks": 5, "timeLimit": "5 Mins", "instructions": "Carefully read through the scenario presented in the question and pick the correct answer." },
         { "id": "m1-v3", "type": "video", "title": "Segment 3: The trade-offs", "duration": "7 Mins 3 Secs" },
-        { "id": "m1-p3", "type": "tyu", "title": "Test Your Understanding 3", "size": "5 Questions", "viewed": false },
+        { "id": "m1-p3", "type": "tyu", "title": "Test Your Understanding 3", "size": "5 Questions", "viewed": false, "quizType": "Graded Quiz", "totalMarks": 5, "timeLimit": "5 Mins", "instructions": "Carefully read through the scenario presented in the question and pick the correct answer." },
         { "id": "m1-v4", "type": "video", "title": "Segment 4: The rubric", "duration": "5 Mins 57 Secs" },
-        { "id": "m1-p4", "type": "tyu", "title": "Test Your Understanding 4", "size": "5 Questions", "viewed": false },
-        { "id": "m1-v5", "type": "video", "title": "Hands-on Demo", "duration": "12 Mins" },
-        { "id": "m1-r1", "type": "reading", "title": "What's your read? The cohort is already weighing in.", "viewed": false }
+        { "id": "m1-p4", "type": "tyu", "title": "Test Your Understanding 4", "size": "5 Questions", "viewed": false, "quizType": "Graded Quiz", "totalMarks": 5, "timeLimit": "5 Mins", "instructions": "Carefully read through the scenario presented in the question and pick the correct answer." },
+        { "id": "m1-v5", "type": "video", "title": "Hands-on demo", "duration": "12 Mins" },
+        { "id": "m1-r1", "type": "reading", "title": "What's your read? The cohort is already weighing in.", "body": "## The conversation so far\n\nMost teams trying Cowork in the first week land on the same two questions: **how do we keep approvals fast without giving up oversight?** and **which kinds of tasks should the agent actually own end-to-end?**\n\nHere's a snapshot of what learners shared in the cohort channel this week.\n\n### What's working\n\n- Pairing Cowork with a single owner per workflow. Teams that named a clear human reviewer reported the fastest time-to-first-merged-PR.\n- Starting with low-risk loops: doc cleanup, ticket triage, internal data lookups.\n- Logging every agent action to a shared channel. Visibility kills the trust gap quickly.\n\n### Where it's still rough\n\n- Multi-step tasks that cross tools (e.g. Slack → GitHub → Linear) need explicit guardrails. Without them, the agent retries blindly.\n- New hires reported being slower to learn the codebase when the agent handled the easy work first.\n\n### Your turn\n\nWhat's the one workflow you'd hand Cowork tomorrow if you could? Drop a note in the cohort channel." }
       ]
     },
     {
       "id": "m2",
+      "moduleId": "pulse-9",
       "label": "Module 2: Claude in Your Spreadsheet",
       "videosCount": 6,
       "resourcesCount": 5,
@@ -43,12 +81,12 @@
         { "id": "m2-v2", "type": "video", "title": "Segment 2: Read. Reason. Reach. Record.", "duration": "9 Mins" },
         { "id": "m2-p2", "type": "tyu", "title": "Test Your Understanding 2", "size": "5 Questions", "viewed": false },
         { "id": "m2-v3", "type": "video", "title": "Segment 3: The Cost of Letting Go", "duration": "7 Mins" },
-        { "id": "m2-p3", "type": "tyu", "title": "Test Your Understanding 3", "size": "5 Questions", "viewed": false },
+        { "id": "m2-p3", "type": "tyu", "title": "Test Your Understanding 3", "size": "5 Questions", "viewed": false, "quizType": "Graded Quiz", "totalMarks": 5, "timeLimit": "5 Mins", "instructions": "Carefully read through the scenario presented in the question and pick the correct answer." },
         { "id": "m2-v4", "type": "video", "title": "Segment 4: How to Pilot Safely", "duration": "6 Mins" },
-        { "id": "m2-p4", "type": "tyu", "title": "Test Your Understanding 4", "size": "5 Questions", "viewed": false },
+        { "id": "m2-p4", "type": "tyu", "title": "Test Your Understanding 4", "size": "5 Questions", "viewed": false, "quizType": "Graded Quiz", "totalMarks": 5, "timeLimit": "5 Mins", "instructions": "Carefully read through the scenario presented in the question and pick the correct answer." },
         { "id": "m2-v5", "type": "video", "title": "Hands-on Demo Part 1: The Spreadsheet Audit", "duration": "14 Mins" },
         { "id": "m2-v6", "type": "video", "title": "Hands-on Demo Part 2: Building a DCF Valuation", "duration": "18 Mins" },
-        { "id": "m2-r1", "type": "reading", "title": "What's your read? The cohort is already weighing in.", "viewed": false }
+        { "id": "m2-r1", "type": "reading", "title": "What's your read? The cohort is already weighing in.", "body": "## Spreadsheets, but smarter\n\nThe early reaction from analysts has been more cautious than the demos suggest. The biggest surprise is not what Claude can do inside a sheet, but how quickly it can quietly do the *wrong* thing if you don't pin down the inputs.\n\n### What learners are praising\n\n- Ad-hoc lookups across columns that used to need a VLOOKUP cocktail.\n- Sanity-checking a model: ask Claude to spot inconsistent assumptions before the meeting.\n- Drafting a one-paragraph summary of a 20-tab workbook for stakeholders.\n\n### Where it bites\n\n- Numbers look right but the source range is wrong. Always inspect the cell references it picks.\n- Auto-applied formulas can spread across linked sheets unexpectedly. Version your workbook before turning Claude loose.\n\n### The pilot move\n\nStart with one analyst, one workbook, one weekly task. Measure the time saved over four weeks before scaling." }
       ]
     },
     {

@@ -8,6 +8,7 @@ import { isTrialExpired, usePricing } from "../../lib/pulse/pricing";
 import { useUnitLabel } from "../../lib/pulse/terminology";
 import { useLearningProgress } from "../../lib/pulse/learningProgress";
 import { usePageLoader } from "../common/PageLoader";
+import { getDefaultItemId } from "../../lib/pulse/courseItems";
 
 export type ModuleListCardStatus = "released" | "upcoming";
 
@@ -46,8 +47,10 @@ export function ModuleListCard({
   const navigateToModule = (withTrialFlag = false) => {
     markStarted(issue.id);
     runWithPageLoader(() => {
-      const suffix = withTrialFlag ? "&trial=started" : "";
-      navigate(`/pulse/course?module=${issue.id}${suffix}`);
+      const itemId = getDefaultItemId(issue.id, started);
+      const suffix = withTrialFlag ? "?trial=started" : "";
+      const itemPath = itemId ? `/items/${itemId}` : "";
+      navigate(`/pulse/modules/${issue.id}${itemPath}${suffix}`);
     }, withTrialFlag ? 950 : 700);
   };
 

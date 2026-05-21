@@ -91,3 +91,80 @@ export const FILTER_TAGS: TopicTag[] = [
   "multimodal",
   "ops",
 ];
+
+export type CourseItemType = "video" | "tyu" | "reading";
+
+export type OverviewTopic = {
+  title: string;
+  description: string;
+};
+
+export type VideoTopic = {
+  time: string;
+  title: string;
+  body?: string;
+};
+
+export type CourseItem =
+  | {
+      id: string;
+      type: "video";
+      title: string;
+      duration?: string;
+      body?: string;
+      poster?: string;
+      summary?: string;
+      topics?: VideoTopic[];
+    }
+  | {
+      id: string;
+      type: "tyu";
+      title: string;
+      size?: string;
+      questions?: number;
+      body?: string;
+      quizType?: string;
+      totalMarks?: number;
+      timeLimit?: string;
+      instructions?: string;
+    }
+  | { id: string; type: "reading"; title: string; body?: string }
+  | {
+      id: string;
+      type: "overview";
+      title: string;
+      moduleLabel: string;
+      moduleTitle: string;
+      summary: string;
+      description: string;
+      objectives: string[];
+      topics: OverviewTopic[];
+      prerequisites: string;
+      estimatedMinutes?: number;
+    };
+
+export type CourseSection = {
+  id: string;
+  moduleId?: string;
+  label: string;
+  videosCount: number;
+  resourcesCount: number;
+  progress: number;
+  expandedDefault?: boolean;
+  items?: CourseItem[];
+};
+
+export type CourseDetail = {
+  videosCompleted: number;
+  videosTotal: number;
+  resourcesViewed: number;
+  resourcesTotal: number;
+  progress: number;
+  resume: {
+    sectionId: string;
+    itemId: string;
+    title: string;
+    timeLeft: string;
+  };
+  sections: CourseSection[];
+};

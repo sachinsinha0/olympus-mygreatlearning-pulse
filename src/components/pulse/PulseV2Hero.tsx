@@ -1,10 +1,12 @@
 import { useMemo } from "react";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, Briefcase, CalendarClock, Clock, Lock, Sparkles } from "lucide-react";
+import { ArrowRight, Briefcase, CalendarClock, ChevronRight, Clock, Lock, Sparkles } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { daysUntil, isTrialExpired, usePricing } from "../../lib/pulse/pricing";
 import { usePageLoader } from "../common/PageLoader";
+import glLogo from "../../assets/gl-logo.svg";
+import { clearIntroSeen } from "../../lib/pulse/onboarding";
 import type { PulseIssue } from "../../lib/pulse/types";
 import issuesData from "../../mocks/pulse-issues.json";
 
@@ -166,6 +168,7 @@ function MarketingHero() {
         },
       })}
     >
+      <ReplayIntroButton />
       {/* Mobile-only: hero image stacked on top of the text. Hidden at md+.
           Modest container height; the image itself is scaled up inside via transform so the subject
           (laptop / phone / blocks on the right of the source image) reads bigger without making the
@@ -204,10 +207,10 @@ function MarketingHero() {
           alt=""
           sx={{
             position: "absolute",
-            right: -68,
-            top: -56,
+            right: -72,
+            top: -28,
             bottom: 0,
-            height: copy.trialStatus ? "118%" : "124%",
+            height: "114%",
             width: "auto",
             display: { xs: "none", lg: "block" },
             pointerEvents: "none",
@@ -225,12 +228,39 @@ function MarketingHero() {
           sx={{
             position: "relative",
             px: { xs: 2, md: 4 },
-            pt: { xs: 2, md: 5 },
-            pb: { xs: 2, md: 5 },
+            pt: { xs: 2, md: 4 },
+            pb: { xs: 2, md: 4 },
             maxWidth: { xs: "100%", lg: 680 },
           }}
         >
-          {copy.trialStatus && <TrialStatusChip status={copy.trialStatus} />}
+          <Stack direction="row" alignItems="center" gap={1.25}>
+            <Typography
+              sx={{
+                fontSize: 15,
+                fontWeight: 700,
+                letterSpacing: "-0.2px",
+                color: "text.primary",
+              }}
+            >
+              AI Pulse
+            </Typography>
+            <Typography
+              sx={{
+                fontSize: 13,
+                fontWeight: 400,
+                letterSpacing: "-0.1px",
+                color: "text.secondary",
+              }}
+            >
+              by
+            </Typography>
+            <Box
+              component="img"
+              src={glLogo}
+              alt="Great Learning"
+              sx={{ height: 22, width: "auto", display: "block" }}
+            />
+          </Stack>
           <Typography
             component="h1"
             sx={{
@@ -256,7 +286,11 @@ function MarketingHero() {
             {copy.subtitle}
           </Typography>
 
-          <Box sx={{ width: { xs: "100%", md: "auto" } }}>
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            alignItems={{ xs: "stretch", sm: "center" }}
+            gap={{ xs: 1.5, sm: 2 }}
+          >
             <Button
               variant="contained"
               disableElevation
@@ -265,17 +299,19 @@ function MarketingHero() {
               sx={{
                 height: { xs: 44, md: 40 },
                 px: 2,
-                width: { xs: "100%", md: "auto" },
+                width: { xs: "100%", sm: "auto" },
                 fontSize: 15,
                 fontWeight: 500,
                 letterSpacing: "-0.2px",
                 textTransform: "none",
                 borderRadius: "8px",
+                flexShrink: 0,
               }}
             >
               {copy.primaryCtaLabel}
             </Button>
-          </Box>
+            {copy.trialStatus && <TrialStatusChip status={copy.trialStatus} />}
+          </Stack>
         </Stack>
       </Box>
 
@@ -350,32 +386,75 @@ function MarketingHero() {
   );
 }
 
+function ReplayIntroButton() {
+  const navigate = useNavigate();
+  const onClick = () => {
+    clearIntroSeen();
+    navigate("/pulse/intro");
+  };
+  return (
+    <Box
+      component="button"
+      onClick={onClick}
+      aria-label="Watch the intro again"
+      sx={{
+        position: "absolute",
+        top: { xs: 12, md: 16 },
+        right: { xs: 12, md: 16 },
+        zIndex: 3,
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 0.75,
+        height: 32,
+        px: 1.5,
+        borderRadius: 999,
+        cursor: "pointer",
+        fontFamily: "inherit",
+        fontSize: 12,
+        fontWeight: 500,
+        letterSpacing: "-0.1px",
+        color: "rgba(0, 0, 0, 0.78)",
+        bgcolor: "rgba(255, 255, 255, 0.55)",
+        backdropFilter: "blur(14px) saturate(140%)",
+        WebkitBackdropFilter: "blur(14px) saturate(140%)",
+        border: "1px solid rgba(255, 255, 255, 0.7)",
+        boxShadow: "0 4px 14px rgba(0, 0, 0, 0.06)",
+        transition: "background-color 160ms ease, transform 160ms ease",
+        "&:hover": {
+          bgcolor: "rgba(255, 255, 255, 0.78)",
+        },
+        "&:active": {
+          transform: "scale(0.98)",
+        },
+      }}
+    >
+      <span>Watch Intro</span>
+      <ChevronRight size={14} strokeWidth={2.25} />
+    </Box>
+  );
+}
+
 function TrialStatusChip({ status }: { status: { expiresAt: string; daysLeft: number } }) {
   const expiry = new Date(status.expiresAt).toLocaleDateString("en-GB", {
     day: "numeric",
-    month: "long",
+    month: "short",
     year: "numeric",
   });
   return (
     <Box
-      sx={(theme) => ({
-        alignSelf: "flex-start",
+      sx={{
         display: "inline-flex",
         alignItems: "center",
         gap: 0.75,
-        px: 1.25,
-        py: 0.625,
-        bgcolor: theme.palette.primary.light,
-        color: theme.palette.primary.main,
-        borderRadius: "8px",
+        color: "text.secondary",
         fontSize: 13,
-        fontWeight: 600,
+        fontWeight: 500,
         letterSpacing: "-0.1px",
         lineHeight: "18px",
-      })}
+      }}
     >
-      <CalendarClock size={15} strokeWidth={2.25} />
-      <span>Free trial is active till {expiry}</span>
+      <CalendarClock size={14} strokeWidth={2} />
+      <span>Trial ends {expiry}</span>
     </Box>
   );
 }
