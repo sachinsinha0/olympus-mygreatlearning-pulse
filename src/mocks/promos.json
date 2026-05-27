@@ -3,8 +3,8 @@
     "id": "pulse",
     "icon": "pulse",
     "chip": "New",
-    "headline": "Stay ahead with AI Pulse",
-    "body": "Biweekly modules on the new AI tools and workflows reshaping work.",
+    "headline": "Stay up to date with AI Pulse",
+    "body": "Biweekly updates on key AI tools",
     "cta": "Explore AI Pulse",
     "ctaColor": "primary",
     "href": "/pulse"
