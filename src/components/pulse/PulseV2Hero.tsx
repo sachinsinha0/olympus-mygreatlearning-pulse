@@ -5,6 +5,7 @@ import { ArrowRight, Briefcase, CalendarClock, Clock, Lock, Play, Sparkles } fro
 import type { LucideIcon } from "lucide-react";
 import { daysUntil, isTrialExpired, usePricing } from "../../lib/pulse/pricing";
 import { usePageLoader } from "../common/PageLoader";
+import { getDefaultItemId } from "../../lib/pulse/courseItems";
 import glLogo from "../../assets/gl-logo.svg";
 import { clearIntroSeen } from "../../lib/pulse/onboarding";
 import type { PulseIssue } from "../../lib/pulse/types";
@@ -116,7 +117,9 @@ function useHeroCopy(): HeroCopy {
       if (firstModule) {
         runWithPageLoader(() => {
           startTrial();
-          navigate(`/pulse/course?module=${firstModule.id}&trial=started`);
+          const itemId = getDefaultItemId(firstModule.id, false);
+          const itemPath = itemId ? `/items/${itemId}` : "";
+          navigate(`/pulse/modules/${firstModule.id}${itemPath}?trial=started`);
         }, 950);
       } else {
         startTrial();
