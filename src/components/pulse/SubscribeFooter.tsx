@@ -49,7 +49,7 @@ export function SubscribeFooter() {
         color: "text.primary",
       }}
     >
-      Get full access today.
+      New module every two weeks.
     </Typography>
   );
 
@@ -62,8 +62,7 @@ export function SubscribeFooter() {
         maxWidth: 620,
       }}
     >
-      New module every two weeks. Each one short, hands-on, and applied to
-      real work.
+      Each one short, hands-on, and applied to real work.
     </Typography>
   );
 

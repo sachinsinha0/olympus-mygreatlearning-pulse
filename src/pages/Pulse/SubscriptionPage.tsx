@@ -1,7 +1,8 @@
-import { useMemo } from "react";
-import { Box, Stack, Typography } from "@mui/material";
+import { useMemo, useState } from "react";
+import { Alert, Box, Button, Stack, Typography } from "@mui/material";
 import { BookOpen, CheckCircle2, Clock4, Monitor, Sparkles } from "lucide-react";
 import { TopNav } from "../../components/TopNav/TopNav";
+import { ConfirmDialog } from "../../components/pulse/ConfirmDialog";
 import { usePricing } from "../../lib/pulse/pricing";
 import { useLearningProgress } from "../../lib/pulse/learningProgress";
 import type { PulseIssue } from "../../lib/pulse/types";
@@ -24,6 +25,8 @@ export function SubscriptionPage() {
 
   const isPaid = state === "paid";
   const planLabel = "Annual";
+  const [cancelled, setCancelled] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   const stats = useMemo(() => {
     const today = new Date().toISOString().slice(0, 10);
@@ -45,7 +48,12 @@ export function SubscriptionPage() {
       <Box sx={{ maxWidth: 640, mx: "auto", px: { xs: 2, sm: 3, md: 0 }, pt: 3, pb: 6 }}>
         {isPaid ? (
           <Stack gap={2}>
-            <PlanHeroCard planLabel={planLabel} renewsOn={activeUntil} />
+            <PlanHeroCard
+              planLabel={planLabel}
+              renewsOn={activeUntil}
+              cancelled={cancelled}
+              onCancelClick={() => setConfirmOpen(true)}
+            />
             <LearningJourneyCard stats={stats} />
           </Stack>
         ) : (
@@ -59,6 +67,19 @@ export function SubscriptionPage() {
           </>
         )}
       </Box>
+
+      <ConfirmDialog
+        open={confirmOpen}
+        onClose={() => setConfirmOpen(false)}
+        onConfirm={() => {
+          setCancelled(true);
+          setConfirmOpen(false);
+        }}
+        title="Cancel subscription?"
+        body={`Your plan won't renew. You'll keep access to AI Pulse till ${formatDate(activeUntil)}.`}
+        confirmLabel="Confirm"
+        cancelLabel="Keep subscription"
+      />
     </Box>
   );
 }
@@ -66,9 +87,13 @@ export function SubscriptionPage() {
 function PlanHeroCard({
   planLabel,
   renewsOn,
+  cancelled,
+  onCancelClick,
 }: {
   planLabel: string;
   renewsOn: string | null;
+  cancelled: boolean;
+  onCancelClick: () => void;
 }) {
   return (
     <Box
@@ -80,6 +105,15 @@ function PlanHeroCard({
         p: { xs: 2.25, md: 3 },
       })}
     >
+      {cancelled && (
+        <Alert
+          severity="error"
+          sx={{ mb: 2, borderRadius: "10px", alignItems: "center" }}
+        >
+          Your subscription has been cancelled. You'll continue to have access to
+          AI Pulse till {formatDate(renewsOn)}.
+        </Alert>
+      )}
       <Stack direction="row" gap={{ xs: 2, md: 2.5 }} alignItems="flex-start">
         <Box
           sx={(theme) => ({
@@ -103,12 +137,12 @@ function PlanHeroCard({
               px: 1.25,
               py: 0.625,
               borderRadius: "8px",
-              bgcolor: theme.palette.primary.light,
-              color: theme.palette.primary.main,
+              bgcolor: cancelled ? theme.palette.error.light : theme.palette.primary.light,
+              color: cancelled ? theme.palette.error.dark : theme.palette.primary.main,
             })}
           >
             <Typography sx={{ fontSize: 13, fontWeight: 600, letterSpacing: "-0.1px", lineHeight: "18px" }}>
-              Active
+              {cancelled ? "Cancelled" : "Active"}
             </Typography>
           </Box>
           <Typography sx={{ fontSize: { xs: 18, md: 20 }, fontWeight: 700, letterSpacing: "-0.3px", color: "text.primary", mt: 0.5 }}>
@@ -118,6 +152,23 @@ function PlanHeroCard({
             Membership till {formatDate(renewsOn)}
           </Typography>
         </Stack>
+        {!cancelled && (
+          <Button
+            variant="outlined"
+            color="error"
+            onClick={onCancelClick}
+            sx={{
+              flexShrink: 0,
+              alignSelf: "center",
+              textTransform: "none",
+              fontWeight: 600,
+              borderRadius: "10px",
+              whiteSpace: "nowrap",
+            }}
+          >
+            Cancel Subscription
+          </Button>
+        )}
       </Stack>
     </Box>
   );

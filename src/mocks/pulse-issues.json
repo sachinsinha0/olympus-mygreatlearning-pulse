@@ -1,5 +1,44 @@
 [
   {
+    "id": "pulse-13",
+    "issueNumber": 13,
+    "title": "Agents That Read Your Codebase",
+    "description": "Point an agent at a repo it has never seen and get a working change back. Here is what holds up and what still needs a human.",
+    "releasedAt": "2026-06-24",
+    "durationMinutes": 50,
+    "tags": [
+      "agents",
+      "coding"
+    ],
+    "isFoundations": false,
+    "coverColor": "indigo",
+    "author": {
+      "name": "TBA",
+      "role": "",
+      "bio": "",
+      "avatarUrl": null
+    },
+    "outcomes": [
+      "See how coding agents map an unfamiliar repo",
+      "Learn where agent edits are safe to trust",
+      "Set up review loops that catch bad changes",
+      "Ship a real fix with an agent end to end"
+    ],
+    "curriculum": [],
+    "stats": {
+      "completionCount": 0,
+      "ratingCount": 0,
+      "ratingAvg": 0,
+      "weeklyReaders": 0,
+      "topDiscussionQuote": null
+    },
+    "courseUrl": "/courses/pulse-13",
+    "consumed": false,
+    "progress": 0,
+    "toolName": "Codex CLI",
+    "toolLogo": "/tool-logos/openai-codex.png"
+  },
+  {
     "id": "pulse-12",
     "issueNumber": 12,
     "title": "The Month Claude Became a Platform",
