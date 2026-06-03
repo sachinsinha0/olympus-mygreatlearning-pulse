@@ -3,8 +3,8 @@
     "id": "pulse",
     "icon": "pulse",
     "chip": "New",
-    "headline": "Stay up to date with AI Pulse",
-    "body": "Biweekly updates on key AI tools",
+    "headline": "Stay up to date with AI Pulse by GL",
+    "body": "Concise biweekly modules featuring latest AI tools, innovations and workflows",
     "cta": "Explore AI Pulse",
     "ctaColor": "primary",
     "href": "/pulse"

@@ -190,7 +190,7 @@ function PromoCard({ slide }: { slide: Promo }) {
           <Stack
             direction="row"
             gap={1}
-            alignItems="center"
+            alignItems="flex-start"
             justifyContent="space-between"
             sx={{ mb: 1 }}
           >

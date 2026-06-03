@@ -4,8 +4,8 @@ import { usePricing } from "../../lib/pulse/pricing";
 import { usePageLoader } from "../common/PageLoader";
 
 const FEATURES = [
-  "New AI tools and trends every two weeks.",
-  "30–60 minutes, designed to fit your schedule.",
+  "Featuring new AI tools and innovations every two weeks.",
+  "Under 60 minutes, designed to fit your schedule.",
   "Apply what you learn at work immediately.",
 ];
 
@@ -74,7 +74,7 @@ export function PricingModal() {
             {state === "expired" ? "Welcome back to Pulse" : "Subscribe to Pulse"}
           </Typography>
           <Typography sx={{ fontSize: 14, color: "text.secondary", lineHeight: 1.5, letterSpacing: "-0.2px" }}>
-            Stay ahead of every AI shift with biweekly modules you can apply at work.
+            Stay on top of every AI development with biweekly modules you can apply at work.
           </Typography>
         </Stack>
 
