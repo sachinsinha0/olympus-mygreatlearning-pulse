@@ -22,6 +22,7 @@ const CTA_COLORS: Record<string, { bg: string; fg: string }> = {
   purple: { bg: "#ebddff", fg: "#250059" },
   teal: { bg: "#a1efff", fg: "#001f25" },
   primary: { bg: "#dae1ff", fg: "#001849" },
+  lightBlue: { bg: "#cae6ff", fg: "#001e30" },
 };
 
 type Promo = {
@@ -68,7 +69,7 @@ export function ReferEarnCarousel() {
   }, []);
 
   return (
-    <Stack gap={1}>
+    <Stack gap={1} sx={{ width: 371, maxWidth: "100%" }}>
       <Box
         ref={viewportRef}
         onMouseEnter={() => setPaused(true)}
@@ -184,35 +185,18 @@ function PromoCard({ slide }: { slide: Promo }) {
   const navigate = useNavigate();
   const ctaColor = CTA_COLORS[slide.ctaColor] || CTA_COLORS.primary;
   return (
-    <Card sx={{ p: 2, height: 210 }}>
-      <Stack direction="row" alignItems="center" justifyContent="space-between" gap={1} sx={{ height: "100%" }}>
-        <Box sx={{ flex: 1, minWidth: 0 }}>
-          <Stack
-            direction="row"
-            gap={1}
-            alignItems="flex-start"
-            justifyContent="space-between"
-            sx={{ mb: 1 }}
-          >
-            <Typography
-              sx={{
-                fontSize: 14,
-                fontWeight: 600,
-                lineHeight: "20px",
-                color: "text.primary",
-                minWidth: 0,
-                flex: 1,
-              }}
-            >
-              {slide.headline}
-            </Typography>
+    <Card sx={{ px: 2, py: 3, height: 210 }}>
+      {/* Row spans full card height; both text block and image centre against it */}
+      <Stack direction="row" alignItems="center" gap={1.5} sx={{ height: "100%", minWidth: 0 }}>
+        <Stack sx={{ flex: 1, minWidth: 0 }}>
+          {/* Chip stacked above the headline */}
+          <Stack alignItems="flex-start" gap={1} sx={{ mb: 1 }}>
             {slide.chip && (
               <Box
                 component="span"
                 sx={(theme) => ({
-                  flexShrink: 0,
                   px: 1,
-                  py: 0.25,
+                  py: 0.5,
                   fontSize: 12,
                   fontWeight: 400,
                   color: theme.palette.error.contrastText,
@@ -225,8 +209,21 @@ function PromoCard({ slide }: { slide: Promo }) {
                 {slide.chip}
               </Box>
             )}
+            <Typography
+              noWrap
+              sx={{
+                fontSize: 14,
+                fontWeight: 600,
+                lineHeight: "20px",
+                letterSpacing: "-0.4px",
+                color: "text.primary",
+                width: "100%",
+              }}
+            >
+              {slide.headline}
+            </Typography>
           </Stack>
-          <Typography sx={{ fontSize: 14, fontWeight: 400, lineHeight: "20px", color: "text.secondary", display: "block", mb: 2 }}>
+          <Typography sx={{ fontSize: 14, fontWeight: 400, lineHeight: "20px", letterSpacing: "-0.1px", color: "text.secondary", mb: 2 }}>
             {slide.body}
           </Typography>
           <Button
@@ -234,22 +231,24 @@ function PromoCard({ slide }: { slide: Promo }) {
             disableElevation
             onClick={() => slide.href && navigate(slide.href)}
             sx={{
+              alignSelf: "flex-start",
               bgcolor: ctaColor.bg,
               color: ctaColor.fg,
               fontSize: 14,
               fontWeight: 500,
-              letterSpacing: "0.4px",
+              letterSpacing: "-0.2px",
+              textTransform: "none",
               "&:hover": { bgcolor: ctaColor.bg, opacity: 0.85 },
             }}
           >
             {slide.cta}
           </Button>
-        </Box>
+        </Stack>
         <Box
           component="img"
           src={ICONS[slide.icon]}
           alt=""
-          sx={{ width: 140, height: 140, flexShrink: 0, objectFit: "contain" }}
+          sx={{ width: 96, height: 96, flexShrink: 0, objectFit: "contain", alignSelf: "center" }}
         />
       </Stack>
     </Card>
