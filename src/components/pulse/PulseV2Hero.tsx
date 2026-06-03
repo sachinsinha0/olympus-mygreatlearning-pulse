@@ -27,7 +27,7 @@ type PillarItem = { title: string; body: string; Icon: LucideIcon };
 const PILLARS: PillarItem[] = [
   {
     title: "Stay ahead of the AI curve",
-    body: "New AI tools and trends every two weeks.",
+    body: "New AI tools and innovations every two weeks.",
     Icon: Sparkles,
   },
   {
@@ -89,11 +89,11 @@ function useHeroCopy(): HeroCopy {
     <>
       AI moves fast.
       <br />
-      Pulse keeps you ahead.
+      Pulse keeps you in sync.
     </>
   );
   const subtitle =
-    "A biweekly learning module on the new AI tools, models, and workflows reshaping work, distilled into 30–60 minutes you can actually apply.";
+    "A biweekly learning module on the new AI tools, innovations, and workflows reshaping work, distilled into 60 minutes of learning that you can actually apply.";
 
   if (trialActive || trialEnded) {
     return {

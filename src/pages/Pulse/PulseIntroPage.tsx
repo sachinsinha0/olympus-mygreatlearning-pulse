@@ -80,7 +80,7 @@ export function PulseIntroPage() {
       {
         key: "welcome",
         stepLabel: "Welcome",
-        title: "AI Pulse\nYour AI learning channel",
+        title: "AI Pulse\nYour AI learning companion",
         body: "Learn new AI tools and how you can use them at work.",
         // Icy cool wash — sky-leaning blues
         accent: {
@@ -92,8 +92,8 @@ export function PulseIntroPage() {
       {
         key: "cadence",
         stepLabel: "Release",
-        title: "One cutting-edge AI tool release\nevery two weeks",
-        body: "30 to 60 minutes each. Short enough to fit your day,\ndeep enough to apply at work the same day.",
+        title: "Learn one cutting-edge AI tool\nor innovation, every two weeks",
+        body: "Up to 60 minutes each. Short enough to fit your schedule,\ndeep enough to apply at work immediately.",
         // Deeper indigo — confident
         accent: {
           from: "#3B82F6",
@@ -104,8 +104,8 @@ export function PulseIntroPage() {
       {
         key: "value",
         stepLabel: "What's inside",
-        title: "New AI tools and real examples\nto use at work",
-        body: "Hands-on modules on what's new from OpenAI, Anthropic, Google and other labs, so you walk away with something you can use at work.",
+        title: "Hands-on with real examples\nThe only learning companion you need",
+        body: "Hands-on modules on what's new from OpenAI, Anthropic, Google and other important AI labs, so you can stay current with minimal effort.",
         // Bright primary with a hint of cyan — optimistic
         accent: {
           from: theme.palette.primary.main,
@@ -258,7 +258,7 @@ function SlideContent({ slide, active }: { slide: Slide; active: boolean }) {
   return (
     <Stack
       alignItems="center"
-      gap={{ xs: 3.5, md: 5 }}
+      gap={{ xs: 4.5, md: 7 }}
       sx={{
         width: "100%",
         maxWidth: 960,
@@ -271,7 +271,7 @@ function SlideContent({ slide, active }: { slide: Slide; active: boolean }) {
           component="h1"
           sx={{
             fontSize: { xs: 28, md: 48 },
-            fontWeight: 700,
+            fontWeight: 600,
             lineHeight: { xs: "34px", md: "54px" },
             letterSpacing: { xs: "-0.8px", md: "-1.4px" },
             color: "text.primary",
@@ -288,7 +288,7 @@ function SlideContent({ slide, active }: { slide: Slide; active: boolean }) {
                   component="span"
                   sx={{
                     display: "block",
-                    fontWeight: 800,
+                    fontWeight: 600,
                     letterSpacing: "-0.04em",
                     backgroundImage: `linear-gradient(100deg, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 22%, #60A5FA 40%, #DBEAFE 50%, #60A5FA 60%, ${theme.palette.primary.main} 78%, ${theme.palette.primary.dark} 100%)`,
                     backgroundSize: "180% 100%",
@@ -718,7 +718,7 @@ function CadenceVisual({ accent, active }: { accent: Slide["accent"]; active: bo
         sx={{ width: "100%" }}
       >
         <StatCard accent={accent} number="1" unit="new module" caption="every 2 weeks" />
-        <StatCard accent={accent} number={String(count)} unit="modules" caption="in a year" highlight />
+        <StatCard accent={accent} number={String(count)} unit="modules" caption="annually" highlight />
       </Stack>
     </Stack>
   );
@@ -815,11 +815,10 @@ function StatCard({
 
 // Evergreen AI-technology vocabulary. Kept deliberately concept-level (not tool
 // or module specific) so the onboarding never goes stale and needs no upkeep.
-// Three rows, scrolled as alternating-direction marquees.
+// Two rows, scrolled as alternating-direction marquees.
 const TECH_ROWS = [
-  ["LLMs", "AI Agents", "Multimodal", "RAG", "Fine-tuning", "Embeddings"],
-  ["Reasoning Models", "Computer Use", "Prompt Engineering", "Tool Use", "Vector Search", "Long Context"],
-  ["Voice AI", "Image Gen", "MCP", "Evals", "Diffusion", "Guardrails"],
+  ["LLMs", "AI Agents", "Multimodal", "AI Automation", "AI Research", "Prompt Engineering", "AI Coding", "RAG", "MCP"],
+  ["Tool Use", "Computer Use", "Reasoning Models", "Voice AI", "Image Generation", "Data Analysis", "Evals", "Guardrails", "Enterprise AI"],
 ];
 
 // Tinted color-glass chip — visionOS / Fluent acrylic flavour. Translucent
@@ -962,7 +961,6 @@ function ValueVisual({ accent }: { accent: Slide["accent"] }) {
     >
       <MarqueeRow items={TECH_ROWS[0]} direction="right" accent={accent} depth={-40} enterDelay={0.15} />
       <MarqueeRow items={TECH_ROWS[1]} direction="left" accent={accent} depth={24} enterDelay={0.28} />
-      <MarqueeRow items={TECH_ROWS[2]} direction="right" accent={accent} depth={-40} enterDelay={0.41} />
     </Box>
   );
 }
