@@ -12,6 +12,7 @@ import { PulseConsumePage } from "./pages/Pulse/PulseConsumePage";
 import { SubscriptionPage } from "./pages/Pulse/SubscriptionPage";
 import { ProgramSupport } from "./pages/ProgramSupport";
 import { SupportProvider } from "./context/SupportContext";
+import { AskQuestion } from "./pages/AskQuestion";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -34,6 +35,7 @@ export function App() {
             <Route path="/courses" element={<Courses />} />
             <Route path="/courses/:id" element={<CourseDetail />} />
             <Route path="/program_support" element={<ProgramSupport />} />
+            <Route path="/program_support/ask" element={<AskQuestion />} />
             <Route path="/pulse" element={<PulseHome />} />
             <Route path="/pulse/intro" element={<PulseIntroPage />} />
             <Route path="/pulse/subscription" element={<SubscriptionPage />} />
