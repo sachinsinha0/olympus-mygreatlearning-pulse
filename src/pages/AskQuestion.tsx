@@ -31,17 +31,17 @@ const ICON_MAP: Record<string, LucideIcon> = {
   MessageSquare,
 };
 
-// Per-category circle colors from the existing extended palette colorContainer/onColorContainer pairs.
+// One distinct extended-palette colorContainer/onColorContainer pair per category (no repeats).
 const CATEGORY_COLORS: Record<string, { bg: string; color: string }> = {
   fee: { bg: "#ffdcc0", color: "#2d1600" }, // warning
   olympus: { bg: "#ebddff", color: "#250059" }, // deepPurple
   career: { bg: "#cae6ff", color: "#001e30" }, // lightBlue
-  projects: { bg: "#cae6ff", color: "#001e30" }, // lightBlue
+  projects: { bg: "#dee0ff", color: "#00105c" }, // indigo
   material: { bg: "#ffd9dc", color: "#400011" }, // rose
-  sessions: { bg: "#ffdcc0", color: "#2d1600" }, // warning
-  quizzes: { bg: "#ebddff", color: "#250059" }, // deepPurple
-  other: { bg: "#ffd9dc", color: "#400011" }, // rose
-  feedback: { bg: "#ebddff", color: "#250059" }, // deepPurple
+  sessions: { bg: "#ffdf9e", color: "#261a00" }, // amber
+  quizzes: { bg: "#ffd6fe", color: "#35003f" }, // purple
+  other: { bg: "#a1efff", color: "#001f25" }, // cyan
+  feedback: { bg: "#74f8e5", color: "#00201c" }, // teal
 };
 
 const SECTION_LABEL_SX = {
