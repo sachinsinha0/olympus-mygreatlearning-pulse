@@ -1,0 +1,49 @@
+{
+  "open": [
+    { "id": "t1", "title": "Payment not reflecting in Olympus", "subtitle": "Paid the installment yesterday but my dashboard still shows it as due.", "timestamp": "03 Jun 26 5:41 PM", "category": "payment" },
+    { "id": "t2", "title": "Unable to access Module 12", "subtitle": "The course content fails to load and keeps showing a blank screen.", "timestamp": "02 Jun 26 11:20 AM", "category": "query" },
+    { "id": "t3", "title": "Attendance not marked for live session", "subtitle": "I joined Tuesday's mentor session but it shows me as absent.", "timestamp": "30 May 26 6:15 PM", "category": "attendance" },
+    { "id": "t4", "title": "Certificate name correction", "subtitle": "My name is misspelled on the program certificate, please fix it.", "timestamp": "28 May 26 9:02 AM", "category": "general" },
+    { "id": "t5", "title": "Request to extend assignment deadline", "subtitle": "Need two extra days to submit the capstone due to travel.", "timestamp": "26 May 26 4:48 PM", "category": "query" },
+    { "id": "t6", "title": "Reschedule mentor 1:1", "subtitle": "Could we move my Friday call to early next week?", "timestamp": "24 May 26 1:10 PM", "category": "general" }
+  ],
+  "closed": [
+    { "id": "c1", "title": "Arunsankar - Final Installment Fees", "subtitle": "Hello Team,This month end I will be paying my final installment fees. Since I was referred to the program, I do have a discount of Rs. 10000 o...", "timestamp": "22 Feb 20 12:02 AM", "category": "payment" },
+    { "id": "c2", "title": "Attendance - Jan 11th & 19th, 2020", "subtitle": "Hello Team,My name is Arun Sankar - Transferred from Nov 2019 to Jan 2020 Batch. Please be informed that I have attended both the class...", "timestamp": "25 Jan 20 12:08 AM", "category": "attendance" }
+  ],
+  "recentActivity": [
+    { "id": "a1", "type": "quiz", "title": "Quiz: Transformers Basics", "module": "Module 8", "detectedIssue": "You scored below the pass mark on question 3 about attention heads." },
+    { "id": "a2", "type": "video", "title": "Video: Fine-tuning LLMs", "module": "Module 9", "detectedIssue": "You rewatched the 12:40 segment three times. Stuck on LoRA?" },
+    { "id": "a3", "type": "assignment", "title": "Assignment: RAG Pipeline", "module": "Module 10", "detectedIssue": "Your submission failed the vector-store connection check." },
+    { "id": "a4", "type": "doc", "title": "Reading: Prompt Engineering", "module": "Module 7", "detectedIssue": "You spent a long time on the few-shot examples page." },
+    { "id": "a5", "type": "quiz", "title": "Quiz: Evaluation Metrics", "module": "Module 11", "detectedIssue": "Two attempts used up. Confused about BLEU vs ROUGE?" },
+    { "id": "a6", "type": "video", "title": "Video: Agentic Workflows", "module": "Module 12", "detectedIssue": "Playback stopped early. The content may have failed to load." }
+  ],
+  "categories": [
+    { "key": "fee", "label": "Fee Related Enquiries", "icon": "DollarSign" },
+    { "key": "olympus", "label": "Olympus Issues", "icon": "MonitorSmartphone" },
+    { "key": "career", "label": "Career Services", "icon": "Briefcase" },
+    { "key": "projects", "label": "Projects", "icon": "FolderKanban" },
+    { "key": "material", "label": "Learning Material", "icon": "BookOpen" },
+    { "key": "sessions", "label": "Live Sessions", "icon": "Video" },
+    { "key": "quizzes", "label": "Quizzes", "icon": "ListChecks" },
+    { "key": "other", "label": "Other Issues", "icon": "CircleHelp" },
+    { "key": "feedback", "label": "Feedback", "icon": "MessageSquareHeart" }
+  ],
+  "glaideResponses": {
+    "fee": "I can help with fees. Most installment mismatches clear within 24 hours of payment. Could you tell me the date and amount you paid?",
+    "olympus": "Olympus glitches are usually fixed by a hard refresh or clearing the cache. What screen were you on when it broke?",
+    "career": "Career Services covers resume reviews, mock interviews, and referrals. Which of these do you need help with?",
+    "projects": "Happy to help with your project. Is this about the brief, a submission error, or feedback you received?",
+    "material": "I can point you to the right module content. Which topic is giving you trouble?",
+    "sessions": "For live sessions I can share recordings or attendance fixes. Which session is this about?",
+    "quizzes": "Let us sort the quiz out. Is this about a score, a locked attempt, or a question you want explained?",
+    "other": "Tell me a bit more about the issue and I will do my best to help.",
+    "feedback": "Thanks for sharing feedback. I am listening, go ahead.",
+    "fallback": "I want to make sure I get this right. Could you add a little more detail?"
+  },
+  "threads": [
+    { "id": "th1", "category": "quizzes", "title": "Quiz attempt locked", "status": "resolved", "timestamp": "01 Jun 26 3:20 PM", "messages": [ { "role": "user", "text": "My quiz attempt got locked midway." }, { "role": "bot", "text": "That happens on a dropped connection. I have reset your attempt, try again now." } ] },
+    { "id": "th2", "category": "olympus", "title": "Dashboard not loading", "status": "active", "timestamp": "29 May 26 10:05 AM", "messages": [ { "role": "user", "text": "The dashboard is stuck on a blank screen." }, { "role": "bot", "text": "A hard refresh fixes this most of the time. Did that help?" } ] }
+  ]
+}
