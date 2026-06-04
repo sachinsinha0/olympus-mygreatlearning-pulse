@@ -1,20 +1,18 @@
 import { useEffect, useRef, useState } from "react";
 import { Box, Button, IconButton, InputBase, Stack, Typography } from "@mui/material";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { ChevronLeft, Sparkles, Send, Check } from "lucide-react";
+import { ChevronLeft, Send, Check } from "lucide-react";
 import { TopNav } from "../components/TopNav/TopNav";
 import { ChatBubble, TypingIndicator } from "../components/support/ChatBubble";
 import { RaiseTicketChip } from "../components/support/RaiseTicketChip";
 import { useSupport, type ChatMessage } from "../context/SupportContext";
 import data from "../mocks/programSupport.json";
 
-const GLAIDE_GRADIENT = "linear-gradient(135deg, #0054d6 0%, #60A5FA 55%, #DBEAFE 100%)";
-
 const glaideResponses = data.glaideResponses as Record<string, string>;
 
 type ActivitySeed = {
   kind: "activity";
-  activity: { id: string; type: string; title: string; module: string; detectedIssue: string };
+  activity: { id: string; type: string; course: string; title: string; when: string };
 };
 type CategorySeed = { kind: "category"; categoryKey: string; label: string };
 type SeedState = ActivitySeed | CategorySeed;
@@ -62,7 +60,7 @@ export function GlaideChat() {
       const category = ACTIVITY_TYPE_TO_CATEGORY[seed.activity.type] ?? "other";
       const opening: ChatMessage = {
         role: "bot",
-        text: `I noticed something on "${seed.activity.title}" in ${seed.activity.module}. ${seed.activity.detectedIssue} Want to work through it together?`,
+        text: `Let's pick up your "${seed.activity.title}" in ${seed.activity.course}. What do you need help with?`,
       };
       const id = createThread({
         category,
@@ -148,16 +146,18 @@ export function GlaideChat() {
             sx={{
               width: 40,
               height: 40,
-              borderRadius: "12px",
-              backgroundImage: GLAIDE_GRADIENT,
+              borderRadius: "50%",
+              bgcolor: "primary.main",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               flexShrink: 0,
               color: "primary.contrastText",
+              fontSize: 16,
+              fontWeight: 600,
             }}
           >
-            <Sparkles size={18} strokeWidth={2} color="currentColor" />
+            G
           </Box>
           <Box sx={{ flex: 1, minWidth: 0 }}>
             <Typography sx={{ fontSize: 16, fontWeight: 600, color: "text.primary" }}>
@@ -166,7 +166,7 @@ export function GlaideChat() {
             <Typography
               sx={{ fontSize: 12, fontWeight: 500, color: "text.secondary", letterSpacing: "-0.1px" }}
             >
-              AI Mentor
+              Program Support
             </Typography>
           </Box>
           <Stack

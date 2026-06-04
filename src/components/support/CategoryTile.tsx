@@ -21,9 +21,10 @@ export function CategoryTile({ label, Icon, bg, color, onClick }: Props) {
         width: "100%",
         border: 1,
         borderColor: "outlineVariant.main",
-        borderRadius: "16px",
+        borderRadius: "12px",
         boxShadow: "none",
-        p: 2.25,
+        px: 2,
+        py: 2,
         cursor: "pointer",
         textAlign: "left",
         bgcolor: "background.paper",
@@ -31,14 +32,15 @@ export function CategoryTile({ label, Icon, bg, color, onClick }: Props) {
         "&:hover": { bgcolor: "surfaceContainer.low" },
       }}
     >
-      <Stack gap={1.25}>
+      <Stack direction="row" gap={2} alignItems="center">
         <Box
           sx={{
             width: 44,
             height: 44,
-            borderRadius: "12px",
+            borderRadius: "50%",
             bgcolor: bg,
             color,
+            flexShrink: 0,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -47,7 +49,7 @@ export function CategoryTile({ label, Icon, bg, color, onClick }: Props) {
           <Icon size={22} strokeWidth={2} />
         </Box>
         <Typography
-          sx={{ fontSize: 15, fontWeight: 600, color: "text.primary", letterSpacing: "-0.2px" }}
+          sx={{ fontSize: 16, fontWeight: 500, color: "text.primary", letterSpacing: "-0.2px" }}
         >
           {label}
         </Typography>

@@ -1,13 +1,31 @@
 import { Box, Stack } from "@mui/material";
-import { Sparkles } from "lucide-react";
-
-const GLAIDE_GRADIENT =
-  "linear-gradient(135deg, #0054d6 0%, #60A5FA 55%, #DBEAFE 100%)";
 
 type Props = {
   role: "bot" | "user";
   text: string;
 };
+
+function GlaideAvatar() {
+  return (
+    <Box
+      sx={{
+        width: 28,
+        height: 28,
+        flexShrink: 0,
+        borderRadius: "50%",
+        bgcolor: "primary.main",
+        color: "primary.contrastText",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontSize: 12,
+        fontWeight: 600,
+      }}
+    >
+      G
+    </Box>
+  );
+}
 
 export function ChatBubble({ role, text }: Props) {
   const isUser = role === "user";
@@ -20,23 +38,7 @@ export function ChatBubble({ role, text }: Props) {
       justifyContent={isUser ? "flex-end" : "flex-start"}
       sx={{ width: "100%" }}
     >
-      {!isUser && (
-        <Box
-          sx={{
-            width: 28,
-            height: 28,
-            flexShrink: 0,
-            borderRadius: "10px",
-            backgroundImage: GLAIDE_GRADIENT,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            color: "primary.contrastText",
-          }}
-        >
-          <Sparkles size={14} strokeWidth={2} color="currentColor" />
-        </Box>
-      )}
+      {!isUser && <GlaideAvatar />}
 
       <Box
         sx={{
@@ -60,21 +62,7 @@ export function ChatBubble({ role, text }: Props) {
 export function TypingIndicator() {
   return (
     <Stack direction="row" gap={1} alignItems="flex-end" justifyContent="flex-start" sx={{ width: "100%" }}>
-      <Box
-        sx={{
-          width: 28,
-          height: 28,
-          flexShrink: 0,
-          borderRadius: "10px",
-          backgroundImage: GLAIDE_GRADIENT,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          color: "primary.contrastText",
-        }}
-      >
-        <Sparkles size={14} strokeWidth={2} color="currentColor" />
-      </Box>
+      <GlaideAvatar />
       <Box
         sx={{
           px: 2,

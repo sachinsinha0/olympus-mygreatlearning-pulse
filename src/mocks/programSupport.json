@@ -12,26 +12,26 @@
     { "id": "c2", "title": "Attendance - Jan 11th & 19th, 2020", "subtitle": "Hello Team,My name is Arun Sankar - Transferred from Nov 2019 to Jan 2020 Batch. Please be informed that I have attended both the class...", "timestamp": "25 Jan 20 12:08 AM", "category": "attendance" }
   ],
   "recentActivity": [
-    { "id": "a1", "type": "quiz", "title": "Quiz: Transformers Basics", "module": "Module 8", "detectedIssue": "You scored below the pass mark on question 3 about attention heads." },
-    { "id": "a2", "type": "video", "title": "Video: Fine-tuning LLMs", "module": "Module 9", "detectedIssue": "You rewatched the 12:40 segment three times. Stuck on LoRA?" },
-    { "id": "a3", "type": "assignment", "title": "Assignment: RAG Pipeline", "module": "Module 10", "detectedIssue": "Your submission failed the vector-store connection check." },
-    { "id": "a4", "type": "doc", "title": "Reading: Prompt Engineering", "module": "Module 7", "detectedIssue": "You spent a long time on the few-shot examples page." },
-    { "id": "a5", "type": "quiz", "title": "Quiz: Evaluation Metrics", "module": "Module 11", "detectedIssue": "Two attempts used up. Confused about BLEU vs ROUGE?" },
-    { "id": "a6", "type": "video", "title": "Video: Agentic Workflows", "module": "Module 12", "detectedIssue": "Playback stopped early. The content may have failed to load." }
+    { "id": "a1", "type": "assignment", "course": "Web and Social Media Analytics", "title": "Assignment: Test Your Understanding", "when": "20 Sep 24 6:30 PM - 24 Sep 24 6:30 PM" },
+    { "id": "a2", "type": "video", "course": "Career Prep", "title": "Introduction to Career Prep", "when": "4 Mins" },
+    { "id": "a3", "type": "assignment", "course": "Web and Social Media Analytics", "title": "Only From Practice Assignment: Test Your Understanding", "when": "16 May 23 6:30 PM - 20 May 23 6:30 PM" },
+    { "id": "a4", "type": "quiz", "course": "Python for Data Science", "title": "Quiz: Test Your Understanding", "when": "19 May 23 6:30 PM - 20 May 23 6:30 PM" },
+    { "id": "a5", "type": "video", "course": "Python for Data Science", "title": "Introduction to Clustering Part 1 - How to select the right number of clusters", "when": "4 Mins" },
+    { "id": "a6", "type": "assignment", "course": "Time series forecasting", "title": "Only From Practice Assignment: Test Your Understanding", "when": "14 May 23 6:30 PM - 19 May 23 6:30 PM" }
   ],
   "categories": [
     { "key": "fee", "label": "Fee Related Enquiries", "icon": "DollarSign" },
-    { "key": "olympus", "label": "Olympus Issues", "icon": "MonitorSmartphone" },
+    { "key": "olympus", "label": "Olympus Issues", "icon": "BookOpen" },
     { "key": "career", "label": "Career Services", "icon": "Briefcase" },
-    { "key": "projects", "label": "Projects", "icon": "FolderKanban" },
-    { "key": "material", "label": "Learning Material", "icon": "BookOpen" },
+    { "key": "projects", "label": "Projects", "icon": "Folder" },
+    { "key": "material", "label": "Learning Material", "icon": "ListVideo" },
     { "key": "sessions", "label": "Live Sessions", "icon": "Video" },
-    { "key": "quizzes", "label": "Quizzes", "icon": "ListChecks" },
-    { "key": "other", "label": "Other Issues", "icon": "CircleHelp" },
-    { "key": "feedback", "label": "Feedback", "icon": "MessageSquareHeart" }
+    { "key": "quizzes", "label": "Quizzes", "icon": "MessagesSquare" },
+    { "key": "other", "label": "Other Issues", "icon": "ClipboardList" },
+    { "key": "feedback", "label": "Feedback", "icon": "MessageSquare" }
   ],
   "glaideResponses": {
-    "fee": "I can help with fees. Most installment mismatches clear within 24 hours of payment. Could you tell me the date and amount you paid?",
+    "fee": "I can help with fee queries. Most installment mismatches clear within 24 hours of payment. Could you tell me the date and amount you paid?",
     "olympus": "Olympus glitches are usually fixed by a hard refresh or clearing the cache. What screen were you on when it broke?",
     "career": "Career Services covers resume reviews, mock interviews, and referrals. Which of these do you need help with?",
     "projects": "Happy to help with your project. Is this about the brief, a submission error, or feedback you received?",
