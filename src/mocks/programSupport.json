@@ -42,6 +42,53 @@
     "feedback": "Thanks for sharing feedback. I am listening, go ahead.",
     "fallback": "I want to make sure I get this right. Could you add a little more detail?"
   },
+  "topicFlows": {
+    "fee": {
+      "question": "Sure, let's sort the fee out. What is this about?",
+      "options": ["Installment not updated", "Payment failed", "Refund status", "Invoice or receipt"],
+      "reply": "Thanks. Most payment updates reflect within 24 hours. Could you share the date and amount so I can check the status?"
+    },
+    "olympus": {
+      "question": "Let's get Olympus working. Where are you seeing the issue?",
+      "options": ["Page not loading", "Video not playing", "Login trouble", "Something looks broken"],
+      "reply": "Got it. A hard refresh or clearing the cache fixes most of these. Which browser and device are you on?"
+    },
+    "career": {
+      "question": "Happy to help with Career Services. What do you need?",
+      "options": ["Resume review", "Mock interview", "Job referrals", "Profile feedback"],
+      "reply": "Great choice. I can connect you with the Career team for this. Want me to set that up?"
+    },
+    "projects": {
+      "question": "Which project is giving you trouble?",
+      "options": ["Capstone Project", "Graded Project", "Practice Project", "Group Project"],
+      "reply": "Got it. Is this about the brief, a submission error, or the feedback you received?"
+    },
+    "material": {
+      "question": "Sure, what kind of learning material do you need help with?",
+      "options": ["Cannot find a topic", "Content looks wrong", "Download issue", "Request new material"],
+      "reply": "Thanks. Tell me the module or topic name and I will point you to the right content."
+    },
+    "sessions": {
+      "question": "Let's look at your live sessions. What do you need?",
+      "options": ["Session recording", "Attendance not marked", "Reschedule a session", "Joining link"],
+      "reply": "Got it. Which session is this about? Share the date or title and I will pull it up."
+    },
+    "quizzes": {
+      "question": "Let's sort the quiz out. What happened?",
+      "options": ["Attempt got locked", "Score looks wrong", "Explain a question", "Reset my attempt"],
+      "reply": "Thanks. Tell me the quiz name and I will check what is going on with your attempt."
+    },
+    "other": {
+      "question": "No problem. What can I help you with?",
+      "options": ["Certificate issue", "Account or profile", "Technical glitch", "Something else"],
+      "reply": "Got it. Tell me a bit more and I will help or route this to the right team."
+    },
+    "feedback": {
+      "question": "Thanks for sharing feedback. What is it about?",
+      "options": ["Course content", "Mentor or session", "Platform experience", "A suggestion"],
+      "reply": "Appreciate it. Go ahead and share the details, I am listening."
+    }
+  },
   "threads": [
     { "id": "th1", "category": "quizzes", "title": "Quiz attempt locked", "status": "resolved", "timestamp": "01 Jun 26 3:20 PM", "messages": [ { "role": "user", "text": "My quiz attempt got locked midway." }, { "role": "bot", "text": "That happens on a dropped connection. I have reset your attempt, try again now." } ] },
     { "id": "th2", "category": "olympus", "title": "Dashboard not loading", "status": "active", "timestamp": "29 May 26 10:05 AM", "messages": [ { "role": "user", "text": "The dashboard is stuck on a blank screen." }, { "role": "bot", "text": "A hard refresh fixes this most of the time. Did that help?" } ] }

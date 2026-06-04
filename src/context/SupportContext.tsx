@@ -1,7 +1,7 @@
 import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
 import data from "../mocks/programSupport.json";
 
-export type ChatMessage = { role: "bot" | "user"; text: string };
+export type ChatMessage = { role: "bot" | "user"; text: string; options?: string[] };
 export type Thread = {
   id: string;
   category: string;

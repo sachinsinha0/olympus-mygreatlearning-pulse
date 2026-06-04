@@ -10,6 +10,9 @@ import data from "../mocks/programSupport.json";
 
 const glaideResponses = data.glaideResponses as Record<string, string>;
 
+type TopicFlow = { question: string; options: string[]; reply: string };
+const topicFlows = data.topicFlows as Record<string, TopicFlow>;
+
 type ActivitySeed = {
   kind: "activity";
   activity: { id: string; type: string; course: string; title: string; when: string };
@@ -69,10 +72,10 @@ export function GlaideChat() {
       });
       setThreadId(id);
     } else {
-      const opening: ChatMessage = {
-        role: "bot",
-        text: glaideResponses[seed.categoryKey] ?? glaideResponses.fallback,
-      };
+      const flow = topicFlows[seed.categoryKey];
+      const opening: ChatMessage = flow
+        ? { role: "bot", text: flow.question, options: flow.options }
+        : { role: "bot", text: glaideResponses[seed.categoryKey] ?? glaideResponses.fallback };
       const id = createThread({
         category: seed.categoryKey,
         title: seed.label,
@@ -100,6 +103,18 @@ export function GlaideChat() {
     setInput("");
     setIsTyping(true);
     const reply = glaideResponses[thread.category] ?? glaideResponses.fallback;
+    window.setTimeout(() => {
+      addMessage(threadId, { role: "bot", text: reply });
+      setIsTyping(false);
+    }, 750);
+  };
+
+  const handleOption = (option: string) => {
+    if (!threadId || !thread || isClosed) return;
+    addMessage(threadId, { role: "user", text: option });
+    setIsTyping(true);
+    const flow = topicFlows[thread.category];
+    const reply = flow?.reply ?? glaideResponses[thread.category] ?? glaideResponses.fallback;
     window.setTimeout(() => {
       addMessage(threadId, { role: "bot", text: reply });
       setIsTyping(false);
@@ -196,11 +211,18 @@ export function GlaideChat() {
             py: 3,
             display: "flex",
             flexDirection: "column",
-            gap: 2,
+            gap: 3,
           }}
         >
           {thread?.messages.map((m, i) => (
-            <ChatBubble key={i} role={m.role} text={m.text} />
+            <ChatBubble
+              key={i}
+              role={m.role}
+              text={m.text}
+              options={m.options}
+              optionsActive={i === thread.messages.length - 1 && !isTyping && !isClosed}
+              onOptionClick={handleOption}
+            />
           ))}
           {isTyping && <TypingIndicator />}
         </Box>
@@ -216,15 +238,27 @@ export function GlaideChat() {
             sx={{
               pt: 1.5,
               pb: { xs: 2, md: 3 },
-              borderTop: 1,
-              borderColor: "outlineVariant.main",
               position: "sticky",
               bottom: 0,
               bgcolor: "background.paper",
             }}
           >
-            <RaiseTicketChip onRaise={handleRaise} disabled={isClosed} />
-            <Stack direction="row" gap={1} alignItems="flex-end">
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "flex-end",
+                gap: 1,
+                border: 1,
+                borderColor: "outlineVariant.main",
+                borderRadius: "26px",
+                pl: 2.5,
+                pr: 1,
+                py: 0.75,
+                bgcolor: "background.paper",
+                transition: "border-color 120ms ease",
+                "&:focus-within": { borderColor: "primary.main" },
+              }}
+            >
               <InputBase
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
@@ -235,27 +269,17 @@ export function GlaideChat() {
                   }
                 }}
                 multiline
-                maxRows={4}
-                placeholder="Ask Glaide a question"
-                sx={{
-                  flex: 1,
-                  border: 1,
-                  borderColor: "outlineVariant.main",
-                  borderRadius: "12px",
-                  px: 2,
-                  py: 1.25,
-                  fontSize: 15,
-                  bgcolor: "background.paper",
-                  "&.Mui-focused": { borderColor: "primary.main" },
-                }}
+                maxRows={6}
+                placeholder="Message Glaide"
+                sx={{ flex: 1, fontSize: 15, py: 0.75 }}
               />
               <IconButton
                 onClick={handleSend}
                 disabled={!input.trim()}
                 sx={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: "12px",
+                  width: 36,
+                  height: 36,
+                  borderRadius: "50%",
                   bgcolor: "primary.main",
                   color: "primary.contrastText",
                   flexShrink: 0,
@@ -263,8 +287,11 @@ export function GlaideChat() {
                   "&.Mui-disabled": { bgcolor: "surfaceContainer.low", color: "text.secondary" },
                 }}
               >
-                <Send size={18} strokeWidth={2} />
+                <Send size={16} strokeWidth={2} />
               </IconButton>
+            </Box>
+            <Stack direction="row" justifyContent="center">
+              <RaiseTicketChip onRaise={handleRaise} disabled={isClosed} />
             </Stack>
           </Stack>
         )}

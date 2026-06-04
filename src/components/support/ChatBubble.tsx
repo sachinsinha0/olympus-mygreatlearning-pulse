@@ -1,16 +1,19 @@
-import { Box, Stack } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 
 type Props = {
   role: "bot" | "user";
   text: string;
+  options?: string[];
+  optionsActive?: boolean;
+  onOptionClick?: (option: string) => void;
 };
 
 function GlaideAvatar() {
   return (
     <Box
       sx={{
-        width: 28,
-        height: 28,
+        width: 30,
+        height: 30,
         flexShrink: 0,
         borderRadius: "50%",
         bgcolor: "primary.main",
@@ -18,8 +21,9 @@ function GlaideAvatar() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        fontSize: 12,
+        fontSize: 13,
         fontWeight: 600,
+        mt: 0.25,
       }}
     >
       G
@@ -27,33 +31,80 @@ function GlaideAvatar() {
   );
 }
 
-export function ChatBubble({ role, text }: Props) {
-  const isUser = role === "user";
+function OptionChip({ label, onClick }: { label: string; onClick: () => void }) {
+  return (
+    <Box
+      component="button"
+      type="button"
+      onClick={onClick}
+      sx={{
+        appearance: "none",
+        font: "inherit",
+        cursor: "pointer",
+        border: 1,
+        borderColor: "outlineVariant.main",
+        bgcolor: "background.paper",
+        color: "text.primary",
+        borderRadius: 999,
+        px: 1.75,
+        py: 0.75,
+        fontSize: 14,
+        fontWeight: 500,
+        transition: "background-color 120ms ease, border-color 120ms ease",
+        "&:hover": { bgcolor: "surfaceContainer.low", borderColor: "primary.main" },
+      }}
+    >
+      {label}
+    </Box>
+  );
+}
+
+// Assistant messages render full-width (no bubble) with an avatar, like ChatGPT/
+// Claude/Gemini. User messages render as a subtle right-aligned pill.
+export function ChatBubble({ role, text, options, optionsActive, onOptionClick }: Props) {
+  if (role === "user") {
+    return (
+      <Stack direction="row" justifyContent="flex-end" sx={{ width: "100%" }}>
+        <Box
+          sx={{
+            maxWidth: "80%",
+            px: 2,
+            py: 1.25,
+            fontSize: 15,
+            lineHeight: 1.5,
+            whiteSpace: "pre-line",
+            bgcolor: "surfaceContainer.high",
+            color: "text.primary",
+            borderRadius: "18px 18px 4px 18px",
+          }}
+        >
+          {text}
+        </Box>
+      </Stack>
+    );
+  }
 
   return (
-    <Stack
-      direction="row"
-      gap={1}
-      alignItems="flex-end"
-      justifyContent={isUser ? "flex-end" : "flex-start"}
-      sx={{ width: "100%" }}
-    >
-      {!isUser && <GlaideAvatar />}
-
-      <Box
-        sx={{
-          maxWidth: "78%",
-          px: 2,
-          py: 1.25,
-          fontSize: 15,
-          lineHeight: 1.5,
-          whiteSpace: "pre-line",
-          bgcolor: isUser ? "primary.main" : "surfaceContainer.low",
-          color: isUser ? "primary.contrastText" : "text.primary",
-          borderRadius: isUser ? "16px 16px 4px 16px" : "4px 16px 16px 16px",
-        }}
-      >
-        {text}
+    <Stack direction="row" gap={1.5} alignItems="flex-start" sx={{ width: "100%" }}>
+      <GlaideAvatar />
+      <Box sx={{ flex: 1, minWidth: 0, pt: 0.25 }}>
+        <Typography
+          sx={{
+            fontSize: 15.5,
+            lineHeight: 1.65,
+            color: "text.primary",
+            whiteSpace: "pre-line",
+          }}
+        >
+          {text}
+        </Typography>
+        {optionsActive && options && options.length > 0 && (
+          <Stack direction="row" gap={1} flexWrap="wrap" sx={{ mt: 1.5 }}>
+            {options.map((opt) => (
+              <OptionChip key={opt} label={opt} onClick={() => onOptionClick?.(opt)} />
+            ))}
+          </Stack>
+        )}
       </Box>
     </Stack>
   );
@@ -61,19 +112,9 @@ export function ChatBubble({ role, text }: Props) {
 
 export function TypingIndicator() {
   return (
-    <Stack direction="row" gap={1} alignItems="flex-end" justifyContent="flex-start" sx={{ width: "100%" }}>
+    <Stack direction="row" gap={1.5} alignItems="flex-start" sx={{ width: "100%" }}>
       <GlaideAvatar />
-      <Box
-        sx={{
-          px: 2,
-          py: 1.25,
-          bgcolor: "surfaceContainer.low",
-          borderRadius: "4px 16px 16px 16px",
-          display: "flex",
-          alignItems: "center",
-          gap: 0.5,
-        }}
-      >
+      <Box sx={{ display: "flex", alignItems: "center", gap: 0.5, height: 26 }}>
         {[0, 1, 2].map((i) => (
           <Box
             key={i}
