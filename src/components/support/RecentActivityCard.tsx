@@ -57,14 +57,12 @@ export function RecentActivityCard({ course, title, when, type, onClick }: Props
 
       <Stack direction="row" gap={1} alignItems="center" sx={{ mb: 1 }}>
         <Box sx={{ color: "text.primary", display: "flex", flexShrink: 0 }}>
-          <Icon size={18} strokeWidth={1.75} />
+          <Icon size={18} strokeWidth={2} />
         </Box>
         <Typography
+          variant="subtitle2"
           sx={{
-            fontSize: 16,
-            fontWeight: 500,
             color: "text.primary",
-            letterSpacing: "-0.2px",
             whiteSpace: "nowrap",
             overflow: "hidden",
             textOverflow: "ellipsis",

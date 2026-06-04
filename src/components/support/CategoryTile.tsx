@@ -37,7 +37,7 @@ export function CategoryTile({ label, Icon, bg, color, onClick }: Props) {
           sx={{
             width: 44,
             height: 44,
-            borderRadius: "50%",
+            borderRadius: "8px",
             bgcolor: bg,
             color,
             flexShrink: 0,

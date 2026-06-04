@@ -82,16 +82,7 @@ export function AskQuestion() {
           >
             <ArrowLeft size={24} strokeWidth={2} />
           </IconButton>
-          <Typography
-            component="h1"
-            sx={{
-              fontSize: { xs: 22, md: 26 },
-              fontWeight: 600,
-              lineHeight: 1.2,
-              letterSpacing: "-0.5px",
-              color: "text.primary",
-            }}
-          >
+          <Typography variant="h5" component="h1" sx={{ color: "text.primary" }}>
             How can we help you?
           </Typography>
         </Stack>
