@@ -1,4 +1,5 @@
 import { Box, Stack, Typography } from "@mui/material";
+import { alpha } from "@mui/material/styles";
 
 type Props = {
   role: "bot" | "user";
@@ -51,7 +52,7 @@ function OptionChip({ label, onClick }: { label: string; onClick: () => void }) 
         fontSize: 14,
         fontWeight: 500,
         transition: "background-color 120ms ease, border-color 120ms ease",
-        "&:hover": { bgcolor: "surfaceContainer.low", borderColor: "primary.main" },
+        "&:hover": { bgcolor: (t) => alpha(t.palette.primary.main, 0.08), borderColor: "primary.main" },
       }}
     >
       {label}

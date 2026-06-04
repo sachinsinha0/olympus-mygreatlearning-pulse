@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Box, Button, Card, Stack, Tab, Tabs, Typography } from "@mui/material";
+import { alpha } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import {
   DollarSign,
@@ -275,7 +276,7 @@ function TicketRow({ ticket, divider }: { ticket: Ticket; divider: boolean }) {
         borderBottom: divider ? 1 : 0,
         borderColor: "outlineVariant.main",
         transition: "background-color 120ms ease",
-        "&:hover": { bgcolor: "surfaceContainer.low" },
+        "&:hover": { bgcolor: (t) => alpha(t.palette.primary.main, 0.08) },
       }}
     >
       <Box
@@ -366,7 +367,7 @@ function ThreadRow({
         borderBottom: divider ? 1 : 0,
         borderColor: "outlineVariant.main",
         transition: "background-color 120ms ease",
-        "&:hover": { bgcolor: "surfaceContainer.low" },
+        "&:hover": { bgcolor: (t) => alpha(t.palette.primary.main, 0.08) },
       }}
     >
       <Box

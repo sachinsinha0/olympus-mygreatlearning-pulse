@@ -1,4 +1,5 @@
 import { Box, Card, Stack, Typography } from "@mui/material";
+import { alpha } from "@mui/material/styles";
 import {
   FileText,
   PlayCircle,
@@ -38,7 +39,7 @@ export function RecentActivityCard({ course, title, when, type, onClick }: Props
         height: "100%",
         cursor: "pointer",
         transition: "background-color 120ms ease",
-        "&:hover": { bgcolor: "surfaceContainer.low" },
+        "&:hover": { bgcolor: (t) => alpha(t.palette.primary.main, 0.08) },
       }}
     >
       <Stack direction="row" gap={1.5} alignItems="center">

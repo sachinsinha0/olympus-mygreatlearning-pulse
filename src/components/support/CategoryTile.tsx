@@ -1,4 +1,5 @@
 import { Box, Stack, Typography } from "@mui/material";
+import { alpha } from "@mui/material/styles";
 import type { LucideIcon } from "lucide-react";
 
 type Props = {
@@ -29,7 +30,7 @@ export function CategoryTile({ label, Icon, bg, color, onClick }: Props) {
         textAlign: "left",
         bgcolor: "background.paper",
         transition: "background-color 120ms ease",
-        "&:hover": { bgcolor: "surfaceContainer.low" },
+        "&:hover": { bgcolor: (t) => alpha(t.palette.primary.main, 0.08) },
       }}
     >
       <Stack direction="row" gap={2} alignItems="center">
