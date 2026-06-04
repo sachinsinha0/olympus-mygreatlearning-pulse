@@ -1,9 +1,11 @@
-import { useEffect, useRef, useState } from "react";
-import { Box, Button, IconButton, InputBase, Stack, Typography } from "@mui/material";
+import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
+import { Box, Button, IconButton, InputBase, Stack, Tooltip, Typography } from "@mui/material";
+import { alpha } from "@mui/material/styles";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { ChevronLeft, Send, Check } from "lucide-react";
+import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from "framer-motion";
+import { ArrowUp, ArrowDown, Paperclip, Check } from "lucide-react";
 import { TopNav } from "../components/TopNav/TopNav";
-import { ChatBubble, TypingIndicator } from "../components/support/ChatBubble";
+import { ChatBubble, TypingIndicator, EASE } from "../components/support/ChatBubble";
 import { RaiseTicketChip } from "../components/support/RaiseTicketChip";
 import { useSupport, type ChatMessage } from "../context/SupportContext";
 import data from "../mocks/programSupport.json";
@@ -33,11 +35,18 @@ export function GlaideChat() {
   const location = useLocation();
   const { threadId: routeThreadId } = useParams();
   const { getThread, createThread, addMessage, raiseTicket } = useSupport();
+  const reduce = useReducedMotion();
 
   const [threadId, setThreadId] = useState<string | null>(routeThreadId ?? null);
   const [isTyping, setIsTyping] = useState(false);
   const [input, setInput] = useState("");
+  const [scrolled, setScrolled] = useState(false);
+  const [showScrollDown, setShowScrollDown] = useState(false);
+  const [sendPulse, setSendPulse] = useState(0);
+  // The morphId of the chip currently animating into a user bubble (one-shot).
+  const [morphTarget, setMorphTarget] = useState<string | null>(null);
   const initialised = useRef(false);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   // Seed a new thread once on mount when navigated with state and no :threadId.
   useEffect(() => {
@@ -90,41 +99,106 @@ export function GlaideChat() {
   const isResolved = thread?.status === "resolved";
   const isClosed = isTicketed || isResolved;
 
+  const messageCount = thread?.messages.length ?? 0;
+  // We always enter seeded; the lone opening turn IS the hero/landing moment.
+  const isHeroState = messageCount === 1 && !isTyping;
+
   const listRef = useRef<HTMLDivElement>(null);
+
+  // Sticky-bottom autoscroll: only yank down if the user was already near bottom.
+  const scrollToBottom = useCallback(
+    (behavior: ScrollBehavior) => {
+      const el = listRef.current;
+      if (el) el.scrollTo({ top: el.scrollHeight, behavior });
+    },
+    []
+  );
+
+  const wasNearBottom = useRef(true);
   useEffect(() => {
     const el = listRef.current;
-    if (el) el.scrollTop = el.scrollHeight;
-  }, [thread?.messages.length, isTyping]);
+    if (!el) return;
+    const onScroll = () => {
+      const distance = el.scrollHeight - el.scrollTop - el.clientHeight;
+      wasNearBottom.current = distance <= 80;
+      setShowScrollDown(distance > 80);
+      setScrolled(el.scrollTop > 4);
+    };
+    el.addEventListener("scroll", onScroll, { passive: true });
+    return () => el.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Instant on first paint, smooth for subsequent turns (respecting reduced motion).
+  const firstPaint = useRef(true);
+  useEffect(() => {
+    if (firstPaint.current) {
+      firstPaint.current = false;
+      scrollToBottom("auto");
+      return;
+    }
+    if (wasNearBottom.current) {
+      scrollToBottom(reduce ? "auto" : "smooth");
+    }
+  }, [messageCount, isTyping, scrollToBottom, reduce]);
+
+  // Desktop autofocus after the hero settle reads first; never on touch.
+  useEffect(() => {
+    if (isClosed) return;
+    const fine = window.matchMedia?.("(pointer: fine)")?.matches;
+    if (!fine) return;
+    const t = window.setTimeout(() => inputRef.current?.focus(), reduce ? 50 : 380);
+    return () => window.clearTimeout(t);
+  }, [isClosed, reduce]);
 
   const handleSend = () => {
     const text = input.trim();
-    if (!text || !threadId || !thread) return;
+    if (!text || !threadId || !thread || isTyping) return;
     addMessage(threadId, { role: "user", text });
     setInput("");
+    setSendPulse((p) => p + 1);
     setIsTyping(true);
+    wasNearBottom.current = true; // user's own send always follows to bottom
+    if (inputRef.current) inputRef.current.style.height = "auto";
     const reply = glaideResponses[thread.category] ?? glaideResponses.fallback;
     window.setTimeout(() => {
       addMessage(threadId, { role: "bot", text: reply });
       setIsTyping(false);
     }, 750);
+    const fine = window.matchMedia?.("(pointer: fine)")?.matches;
+    if (fine) window.setTimeout(() => inputRef.current?.focus(), 0);
   };
 
-  const handleOption = (option: string) => {
-    if (!threadId || !thread || isClosed) return;
+  const handleOption = (option: string, morphId: string) => {
+    if (!threadId || !thread || isClosed || isTyping) return;
+    if (!reduce) setMorphTarget(morphId);
     addMessage(threadId, { role: "user", text: option });
     setIsTyping(true);
+    wasNearBottom.current = true;
     const flow = topicFlows[thread.category];
     const reply = flow?.reply ?? glaideResponses[thread.category] ?? glaideResponses.fallback;
     window.setTimeout(() => {
       addMessage(threadId, { role: "bot", text: reply });
       setIsTyping(false);
     }, 750);
+    // Clear the morph target after the shared-layout transition resolves.
+    window.setTimeout(() => setMorphTarget(null), 400);
+    const fine = window.matchMedia?.("(pointer: fine)")?.matches;
+    if (fine) window.setTimeout(() => inputRef.current?.focus(), 0);
   };
 
   const handleRaise = () => {
     if (!threadId || isClosed) return;
     raiseTicket(threadId);
   };
+
+  const messages = thread?.messages ?? [];
+  // Index of the last user message that arrived via a chip select (morph target).
+  const lastUserIndex = (() => {
+    for (let i = messages.length - 1; i >= 0; i--) {
+      if (messages[i].role === "user") return i;
+    }
+    return -1;
+  })();
 
   return (
     <Box sx={{ minHeight: "100vh", bgcolor: "background.paper", display: "flex", flexDirection: "column" }}>
@@ -133,99 +207,171 @@ export function GlaideChat() {
       <Box
         sx={{
           width: "100%",
-          maxWidth: 760,
+          maxWidth: 720,
           mx: "auto",
           px: { xs: 2, md: 3 },
           flex: 1,
           display: "flex",
           flexDirection: "column",
           minHeight: 0,
+          position: "relative",
         }}
       >
-        {/* Glaide header */}
+        {/* Slim top bar: identity lives here only; hairline appears once scrolled. */}
         <Stack
           direction="row"
           alignItems="center"
-          gap={1.5}
+          gap={1.25}
           sx={{
-            py: 2,
-            borderBottom: 1,
-            borderColor: "outlineVariant.main",
+            height: 56,
             position: "sticky",
             top: 64,
             bgcolor: "background.paper",
-            zIndex: 2,
+            zIndex: 3,
+            borderBottom: "1px solid",
+            borderColor: scrolled ? "outlineVariant.main" : "transparent",
+            transition: "border-color 160ms ease",
           }}
         >
           <Box
             sx={{
-              width: 40,
-              height: 40,
-              borderRadius: "50%",
+              width: 28,
+              height: 28,
+              borderRadius: "8px",
               bgcolor: "primary.main",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               flexShrink: 0,
               color: "primary.contrastText",
-              fontSize: 16,
+              fontSize: 13,
               fontWeight: 600,
             }}
           >
             G
           </Box>
-          <Box sx={{ flex: 1, minWidth: 0 }}>
-            <Typography sx={{ fontSize: 16, fontWeight: 600, color: "text.primary" }}>
-              Glaide
-            </Typography>
-            <Typography
-              sx={{ fontSize: 12, fontWeight: 500, color: "text.secondary", letterSpacing: "-0.1px" }}
-            >
-              Program Support
-            </Typography>
-          </Box>
-          <Stack
-            direction="row"
-            alignItems="center"
-            gap={0.5}
-            onClick={() => navigate("/program_support")}
-            sx={{
-              cursor: "pointer",
-              color: "text.secondary",
-              transition: "color 120ms ease",
-              "&:hover": { color: "text.primary" },
-            }}
-          >
-            <ChevronLeft size={18} strokeWidth={2} />
-            <Typography sx={{ fontSize: 14, fontWeight: 500, color: "inherit" }}>Support</Typography>
-          </Stack>
+          <Typography sx={{ flex: 1, minWidth: 0, fontSize: 15, fontWeight: 600, color: "text.primary" }}>
+            Glaide
+            <Box component="span" sx={{ color: "text.secondary", fontWeight: 500 }}>
+              {" · Program Support"}
+            </Box>
+          </Typography>
+          <RaiseTicketChip onRaise={handleRaise} disabled={isClosed} />
         </Stack>
+
+        {/* One-time radial entrance glow tied to primary; fades on first user reply. */}
+        <AnimatePresence>
+          {isHeroState && !reduce && (
+            <Box
+              component={motion.div}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
+              aria-hidden
+              sx={{
+                position: "absolute",
+                left: "50%",
+                top: "55%",
+                width: 520,
+                height: 520,
+                transform: "translate(-50%, -50%)",
+                pointerEvents: "none",
+                zIndex: 0,
+                background: (t) =>
+                  `radial-gradient(closest-side, ${alpha(
+                    t.palette.primary.main,
+                    t.palette.mode === "dark" ? 0.06 : 0.1
+                  )}, transparent)`,
+              }}
+            />
+          )}
+        </AnimatePresence>
 
         {/* Message list */}
         <Box
           ref={listRef}
           role="log"
+          aria-live="polite"
+          aria-relevant="additions"
           sx={{
             flex: 1,
             overflowY: "auto",
             py: 3,
             display: "flex",
             flexDirection: "column",
+            justifyContent: isHeroState ? "center" : "flex-start",
             gap: 3,
+            position: "relative",
+            zIndex: 1,
           }}
         >
-          {thread?.messages.map((m, i) => (
-            <ChatBubble
-              key={i}
-              role={m.role}
-              text={m.text}
-              options={m.options}
-              optionsActive={i === thread.messages.length - 1 && !isTyping && !isClosed}
-              onOptionClick={handleOption}
-            />
-          ))}
-          {isTyping && <TypingIndicator />}
+          <LayoutGroup>
+            {messages.map((m, i) => {
+              const isLast = i === messages.length - 1;
+              // The seeded opening, while alone, renders as the hero turn.
+              const isHero = i === 0 && isHeroState;
+              // A user turn that just arrived via chip select carries the morph id.
+              const morphId =
+                m.role === "user" && i === lastUserIndex && morphTarget ? morphTarget : undefined;
+              return (
+                <ChatBubble
+                  key={i}
+                  role={m.role}
+                  text={m.text}
+                  options={m.options}
+                  optionsActive={isLast && !isTyping && !isClosed}
+                  isHero={isHero}
+                  isLatest={m.role === "bot" && isLast}
+                  morphId={m.role === "user" ? morphId : `chip-${i}`}
+                  onOptionClick={handleOption}
+                />
+              );
+            })}
+            <AnimatePresence>{isTyping && <TypingIndicator key="typing" />}</AnimatePresence>
+          </LayoutGroup>
         </Box>
+
+        {/* Scroll-to-latest control */}
+        <AnimatePresence>
+          {showScrollDown && !isClosed && (
+            <Box
+              component={motion.button}
+              type="button"
+              onClick={() => scrollToBottom(reduce ? "auto" : "smooth")}
+              aria-label="Scroll to latest"
+              initial={reduce ? { opacity: 0 } : { opacity: 0, y: 6 }}
+              animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0 }}
+              exit={reduce ? { opacity: 0 } : { opacity: 0, y: 6 }}
+              transition={{ duration: 0.18, ease: EASE }}
+              whileTap={reduce ? undefined : { scale: 0.92 }}
+              sx={{
+                appearance: "none",
+                position: "absolute",
+                left: "50%",
+                transform: "translateX(-50%)",
+                bottom: { xs: 88, md: 96 },
+                zIndex: 4,
+                width: 36,
+                height: 36,
+                borderRadius: "50%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                border: 1,
+                borderColor: "outlineVariant.main",
+                bgcolor: "surfaceContainer.highest",
+                color: "text.secondary",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+                transition: "color 120ms ease, background-color 120ms ease",
+                "&:hover": { color: "text.primary", bgcolor: (t) => alpha(t.palette.primary.main, 0.08) },
+              }}
+            >
+              <ArrowDown size={18} strokeWidth={2} />
+            </Box>
+          )}
+        </AnimatePresence>
 
         {/* Composer, success panel, or resolved footer */}
         {isTicketed ? (
@@ -233,72 +379,162 @@ export function GlaideChat() {
         ) : isResolved ? (
           <ResolvedFooter onBack={() => navigate("/program_support")} />
         ) : (
-          <Stack
-            gap={1.5}
+          <Box
             sx={{
-              pt: 1.5,
-              pb: { xs: 2, md: 3 },
               position: "sticky",
               bottom: 0,
+              pt: 1.5,
+              pb: { xs: 2, md: 3 },
               bgcolor: "background.paper",
+              zIndex: 2,
             }}
           >
+            {/* Fade mask: scrolling messages dissolve under the composer. */}
             <Box
+              aria-hidden
               sx={{
-                display: "flex",
-                alignItems: "flex-end",
-                gap: 1,
-                border: 1,
-                borderColor: "outlineVariant.main",
-                borderRadius: "26px",
-                pl: 2.5,
-                pr: 1,
-                py: 0.75,
-                bgcolor: "background.paper",
-                transition: "border-color 120ms ease",
-                "&:focus-within": { borderColor: "primary.main" },
+                position: "absolute",
+                top: -24,
+                left: 0,
+                right: 0,
+                height: 24,
+                pointerEvents: "none",
+                background: (t) => `linear-gradient(to bottom, transparent, ${t.palette.background.paper})`,
               }}
-            >
-              <InputBase
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey) {
-                    e.preventDefault();
-                    handleSend();
-                  }
-                }}
-                multiline
-                maxRows={6}
-                placeholder="Message Glaide"
-                sx={{ flex: 1, fontSize: 15, py: 0.75 }}
-              />
-              <IconButton
-                onClick={handleSend}
-                disabled={!input.trim()}
-                sx={{
-                  width: 36,
-                  height: 36,
-                  borderRadius: "50%",
-                  bgcolor: "primary.main",
-                  color: "primary.contrastText",
-                  flexShrink: 0,
-                  "&:hover": { bgcolor: "primary.main" },
-                  "&.Mui-disabled": { bgcolor: "surfaceContainer.low", color: "text.secondary" },
-                }}
-              >
-                <Send size={16} strokeWidth={2} />
-              </IconButton>
-            </Box>
-            <Stack direction="row" justifyContent="center">
-              <RaiseTicketChip onRaise={handleRaise} disabled={isClosed} />
-            </Stack>
-          </Stack>
+            />
+            <Composer
+              ref={inputRef}
+              value={input}
+              onChange={setInput}
+              onSend={handleSend}
+              sendPulse={sendPulse}
+              disabled={isTyping}
+              reduce={!!reduce}
+            />
+          </Box>
         )}
       </Box>
     </Box>
   );
 }
+
+type ComposerProps = {
+  value: string;
+  onChange: (v: string) => void;
+  onSend: () => void;
+  sendPulse: number;
+  disabled: boolean;
+  reduce: boolean;
+};
+
+const Composer = forwardRef<HTMLTextAreaElement, ComposerProps>(function Composer(
+  { value, onChange, onSend, sendPulse, disabled, reduce },
+  ref
+) {
+  const canSend = value.trim().length > 0 && !disabled;
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "flex-end",
+        gap: 1,
+        bgcolor: "background.paper",
+        border: "1px solid",
+        borderColor: "outlineVariant.main",
+        borderRadius: "28px",
+        pl: 1,
+        pr: 0.75,
+        py: 0.75,
+        boxShadow: "0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06)",
+        transition: "border-color 160ms ease, box-shadow 160ms ease",
+        "&:hover": { boxShadow: "0 1px 3px rgba(0,0,0,0.05), 0 10px 28px rgba(0,0,0,0.08)" },
+        "&:focus-within": {
+          borderColor: "primary.main",
+          boxShadow: "0 2px 4px rgba(0,0,0,0.05), 0 12px 32px rgba(0,0,0,0.10)",
+        },
+      }}
+    >
+      <Tooltip title="Attach a screenshot" placement="top" enterDelay={300}>
+        <IconButton
+          component={motion.button}
+          whileTap={reduce ? undefined : { scale: 0.92 }}
+          aria-label="Attach a screenshot"
+          sx={{
+            width: 36,
+            height: 36,
+            borderRadius: "50%",
+            color: "text.secondary",
+            flexShrink: 0,
+            transition: "background-color 120ms ease, color 120ms ease",
+            "&:hover": { bgcolor: (t) => alpha(t.palette.primary.main, 0.08), color: "text.primary" },
+            "&:focus-visible": {
+              outline: (t) => `2px solid ${alpha(t.palette.primary.main, 0.5)}`,
+              outlineOffset: 2,
+            },
+          }}
+        >
+          <Paperclip size={18} strokeWidth={2} />
+        </IconButton>
+      </Tooltip>
+
+      <InputBase
+        inputRef={ref}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        onKeyDown={(e) => {
+          // Guard IME composition so CJK input commits cleanly.
+          if (e.nativeEvent?.isComposing || e.keyCode === 229) return;
+          if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            onSend();
+          }
+        }}
+        multiline
+        maxRows={6}
+        placeholder="Message Program Support"
+        sx={{
+          flex: 1,
+          fontSize: 15,
+          lineHeight: 1.6,
+          color: "text.primary",
+          py: 1.25,
+          caretColor: (t) => t.palette.primary.main,
+          "& ::placeholder": { color: "text.secondary", opacity: 0.7 },
+        }}
+      />
+
+      <IconButton
+        component={motion.button}
+        onClick={onSend}
+        disabled={!canSend}
+        aria-label="Send message"
+        aria-disabled={!canSend}
+        whileTap={canSend && !reduce ? { scale: 0.92 } : undefined}
+        animate={reduce ? undefined : { scale: [1, 1.08, 1] }}
+        key={sendPulse}
+        transition={{ duration: 0.22, ease: "easeOut" }}
+        sx={{
+          width: 36,
+          height: 36,
+          borderRadius: "50%",
+          flexShrink: 0,
+          bgcolor: "primary.main",
+          color: "primary.contrastText",
+          transition: "background-color 120ms ease, box-shadow 120ms ease",
+          "&:hover": { bgcolor: "primary.main", boxShadow: "0 2px 8px rgba(0,0,0,0.12)" },
+          "&.Mui-disabled": { bgcolor: "surfaceContainer.low", color: "text.secondary", boxShadow: "none" },
+          "&:focus-visible": {
+            outline: (t) => `2px solid ${alpha(t.palette.primary.main, 0.5)}`,
+            outlineOffset: 2,
+          },
+        }}
+      >
+        <ArrowUp size={18} strokeWidth={2.25} />
+      </IconButton>
+    </Box>
+  );
+});
 
 function SuccessPanel({ onBack }: { onBack: () => void }) {
   return (
