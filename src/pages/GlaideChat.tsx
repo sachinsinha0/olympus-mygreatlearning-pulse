@@ -85,7 +85,9 @@ export function GlaideChat() {
   }, [routeThreadId, location.state, createThread, getThread, navigate]);
 
   const thread = threadId ? getThread(threadId) : undefined;
+  const isTicketed = thread?.status === "ticketed";
   const isResolved = thread?.status === "resolved";
+  const isClosed = isTicketed || isResolved;
 
   const listRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -107,12 +109,12 @@ export function GlaideChat() {
   };
 
   const handleRaise = () => {
-    if (!threadId || isResolved) return;
+    if (!threadId || isClosed) return;
     raiseTicket(threadId);
   };
 
   return (
-    <Box sx={{ minHeight: "100vh", bgcolor: "#ffffff", display: "flex", flexDirection: "column" }}>
+    <Box sx={{ minHeight: "100vh", bgcolor: "background.paper", display: "flex", flexDirection: "column" }}>
       <TopNav />
 
       <Box
@@ -138,7 +140,7 @@ export function GlaideChat() {
             borderColor: "outlineVariant.main",
             position: "sticky",
             top: 64,
-            bgcolor: "#ffffff",
+            bgcolor: "background.paper",
             zIndex: 2,
           }}
         >
@@ -152,9 +154,10 @@ export function GlaideChat() {
               alignItems: "center",
               justifyContent: "center",
               flexShrink: 0,
+              color: "primary.contrastText",
             }}
           >
-            <Sparkles size={18} strokeWidth={2} color="#ffffff" />
+            <Sparkles size={18} strokeWidth={2} color="currentColor" />
           </Box>
           <Box sx={{ flex: 1, minWidth: 0 }}>
             <Typography sx={{ fontSize: 16, fontWeight: 600, color: "text.primary" }}>
@@ -202,9 +205,11 @@ export function GlaideChat() {
           {isTyping && <TypingIndicator />}
         </Box>
 
-        {/* Composer or success panel */}
-        {isResolved ? (
+        {/* Composer, success panel, or resolved footer */}
+        {isTicketed ? (
           <SuccessPanel onBack={() => navigate("/program_support")} />
+        ) : isResolved ? (
+          <ResolvedFooter onBack={() => navigate("/program_support")} />
         ) : (
           <Stack
             gap={1.5}
@@ -215,10 +220,10 @@ export function GlaideChat() {
               borderColor: "outlineVariant.main",
               position: "sticky",
               bottom: 0,
-              bgcolor: "#ffffff",
+              bgcolor: "background.paper",
             }}
           >
-            <RaiseTicketChip onRaise={handleRaise} disabled={isResolved} />
+            <RaiseTicketChip onRaise={handleRaise} disabled={isClosed} />
             <Stack direction="row" gap={1} alignItems="flex-end">
               <InputBase
                 value={input}
@@ -240,7 +245,7 @@ export function GlaideChat() {
                   px: 2,
                   py: 1.25,
                   fontSize: 15,
-                  bgcolor: "#ffffff",
+                  bgcolor: "background.paper",
                   "&.Mui-focused": { borderColor: "primary.main" },
                 }}
               />
@@ -252,7 +257,7 @@ export function GlaideChat() {
                   height: 40,
                   borderRadius: "12px",
                   bgcolor: "primary.main",
-                  color: "#fff",
+                  color: "primary.contrastText",
                   flexShrink: 0,
                   "&:hover": { bgcolor: "primary.main" },
                   "&.Mui-disabled": { bgcolor: "surfaceContainer.low", color: "text.secondary" },
@@ -285,8 +290,8 @@ function SuccessPanel({ onBack }: { onBack: () => void }) {
           width: 44,
           height: 44,
           borderRadius: "12px",
-          bgcolor: "#70fda7",
-          color: "#00210e",
+          bgcolor: (t) => t.palette.extended.success.colorContainer,
+          color: (t) => t.palette.extended.success.onColorContainer,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -307,7 +312,62 @@ function SuccessPanel({ onBack }: { onBack: () => void }) {
         sx={{
           mt: 1,
           bgcolor: "primary.main",
-          color: "#fff",
+          color: "primary.contrastText",
+          textTransform: "none",
+          fontSize: 15,
+          fontWeight: 500,
+          borderRadius: "8px",
+          minHeight: 40,
+          px: "19px",
+          "&:hover": { bgcolor: "primary.main" },
+        }}
+      >
+        Back to Support
+      </Button>
+    </Stack>
+  );
+}
+
+function ResolvedFooter({ onBack }: { onBack: () => void }) {
+  return (
+    <Stack
+      alignItems="center"
+      gap={1.5}
+      sx={{
+        py: 4,
+        borderTop: 1,
+        borderColor: "outlineVariant.main",
+        textAlign: "center",
+      }}
+    >
+      <Box
+        sx={{
+          width: 44,
+          height: 44,
+          borderRadius: "12px",
+          bgcolor: "surfaceContainer.low",
+          color: "text.secondary",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Check size={22} strokeWidth={2.5} />
+      </Box>
+      <Typography sx={{ fontSize: 16, fontWeight: 600, color: "text.primary" }}>
+        This conversation was resolved
+      </Typography>
+      <Typography sx={{ fontSize: 14, color: "text.secondary", maxWidth: 360 }}>
+        Glaide marked this as sorted. Start a new question any time from the support page.
+      </Typography>
+      <Button
+        disableElevation
+        variant="contained"
+        onClick={onBack}
+        sx={{
+          mt: 1,
+          bgcolor: "primary.main",
+          color: "primary.contrastText",
           textTransform: "none",
           fontSize: 15,
           fontWeight: 500,

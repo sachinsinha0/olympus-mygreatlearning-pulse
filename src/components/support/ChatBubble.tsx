@@ -31,9 +31,10 @@ export function ChatBubble({ role, text }: Props) {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            color: "primary.contrastText",
           }}
         >
-          <Sparkles size={14} strokeWidth={2} color="#ffffff" />
+          <Sparkles size={14} strokeWidth={2} color="currentColor" />
         </Box>
       )}
 
@@ -46,7 +47,7 @@ export function ChatBubble({ role, text }: Props) {
           lineHeight: 1.5,
           whiteSpace: "pre-line",
           bgcolor: isUser ? "primary.main" : "surfaceContainer.low",
-          color: isUser ? "#fff" : "text.primary",
+          color: isUser ? "primary.contrastText" : "text.primary",
           borderRadius: isUser ? "16px 16px 4px 16px" : "4px 16px 16px 16px",
         }}
       >
@@ -69,9 +70,10 @@ export function TypingIndicator() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          color: "primary.contrastText",
         }}
       >
-        <Sparkles size={14} strokeWidth={2} color="#ffffff" />
+        <Sparkles size={14} strokeWidth={2} color="currentColor" />
       </Box>
       <Box
         sx={{

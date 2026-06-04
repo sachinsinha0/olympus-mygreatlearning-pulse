@@ -6,7 +6,7 @@ export type Thread = {
   id: string;
   category: string;
   title: string;
-  status: "active" | "resolved";
+  status: "active" | "resolved" | "ticketed";
   timestamp: string;
   messages: ChatMessage[];
 };
@@ -76,7 +76,7 @@ export function SupportProvider({ children }: { children: ReactNode }) {
               ...tickets,
             ]);
           }
-          return prev.map((t) => (t.id === threadId ? { ...t, status: "resolved" } : t));
+          return prev.map((t) => (t.id === threadId ? { ...t, status: "ticketed" } : t));
         }),
     }),
     [openTickets, closedTickets, threads]

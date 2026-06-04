@@ -60,7 +60,7 @@ export function AskQuestion() {
   const categories = data.categories;
 
   return (
-    <Box sx={{ minHeight: "100vh", bgcolor: "#ffffff", display: "flex", flexDirection: "column" }}>
+    <Box sx={{ minHeight: "100vh", bgcolor: "background.paper", display: "flex", flexDirection: "column" }}>
       <TopNav />
 
       <Box sx={{ position: "relative", flex: 1 }}>

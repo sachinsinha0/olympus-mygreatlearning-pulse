@@ -42,7 +42,7 @@ export function ProgramSupport() {
   const tickets = tab === 0 ? openTickets : closedTickets;
 
   return (
-    <Box sx={{ minHeight: "100vh", bgcolor: "#ffffff", display: "flex", flexDirection: "column" }}>
+    <Box sx={{ minHeight: "100vh", bgcolor: "background.paper", display: "flex", flexDirection: "column" }}>
       <TopNav />
 
       <Box sx={{ position: "relative", flex: 1 }}>
@@ -209,7 +209,7 @@ function Hero({ onAsk }: { onAsk: () => void }) {
             onClick={onAsk}
             sx={{
               bgcolor: "primary.main",
-              color: "#fff",
+              color: "primary.contrastText",
               textTransform: "none",
               fontSize: 16,
               fontWeight: 500,
@@ -400,9 +400,9 @@ function ThreadRow({
           >
             {thread.title}
           </Typography>
-          {thread.status === "resolved" && (
+          {thread.status !== "active" && (
             <Typography sx={{ fontSize: 12, color: "text.secondary", flexShrink: 0 }}>
-              Resolved
+              {thread.status === "ticketed" ? "Ticket raised" : "Resolved"}
             </Typography>
           )}
         </Stack>

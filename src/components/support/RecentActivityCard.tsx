@@ -86,9 +86,10 @@ export function RecentActivityCard({ title, module, detectedIssue, type, onClick
               py: 0.5,
               borderRadius: 999,
               bgcolor: "surfaceContainer.low",
+              color: "primary.main",
             }}
           >
-            <Sparkles size={13} strokeWidth={2} color="#0054d6" />
+            <Sparkles size={13} strokeWidth={2} color="currentColor" />
             <Typography sx={{ fontSize: 12, fontWeight: 500, color: "text.secondary" }}>
               {detectedIssue}
             </Typography>

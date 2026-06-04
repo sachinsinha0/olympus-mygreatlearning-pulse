@@ -26,7 +26,7 @@ export function CategoryTile({ label, Icon, bg, color, onClick }: Props) {
         p: 2.25,
         cursor: "pointer",
         textAlign: "left",
-        bgcolor: "#ffffff",
+        bgcolor: "background.paper",
         transition: "background-color 120ms ease",
         "&:hover": { bgcolor: "surfaceContainer.low" },
       }}
