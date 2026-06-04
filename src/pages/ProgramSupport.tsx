@@ -1,33 +1,45 @@
 import { useState } from "react";
 import { Box, Button, Card, Stack, Tab, Tabs, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import {
   DollarSign,
   MessageCircle,
   ClipboardList,
   ListChecks,
+  MonitorSmartphone,
+  Briefcase,
+  FolderKanban,
+  BookOpen,
+  Video,
+  CircleHelp,
+  MessageSquareHeart,
   type LucideIcon,
 } from "lucide-react";
 import { TopNav } from "../components/TopNav/TopNav";
-import data from "../mocks/programSupport.json";
-
-type Ticket = {
-  id: string;
-  title: string;
-  subtitle: string;
-  timestamp: string;
-  category: keyof typeof CATEGORY;
-};
+import { useSupport, type Thread, type Ticket } from "../context/SupportContext";
 
 const CATEGORY: Record<string, { Icon: LucideIcon; bg: string; color: string }> = {
   payment: { Icon: DollarSign, bg: "#ffdcc0", color: "#8d4f00" },
   query: { Icon: MessageCircle, bg: "#ebddff", color: "#6f43c0" },
   attendance: { Icon: ClipboardList, bg: "#ffd9dc", color: "#bd0143" },
   general: { Icon: ListChecks, bg: "#ffd9dc", color: "#bd0143" },
+  // Triage category keys used by Glaide threads.
+  fee: { Icon: DollarSign, bg: "#ffdcc0", color: "#8d4f00" },
+  olympus: { Icon: MonitorSmartphone, bg: "#cae6ff", color: "#006493" },
+  career: { Icon: Briefcase, bg: "#dee0ff", color: "#4355b9" },
+  projects: { Icon: FolderKanban, bg: "#ebddff", color: "#6f43c0" },
+  material: { Icon: BookOpen, bg: "#a1efff", color: "#006876" },
+  sessions: { Icon: Video, bg: "#74f8e5", color: "#006a60" },
+  quizzes: { Icon: ListChecks, bg: "#ffd9dc", color: "#bd0143" },
+  other: { Icon: CircleHelp, bg: "#dded49", color: "#5b6300" },
+  feedback: { Icon: MessageSquareHeart, bg: "#ffd8eb", color: "#b2008a" },
 };
 
 export function ProgramSupport() {
+  const navigate = useNavigate();
+  const { openTickets, closedTickets, threads } = useSupport();
   const [tab, setTab] = useState(0);
-  const tickets = (tab === 0 ? data.open : data.closed) as Ticket[];
+  const tickets = tab === 0 ? openTickets : closedTickets;
 
   return (
     <Box sx={{ minHeight: "100vh", bgcolor: "#ffffff", display: "flex", flexDirection: "column" }}>
@@ -63,7 +75,7 @@ export function ProgramSupport() {
             pb: 8,
           }}
         >
-          <Hero />
+          <Hero onAsk={() => navigate("/program_support/ask")} />
 
           <Card
             sx={{
@@ -102,7 +114,7 @@ export function ProgramSupport() {
                 },
                 "& .MuiTabs-indicatorSpan": {
                   width: "100%",
-                  maxWidth: 132,
+                  maxWidth: 92,
                   backgroundColor: "primary.main",
                   borderRadius: "3px 3px 0 0",
                 },
@@ -110,13 +122,31 @@ export function ProgramSupport() {
             >
               <Tab label="Open Tickets" disableRipple />
               <Tab label="Closed Tickets" disableRipple />
+              <Tab label="Support Threads" disableRipple />
             </Tabs>
 
-            <Box>
-              {tickets.map((t, i) => (
-                <TicketRow key={t.id} ticket={t} divider={i < tickets.length - 1} />
-              ))}
-            </Box>
+            {tab === 2 ? (
+              <Box>
+                {threads.length === 0 ? (
+                  <ThreadsEmptyState onAsk={() => navigate("/program_support/ask")} />
+                ) : (
+                  threads.map((th, i) => (
+                    <ThreadRow
+                      key={th.id}
+                      thread={th}
+                      divider={i < threads.length - 1}
+                      onClick={() => navigate(`/program_support/chat/${th.id}`)}
+                    />
+                  ))
+                )}
+              </Box>
+            ) : (
+              <Box>
+                {tickets.map((t, i) => (
+                  <TicketRow key={t.id} ticket={t} divider={i < tickets.length - 1} />
+                ))}
+              </Box>
+            )}
           </Card>
         </Box>
       </Box>
@@ -139,7 +169,7 @@ export function ProgramSupport() {
   );
 }
 
-function Hero() {
+function Hero({ onAsk }: { onAsk: () => void }) {
   return (
     <Stack
       direction={{ xs: "column", md: "row" }}
@@ -176,6 +206,7 @@ function Hero() {
           <Button
             disableElevation
             variant="contained"
+            onClick={onAsk}
             sx={{
               bgcolor: "primary.main",
               color: "#fff",
@@ -303,6 +334,132 @@ function TicketRow({ ticket, divider }: { ticket: Ticket; divider: boolean }) {
       >
         {ticket.timestamp}
       </Typography>
+    </Stack>
+  );
+}
+
+function ThreadRow({
+  thread,
+  divider,
+  onClick,
+}: {
+  thread: Thread;
+  divider: boolean;
+  onClick: () => void;
+}) {
+  const cat = CATEGORY[thread.category] ?? CATEGORY.general;
+  const { Icon } = cat;
+  const last = thread.messages[thread.messages.length - 1];
+  const sender = last?.role === "bot" ? "Glaide" : "You";
+  const subtitle = last ? `${sender}: ${last.text}` : "No messages yet";
+
+  return (
+    <Stack
+      direction="row"
+      alignItems="center"
+      gap={2}
+      onClick={onClick}
+      sx={{
+        px: 2,
+        py: 2,
+        cursor: "pointer",
+        borderBottom: divider ? 1 : 0,
+        borderColor: "outlineVariant.main",
+        transition: "background-color 120ms ease",
+        "&:hover": { bgcolor: "surfaceContainer.low" },
+      }}
+    >
+      <Box
+        sx={{
+          width: 42,
+          height: 42,
+          borderRadius: "50%",
+          bgcolor: cat.bg,
+          color: cat.color,
+          flexShrink: 0,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Icon size={20} strokeWidth={2} />
+      </Box>
+
+      <Box sx={{ minWidth: 0, flex: 1 }}>
+        <Stack direction="row" alignItems="center" gap={1}>
+          <Typography
+            sx={{
+              fontSize: 16,
+              fontWeight: 500,
+              color: "text.primary",
+              letterSpacing: "-0.2px",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
+            {thread.title}
+          </Typography>
+          {thread.status === "resolved" && (
+            <Typography sx={{ fontSize: 12, color: "text.secondary", flexShrink: 0 }}>
+              Resolved
+            </Typography>
+          )}
+        </Stack>
+        <Typography
+          sx={{
+            fontSize: 14,
+            color: "text.secondary",
+            lineHeight: 1.4,
+            mt: 0.25,
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          }}
+        >
+          {subtitle}
+        </Typography>
+      </Box>
+
+      <Typography
+        sx={{
+          fontSize: 12,
+          color: "text.secondary",
+          letterSpacing: "-0.2px",
+          flexShrink: 0,
+          display: { xs: "none", sm: "block" },
+        }}
+      >
+        {thread.timestamp}
+      </Typography>
+    </Stack>
+  );
+}
+
+function ThreadsEmptyState({ onAsk }: { onAsk: () => void }) {
+  return (
+    <Stack alignItems="center" gap={1} sx={{ py: 4, px: 2, textAlign: "center" }}>
+      <Box sx={{ color: "text.secondary", display: "flex" }}>
+        <MessageSquareHeart size={28} strokeWidth={2} />
+      </Box>
+      <Typography sx={{ fontSize: 16, fontWeight: 500, color: "text.primary" }}>
+        No conversations yet
+      </Typography>
+      <Typography sx={{ fontSize: 14, color: "text.secondary" }}>
+        Start one from Ask A Question.
+      </Typography>
+      <Button
+        onClick={onAsk}
+        sx={{
+          mt: 1,
+          textTransform: "none",
+          fontSize: 14,
+          fontWeight: 500,
+          color: "primary.main",
+        }}
+      >
+        Ask A Question
+      </Button>
     </Stack>
   );
 }
