@@ -13,6 +13,7 @@ import { SubscriptionPage } from "./pages/Pulse/SubscriptionPage";
 import { ProgramSupport } from "./pages/ProgramSupport";
 import { SupportProvider } from "./context/SupportContext";
 import { AskQuestion } from "./pages/AskQuestion";
+import { GlaideChat } from "./pages/GlaideChat";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -36,6 +37,8 @@ export function App() {
             <Route path="/courses/:id" element={<CourseDetail />} />
             <Route path="/program_support" element={<ProgramSupport />} />
             <Route path="/program_support/ask" element={<AskQuestion />} />
+            <Route path="/program_support/chat" element={<GlaideChat />} />
+            <Route path="/program_support/chat/:threadId" element={<GlaideChat />} />
             <Route path="/pulse" element={<PulseHome />} />
             <Route path="/pulse/intro" element={<PulseIntroPage />} />
             <Route path="/pulse/subscription" element={<SubscriptionPage />} />
