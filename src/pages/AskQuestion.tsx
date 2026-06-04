@@ -41,7 +41,7 @@ const CATEGORY_COLORS: Record<string, { bg: string; color: string }> = {
   sessions: { bg: "#ffdf9e", color: "#261a00" }, // amber
   quizzes: { bg: "#ffd6fe", color: "#35003f" }, // purple
   other: { bg: "#a1efff", color: "#001f25" }, // cyan
-  feedback: { bg: "#74f8e5", color: "#00201c" }, // teal
+  feedback: { bg: "#ffd8eb", color: "#3b002c" }, // pink (pastel)
 };
 
 const SECTION_LABEL_SX = {

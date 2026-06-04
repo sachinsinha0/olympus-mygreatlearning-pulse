@@ -41,40 +41,41 @@ export function RecentActivityCard({ course, title, when, type, onClick }: Props
         "&:hover": { bgcolor: "surfaceContainer.low" },
       }}
     >
-      <Typography
-        sx={{
-          fontSize: 13,
-          fontWeight: 500,
-          color: "primary.main",
-          mb: 1,
-          whiteSpace: "nowrap",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-        }}
-      >
-        {course}
-      </Typography>
-
-      <Stack direction="row" gap={1} alignItems="center" sx={{ mb: 1 }}>
+      <Stack direction="row" gap={1.5} alignItems="center">
         <Box sx={{ color: "text.primary", display: "flex", flexShrink: 0 }}>
-          <Icon size={18} strokeWidth={2} />
+          <Icon size={24} strokeWidth={2} />
         </Box>
-        <Typography
-          variant="subtitle2"
-          sx={{
-            color: "text.primary",
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-          }}
-        >
-          {title}
-        </Typography>
+        <Box sx={{ minWidth: 0, flex: 1 }}>
+          <Typography
+            sx={{
+              fontSize: 13,
+              fontWeight: 500,
+              color: "primary.main",
+              mb: 0.5,
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
+            {course}
+          </Typography>
+          <Typography
+            variant="subtitle2"
+            sx={{
+              color: "text.primary",
+              mb: 0.5,
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
+            {title}
+          </Typography>
+          <Typography sx={{ fontSize: 13, color: "text.secondary", letterSpacing: "-0.2px" }}>
+            {when}
+          </Typography>
+        </Box>
       </Stack>
-
-      <Typography sx={{ fontSize: 13, color: "text.secondary", letterSpacing: "-0.2px" }}>
-        {when}
-      </Typography>
     </Card>
   );
 }
