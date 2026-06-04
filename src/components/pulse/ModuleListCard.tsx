@@ -41,7 +41,7 @@ export function ModuleListCard({
     : isPreTrial
     ? "Start 30-day trial"
     : started
-    ? "Continue Learning"
+    ? "Resume Learning"
     : "Start Learning";
 
   const navigateToModule = (withTrialFlag = false) => {
