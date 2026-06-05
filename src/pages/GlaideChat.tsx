@@ -247,7 +247,7 @@ export function GlaideChat() {
           width: "100%",
           maxWidth: 816,
           mx: "auto",
-          px: { xs: 2, md: 3 },
+          px: 2,
           position: "relative",
         }}
       >
@@ -435,9 +435,9 @@ export function GlaideChat() {
               position: "relative",
               maxWidth: 816,
               mx: "auto",
-              px: { xs: 2, md: 3 },
+              px: 2,
               pt: 1.5,
-              pb: { xs: 2, md: 3 },
+              pb: 2,
               bgcolor: "background.paper",
               pointerEvents: "auto",
             }}
