@@ -29,4 +29,12 @@ describe("classifyIntent", () => {
   it("is case-insensitive", () => {
     expect(classifyIntent("EXTEND my DEADLINE").id).toBe("extension");
   });
+
+  it("returns route for empty input", () => {
+    expect(classifyIntent("").id).toBe("route");
+  });
+
+  it("returns route for whitespace-only input", () => {
+    expect(classifyIntent("   ").id).toBe("route");
+  });
 });
