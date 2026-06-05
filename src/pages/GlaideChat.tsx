@@ -3,7 +3,7 @@ import { Box, Button, IconButton, InputBase, Stack, Tooltip, Typography } from "
 import { alpha } from "@mui/material/styles";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from "framer-motion";
-import { ArrowUp, ArrowDown, Paperclip, Check } from "lucide-react";
+import { ArrowUp, ArrowDown, ArrowLeft, Paperclip, Check } from "lucide-react";
 import { TopNav } from "../components/TopNav/TopNav";
 import { ChatBubble, TypingIndicator, EASE } from "../components/support/ChatBubble";
 import { useSupport, type ChatMessage } from "../context/SupportContext";
@@ -228,6 +228,17 @@ export function GlaideChat() {
             transition: "border-color 160ms ease",
           }}
         >
+          <IconButton
+            onClick={() => navigate(-1)}
+            aria-label="Back"
+            sx={{
+              ml: -1,
+              color: "text.primary",
+              "&:hover": { bgcolor: (t) => alpha(t.palette.primary.main, 0.08) },
+            }}
+          >
+            <ArrowLeft size={20} strokeWidth={2} />
+          </IconButton>
           <Box
             component="img"
             src={new URL("../assets/ai-mentor-logo.svg", import.meta.url).href}
