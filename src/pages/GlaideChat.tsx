@@ -563,9 +563,8 @@ const Composer = forwardRef<HTMLTextAreaElement, ComposerProps>(function Compose
         border: "1px solid",
         borderColor: "outlineVariant.main",
         borderRadius: "28px",
-        pl: 1,
-        pr: 0.75,
-        py: 0.75,
+        px: 1.5,
+        py: 1,
         boxShadow: "0 1px 2px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06)",
         transition: "border-color 160ms ease, box-shadow 160ms ease",
         "&:hover": { boxShadow: "0 1px 3px rgba(0,0,0,0.05), 0 10px 28px rgba(0,0,0,0.08)" },
@@ -640,10 +639,9 @@ const Composer = forwardRef<HTMLTextAreaElement, ComposerProps>(function Compose
         placeholder="Ask Glaide"
         sx={{
           gridArea: "text",
-          // Stacked text spans the FULL width (like ChatGPT), not constrained to
-          // the single-row width. The single/stacked decision is made by the
-          // mirror at the fixed single-row width, which keeps it stable.
-          px: 0,
+          // Stacked text spans the FULL width (like ChatGPT). The +4px each side
+          // (on top of the pill's 12px) gives the wrapped text a 16px inset.
+          px: stacked ? "4px" : 0,
           fontSize: 15,
           lineHeight: 1.5,
           color: "text.primary",
