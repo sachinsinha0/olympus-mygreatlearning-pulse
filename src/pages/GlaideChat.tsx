@@ -8,6 +8,10 @@ import { TopNav } from "../components/TopNav/TopNav";
 import { ChatBubble, TypingIndicator, EASE } from "../components/support/ChatBubble";
 import { useSupport, type ChatMessage } from "../context/SupportContext";
 import data from "../mocks/programSupport.json";
+import { classifyIntent } from "../lib/classifyIntent";
+
+const ticketConfirmations = data.ticketConfirmations as Record<string, string>;
+const recentProjects = data.projectPicker.top as { course: string; name: string }[];
 
 const glaideResponses = data.glaideResponses as Record<string, string>;
 
@@ -33,7 +37,7 @@ export function GlaideChat() {
   const navigate = useNavigate();
   const location = useLocation();
   const { threadId: routeThreadId } = useParams();
-  const { getThread, createThread, addMessage } = useSupport();
+  const { getThread, createThread, addMessage, createTicket } = useSupport();
   const reduce = useReducedMotion();
 
   const [threadId, setThreadId] = useState<string | null>(routeThreadId ?? null);
@@ -44,6 +48,7 @@ export function GlaideChat() {
   const [sendPulse, setSendPulse] = useState(0);
   // The morphId of the chip currently animating into a user bubble (one-shot).
   const [morphTarget, setMorphTarget] = useState<string | null>(null);
+  const [selectedProject, setSelectedProject] = useState<string | null>(null);
   const initialised = useRef(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -83,7 +88,12 @@ export function GlaideChat() {
       const flow = topicFlows[seed.categoryKey];
       const opening: ChatMessage =
         seed.categoryKey === "projects"
-          ? { role: "bot", text: "Which project are you facing trouble with?", widget: "projectCards" }
+          ? recentProjects.length > 0
+            ? { role: "bot", text: "Which project are you facing trouble with?", widget: "projectCards" }
+            : {
+                role: "bot",
+                text: "You don't have any projects yet. What would you like to understand about projects?",
+              }
           : flow
             ? { role: "bot", text: flow.question, options: flow.options }
             : { role: "bot", text: glaideResponses[seed.categoryKey] ?? glaideResponses.fallback };
@@ -203,13 +213,45 @@ export function GlaideChat() {
     setIsTyping(true);
     reserveRef.current = true; // this turn reserves space and pins to top
     pendingPin.current = true;
-    const reply = glaideResponses[thread.category] ?? glaideResponses.fallback;
-    window.setTimeout(() => {
-      addMessage(threadId, { role: "bot", text: reply });
-      setIsTyping(false);
-    }, 750);
+
+    if (thread.category === "projects" && selectedProject) {
+      const intent = classifyIntent(text);
+      const reply = intent.response.replace(/\{project\}/g, selectedProject);
+      const action: import("../context/SupportContext").ChatAction | undefined =
+        intent.actionLabel && intent.ticketTag
+          ? { label: intent.actionLabel, tag: intent.ticketTag, style: intent.actionStyle ?? "primary" }
+          : undefined;
+      window.setTimeout(() => {
+        addMessage(threadId, { role: "bot", text: reply, ...(action ? { action } : {}) });
+        setIsTyping(false);
+      }, 750);
+    } else {
+      const reply = glaideResponses[thread.category] ?? glaideResponses.fallback;
+      window.setTimeout(() => {
+        addMessage(threadId, { role: "bot", text: reply });
+        setIsTyping(false);
+      }, 750);
+    }
+
     const fine = window.matchMedia?.("(pointer: fine)")?.matches;
     if (fine) window.setTimeout(() => inputRef.current?.focus(), 0);
+  };
+
+  const handleAction = (tag: string) => {
+    if (!threadId || !thread) return;
+    const project = selectedProject ?? thread.title;
+    createTicket({
+      title: project,
+      subtitle: `Raised from Glaide chat about ${project}`,
+      category: "projects",
+    });
+    const confirm = (ticketConfirmations[tag] ?? ticketConfirmations.default).replace(
+      /\{project\}/g,
+      project
+    );
+    reserveRef.current = true;
+    pendingPin.current = true;
+    addMessage(threadId, { role: "bot", text: confirm, tone: "success" });
   };
 
   const handleOption = (option: string, morphId: string) => {
@@ -247,12 +289,16 @@ export function GlaideChat() {
     if (fine) window.setTimeout(() => inputRef.current?.focus(), 0);
   };
 
-  const handleProjectPick = (course: string, name: string) =>
+  const handleProjectPick = (course: string, name: string) => {
+    setSelectedProject(name);
     respondTo(`${course} · ${name}`, `Got it, the "${name}" project. What problem are you facing with it?`);
+  };
   const handleProjectOther = () =>
     respondTo("My project isn't listed", "No problem. Pick your course and project and I will pull it up.", "projectForm");
-  const handleProjectConfirm = (course: string, project: string) =>
+  const handleProjectConfirm = (course: string, project: string) => {
+    setSelectedProject(project);
     respondTo(`${course} · ${project}`, `Got it, the "${project}" project. What problem are you facing with it?`);
+  };
 
   const messages = thread?.messages ?? [];
   // Index of the last user message that arrived via a chip select (morph target).
@@ -389,6 +435,9 @@ export function GlaideChat() {
                   onProjectPick={handleProjectPick}
                   onProjectOther={handleProjectOther}
                   onProjectConfirm={handleProjectConfirm}
+                  action={m.action}
+                  tone={m.tone}
+                  onAction={handleAction}
                 />
               );
             })}
