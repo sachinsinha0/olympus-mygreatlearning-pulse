@@ -54,6 +54,66 @@
       { "course": "Advanced Agentic AI Solutions", "projects": ["Last-Mile Delivery Exception Handling", "Multi-Agent Research Assistant", "Agentic Workflow Orchestrator"] }
     ]
   },
+  "projectIntents": [
+    {
+      "id": "extension",
+      "keywords": ["deadline", "more time", "extend", "extension", "missed", "late", "submit late"],
+      "shape": "action",
+      "response": "Yes, I can raise an extension request to your program team for \"{project}\". They will review and confirm.",
+      "actionLabel": "Request extension",
+      "ticketTag": "auto_extension",
+      "actionStyle": "primary"
+    },
+    {
+      "id": "reeval",
+      "keywords": ["re-eval", "reevaluat", "re-evaluat", "graded wrong", "regrade", "re-grade", "marks are wrong", "score is wrong", "mis-scored", "wrongly graded"],
+      "shape": "action",
+      "response": "I can request a re-evaluation for \"{project}\". A short note on what felt mis-scored helps the reviewer.",
+      "actionLabel": "Request re-evaluation",
+      "ticketTag": "reevaluation",
+      "actionStyle": "primary"
+    },
+    {
+      "id": "solution_timing",
+      "keywords": ["when will i", "sample solution", "solution", "when do i get", "release"],
+      "shape": "lookup",
+      "response": "Sample solutions release 7 days after the submission deadline for \"{project}\". You will get a notification when it is available."
+    },
+    {
+      "id": "code",
+      "keywords": ["error", "stuck", "code", "exception", "traceback", "bug", "not working", "fails", "accessdenied", "credentials"],
+      "shape": "mentor",
+      "response": "Let's debug \"{project}\" together. Share the exact error message or the line it fails on, and tell me what you have already tried.",
+      "actionLabel": "Talk to a human",
+      "ticketTag": "projects_human",
+      "actionStyle": "ghost"
+    },
+    {
+      "id": "concept",
+      "keywords": ["understand", "concept", "doubt", "confused", "explain", "how does", "what is", "why does"],
+      "shape": "mentor",
+      "response": "Happy to explain. Tell me which part of \"{project}\" is unclear and I will walk you through it step by step.",
+      "actionLabel": "Talk to a human",
+      "ticketTag": "projects_human",
+      "actionStyle": "ghost"
+    },
+    {
+      "id": "route",
+      "keywords": [],
+      "shape": "route",
+      "response": "That one is best handled by your program team. I can raise a ticket with \"{project}\" and what you described so they can help.",
+      "actionLabel": "Raise a ticket",
+      "ticketTag": "projects_other",
+      "actionStyle": "outline"
+    }
+  ],
+  "ticketConfirmations": {
+    "auto_extension": "Extension request raised for \"{project}\". Tracked in Open Tickets, your team will confirm.",
+    "reevaluation": "Re-evaluation request raised for \"{project}\". Tracked in Open Tickets.",
+    "projects_human": "Connected you to your program team about \"{project}\". They will follow up. Track it in Open Tickets.",
+    "projects_other": "Ticket raised for \"{project}\". Your program team will follow up. Track it in Open Tickets.",
+    "default": "Ticket raised for \"{project}\". Track it in Open Tickets."
+  },
   "topicFlows": {
     "fee": {
       "question": "Sure, let's sort the fee out. What is this about?",
