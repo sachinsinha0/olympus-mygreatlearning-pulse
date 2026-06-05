@@ -210,7 +210,7 @@ export function ChatBubble({
             fontSize: 15,
             lineHeight: 1.55,
             whiteSpace: "pre-line",
-            bgcolor: "surfaceContainer.high",
+            bgcolor: (t) => alpha(t.palette.primary.main, 0.1),
             color: "text.primary",
             borderRadius: "18px 18px 6px 18px",
           }}
