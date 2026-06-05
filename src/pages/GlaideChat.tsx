@@ -511,6 +511,7 @@ const Composer = forwardRef<HTMLTextAreaElement, ComposerProps>(function Compose
   useLayoutEffect(() => {
     const grid = gridRef.current;
     const mirror = mirrorRef.current;
+    const el = innerRef.current;
     if (!grid || !mirror) return;
     const cs = window.getComputedStyle(grid);
     const padL = parseFloat(cs.paddingLeft) || 0;
@@ -518,10 +519,22 @@ const Composer = forwardRef<HTMLTextAreaElement, ComposerProps>(function Compose
     const colGap = parseFloat(cs.columnGap) || 8;
     const BTN = 36; // attach + send columns
     const singleRowTextWidth = Math.max(0, grid.clientWidth - padL - padR - BTN * 2 - colGap * 2);
+    // Mirror the textarea's exact typography so the mirror wraps identically to
+    // the rendered textarea (letter-spacing especially shifts the wrap point).
+    let lineH = 22.5;
+    if (el) {
+      const tcs = window.getComputedStyle(el);
+      mirror.style.fontFamily = tcs.fontFamily;
+      mirror.style.fontSize = tcs.fontSize;
+      mirror.style.fontWeight = tcs.fontWeight;
+      mirror.style.letterSpacing = tcs.letterSpacing;
+      mirror.style.lineHeight = tcs.lineHeight;
+      lineH = parseFloat(tcs.lineHeight) || 22.5;
+    }
     mirror.style.width = `${singleRowTextWidth}px`;
     mirror.textContent = value || "x";
     // More than ~1.5 line-heights tall means it wrapped at the single-row width.
-    setStacked(mirror.scrollHeight > 22.5 * 1.5);
+    setStacked(mirror.scrollHeight > lineH * 1.5);
   }, [value]);
 
   return (
@@ -613,8 +626,12 @@ const Composer = forwardRef<HTMLTextAreaElement, ComposerProps>(function Compose
         placeholder="Ask Glaide"
         sx={{
           gridArea: "text",
-          // Pad the text off the rounded corners when it spans full width.
-          px: stacked ? 1 : 0,
+          // When stacked, pad the text by the same amount the buttons reserve in
+          // single-row (attach 36 + gap 8 = 44 each side) so the text wraps at the
+          // SAME width in both layouts. This removes the in-between "stacked but
+          // one line" state: stacking only happens when the text is truly 2+ lines.
+          pl: stacked ? "44px" : 0,
+          pr: stacked ? "44px" : 0,
           fontSize: 15,
           lineHeight: 1.5,
           color: "text.primary",
