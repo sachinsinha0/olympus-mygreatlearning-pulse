@@ -441,7 +441,7 @@ const Composer = forwardRef<HTMLTextAreaElement, ComposerProps>(function Compose
     <Box
       sx={{
         display: "flex",
-        alignItems: "center",
+        alignItems: "flex-end",
         gap: 1,
         bgcolor: "background.paper",
         border: "1px solid",
@@ -495,16 +495,28 @@ const Composer = forwardRef<HTMLTextAreaElement, ComposerProps>(function Compose
           }
         }}
         multiline
-        maxRows={6}
+        maxRows={8}
         placeholder="Ask Glaide"
         sx={{
           flex: 1,
           fontSize: 15,
-          lineHeight: 1.6,
+          lineHeight: 1.5,
           color: "text.primary",
-          py: 1.25,
+          py: "6px",
           caretColor: (t) => t.palette.primary.main,
           "& ::placeholder": { color: "text.secondary", opacity: 0.7 },
+          "& textarea": {
+            overflowY: "auto",
+            overscrollBehavior: "contain",
+            scrollbarGutter: "stable",
+            scrollbarWidth: "thin",
+            "&::-webkit-scrollbar": { width: 6 },
+            "&::-webkit-scrollbar-thumb": {
+              borderRadius: 3,
+              backgroundColor: (t) => t.palette.outlineVariant.main,
+            },
+            "&::-webkit-scrollbar-track": { background: "transparent" },
+          },
         }}
       />
 
