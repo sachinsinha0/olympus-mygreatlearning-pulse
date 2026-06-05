@@ -234,22 +234,11 @@ export function GlaideChat() {
           }}
         >
           <Box
-            sx={{
-              width: 28,
-              height: 28,
-              borderRadius: "8px",
-              bgcolor: "primary.main",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              flexShrink: 0,
-              color: "primary.contrastText",
-              fontSize: 13,
-              fontWeight: 600,
-            }}
-          >
-            G
-          </Box>
+            component="img"
+            src={new URL("../assets/ai-mentor-logo.svg", import.meta.url).href}
+            alt="Glaide"
+            sx={{ width: 28, height: 28, flexShrink: 0, display: "block" }}
+          />
           <Typography sx={{ flex: 1, minWidth: 0, fontSize: 15, fontWeight: 600, color: "text.primary" }}>
             Glaide
             <Box component="span" sx={{ color: "text.secondary", fontWeight: 500 }}>
