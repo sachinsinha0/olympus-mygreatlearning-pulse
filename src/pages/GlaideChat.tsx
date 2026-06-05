@@ -81,9 +81,12 @@ export function GlaideChat() {
       setThreadId(id);
     } else {
       const flow = topicFlows[seed.categoryKey];
-      const opening: ChatMessage = flow
-        ? { role: "bot", text: flow.question, options: flow.options }
-        : { role: "bot", text: glaideResponses[seed.categoryKey] ?? glaideResponses.fallback };
+      const opening: ChatMessage =
+        seed.categoryKey === "projects"
+          ? { role: "bot", text: "Which project are you facing trouble with?", widget: "projectCards" }
+          : flow
+            ? { role: "bot", text: flow.question, options: flow.options }
+            : { role: "bot", text: glaideResponses[seed.categoryKey] ?? glaideResponses.fallback };
       const id = createThread({
         category: seed.categoryKey,
         title: seed.label,
@@ -228,6 +231,28 @@ export function GlaideChat() {
     if (fine) window.setTimeout(() => inputRef.current?.focus(), 0);
   };
 
+  // Post the learner's choice as their message, then a Glaide follow-up
+  // (optionally carrying another picker widget).
+  const respondTo = (userText: string, botText: string, botWidget?: ChatMessage["widget"]) => {
+    if (!threadId || !thread || isClosed || isTyping) return;
+    addMessage(threadId, { role: "user", text: userText });
+    setIsTyping(true);
+    reserveRef.current = true;
+    pendingPin.current = true;
+    window.setTimeout(() => {
+      addMessage(threadId, { role: "bot", text: botText, ...(botWidget ? { widget: botWidget } : {}) });
+      setIsTyping(false);
+    }, 750);
+    const fine = window.matchMedia?.("(pointer: fine)")?.matches;
+    if (fine) window.setTimeout(() => inputRef.current?.focus(), 0);
+  };
+
+  const handleProjectPick = (course: string, name: string) =>
+    respondTo(`${course} · ${name}`, `Got it, the "${name}" project. What problem are you facing with it?`);
+  const handleProjectOther = () =>
+    respondTo("My project isn't listed", "No problem. Pick your course and project and I will pull it up.", "projectForm");
+  const handleProjectConfirm = (course: string, project: string) =>
+    respondTo(`${course} · ${project}`, `Got it, the "${project}" project. What problem are you facing with it?`);
 
   const messages = thread?.messages ?? [];
   // Index of the last user message that arrived via a chip select (morph target).
@@ -360,6 +385,10 @@ export function GlaideChat() {
                   isLatest={m.role === "bot" && isLast}
                   morphId={m.role === "user" ? morphId : `chip-${i}`}
                   onOptionClick={handleOption}
+                  widget={m.widget}
+                  onProjectPick={handleProjectPick}
+                  onProjectOther={handleProjectOther}
+                  onProjectConfirm={handleProjectConfirm}
                 />
               );
             })}

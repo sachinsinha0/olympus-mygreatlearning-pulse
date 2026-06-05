@@ -42,6 +42,18 @@
     "feedback": "Thanks for sharing feedback. I am listening, go ahead.",
     "fallback": "I want to make sure I get this right. Could you add a little more detail?"
   },
+  "projectPicker": {
+    "top": [
+      { "course": "Agentic AI Foundations", "name": "Apple HBR Report Document Q&A" },
+      { "course": "Business Applications with Agentic AI", "name": "AI-powered EHR Assistant" },
+      { "course": "Advanced Agentic AI Solutions", "name": "Last-Mile Delivery Exception Handling" }
+    ],
+    "courses": [
+      { "course": "Agentic AI Foundations", "projects": ["Apple HBR Report Document Q&A", "Prompt Chaining Workbook", "Tool-Use Mini Project"] },
+      { "course": "Business Applications with Agentic AI", "projects": ["AI-powered EHR Assistant", "Retail Demand Forecaster", "Support Ticket Router"] },
+      { "course": "Advanced Agentic AI Solutions", "projects": ["Last-Mile Delivery Exception Handling", "Multi-Agent Research Assistant", "Agentic Workflow Orchestrator"] }
+    ]
+  },
   "topicFlows": {
     "fee": {
       "question": "Sure, let's sort the fee out. What is this about?",

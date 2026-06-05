@@ -3,6 +3,8 @@ import { Box, IconButton, Stack, Typography, useTheme } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import { motion, useReducedMotion } from "framer-motion";
 import { Copy, Check, ThumbsUp, ThumbsDown } from "lucide-react";
+import { ProjectPicker } from "./ProjectPicker";
+import { ProjectForm } from "./ProjectForm";
 
 // Single signature easing for all translational motion (gentle decelerating ease-out).
 export const EASE = [0.22, 1, 0.36, 1] as const;
@@ -17,6 +19,11 @@ type Props = {
   /** Stable id used so a selected chip can morph into the resulting user bubble. */
   morphId?: string;
   onOptionClick?: (option: string, morphId: string) => void;
+  /** Rich picker rendered under the message (project cards / cascading form). */
+  widget?: "projectCards" | "projectForm";
+  onProjectPick?: (course: string, name: string) => void;
+  onProjectOther?: () => void;
+  onProjectConfirm?: (course: string, project: string) => void;
 };
 
 function ActionRow({ text, isLatest }: { text: string; isLatest?: boolean }) {
@@ -288,6 +295,10 @@ export function ChatBubble({
   isLatest,
   morphId,
   onOptionClick,
+  widget,
+  onProjectPick,
+  onProjectOther,
+  onProjectConfirm,
 }: Props) {
   const reduce = useReducedMotion();
 
@@ -337,7 +348,14 @@ export function ChatBubble({
         {text}
       </Typography>
 
-      {optionsActive && options && options.length > 0 && (
+      {optionsActive && widget === "projectCards" && (
+        <ProjectPicker onPick={onProjectPick!} onOther={onProjectOther!} />
+      )}
+      {optionsActive && widget === "projectForm" && (
+        <ProjectForm onConfirm={onProjectConfirm!} />
+      )}
+
+      {optionsActive && !widget && options && options.length > 0 && (
         <Stack
           component={motion.div}
           direction="row"
