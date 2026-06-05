@@ -102,29 +102,23 @@ export function GlaideChat() {
   // We always enter seeded; the lone opening turn IS the hero/landing moment.
   const isHeroState = messageCount === 1 && !isTyping;
 
-  const listRef = useRef<HTMLDivElement>(null);
-
-  // Sticky-bottom autoscroll: only yank down if the user was already near bottom.
-  const scrollToBottom = useCallback(
-    (behavior: ScrollBehavior) => {
-      const el = listRef.current;
-      if (el) el.scrollTo({ top: el.scrollHeight, behavior });
-    },
-    []
-  );
+  // Single window scroll (scrollbar at the page edge), ChatGPT/Gemini style.
+  const scrollToBottom = useCallback((behavior: ScrollBehavior) => {
+    window.scrollTo({ top: document.documentElement.scrollHeight, behavior });
+  }, []);
 
   const wasNearBottom = useRef(true);
   useEffect(() => {
-    const el = listRef.current;
-    if (!el) return;
     const onScroll = () => {
-      const distance = el.scrollHeight - el.scrollTop - el.clientHeight;
+      const distance =
+        document.documentElement.scrollHeight - window.scrollY - window.innerHeight;
       wasNearBottom.current = distance <= 80;
       setShowScrollDown(distance > 80);
-      setScrolled(el.scrollTop > 4);
+      setScrolled(window.scrollY > 4);
     };
-    el.addEventListener("scroll", onScroll, { passive: true });
-    return () => el.removeEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   // Instant on first paint, smooth for subsequent turns (respecting reduced motion).
@@ -196,19 +190,15 @@ export function GlaideChat() {
   })();
 
   return (
-    <Box sx={{ minHeight: "100vh", bgcolor: "background.paper", display: "flex", flexDirection: "column" }}>
+    <Box sx={{ minHeight: "100vh", bgcolor: "background.paper" }}>
       <TopNav />
 
       <Box
         sx={{
           width: "100%",
-          maxWidth: 720,
+          maxWidth: 768,
           mx: "auto",
           px: { xs: 2, md: 3 },
-          flex: 1,
-          display: "flex",
-          flexDirection: "column",
-          minHeight: 0,
           position: "relative",
         }}
       >
@@ -284,18 +274,19 @@ export function GlaideChat() {
 
         {/* Message list */}
         <Box
-          ref={listRef}
           role="log"
           aria-live="polite"
           aria-relevant="additions"
           sx={{
-            flex: 1,
-            overflowY: "auto",
-            py: 3,
+            // Only the lone hero turn stretches to centre vertically; an ongoing
+            // conversation sizes to its content so there is no dead gap.
+            minHeight: isHeroState ? "calc(100vh - 120px)" : 0,
             display: "flex",
             flexDirection: "column",
             justifyContent: isHeroState ? "center" : "flex-start",
             gap: 3,
+            pt: 2,
+            pb: isClosed ? 4 : { xs: 16, md: 18 },
             position: "relative",
             zIndex: 1,
           }}
@@ -341,11 +332,11 @@ export function GlaideChat() {
               whileTap={reduce ? undefined : { scale: 0.92 }}
               sx={{
                 appearance: "none",
-                position: "absolute",
+                position: "fixed",
                 left: "50%",
                 transform: "translateX(-50%)",
-                bottom: { xs: 88, md: 96 },
-                zIndex: 4,
+                bottom: { xs: 132, md: 148 },
+                zIndex: 6,
                 width: 36,
                 height: 36,
                 borderRadius: "50%",
@@ -367,20 +358,34 @@ export function GlaideChat() {
           )}
         </AnimatePresence>
 
-        {/* Composer, success panel, or resolved footer */}
-        {isTicketed ? (
-          <SuccessPanel onBack={() => navigate("/program_support")} />
-        ) : isResolved ? (
-          <ResolvedFooter onBack={() => navigate("/program_support")} />
-        ) : (
+        {/* Closed conversations end with an in-flow panel (no composer) */}
+        {isTicketed && <SuccessPanel onBack={() => navigate("/program_support")} />}
+        {isResolved && <ResolvedFooter onBack={() => navigate("/program_support")} />}
+      </Box>
+
+      {/* Fixed composer: the page itself scrolls (scrollbar at the edge); the
+          composer stays pinned to the viewport bottom, centered to the column. */}
+      {!isClosed && (
+        <Box
+          sx={{
+            position: "fixed",
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 5,
+            pointerEvents: "none",
+          }}
+        >
           <Box
             sx={{
-              position: "sticky",
-              bottom: 0,
+              position: "relative",
+              maxWidth: 768,
+              mx: "auto",
+              px: { xs: 2, md: 3 },
               pt: 1.5,
               pb: { xs: 2, md: 3 },
               bgcolor: "background.paper",
-              zIndex: 2,
+              pointerEvents: "auto",
             }}
           >
             {/* Fade mask: scrolling messages dissolve under the composer. */}
@@ -411,8 +416,8 @@ export function GlaideChat() {
               Glaide is AI and can make mistakes. Check important info.
             </Typography>
           </Box>
-        )}
-      </Box>
+        </Box>
+      )}
     </Box>
   );
 }
