@@ -1,4 +1,4 @@
-import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
+import { forwardRef, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Box, Button, IconButton, InputBase, Stack, Tooltip, Typography } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -437,12 +437,39 @@ const Composer = forwardRef<HTMLTextAreaElement, ComposerProps>(function Compose
 ) {
   const canSend = value.trim().length > 0 && !disabled;
 
+  // Single line -> one row [attach | text | send]. Two+ lines -> the text spans
+  // the top full-width and the controls drop to a row below (ChatGPT/Gemini).
+  const innerRef = useRef<HTMLTextAreaElement | null>(null);
+  const [stacked, setStacked] = useState(false);
+  const setRefs = useCallback(
+    (node: HTMLTextAreaElement | null) => {
+      innerRef.current = node;
+      if (typeof ref === "function") ref(node);
+      else if (ref) ref.current = node;
+    },
+    [ref]
+  );
+  useLayoutEffect(() => {
+    const el = innerRef.current;
+    if (!el) return;
+    const cs = window.getComputedStyle(el);
+    const lineH = parseFloat(cs.lineHeight) || 22.5;
+    const padY = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
+    const lines = Math.round((el.scrollHeight - padY) / lineH);
+    setStacked(lines > 1);
+  }, [value]);
+
   return (
     <Box
       sx={{
-        display: "flex",
-        alignItems: "flex-end",
-        gap: 1,
+        display: "grid",
+        alignItems: "center",
+        columnGap: 1,
+        rowGap: 0.5,
+        gridTemplateColumns: "auto 1fr auto",
+        gridTemplateAreas: stacked
+          ? `"text text text" "attach . send"`
+          : `"attach text send"`,
         bgcolor: "background.paper",
         border: "1px solid",
         borderColor: "outlineVariant.main",
@@ -465,6 +492,7 @@ const Composer = forwardRef<HTMLTextAreaElement, ComposerProps>(function Compose
           whileTap={reduce ? undefined : { scale: 0.92 }}
           aria-label="Attach a screenshot"
           sx={{
+            gridArea: "attach",
             width: 36,
             height: 36,
             borderRadius: "50%",
@@ -483,7 +511,7 @@ const Composer = forwardRef<HTMLTextAreaElement, ComposerProps>(function Compose
       </Tooltip>
 
       <InputBase
-        inputRef={ref}
+        inputRef={setRefs}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         onKeyDown={(e) => {
@@ -498,7 +526,9 @@ const Composer = forwardRef<HTMLTextAreaElement, ComposerProps>(function Compose
         maxRows={8}
         placeholder="Ask Glaide"
         sx={{
-          flex: 1,
+          gridArea: "text",
+          // Pad the text off the rounded corners when it spans full width.
+          px: stacked ? 1 : 0,
           fontSize: 15,
           lineHeight: 1.5,
           color: "text.primary",
@@ -531,6 +561,7 @@ const Composer = forwardRef<HTMLTextAreaElement, ComposerProps>(function Compose
         key={sendPulse}
         transition={{ duration: 0.22, ease: "easeOut" }}
         sx={{
+          gridArea: "send",
           width: 36,
           height: 36,
           borderRadius: "50%",
