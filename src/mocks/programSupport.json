@@ -60,23 +60,23 @@
     },
     "projects": {
       "question": "Which project is giving you trouble?",
-      "options": ["Capstone Project", "Graded Project", "Practice Project", "Group Project"],
+      "options": ["Apple HBR Report Document Q&A", "AI-powered EHR Assistant", "Last-Mile Delivery Exception Handling"],
       "reply": "Got it. Is this about the brief, a submission error, or the feedback you received?"
     },
     "material": {
-      "question": "Sure, what kind of learning material do you need help with?",
-      "options": ["Cannot find a topic", "Content looks wrong", "Download issue", "Request new material"],
-      "reply": "Thanks. Tell me the module or topic name and I will point you to the right content."
+      "question": "Which module do you need help with?",
+      "options": ["Agentic AI Foundations", "Business Applications with Agentic AI", "Advanced Agentic AI Solutions"],
+      "reply": "Thanks. Tell me what you are looking for and I will point you to the right content."
     },
     "sessions": {
-      "question": "Let's look at your live sessions. What do you need?",
-      "options": ["Session recording", "Attendance not marked", "Reschedule a session", "Joining link"],
-      "reply": "Got it. Which session is this about? Share the date or title and I will pull it up."
+      "question": "Which session do you need help with?",
+      "options": ["Multi-Agent Systems", "Testing and Evaluation of Agentic Systems", "Securing Agentic AI Solutions", "Multimodal Agentic AI"],
+      "reply": "Got it. Do you need the recording, an attendance fix, or something else?"
     },
     "quizzes": {
-      "question": "Let's sort the quiz out. What happened?",
-      "options": ["Attempt got locked", "Score looks wrong", "Explain a question", "Reset my attempt"],
-      "reply": "Thanks. Tell me the quiz name and I will check what is going on with your attempt."
+      "question": "Which quiz do you need help with?",
+      "options": ["Introduction to AI Agents", "Tools and Memory in Agents", "Planning and Reasoning", "Multi-Agent Systems", "Testing and Evaluation", "Securing Agentic AI Solutions"],
+      "reply": "Thanks. Is this about a locked attempt, your score, or a question you want explained?"
     },
     "other": {
       "question": "No problem. What can I help you with?",
