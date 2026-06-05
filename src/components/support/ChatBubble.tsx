@@ -1,10 +1,11 @@
 import { useLayoutEffect, useRef, useState } from "react";
-import { Box, IconButton, Stack, Typography, useTheme } from "@mui/material";
+import { Box, Button, IconButton, Stack, Typography, useTheme } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import { motion, useReducedMotion } from "framer-motion";
 import { Copy, Check, ThumbsUp, ThumbsDown } from "lucide-react";
 import { ProjectPicker } from "./ProjectPicker";
 import { ProjectForm } from "./ProjectForm";
+import type { ChatAction } from "../../context/SupportContext";
 
 // Single signature easing for all translational motion (gentle decelerating ease-out).
 export const EASE = [0.22, 1, 0.36, 1] as const;
@@ -24,6 +25,9 @@ type Props = {
   onProjectPick?: (course: string, name: string) => void;
   onProjectOther?: () => void;
   onProjectConfirm?: (course: string, project: string) => void;
+  action?: ChatAction;
+  tone?: "success";
+  onAction?: (tag: string) => void;
 };
 
 function ActionRow({ text, isLatest }: { text: string; isLatest?: boolean }) {
@@ -284,6 +288,57 @@ function UserBubble({ text, morphId, reduce }: { text: string; morphId?: string;
   );
 }
 
+function ActionButton({
+  action,
+  onAction,
+}: {
+  action: ChatAction;
+  onAction?: (tag: string) => void;
+}) {
+  const base = {
+    textTransform: "none" as const,
+    fontSize: 14,
+    fontWeight: 600,
+    borderRadius: "8px",
+    minHeight: 38,
+    px: 2,
+    boxShadow: "none",
+  };
+  const byStyle = {
+    primary: {
+      ...base,
+      bgcolor: "primary.main",
+      color: "primary.contrastText",
+      "&:hover": { bgcolor: "primary.main", boxShadow: "none" },
+    },
+    outline: {
+      ...base,
+      bgcolor: "transparent",
+      color: "primary.main",
+      border: 1,
+      borderColor: "primary.main",
+      "&:hover": { bgcolor: (t: import("@mui/material").Theme) => alpha(t.palette.primary.main, 0.08) },
+    },
+    ghost: {
+      ...base,
+      fontWeight: 500,
+      px: 1,
+      minHeight: 32,
+      bgcolor: "transparent",
+      color: "text.secondary",
+      "&:hover": { bgcolor: (t: import("@mui/material").Theme) => alpha(t.palette.primary.main, 0.08), color: "text.primary" },
+    },
+  } as const;
+
+  return (
+    <Box sx={{ mt: 1.5 }}>
+      <Button disableElevation onClick={() => onAction?.(action.tag)} sx={byStyle[action.style]}>
+        {action.label}
+      </Button>
+    </Box>
+  );
+}
+
 // Assistant turns render full-width plain text (no avatar, no bubble) for a clean
 // "document" reading feel. User turns render as a soft right-aligned bubble.
 export function ChatBubble({
@@ -299,6 +354,9 @@ export function ChatBubble({
   onProjectPick,
   onProjectOther,
   onProjectConfirm,
+  action,
+  tone,
+  onAction,
 }: Props) {
   const reduce = useReducedMotion();
 
@@ -312,6 +370,33 @@ export function ChatBubble({
 
   if (role === "user") {
     return <UserBubble text={text} morphId={morphId} reduce={!!reduce} />;
+  }
+
+  if (tone === "success") {
+    return (
+      <Box
+        component={motion.div}
+        {...entrance}
+        data-msg-role="bot"
+        sx={{
+          alignSelf: "flex-start",
+          maxWidth: "80%",
+          px: 2,
+          py: 1.25,
+          borderRadius: "12px",
+          bgcolor: (t) => t.palette.extended.success.colorContainer,
+          color: (t) => t.palette.extended.success.onColorContainer,
+          fontSize: 14,
+          lineHeight: 1.6,
+          display: "flex",
+          gap: 1,
+          alignItems: "flex-start",
+        }}
+      >
+        <Check size={18} strokeWidth={2.5} style={{ flexShrink: 0, marginTop: 2 }} />
+        <span>{text}</span>
+      </Box>
+    );
   }
 
   return (
@@ -354,6 +439,8 @@ export function ChatBubble({
       {optionsActive && widget === "projectForm" && (
         <ProjectForm onConfirm={onProjectConfirm!} />
       )}
+
+      {action && isLatest && <ActionButton action={action} onAction={onAction} />}
 
       {optionsActive && !widget && options && options.length > 0 && (
         <Stack
