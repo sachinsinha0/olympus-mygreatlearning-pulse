@@ -1,12 +1,21 @@
 import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
 import data from "../mocks/programSupport.json";
 
+export type ChatAction = {
+  label: string;
+  tag: string;
+  style: "primary" | "outline" | "ghost";
+};
 export type ChatMessage = {
   role: "bot" | "user";
   text: string;
   options?: string[];
   /** Rich in-chat picker rendered under a bot message (e.g. project cards). */
   widget?: "projectCards" | "projectForm";
+  /** Inline button under a bot reply (extension / re-evaluation / ticket / human). */
+  action?: ChatAction;
+  /** Visual tone for confirmation bubbles. */
+  tone?: "success";
 };
 export type Thread = {
   id: string;
@@ -32,6 +41,7 @@ type SupportState = {
   createThread: (seed: { category: string; title: string; messages: ChatMessage[] }) => string;
   addMessage: (threadId: string, message: ChatMessage) => void;
   raiseTicket: (threadId: string) => void;
+  createTicket: (seed: { title: string; subtitle: string; category: string }) => void;
 };
 
 const SupportContext = createContext<SupportState | null>(null);
@@ -84,6 +94,17 @@ export function SupportProvider({ children }: { children: ReactNode }) {
           }
           return prev.map((t) => (t.id === threadId ? { ...t, status: "ticketed" } : t));
         }),
+      createTicket: (seed) =>
+        setOpenTickets((tickets) => [
+          {
+            id: nextId("t"),
+            title: seed.title,
+            subtitle: seed.subtitle,
+            timestamp: "Just now",
+            category: seed.category,
+          },
+          ...tickets,
+        ]),
     }),
     [openTickets, closedTickets, threads]
   );
