@@ -420,7 +420,7 @@ const Composer = forwardRef<HTMLTextAreaElement, ComposerProps>(function Compose
     <Box
       sx={{
         display: "flex",
-        alignItems: "flex-end",
+        alignItems: "center",
         gap: 1,
         bgcolor: "background.paper",
         border: "1px solid",
@@ -475,7 +475,7 @@ const Composer = forwardRef<HTMLTextAreaElement, ComposerProps>(function Compose
         }}
         multiline
         maxRows={6}
-        placeholder="Message Program Support"
+        placeholder="Ask Glaide"
         sx={{
           flex: 1,
           fontSize: 15,
