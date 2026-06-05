@@ -196,7 +196,7 @@ export function GlaideChat() {
       <Box
         sx={{
           width: "100%",
-          maxWidth: 768,
+          maxWidth: 816,
           mx: "auto",
           px: { xs: 2, md: 3 },
           position: "relative",
@@ -379,7 +379,7 @@ export function GlaideChat() {
           <Box
             sx={{
               position: "relative",
-              maxWidth: 768,
+              maxWidth: 816,
               mx: "auto",
               px: { xs: 2, md: 3 },
               pt: 1.5,

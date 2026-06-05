@@ -97,9 +97,9 @@ function ActionRow({ text, isLatest }: { text: string; isLatest?: boolean }) {
         sx={ghostBtn}
       >
         {copied ? (
-          <Check size={15} strokeWidth={2.25} color={theme.palette.extended.success.color} />
+          <Check size={17} strokeWidth={2.25} color={theme.palette.extended.success.color} />
         ) : (
-          <Copy size={15} strokeWidth={2} />
+          <Copy size={17} strokeWidth={2} />
         )}
       </IconButton>
       <IconButton
@@ -117,7 +117,7 @@ function ActionRow({ text, isLatest }: { text: string; isLatest?: boolean }) {
           }),
         }}
       >
-        <ThumbsUp size={15} strokeWidth={2} fill={rating === "up" ? "currentColor" : "none"} />
+        <ThumbsUp size={17} strokeWidth={2} fill={rating === "up" ? "currentColor" : "none"} />
       </IconButton>
       <IconButton
         component={motion.button}
@@ -134,7 +134,7 @@ function ActionRow({ text, isLatest }: { text: string; isLatest?: boolean }) {
           }),
         }}
       >
-        <ThumbsDown size={15} strokeWidth={2} fill={rating === "down" ? "currentColor" : "none"} />
+        <ThumbsDown size={17} strokeWidth={2} fill={rating === "down" ? "currentColor" : "none"} />
       </IconButton>
     </Stack>
   );
@@ -231,7 +231,7 @@ export function ChatBubble({
             lineHeight: 1.55,
             whiteSpace: "pre-line",
             bgcolor: (t) => alpha(t.palette.primary.main, 0.1),
-            color: "text.primary",
+            color: "primary.main",
             borderRadius: "18px 18px 6px 18px",
           }}
         >
