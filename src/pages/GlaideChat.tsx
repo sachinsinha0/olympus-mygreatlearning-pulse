@@ -6,7 +6,6 @@ import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from "framer-m
 import { ArrowUp, ArrowDown, Paperclip, Check } from "lucide-react";
 import { TopNav } from "../components/TopNav/TopNav";
 import { ChatBubble, TypingIndicator, EASE } from "../components/support/ChatBubble";
-import { RaiseTicketChip } from "../components/support/RaiseTicketChip";
 import { useSupport, type ChatMessage } from "../context/SupportContext";
 import data from "../mocks/programSupport.json";
 
@@ -34,7 +33,7 @@ export function GlaideChat() {
   const navigate = useNavigate();
   const location = useLocation();
   const { threadId: routeThreadId } = useParams();
-  const { getThread, createThread, addMessage, raiseTicket } = useSupport();
+  const { getThread, createThread, addMessage } = useSupport();
   const reduce = useReducedMotion();
 
   const [threadId, setThreadId] = useState<string | null>(routeThreadId ?? null);
@@ -186,10 +185,6 @@ export function GlaideChat() {
     if (fine) window.setTimeout(() => inputRef.current?.focus(), 0);
   };
 
-  const handleRaise = () => {
-    if (!threadId || isClosed) return;
-    raiseTicket(threadId);
-  };
 
   const messages = thread?.messages ?? [];
   // Index of the last user message that arrived via a chip select (morph target).
@@ -245,7 +240,6 @@ export function GlaideChat() {
               {" · Program Support"}
             </Box>
           </Typography>
-          <RaiseTicketChip onRaise={handleRaise} disabled={isClosed} />
         </Stack>
 
         {/* One-time radial entrance glow tied to primary; fades on first user reply. */}
