@@ -405,6 +405,11 @@ export function GlaideChat() {
               disabled={isTyping}
               reduce={!!reduce}
             />
+            <Typography
+              sx={{ mt: 1, textAlign: "center", fontSize: 12, color: "text.secondary" }}
+            >
+              Glaide is AI and can make mistakes. Check important info.
+            </Typography>
           </Box>
         )}
       </Box>
