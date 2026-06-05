@@ -6,7 +6,7 @@ import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from "framer-m
 import { ArrowUp, ArrowDown, ArrowLeft, Paperclip, Check } from "lucide-react";
 import { TopNav } from "../components/TopNav/TopNav";
 import { ChatBubble, TypingIndicator, EASE } from "../components/support/ChatBubble";
-import { useSupport, type ChatMessage } from "../context/SupportContext";
+import { useSupport, type ChatMessage, type ChatAction } from "../context/SupportContext";
 import data from "../mocks/programSupport.json";
 import { classifyIntent } from "../lib/classifyIntent";
 
@@ -51,6 +51,7 @@ export function GlaideChat() {
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
   const initialised = useRef(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const actionFiredRef = useRef(false);
 
   // Seed a new thread once on mount when navigated with state and no :threadId.
   useEffect(() => {
@@ -207,6 +208,7 @@ export function GlaideChat() {
   const handleSend = () => {
     const text = input.trim();
     if (!text || !threadId || !thread || isTyping) return;
+    actionFiredRef.current = false;
     addMessage(threadId, { role: "user", text });
     setInput("");
     setSendPulse((p) => p + 1);
@@ -217,7 +219,7 @@ export function GlaideChat() {
     if (thread.category === "projects" && selectedProject) {
       const intent = classifyIntent(text);
       const reply = intent.response.replace(/\{project\}/g, selectedProject);
-      const action: import("../context/SupportContext").ChatAction | undefined =
+      const action: ChatAction | undefined =
         intent.actionLabel && intent.ticketTag
           ? { label: intent.actionLabel, tag: intent.ticketTag, style: intent.actionStyle ?? "primary" }
           : undefined;
@@ -238,8 +240,10 @@ export function GlaideChat() {
   };
 
   const handleAction = (tag: string) => {
-    if (!threadId || !thread) return;
-    const project = selectedProject ?? thread.title;
+    if (!threadId || !thread || isClosed) return;
+    if (!selectedProject || actionFiredRef.current) return;
+    actionFiredRef.current = true;
+    const project = selectedProject;
     createTicket({
       title: project,
       subtitle: `Raised from Glaide chat about ${project}`,
