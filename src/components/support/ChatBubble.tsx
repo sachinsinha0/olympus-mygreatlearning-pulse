@@ -207,6 +207,50 @@ function OptionChip({
 // A long user message collapses to this many lines with a Show more toggle.
 const COLLAPSED_MAX_LINES = 12;
 
+// ─── ActionButton module-scope styles ────────────────────────────────────────
+const ACTION_BTN_BASE = {
+  textTransform: "none" as const,
+  fontSize: 14,
+  fontWeight: 600,
+  borderRadius: "8px",
+  minHeight: 38,
+  px: 2,
+  boxShadow: "none",
+  mt: 1.5,
+  "&:focus-visible": {
+    outline: (t: import("@mui/material").Theme) => `2px solid ${alpha(t.palette.primary.main, 0.5)}`,
+    outlineOffset: 2,
+  },
+};
+
+const ACTION_BTN_BY_STYLE = {
+  primary: {
+    ...ACTION_BTN_BASE,
+    bgcolor: "primary.main",
+    color: "primary.contrastText",
+    "&:hover": { bgcolor: "primary.main", boxShadow: "none" },
+  },
+  outline: {
+    ...ACTION_BTN_BASE,
+    bgcolor: "transparent",
+    color: "primary.main",
+    border: 1,
+    borderColor: "primary.main",
+    "&:hover": { bgcolor: (t: import("@mui/material").Theme) => alpha(t.palette.primary.main, 0.08) },
+  },
+  ghost: {
+    ...ACTION_BTN_BASE,
+    fontWeight: 500,
+    px: 1,
+    minHeight: 32,
+    bgcolor: "transparent",
+    color: "text.secondary",
+    "&:hover": { bgcolor: (t: import("@mui/material").Theme) => alpha(t.palette.primary.main, 0.08), color: "text.primary" },
+  },
+} as const;
+
+const ACTION_VARIANT = { primary: "contained", outline: "outlined", ghost: "text" } as const;
+
 function UserBubble({ text, morphId, reduce }: { text: string; morphId?: string; reduce: boolean }) {
   const ref = useRef<HTMLDivElement | null>(null);
   const [expanded, setExpanded] = useState(false);
@@ -295,47 +339,15 @@ function ActionButton({
   action: ChatAction;
   onAction?: (tag: string) => void;
 }) {
-  const base = {
-    textTransform: "none" as const,
-    fontSize: 14,
-    fontWeight: 600,
-    borderRadius: "8px",
-    minHeight: 38,
-    px: 2,
-    boxShadow: "none",
-  };
-  const byStyle = {
-    primary: {
-      ...base,
-      bgcolor: "primary.main",
-      color: "primary.contrastText",
-      "&:hover": { bgcolor: "primary.main", boxShadow: "none" },
-    },
-    outline: {
-      ...base,
-      bgcolor: "transparent",
-      color: "primary.main",
-      border: 1,
-      borderColor: "primary.main",
-      "&:hover": { bgcolor: (t: import("@mui/material").Theme) => alpha(t.palette.primary.main, 0.08) },
-    },
-    ghost: {
-      ...base,
-      fontWeight: 500,
-      px: 1,
-      minHeight: 32,
-      bgcolor: "transparent",
-      color: "text.secondary",
-      "&:hover": { bgcolor: (t: import("@mui/material").Theme) => alpha(t.palette.primary.main, 0.08), color: "text.primary" },
-    },
-  } as const;
-
   return (
-    <Box sx={{ mt: 1.5 }}>
-      <Button disableElevation onClick={() => onAction?.(action.tag)} sx={byStyle[action.style]}>
-        {action.label}
-      </Button>
-    </Box>
+    <Button
+      disableElevation
+      variant={ACTION_VARIANT[action.style]}
+      onClick={() => onAction?.(action.tag)}
+      sx={ACTION_BTN_BY_STYLE[action.style]}
+    >
+      {action.label}
+    </Button>
   );
 }
 
