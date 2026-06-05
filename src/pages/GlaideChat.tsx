@@ -495,7 +495,7 @@ const Composer = forwardRef<HTMLTextAreaElement, ComposerProps>(function Compose
   // the top full-width and the controls drop to a row below (ChatGPT/Gemini).
   const innerRef = useRef<HTMLTextAreaElement | null>(null);
   const gridRef = useRef<HTMLDivElement | null>(null);
-  const mirrorRef = useRef<HTMLDivElement | null>(null);
+  const mirrorRef = useRef<HTMLTextAreaElement | null>(null);
   const [stacked, setStacked] = useState(false);
   const setRefs = useCallback(
     (node: HTMLTextAreaElement | null) => {
@@ -528,11 +528,21 @@ const Composer = forwardRef<HTMLTextAreaElement, ComposerProps>(function Compose
       mirror.style.fontSize = tcs.fontSize;
       mirror.style.fontWeight = tcs.fontWeight;
       mirror.style.letterSpacing = tcs.letterSpacing;
+      mirror.style.wordSpacing = tcs.wordSpacing;
       mirror.style.lineHeight = tcs.lineHeight;
+      // These drive the wrap point and MUST match the textarea exactly. The
+      // scrollbar gutter is the subtle one: the editor reserves it, shrinking
+      // its usable text width, so the mirror must reserve it too.
+      mirror.style.whiteSpace = tcs.whiteSpace;
+      mirror.style.wordBreak = tcs.wordBreak;
+      mirror.style.overflowWrap = tcs.overflowWrap;
+      mirror.style.overflowY = tcs.overflowY;
+      mirror.style.scrollbarGutter = tcs.scrollbarGutter;
       lineH = parseFloat(tcs.lineHeight) || 22.5;
     }
     mirror.style.width = `${singleRowTextWidth}px`;
-    mirror.textContent = value || "x";
+    mirror.rows = 1;
+    mirror.value = value || "x";
     // More than ~1.5 line-heights tall means it wrapped at the single-row width.
     setStacked(mirror.scrollHeight > lineH * 1.5);
   }, [value]);
@@ -565,10 +575,15 @@ const Composer = forwardRef<HTMLTextAreaElement, ComposerProps>(function Compose
         },
       }}
     >
-      {/* Off-screen mirror used only to measure wrap at the single-row width. */}
+      {/* Off-screen textarea mirror: a textarea wraps differently from a div, so
+          we measure with a real textarea at the single-row width. */}
       <Box
+        component="textarea"
         ref={mirrorRef}
         aria-hidden
+        readOnly
+        tabIndex={-1}
+        rows={1}
         sx={{
           position: "absolute",
           top: 0,
@@ -576,10 +591,9 @@ const Composer = forwardRef<HTMLTextAreaElement, ComposerProps>(function Compose
           visibility: "hidden",
           pointerEvents: "none",
           zIndex: -1,
-          whiteSpace: "pre-wrap",
-          wordBreak: "break-word",
-          fontSize: 15,
-          lineHeight: "22.5px",
+          resize: "none",
+          overflow: "hidden",
+          border: 0,
           padding: 0,
           boxSizing: "content-box",
         }}
