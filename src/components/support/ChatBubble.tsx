@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Box, IconButton, Stack, Typography, useTheme } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import { motion, useReducedMotion } from "framer-motion";
-import { Copy, Check, ThumbsUp } from "lucide-react";
+import { Copy, Check, ThumbsUp, ThumbsDown } from "lucide-react";
 
 // Single signature easing for all translational motion (gentle decelerating ease-out).
 export const EASE = [0.22, 1, 0.36, 1] as const;
@@ -23,7 +23,8 @@ function ActionRow({ text, isLatest }: { text: string; isLatest?: boolean }) {
   const reduce = useReducedMotion();
   const theme = useTheme();
   const [copied, setCopied] = useState(false);
-  const [helpful, setHelpful] = useState(false);
+  const [rating, setRating] = useState<"up" | "down" | null>(null);
+  const toggleRating = (v: "up" | "down") => setRating((cur) => (cur === v ? null : v));
 
   const handleCopy = async () => {
     try {
@@ -84,19 +85,36 @@ function ActionRow({ text, isLatest }: { text: string; isLatest?: boolean }) {
       <IconButton
         component={motion.button}
         whileTap={reduce ? undefined : { scale: 0.92 }}
-        onClick={() => setHelpful((v) => !v)}
-        aria-label="Mark helpful"
-        aria-pressed={helpful}
+        onClick={() => toggleRating("up")}
+        aria-label="Good response"
+        aria-pressed={rating === "up"}
         sx={{
           ...ghostBtn,
-          ...(helpful && {
+          ...(rating === "up" && {
             bgcolor: (t) => alpha(t.palette.primary.main, 0.08),
             color: "primary.main",
             "&:hover": { bgcolor: (t) => alpha(t.palette.primary.main, 0.08), color: "primary.main" },
           }),
         }}
       >
-        <ThumbsUp size={15} strokeWidth={2} fill={helpful ? "currentColor" : "none"} />
+        <ThumbsUp size={15} strokeWidth={2} fill={rating === "up" ? "currentColor" : "none"} />
+      </IconButton>
+      <IconButton
+        component={motion.button}
+        whileTap={reduce ? undefined : { scale: 0.92 }}
+        onClick={() => toggleRating("down")}
+        aria-label="Bad response"
+        aria-pressed={rating === "down"}
+        sx={{
+          ...ghostBtn,
+          ...(rating === "down" && {
+            bgcolor: (t) => alpha(t.palette.primary.main, 0.08),
+            color: "primary.main",
+            "&:hover": { bgcolor: (t) => alpha(t.palette.primary.main, 0.08), color: "primary.main" },
+          }),
+        }}
+      >
+        <ThumbsDown size={15} strokeWidth={2} fill={rating === "down" ? "currentColor" : "none"} />
       </IconButton>
     </Stack>
   );
