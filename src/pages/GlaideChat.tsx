@@ -626,12 +626,10 @@ const Composer = forwardRef<HTMLTextAreaElement, ComposerProps>(function Compose
         placeholder="Ask Glaide"
         sx={{
           gridArea: "text",
-          // When stacked, pad the text by the same amount the buttons reserve in
-          // single-row (attach 36 + gap 8 = 44 each side) so the text wraps at the
-          // SAME width in both layouts. This removes the in-between "stacked but
-          // one line" state: stacking only happens when the text is truly 2+ lines.
-          pl: stacked ? "44px" : 0,
-          pr: stacked ? "44px" : 0,
+          // Stacked text spans the FULL width (like ChatGPT), not constrained to
+          // the single-row width. The single/stacked decision is made by the
+          // mirror at the fixed single-row width, which keeps it stable.
+          px: 0,
           fontSize: 15,
           lineHeight: 1.5,
           color: "text.primary",
