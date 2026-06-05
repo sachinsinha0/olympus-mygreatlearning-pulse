@@ -107,12 +107,11 @@ export function GlaideChat() {
     window.scrollTo({ top: document.documentElement.scrollHeight, behavior });
   }, []);
 
-  const wasNearBottom = useRef(true);
+  // Window scroll state for the scroll-to-latest control and the header hairline.
   useEffect(() => {
     const onScroll = () => {
       const distance =
         document.documentElement.scrollHeight - window.scrollY - window.innerHeight;
-      wasNearBottom.current = distance <= 80;
       setShowScrollDown(distance > 80);
       setScrolled(window.scrollY > 4);
     };
@@ -121,18 +120,67 @@ export function GlaideChat() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Instant on first paint, smooth for subsequent turns (respecting reduced motion).
+  // First paint of an existing (reopened) thread lands at the latest message.
   const firstPaint = useRef(true);
   useEffect(() => {
     if (firstPaint.current) {
       firstPaint.current = false;
       scrollToBottom("auto");
+    }
+  }, [scrollToBottom]);
+
+  // --- ChatGPT-style "pin the new turn to the top" ---------------------------
+  // After a send, the latest turn reserves a viewport of space so the new
+  // message sits near the top with room below for Glaide's reply, and no
+  // permanent gap (the reservation shrinks as the reply fills it).
+  const HEADER_OFFSET = 120; // 64 TopNav + 56 sticky chat header
+  const logRef = useRef<HTMLDivElement | null>(null);
+  const [spacer, setSpacer] = useState(0);
+  const reserveRef = useRef(false); // only an actively-sent turn reserves space
+  const pendingPin = useRef(false);
+
+  const computeSpacer = useCallback(() => {
+    const log = logRef.current;
+    if (!log || !reserveRef.current) return 0;
+    const users = log.querySelectorAll('[data-msg-role="user"]');
+    const lastUser = users[users.length - 1] as HTMLElement | undefined;
+    if (!lastUser) return 0;
+    const lastUserTop = lastUser.getBoundingClientRect().top + window.scrollY;
+    const contentBottom = log.getBoundingClientRect().bottom + window.scrollY;
+    const afterHeight = contentBottom - lastUserTop;
+    return Math.max(0, Math.ceil(window.innerHeight - HEADER_OFFSET - afterHeight));
+  }, []);
+
+  const pinLastUserToTop = useCallback(() => {
+    const log = logRef.current;
+    if (!log) return;
+    const users = log.querySelectorAll('[data-msg-role="user"]');
+    const el = users[users.length - 1] as HTMLElement | undefined;
+    if (!el) return;
+    const top = el.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET - 12;
+    window.scrollTo({ top: Math.max(0, top), behavior: reduce ? "auto" : "smooth" });
+  }, [reduce]);
+
+  // Recompute the reserved spacer as the turn changes; once it settles and a
+  // send is pending, pin that message to the top.
+  useLayoutEffect(() => {
+    const desired = computeSpacer();
+    if (Math.abs(desired - spacer) > 1) {
+      setSpacer(desired);
       return;
     }
-    if (wasNearBottom.current) {
-      scrollToBottom(reduce ? "auto" : "smooth");
+    if (pendingPin.current) {
+      pendingPin.current = false;
+      pinLastUserToTop();
     }
-  }, [messageCount, isTyping, scrollToBottom, reduce]);
+  }, [messageCount, isTyping, spacer, computeSpacer, pinLastUserToTop]);
+
+  // Keep the reservation correct on viewport resize.
+  useEffect(() => {
+    const onResize = () => setSpacer(computeSpacer());
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [computeSpacer]);
 
   // Desktop autofocus after the hero settle reads first; never on touch.
   useEffect(() => {
@@ -150,8 +198,8 @@ export function GlaideChat() {
     setInput("");
     setSendPulse((p) => p + 1);
     setIsTyping(true);
-    wasNearBottom.current = true; // user's own send always follows to bottom
-    if (inputRef.current) inputRef.current.style.height = "auto";
+    reserveRef.current = true; // this turn reserves space and pins to top
+    pendingPin.current = true;
     const reply = glaideResponses[thread.category] ?? glaideResponses.fallback;
     window.setTimeout(() => {
       addMessage(threadId, { role: "bot", text: reply });
@@ -166,7 +214,8 @@ export function GlaideChat() {
     if (!reduce) setMorphTarget(morphId);
     addMessage(threadId, { role: "user", text: option });
     setIsTyping(true);
-    wasNearBottom.current = true;
+    reserveRef.current = true;
+    pendingPin.current = true;
     const flow = topicFlows[thread.category];
     const reply = flow?.reply ?? glaideResponses[thread.category] ?? glaideResponses.fallback;
     window.setTimeout(() => {
@@ -274,6 +323,7 @@ export function GlaideChat() {
 
         {/* Message list */}
         <Box
+          ref={logRef}
           role="log"
           aria-live="polite"
           aria-relevant="additions"
@@ -316,6 +366,10 @@ export function GlaideChat() {
             <AnimatePresence>{isTyping && <TypingIndicator key="typing" />}</AnimatePresence>
           </LayoutGroup>
         </Box>
+
+        {/* Reserved space so the latest sent turn can pin to the top; collapses
+            as the reply fills it, leaving no permanent gap. */}
+        {!isClosed && spacer > 0 && <Box aria-hidden sx={{ height: spacer, flexShrink: 0 }} />}
 
         {/* Scroll-to-latest control */}
         <AnimatePresence>

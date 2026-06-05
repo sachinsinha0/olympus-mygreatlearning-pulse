@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { Box, IconButton, Stack, Typography, useTheme } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import { motion, useReducedMotion } from "framer-motion";
@@ -193,6 +193,90 @@ function OptionChip({
   );
 }
 
+// A long user message collapses to this many lines with a Show more toggle.
+const COLLAPSED_MAX_LINES = 12;
+
+function UserBubble({ text, morphId, reduce }: { text: string; morphId?: string; reduce: boolean }) {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const [expanded, setExpanded] = useState(false);
+  const [overflowing, setOverflowing] = useState(false);
+
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const line = parseFloat(window.getComputedStyle(el).lineHeight) || 23;
+    setOverflowing(el.scrollHeight > line * COLLAPSED_MAX_LINES + 4);
+  }, [text]);
+
+  const entrance = reduce
+    ? { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { duration: 0.18 } }
+    : {
+        initial: { opacity: 0, y: 6 },
+        animate: { opacity: 1, y: 0 },
+        transition: { duration: 0.22, ease: EASE },
+      };
+
+  const clamped = overflowing && !expanded;
+
+  return (
+    <Stack direction="row" justifyContent="flex-end" sx={{ width: "100%" }} data-msg-role="user">
+      <Box
+        component={motion.div}
+        layoutId={reduce ? undefined : morphId}
+        {...(morphId ? {} : entrance)}
+        sx={{
+          maxWidth: "80%",
+          px: 2,
+          py: 1.25,
+          bgcolor: (t) => alpha(t.palette.primary.main, 0.1),
+          color: "primary.dark",
+          borderRadius: "18px 18px 6px 18px",
+        }}
+      >
+        <Box
+          ref={ref}
+          sx={{
+            fontSize: 15,
+            lineHeight: 1.55,
+            whiteSpace: "pre-line",
+            ...(clamped && {
+              display: "-webkit-box",
+              WebkitLineClamp: COLLAPSED_MAX_LINES,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+            }),
+          }}
+        >
+          {text}
+        </Box>
+        {overflowing && (
+          <Box
+            component="button"
+            type="button"
+            onClick={() => setExpanded((v) => !v)}
+            sx={{
+              appearance: "none",
+              font: "inherit",
+              cursor: "pointer",
+              border: 0,
+              bgcolor: "transparent",
+              p: 0,
+              mt: 0.75,
+              fontSize: 13,
+              fontWeight: 600,
+              color: "primary.dark",
+              opacity: 0.85,
+              "&:hover": { opacity: 1, textDecoration: "underline" },
+            }}
+          >
+            {expanded ? "Show less" : "Show more"}
+          </Box>
+        )}
+      </Box>
+    </Stack>
+  );
+}
+
 // Assistant turns render full-width plain text (no avatar, no bubble) for a clean
 // "document" reading feel. User turns render as a soft right-aligned bubble.
 export function ChatBubble({
@@ -216,29 +300,7 @@ export function ChatBubble({
       };
 
   if (role === "user") {
-    // When arriving via a chip select, the bubble is the layout-morph target.
-    return (
-      <Stack direction="row" justifyContent="flex-end" sx={{ width: "100%" }}>
-        <Box
-          component={motion.div}
-          layoutId={reduce ? undefined : morphId}
-          {...(morphId ? {} : entrance)}
-          sx={{
-            maxWidth: "80%",
-            px: 2,
-            py: 1.25,
-            fontSize: 15,
-            lineHeight: 1.55,
-            whiteSpace: "pre-line",
-            bgcolor: (t) => alpha(t.palette.primary.main, 0.1),
-            color: "primary.main",
-            borderRadius: "18px 18px 6px 18px",
-          }}
-        >
-          {text}
-        </Box>
-      </Stack>
-    );
+    return <UserBubble text={text} morphId={morphId} reduce={!!reduce} />;
   }
 
   return (
@@ -246,6 +308,7 @@ export function ChatBubble({
       component={motion.div}
       {...entrance}
       className="glaide-turn"
+      data-msg-role="bot"
       sx={{
         width: "100%",
         "&:hover .glaide-action-row, &:focus-within .glaide-action-row": { opacity: 1, pointerEvents: "auto" },
