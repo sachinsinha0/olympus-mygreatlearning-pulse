@@ -59,6 +59,12 @@ function ActionRow({ text, isLatest }: { text: string; isLatest?: boolean }) {
       gap={0.25}
       className="glaide-action-row"
       sx={{
+        // position:relative so the visually-hidden announcer below resolves its
+        // containing block here (a 28px-tall, in-flow row) instead of walking up
+        // to the position:relative message list. Without this the absolute
+        // announcer anchors to the tall list and a stray layout/projection node
+        // can push the document past the white root, revealing the body bg.
+        position: "relative",
         mt: 1,
         height: 28,
         opacity: isLatest ? 1 : 0,
@@ -66,7 +72,21 @@ function ActionRow({ text, isLatest }: { text: string; isLatest?: boolean }) {
         transition: "opacity 140ms ease",
       }}
     >
-      <Box aria-live="polite" sx={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" }}>
+      <Box
+        aria-live="polite"
+        sx={{
+          position: "absolute",
+          width: "1px",
+          height: "1px",
+          padding: 0,
+          margin: "-1px",
+          border: 0,
+          overflow: "hidden",
+          whiteSpace: "nowrap",
+          clip: "rect(0 0 0 0)",
+          clipPath: "inset(50%)",
+        }}
+      >
         {copied ? "Copied" : ""}
       </Box>
       <IconButton
