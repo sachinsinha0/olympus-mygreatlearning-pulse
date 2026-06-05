@@ -494,6 +494,8 @@ const Composer = forwardRef<HTMLTextAreaElement, ComposerProps>(function Compose
   // Single line -> one row [attach | text | send]. Two+ lines -> the text spans
   // the top full-width and the controls drop to a row below (ChatGPT/Gemini).
   const innerRef = useRef<HTMLTextAreaElement | null>(null);
+  const gridRef = useRef<HTMLDivElement | null>(null);
+  const mirrorRef = useRef<HTMLDivElement | null>(null);
   const [stacked, setStacked] = useState(false);
   const setRefs = useCallback(
     (node: HTMLTextAreaElement | null) => {
@@ -503,18 +505,28 @@ const Composer = forwardRef<HTMLTextAreaElement, ComposerProps>(function Compose
     },
     [ref]
   );
+  // Decide single-vs-stacked by measuring a hidden mirror at the FIXED single-row
+  // text width. Measuring the live textarea instead oscillates: stacking widens
+  // the textarea, which un-wraps the text, which un-stacks it, and so on.
   useLayoutEffect(() => {
-    const el = innerRef.current;
-    if (!el) return;
-    const cs = window.getComputedStyle(el);
-    const lineH = parseFloat(cs.lineHeight) || 22.5;
-    const padY = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
-    const lines = Math.round((el.scrollHeight - padY) / lineH);
-    setStacked(lines > 1);
+    const grid = gridRef.current;
+    const mirror = mirrorRef.current;
+    if (!grid || !mirror) return;
+    const cs = window.getComputedStyle(grid);
+    const padL = parseFloat(cs.paddingLeft) || 0;
+    const padR = parseFloat(cs.paddingRight) || 0;
+    const colGap = parseFloat(cs.columnGap) || 8;
+    const BTN = 36; // attach + send columns
+    const singleRowTextWidth = Math.max(0, grid.clientWidth - padL - padR - BTN * 2 - colGap * 2);
+    mirror.style.width = `${singleRowTextWidth}px`;
+    mirror.textContent = value || "x";
+    // More than ~1.5 line-heights tall means it wrapped at the single-row width.
+    setStacked(mirror.scrollHeight > 22.5 * 1.5);
   }, [value]);
 
   return (
     <Box
+      ref={gridRef}
       sx={{
         display: "grid",
         alignItems: "center",
@@ -540,6 +552,26 @@ const Composer = forwardRef<HTMLTextAreaElement, ComposerProps>(function Compose
         },
       }}
     >
+      {/* Off-screen mirror used only to measure wrap at the single-row width. */}
+      <Box
+        ref={mirrorRef}
+        aria-hidden
+        sx={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          visibility: "hidden",
+          pointerEvents: "none",
+          zIndex: -1,
+          whiteSpace: "pre-wrap",
+          wordBreak: "break-word",
+          fontSize: 15,
+          lineHeight: "22.5px",
+          padding: 0,
+          boxSizing: "content-box",
+        }}
+      />
+
       <Tooltip title="Attach a screenshot" placement="top" enterDelay={300}>
         <IconButton
           component={motion.button}
