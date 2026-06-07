@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Divider, IconButton, Menu, MenuItem, Stack, Typography } from "@mui/material";
+import { Box, Divider, IconButton, Menu, MenuItem, Stack, Tooltip, Typography } from "@mui/material";
 import {
   Search,
   HelpCircle,
@@ -19,6 +19,7 @@ import {
   Wrench,
   type LucideIcon,
 } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useColorMode } from "../../theme/ColorModeContext";
 
 const staticItems: { label: string; Icon: LucideIcon }[] = [
@@ -41,6 +42,8 @@ export function ProfileMenu() {
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
   const open = !!anchor;
   const { mode, toggle } = useColorMode();
+  const navigate = useNavigate();
+  const supportActive = useLocation().pathname === "/program_support";
   const items: ({ label: string; Icon: LucideIcon; onClick?: () => void })[] = [
     ...staticItems,
     {
@@ -57,16 +60,22 @@ export function ProfileMenu() {
   ];
   return (
     <Stack direction="row" alignItems="center" gap={{ xs: 0.25, sm: 0.5 }}>
-      <IconButton sx={{ width: { xs: 36, sm: 44 }, height: { xs: 36, sm: 44 }, borderRadius: "10px" }}>
-        <Search size={20} />
-      </IconButton>
-      <IconButton sx={{ width: 44, height: 44, borderRadius: "10px", display: { xs: "none", sm: "inline-flex" } }}>
-        <HelpCircle size={22} />
-      </IconButton>
-      <Box sx={{ position: "relative" }}>
-        <IconButton sx={{ width: { xs: 36, sm: 44 }, height: { xs: 36, sm: 44 }, borderRadius: "10px" }}>
-          <Bell size={22} />
+      <Tooltip title="Search">
+        <IconButton aria-label="Search" sx={{ width: { xs: 36, sm: 44 }, height: { xs: 36, sm: 44 }, borderRadius: "10px" }}>
+          <Search size={20} />
         </IconButton>
+      </Tooltip>
+      <Tooltip title="Support">
+        <IconButton onClick={() => navigate("/program_support")} aria-label="Support" sx={{ width: 44, height: 44, borderRadius: "10px", color: supportActive ? "primary.main" : "inherit", display: { xs: "none", sm: "inline-flex" } }}>
+          <HelpCircle size={22} />
+        </IconButton>
+      </Tooltip>
+      <Box sx={{ position: "relative" }}>
+        <Tooltip title="Notifications">
+          <IconButton aria-label="Notifications" sx={{ width: { xs: 36, sm: 44 }, height: { xs: 36, sm: 44 }, borderRadius: "10px" }}>
+            <Bell size={22} />
+          </IconButton>
+        </Tooltip>
         <Box
           sx={{
             position: "absolute",

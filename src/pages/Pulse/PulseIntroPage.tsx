@@ -845,13 +845,9 @@ function TechChip({ label, accent }: { label: string; accent: Slide["accent"] })
         cursor: "default",
         transformStyle: "preserve-3d",
         transformPerspective: 700,
-        // Tinted glass fill: accent wash blended toward a bright glassy white.
-        background: `linear-gradient(135deg, ${alpha(accent.from, 0.18)} 0%, ${alpha(
-          "#ffffff",
-          0.5,
-        )} 55%, ${alpha(accent.to, 0.12)} 100%)`,
-        backdropFilter: "blur(20px) saturate(180%)",
-        WebkitBackdropFilter: "blur(20px) saturate(180%)",
+        // Tinted glass fill, flattened over white — no backdrop-filter.
+        background:
+          "linear-gradient(135deg, #D1E0F8 0%, #FFFFFF 55%, #E2F4FC 100%)",
         border: `1px solid ${alpha("#ffffff", 0.55)}`,
         boxShadow: `inset 0 1px 0 ${alpha("#ffffff", 0.75)}, inset 0 -1px 1px ${alpha(
           accent.from,

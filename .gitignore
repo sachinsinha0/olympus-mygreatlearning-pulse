@@ -11,6 +11,7 @@ dist/
 # Editor / tooling
 .claude/
 .playwright-mcp/
+.superpowers/
 .DS_Store
 
 # Local env
