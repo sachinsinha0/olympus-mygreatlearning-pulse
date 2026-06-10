@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Spreadsheet that Thinks · Overview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --primary: #0054d6;
+    --text-primary: #1a1b1e;
+    --text-secondary: #45464f;
+    --outline-variant: #ebebef;
+    --page-bg: #fdfbff;
+    --card-bg: #ffffff;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--page-bg);
+    font-family: "Inter", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--outline-variant);
+    border-radius: 16px;
+    margin: 24px auto;
+    padding: 56px 48px;
+    max-width: 920px;
+  }
+  .reading { max-width: 720px; margin: 0 auto; }
+
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin: 0 0 16px;
+  }
+  h1.title {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 40px;
+    letter-spacing: -0.6px;
+    color: var(--text-primary);
+    margin: 0;
+    text-wrap: balance;
+  }
+  .summary {
+    margin: 16px 0 0;
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--text-secondary);
+    letter-spacing: -0.2px;
+  }
+  .meta {
+    margin: 16px 0 0;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    letter-spacing: -0.1px;
+    font-variant-numeric: tabular-nums;
+  }
+  .divider {
+    border: 0;
+    border-top: 1px solid var(--outline-variant);
+    margin: 40px 0;
+  }
+  .section-spacer { height: 48px; }
+
+  h2.section-heading {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    color: var(--text-primary);
+    line-height: 1.35;
+    margin: 0 0 16px;
+  }
+  .prose {
+    font-size: 16px;
+    line-height: 1.625;
+    color: var(--text-primary);
+    letter-spacing: -0.2px;
+    margin: 0;
+  }
+  .prose + .prose { margin-top: 16px; }
+  .obj-lede {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.55;
+    margin: -4px 0 4px;
+    letter-spacing: -0.2px;
+  }
+  .obj-list { display: flex; flex-direction: column; gap: 10px; }
+  .obj-row { display: flex; gap: 12px; align-items: baseline; }
+  .obj-num {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--primary);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.2px;
+    flex-shrink: 0;
+    min-width: 24px;
+    line-height: 1.6;
+  }
+  .obj-text {
+    font-size: 16px;
+    color: var(--text-primary);
+    line-height: 1.6;
+    letter-spacing: -0.2px;
+  }
+
+  .outline-list { display: flex; flex-direction: column; gap: 24px; margin-top: 4px; }
+  .outline-row { display: flex; gap: 24px; align-items: baseline; }
+  .outline-num {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.2px;
+    flex-shrink: 0;
+    min-width: 32px;
+    line-height: 1.4;
+  }
+  .outline-body { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .outline-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.4;
+    letter-spacing: -0.2px;
+  }
+  .outline-desc {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.55;
+    letter-spacing: -0.2px;
+  }
+
+  @media (max-width: 600px) {
+    .card { padding: 32px 20px; border-radius: 0; border-left: 0; border-right: 0; margin: 0 auto; }
+    h1.title { font-size: 26px; line-height: 32px; letter-spacing: -0.5px; }
+    .summary { font-size: 16px; }
+    h2.section-heading { font-size: 18px; }
+    .divider { margin: 32px 0; }
+    .section-spacer { height: 32px; }
+    .outline-list { gap: 20px; }
+    .outline-row { gap: 16px; }
+  }
+</style>
+</head>
+<body>
+  <main class="card">
+    <article class="reading">
+      <p class="eyebrow">Module 2</p>
+      <h1 class="title">The Spreadsheet that Thinks</h1>
+      <p class="summary">What if your spreadsheet could read your data and understand what you actually want to do with it?</p>
+      <p class="meta">Walkthrough · 30 min · hands-on</p>
+
+      <hr class="divider" />
+
+      <section>
+        <h2 class="section-heading">About this module</h2>
+        <p class="prose">Stop fighting with broken VLOOKUPs, nested IF statements, and hours of manual data entry. What if your spreadsheet could actually read your data and understand what you want to do with it?</p>
+        <p class="prose">Spreadsheets are no longer just for storing numbers; they are now reasoning engines. In this deep dive, we will show you how to bring the power of LLMs directly into your grids to automate the most painful parts of your week.</p>
+      </section>
+
+      <div class="section-spacer"></div>
+
+      <section>
+        <h2 class="section-heading">Learning objectives</h2>
+        <p class="obj-lede">By the end of this module, you will be able to:</p>
+        <div class="obj-list">
+          <div class="obj-row"><span class="obj-num">01</span><span class="obj-text">See why spreadsheets are shifting from storage into reasoning engines</span></div>
+          <div class="obj-row"><span class="obj-num">02</span><span class="obj-text">Call an LLM directly from a cell to read and interpret your data</span></div>
+          <div class="obj-row"><span class="obj-num">03</span><span class="obj-text">Replace brittle VLOOKUPs and nested IF chains with plain-language instructions</span></div>
+          <div class="obj-row"><span class="obj-num">04</span><span class="obj-text">Automate the most repetitive parts of your week without manual data entry</span></div>
+        </div>
+      </section>
+
+      <div class="section-spacer"></div>
+
+      <section>
+        <h2 class="section-heading">Module outline</h2>
+        <div class="outline-list">
+          <div class="outline-row">
+            <span class="outline-num">01</span>
+            <div class="outline-body">
+              <span class="outline-title">Why the grid changed</span>
+              <span class="outline-desc">From storing numbers to reasoning over them. What an LLM in a cell can do that a formula cannot.</span>
+            </div>
+          </div>
+          <div class="outline-row">
+            <span class="outline-num">02</span>
+            <div class="outline-body">
+              <span class="outline-title">Your first thinking cell</span>
+              <span class="outline-desc">Wire an LLM into a column and watch it read messy data and return clean, structured answers.</span>
+            </div>
+          </div>
+          <div class="outline-row">
+            <span class="outline-num">03</span>
+            <div class="outline-body">
+              <span class="outline-title">Retiring the broken formulas</span>
+              <span class="outline-desc">Swap fragile VLOOKUPs and nested IF statements for instructions written in plain language.</span>
+            </div>
+          </div>
+          <div class="outline-row">
+            <span class="outline-num">04</span>
+            <div class="outline-body">
+              <span class="outline-title">Automate the painful week</span>
+              <span class="outline-desc">Build a working sheet that handles your most repetitive task end to end, hands-on.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-spacer"></div>
+
+      <section>
+        <h2 class="section-heading">Prerequisites</h2>
+        <p class="prose">Basic spreadsheet comfort helps. No coding required, and you can follow along in any sheet you already use.</p>
+      </section>
+    </article>
+  </main>
+</body>
+</html>
