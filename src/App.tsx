@@ -14,6 +14,10 @@ import { ProgramSupport } from "./pages/ProgramSupport";
 import { SupportProvider } from "./context/SupportContext";
 import { AskQuestion } from "./pages/AskQuestion";
 import { GlaideChat } from "./pages/GlaideChat";
+import { GlaideChatMock } from "./pages/GlaideChatMock";
+import { ProtoGuidedSteps } from "./pages/ProtoGuidedSteps";
+import { ProtoStepper } from "./pages/ProtoStepper";
+import { ProtoIndex } from "./pages/ProtoIndex";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -39,6 +43,11 @@ export function App() {
             <Route path="/program_support/ask" element={<AskQuestion />} />
             <Route path="/program_support/chat" element={<GlaideChat />} />
             <Route path="/program_support/chat/:threadId" element={<GlaideChat />} />
+            <Route path="/program_support/chat-mock" element={<GlaideChatMock />} />
+            <Route path="/program_support/proto" element={<ProtoIndex />} />
+            <Route path="/program_support/proto/a" element={<GlaideChatMock />} />
+            <Route path="/program_support/proto/b" element={<ProtoGuidedSteps />} />
+            <Route path="/program_support/proto/c" element={<ProtoStepper />} />
             <Route path="/pulse" element={<PulseHome />} />
             <Route path="/pulse/intro" element={<PulseIntroPage />} />
             <Route path="/pulse/subscription" element={<SubscriptionPage />} />
