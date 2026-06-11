@@ -20,15 +20,15 @@
     { "id": "a6", "type": "assignment", "course": "Time series forecasting", "title": "Only From Practice Assignment: Test Your Understanding", "when": "14 May 23 6:30 PM - 19 May 23 6:30 PM" }
   ],
   "categories": [
-    { "key": "fee", "label": "Fee Related Enquiries", "icon": "DollarSign" },
-    { "key": "olympus", "label": "Olympus Issues", "icon": "BookOpen" },
-    { "key": "career", "label": "Career Services", "icon": "Briefcase" },
-    { "key": "projects", "label": "Projects", "icon": "Folder" },
-    { "key": "material", "label": "Learning Material", "icon": "ListVideo" },
-    { "key": "sessions", "label": "Live Sessions", "icon": "Video" },
-    { "key": "quizzes", "label": "Quizzes", "icon": "MessagesSquare" },
-    { "key": "other", "label": "Other Issues", "icon": "ClipboardList" },
-    { "key": "feedback", "label": "Feedback", "icon": "MessageSquare" }
+    { "key": "fee", "label": "Fee related enquiries", "icon": "DollarSign", "items": ["Payment not reflecting in Olympus", "Access blocked", "Make payment"] },
+    { "key": "olympus", "label": "Olympus Issues", "icon": "BookOpen", "items": ["Something is not working", "Access blocked", "I need help with something else"] },
+    { "key": "career", "label": "Career Services", "icon": "Briefcase", "items": ["Excelerate", "Career Prep", "I need help with something else"] },
+    { "key": "projects", "label": "Projects", "icon": "Folder", "items": ["When will I receive the solution?", "I need further explanation", "I need detailed feedback"] },
+    { "key": "material", "label": "Learning Material", "icon": "ListVideo", "items": ["Something incorrect in the content", "I want to understand a topic", "I am looking for references"] },
+    { "key": "sessions", "label": "Live Session", "icon": "Video", "items": ["Cannot find session recordings", "Cannot find session material", "Need help with my schedule"] },
+    { "key": "quizzes", "label": "Quizzes", "icon": "MessagesSquare", "items": ["Error/stuck with code", "I have a conceptual doubt", "Quiz question is unclear"] },
+    { "key": "other", "label": "Others", "icon": "ClipboardList", "items": ["Hackathon", "Graduation/Certificate Related", "Inquire about other programs"] },
+    { "key": "feedback", "label": "Feedback", "icon": "MessageSquare", "items": ["Share a Testimonial", "Content Feedback", "Program Feedback"] }
   ],
   "glaideResponses": {
     "fee": "I can help with fee queries. Most installment mismatches clear within 24 hours of payment. Could you tell me the date and amount you paid?",
