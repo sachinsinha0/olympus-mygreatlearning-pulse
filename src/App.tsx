@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Outlet, Navigate, useLocation } from "react-router-dom";
 import { DevPanel } from "./components/common/DevPanel";
 import { PageLoaderProvider } from "./components/common/PageLoader";
 import { PricingModal } from "./components/pulse/PricingModal";
@@ -27,37 +27,46 @@ function ScrollToTop() {
   return null;
 }
 
-export function App() {
+function RootLayout() {
   return (
-    <BrowserRouter>
-      <PageLoaderProvider>
-        <ScrollToTop />
-        <DevPanel />
-        <PricingModal />
-        <SupportProvider>
-          <Routes>
-              <Route path="/" element={<Dashboard />} />
-            <Route path="/courses" element={<Courses />} />
-            <Route path="/courses/:id" element={<CourseDetail />} />
-            <Route path="/program_support" element={<ProgramSupport />} />
-            <Route path="/program_support/ask" element={<AskQuestion />} />
-            <Route path="/program_support/chat" element={<GlaideChat />} />
-            <Route path="/program_support/chat/:threadId" element={<GlaideChat />} />
-            <Route path="/program_support/chat-mock" element={<GlaideChatMock />} />
-            <Route path="/program_support/proto" element={<ProtoIndex />} />
-            <Route path="/program_support/proto/a" element={<GlaideChatMock />} />
-            <Route path="/program_support/proto/b" element={<ProtoGuidedSteps />} />
-            <Route path="/program_support/proto/c" element={<ProtoStepper />} />
-            <Route path="/pulse" element={<PulseHome />} />
-            <Route path="/pulse/intro" element={<PulseIntroPage />} />
-            <Route path="/pulse/subscription" element={<SubscriptionPage />} />
-            <Route path="/pulse/modules/:moduleId" element={<PulseConsumePage />} />
-            <Route path="/pulse/modules/:moduleId/items/:itemId" element={<PulseConsumePage />} />
-            <Route path="/pulse/course" element={<Navigate to="/pulse" replace />} />
-            <Route path="/pulse/course/*" element={<Navigate to="/pulse" replace />} />
-          </Routes>
-        </SupportProvider>
-      </PageLoaderProvider>
-    </BrowserRouter>
+    <PageLoaderProvider>
+      <ScrollToTop />
+      <DevPanel />
+      <PricingModal />
+      <SupportProvider>
+        <Outlet />
+      </SupportProvider>
+    </PageLoaderProvider>
   );
+}
+
+const router = createBrowserRouter([
+  {
+    element: <RootLayout />,
+    children: [
+      { path: "/", element: <Dashboard /> },
+      { path: "/courses", element: <Courses /> },
+      { path: "/courses/:id", element: <CourseDetail /> },
+      { path: "/program_support", element: <ProgramSupport /> },
+      { path: "/program_support/ask", element: <AskQuestion /> },
+      { path: "/program_support/chat", element: <GlaideChat /> },
+      { path: "/program_support/chat/:threadId", element: <GlaideChat /> },
+      { path: "/program_support/chat-mock", element: <GlaideChatMock /> },
+      { path: "/program_support/proto", element: <ProtoIndex /> },
+      { path: "/program_support/proto/a", element: <GlaideChatMock /> },
+      { path: "/program_support/proto/b", element: <ProtoGuidedSteps /> },
+      { path: "/program_support/proto/c", element: <ProtoStepper /> },
+      { path: "/pulse", element: <PulseHome /> },
+      { path: "/pulse/intro", element: <PulseIntroPage /> },
+      { path: "/pulse/subscription", element: <SubscriptionPage /> },
+      { path: "/pulse/modules/:moduleId", element: <PulseConsumePage /> },
+      { path: "/pulse/modules/:moduleId/items/:itemId", element: <PulseConsumePage /> },
+      { path: "/pulse/course", element: <Navigate to="/pulse" replace /> },
+      { path: "/pulse/course/*", element: <Navigate to="/pulse" replace /> },
+    ],
+  },
+]);
+
+export function App() {
+  return <RouterProvider router={router} />;
 }
