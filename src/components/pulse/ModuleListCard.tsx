@@ -39,7 +39,7 @@ export function ModuleListCard({
     : trialExpired
     ? "Subscribe to unlock"
     : isPreTrial
-    ? "Start 30-day trial"
+    ? "Start free trial"
     : started
     ? "Resume Learning"
     : "Start Learning";
