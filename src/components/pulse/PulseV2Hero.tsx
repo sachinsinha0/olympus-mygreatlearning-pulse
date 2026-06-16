@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, Briefcase, CalendarClock, Clock, Lock, Play, Sparkles } from "lucide-react";
+import { ArrowRight, Briefcase, CalendarClock, Clock, Lock, Play, ShieldCheck, Sparkles } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { daysUntil, isTrialExpired, usePricing } from "../../lib/pulse/pricing";
 import { usePageLoader } from "../common/PageLoader";
@@ -326,7 +326,7 @@ function MarketingHero() {
                 gap={0.75}
                 sx={{ color: "text.secondary", px: { xs: 0.5, sm: 0 } }}
               >
-                <Lock size={14} strokeWidth={2} />
+                <ShieldCheck size={14} strokeWidth={2} />
                 <Typography
                   sx={{ fontSize: 13, fontWeight: 500, letterSpacing: "-0.1px", lineHeight: "18px" }}
                 >
