@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, Briefcase, CalendarClock, Clock, Lock, Play, Sparkles } from "lucide-react";
+import { ArrowRight, Briefcase, CalendarClock, Clock, Lock, Play, ShieldCheck, Sparkles } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { daysUntil, isTrialExpired, usePricing } from "../../lib/pulse/pricing";
 import { usePageLoader } from "../common/PageLoader";
@@ -19,6 +19,7 @@ type HeroCopy = {
   primaryCtaLabel: string;
   onPrimaryCta: () => void;
   ctaMode: CtaMode;
+  showNoCardReassurance: boolean;
   trialStatus?: { expiresAt: string; daysLeft: number };
 };
 
@@ -102,6 +103,7 @@ function useHeroCopy(): HeroCopy {
       primaryCtaLabel: "Subscribe to Pulse",
       onPrimaryCta: openPricingModal,
       ctaMode: "none",
+      showNoCardReassurance: false,
       trialStatus:
         trialActive && activeUntil
           ? { expiresAt: activeUntil, daysLeft: daysUntil(activeUntil) }
@@ -112,7 +114,8 @@ function useHeroCopy(): HeroCopy {
   return {
     headline,
     subtitle,
-    primaryCtaLabel: "Start 30-day trial",
+    primaryCtaLabel: "Start Free Trial",
+    showNoCardReassurance: true,
     onPrimaryCta: () => {
       if (firstModule) {
         runWithPageLoader(() => {
@@ -292,7 +295,7 @@ function MarketingHero() {
           <Stack
             direction={{ xs: "column", sm: "row" }}
             alignItems={{ xs: "stretch", sm: "center" }}
-            gap={{ xs: 1.5, sm: 2 }}
+            gap={{ xs: 1.25, sm: 2 }}
           >
             <Button
               variant="contained"
@@ -314,6 +317,21 @@ function MarketingHero() {
               {copy.primaryCtaLabel}
             </Button>
             {copy.trialStatus && <TrialStatusChip status={copy.trialStatus} />}
+            {copy.showNoCardReassurance && (
+              <Stack
+                direction="row"
+                alignItems="center"
+                gap={0.75}
+                sx={{ color: "text.secondary", px: { xs: 0.5, sm: 0 } }}
+              >
+                <ShieldCheck size={14} strokeWidth={2} />
+                <Typography
+                  sx={{ fontSize: 13, fontWeight: 500, letterSpacing: "-0.1px", lineHeight: "18px", whiteSpace: "nowrap" }}
+                >
+                  Free for 30 days · No credit card required
+                </Typography>
+              </Stack>
+            )}
           </Stack>
         </Stack>
       </Box>

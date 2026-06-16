@@ -9,6 +9,7 @@ import glLogo from "../../assets/gl-logo.svg";
 import { TopNav } from "../../components/TopNav/TopNav";
 import { markIntroSeen } from "../../lib/pulse/onboarding";
 import { usePageLoader } from "../../components/common/PageLoader";
+import { ExitIntentGuard } from "../../components/pulse/ExitIntentGuard";
 
 const SLIDE_COUNT = 3;
 
@@ -167,6 +168,7 @@ export function PulseIntroPage() {
 
   return (
     <Box sx={{ minHeight: "100vh", bgcolor: "background.default", position: "relative", overflow: "hidden" }}>
+      <ExitIntentGuard source="onboarding" />
       <SlideBackdrop accent={slide.accent} />
       <NoiseOverlay />
 
