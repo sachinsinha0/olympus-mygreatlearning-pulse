@@ -1,5 +1,3 @@
-const STORAGE_KEY = "pulse-exit-intent-shown";
-
 export type ExitIntentReason = { id: string; label: string };
 
 export const EXIT_INTENT_REASONS: ExitIntentReason[] = [
@@ -19,24 +17,4 @@ const inPulse = (p: string) => p === "/pulse" || p.startsWith("/pulse/");
  */
 export function isExitFromPulse(currentPath: string, nextPath: string): boolean {
   return inPulse(currentPath) && !inPulse(nextPath);
-}
-
-/** Whether the exit-intent dialog has already been shown this browser session. */
-export function hasShownExitIntent(): boolean {
-  if (typeof window === "undefined") return false;
-  try {
-    return sessionStorage.getItem(STORAGE_KEY) === "1";
-  } catch {
-    return false;
-  }
-}
-
-/** Mark the exit-intent dialog as shown for the rest of this session. */
-export function markExitIntentShown(): void {
-  if (typeof window === "undefined") return;
-  try {
-    sessionStorage.setItem(STORAGE_KEY, "1");
-  } catch {
-    // ignore
-  }
 }

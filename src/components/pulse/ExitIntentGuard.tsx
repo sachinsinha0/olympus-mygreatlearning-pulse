@@ -2,11 +2,7 @@ import { useCallback, useEffect, useRef } from "react";
 import { useBlocker } from "react-router-dom";
 import { usePricing } from "../../lib/pulse/pricing";
 import { track } from "../../lib/analytics";
-import {
-  hasShownExitIntent,
-  isExitFromPulse,
-  markExitIntentShown,
-} from "../../lib/pulse/exitIntent";
+import { isExitFromPulse } from "../../lib/pulse/exitIntent";
 import { ExitIntentDialog } from "./ExitIntentDialog";
 
 /**
@@ -16,7 +12,8 @@ import { ExitIntentDialog } from "./ExitIntentDialog";
  */
 export function ExitIntentGuard({ source }: { source: "onboarding" | "pulse_home" }) {
   const { state, trialStartedAt } = usePricing();
-  const enabled = state === "trial" && !trialStartedAt && !hasShownExitIntent();
+  // Fires on every exit from Pulse until the user actually starts the trial.
+  const enabled = state === "trial" && !trialStartedAt;
 
   const blocker = useBlocker(
     useCallback(
@@ -44,10 +41,8 @@ export function ExitIntentGuard({ source }: { source: "onboarding" | "pulse_home
     }
   }, [open, source]);
 
-  // Capture-only: any resolution lets the navigation proceed and disables the
-  // guard for the rest of the session.
+  // Capture-only: any resolution simply lets the blocked navigation proceed.
   const proceed = useCallback(() => {
-    markExitIntentShown();
     if (blocker.state === "blocked") blocker.proceed();
   }, [blocker]);
 
