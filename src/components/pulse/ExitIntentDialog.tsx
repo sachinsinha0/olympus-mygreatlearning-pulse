@@ -1,5 +1,15 @@
 import { useEffect, useState } from "react";
-import { Box, Button, Dialog, IconButton, Stack, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Dialog,
+  FormControlLabel,
+  IconButton,
+  Radio,
+  RadioGroup,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { X } from "lucide-react";
 import { EXIT_INTENT_REASONS } from "../../lib/pulse/exitIntent";
 
@@ -29,118 +39,75 @@ export function ExitIntentDialog({
       onClose={onClose}
       PaperProps={{
         sx: {
-          width: 420,
+          width: 444,
           maxWidth: "calc(100vw - 32px)",
           m: 2,
-          borderRadius: "16px",
+          borderRadius: "8px",
           boxShadow: "0px 24px 48px -12px rgba(16, 24, 40, 0.18)",
           overflow: "hidden",
-          position: "relative",
         },
       }}
     >
-      <IconButton
-        onClick={onClose}
-        aria-label="Close"
-        sx={{ position: "absolute", top: 8, right: 8, color: "text.secondary" }}
-      >
-        <X size={18} />
-      </IconButton>
-
-      <Box sx={{ px: 3, pt: 3.5, pb: 1 }}>
-        <Typography
-          sx={{ fontSize: 20, fontWeight: 600, lineHeight: "26px", letterSpacing: "-0.4px", color: "text.primary" }}
-        >
-          Why are you leaving?
-        </Typography>
-        <Typography
-          sx={{ mt: 0.75, fontSize: 14, lineHeight: "20px", letterSpacing: "-0.2px", color: "text.secondary" }}
-        >
-          Your answer helps us make Pulse better.
-        </Typography>
+      {/* DialogTitle: heading + supporting text, with close affordance */}
+      <Box sx={{ display: "flex", alignItems: "flex-start", gap: 1, p: 2 }}>
+        <Box sx={{ flex: 1, minWidth: 0 }}>
+          <Typography
+            sx={{ fontSize: 20, fontWeight: 600, lineHeight: "24px", letterSpacing: "-0.4px", color: "text.primary" }}
+          >
+            Before you go
+          </Typography>
+          <Typography
+            sx={{ mt: 1, fontSize: 14, fontWeight: 400, lineHeight: "20px", color: "text.secondary" }}
+          >
+            What's holding you back from starting your free trial?
+          </Typography>
+        </Box>
+        <IconButton onClick={onClose} aria-label="Close" sx={{ mt: -0.5, mr: -0.5, color: "text.secondary" }}>
+          <X size={20} />
+        </IconButton>
       </Box>
 
-      <Box sx={{ px: 3, py: 1.5 }}>
-        <Stack role="radiogroup" gap={1}>
-          {EXIT_INTENT_REASONS.map((r) => {
-            const selected = reason === r.id;
-            return (
-              <Box
-                key={r.id}
-                component="button"
-                type="button"
-                role="radio"
-                aria-checked={selected}
-                onClick={() => setReason(r.id)}
-                sx={(theme) => ({
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 1.25,
-                  width: "100%",
-                  textAlign: "left",
-                  cursor: "pointer",
-                  fontFamily: "inherit",
-                  fontSize: 14,
-                  fontWeight: 500,
-                  letterSpacing: "-0.1px",
-                  px: 1.5,
-                  py: 1.25,
-                  borderRadius: "10px",
-                  border: `1px solid ${selected ? theme.palette.primary.main : theme.palette.outlineVariant.main}`,
-                  bgcolor: selected ? theme.palette.primary.light : "transparent",
-                  color: selected ? theme.palette.primary.main : theme.palette.text.primary,
-                  transition: "background-color 140ms ease, border-color 140ms ease, color 140ms ease",
-                  "&:hover": { borderColor: theme.palette.primary.main },
-                })}
-              >
-                <Box
-                  aria-hidden
-                  sx={(theme) => ({
-                    width: 18,
-                    height: 18,
-                    flexShrink: 0,
-                    borderRadius: "50%",
-                    border: `2px solid ${selected ? theme.palette.primary.main : theme.palette.outlineVariant.main}`,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  })}
-                >
-                  {selected && (
-                    <Box
-                      sx={(theme) => ({
-                        width: 8,
-                        height: 8,
-                        borderRadius: "50%",
-                        bgcolor: theme.palette.primary.main,
-                      })}
-                    />
-                  )}
-                </Box>
-                <span>{r.label}</span>
-              </Box>
-            );
-          })}
-        </Stack>
+      {/* Reasons */}
+      <Box sx={{ px: 2, pb: 1 }}>
+        <RadioGroup value={reason ?? ""} onChange={(e) => setReason(e.target.value)}>
+          {EXIT_INTENT_REASONS.map((r) => (
+            <FormControlLabel
+              key={r.id}
+              value={r.id}
+              control={<Radio size="small" />}
+              label={<Typography sx={{ fontSize: 14, color: "text.primary" }}>{r.label}</Typography>}
+              sx={{ mx: 0, my: 0.25, gap: 1 }}
+            />
+          ))}
+        </RadioGroup>
+      </Box>
 
+      {/* Comment */}
+      <Box sx={{ px: 2, pb: 1 }}>
+        <Typography sx={{ mb: 1, fontSize: 14, fontWeight: 500, color: "text.primary" }}>
+          Comment{" "}
+          <Box component="span" sx={{ fontWeight: 400, color: "text.secondary" }}>
+            (Optional)
+          </Box>
+        </Typography>
         <TextField
           value={note}
           onChange={(e) => setNote(e.target.value)}
-          placeholder="Tell us more (optional)"
+          placeholder="Tell us more"
           multiline
           minRows={2}
           fullWidth
           size="small"
-          sx={{ mt: 2 }}
         />
       </Box>
 
-      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 1.5, px: 3, py: 2 }}>
+      {/* DialogActions */}
+      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 1, p: 2 }}>
         <Button
           onClick={onClose}
-          sx={{ height: 40, px: 2, borderRadius: "8px", fontSize: 14, fontWeight: 500, textTransform: "none", color: "text.secondary" }}
+          sx={{ height: 40, px: 2, borderRadius: "8px", fontSize: 14, fontWeight: 500, textTransform: "none" }}
         >
-          Close
+          Cancel
         </Button>
         <Button
           variant="contained"
@@ -149,7 +116,7 @@ export function ExitIntentDialog({
           onClick={() => reason && onSubmit(reason, note.trim())}
           sx={{ height: 40, px: 2.5, borderRadius: "8px", fontSize: 14, fontWeight: 600, textTransform: "none" }}
         >
-          Send
+          Submit &amp; Continue
         </Button>
       </Box>
     </Dialog>

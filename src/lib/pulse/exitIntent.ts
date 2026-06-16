@@ -1,12 +1,11 @@
 export type ExitIntentReason = { id: string; label: string };
 
 export const EXIT_INTENT_REASONS: ExitIntentReason[] = [
-  { id: "not-sure", label: "I don't know what Pulse is" },
-  { id: "no-time", label: "I don't have time now" },
-  { id: "cost", label: "I think it costs money" },
-  { id: "not-relevant", label: "It's not useful for me" },
-  { id: "browsing", label: "I'm just looking" },
-  { id: "other", label: "Another reason" },
+  { id: "not-sure", label: "I don't understand what AI Pulse offers" },
+  { id: "no-time", label: "I don't have time right now" },
+  { id: "cost", label: "Worried about cost / being charged" },
+  { id: "not-relevant", label: "It isn't relevant to my role or goals" },
+  { id: "other", label: "Other" },
 ];
 
 const inPulse = (p: string) => p === "/pulse" || p.startsWith("/pulse/");
