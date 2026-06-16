@@ -114,7 +114,7 @@ function useHeroCopy(): HeroCopy {
   return {
     headline,
     subtitle,
-    primaryCtaLabel: "Start free trial",
+    primaryCtaLabel: "Start Free Trial",
     showNoCardReassurance: true,
     onPrimaryCta: () => {
       if (firstModule) {
