@@ -114,7 +114,7 @@ function useHeroCopy(): HeroCopy {
   return {
     headline,
     subtitle,
-    primaryCtaLabel: "Start your 30-day free trial",
+    primaryCtaLabel: "Start 30-day free trial",
     showNoCardReassurance: true,
     onPrimaryCta: () => {
       if (firstModule) {
@@ -292,33 +292,31 @@ function MarketingHero() {
             {copy.subtitle}
           </Typography>
 
-          <Stack gap={1.25} alignItems={{ xs: "stretch", sm: "flex-start" }}>
-            <Stack
-              direction={{ xs: "column", sm: "row" }}
-              alignItems={{ xs: "stretch", sm: "center" }}
-              gap={{ xs: 1.5, sm: 2 }}
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            alignItems={{ xs: "stretch", sm: "center" }}
+            gap={{ xs: 1.25, sm: 2 }}
+          >
+            <Button
+              variant="contained"
+              disableElevation
+              endIcon={<ArrowRight size={18} />}
+              onClick={handleCta}
+              sx={{
+                height: { xs: 44, md: 40 },
+                px: 2,
+                width: { xs: "100%", sm: "auto" },
+                fontSize: 15,
+                fontWeight: 500,
+                letterSpacing: "-0.2px",
+                textTransform: "none",
+                borderRadius: "8px",
+                flexShrink: 0,
+              }}
             >
-              <Button
-                variant="contained"
-                disableElevation
-                endIcon={<ArrowRight size={18} />}
-                onClick={handleCta}
-                sx={{
-                  height: { xs: 44, md: 40 },
-                  px: 2,
-                  width: { xs: "100%", sm: "auto" },
-                  fontSize: 15,
-                  fontWeight: 500,
-                  letterSpacing: "-0.2px",
-                  textTransform: "none",
-                  borderRadius: "8px",
-                  flexShrink: 0,
-                }}
-              >
-                {copy.primaryCtaLabel}
-              </Button>
-              {copy.trialStatus && <TrialStatusChip status={copy.trialStatus} />}
-            </Stack>
+              {copy.primaryCtaLabel}
+            </Button>
+            {copy.trialStatus && <TrialStatusChip status={copy.trialStatus} />}
             {copy.showNoCardReassurance && (
               <Stack
                 direction="row"
@@ -328,7 +326,7 @@ function MarketingHero() {
               >
                 <Lock size={14} strokeWidth={2} />
                 <Typography
-                  sx={{ fontSize: 13, fontWeight: 500, letterSpacing: "-0.1px", lineHeight: "18px" }}
+                  sx={{ fontSize: 13, fontWeight: 500, letterSpacing: "-0.1px", lineHeight: "18px", whiteSpace: "nowrap" }}
                 >
                   No credit card required
                 </Typography>
