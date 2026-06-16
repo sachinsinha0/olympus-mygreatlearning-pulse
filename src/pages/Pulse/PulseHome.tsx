@@ -5,6 +5,7 @@ import { TopNav } from "../../components/TopNav/TopNav";
 import { ModuleListCard } from "../../components/pulse/ModuleListCard";
 import { SubscribeFooter } from "../../components/pulse/SubscribeFooter";
 import { PulseV2Hero } from "../../components/pulse/PulseV2Hero";
+import { ExitIntentGuard } from "../../components/pulse/ExitIntentGuard";
 import { isTrialExpired, usePricing } from "../../lib/pulse/pricing";
 import { useHasSeenIntro } from "../../lib/pulse/onboarding";
 import { useUnitLabel } from "../../lib/pulse/terminology";
@@ -40,6 +41,7 @@ export function PulseHome() {
 
   return (
     <Box sx={{ minHeight: "100vh", bgcolor: "background.default" }}>
+      <ExitIntentGuard source="pulse_home" />
       <TopNav />
       <Box sx={{ maxWidth: 1184, mx: "auto", px: { xs: 2, md: 3, lg: 0 }, pt: 3, pb: 6 }}>
         <PulseV2Hero />
