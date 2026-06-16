@@ -41,29 +41,19 @@ export function ExitIntentGuard({ source }: { source: "onboarding" | "pulse_home
     }
   }, [open, source]);
 
-  // Capture-only: any resolution simply lets the blocked navigation proceed.
-  const proceed = useCallback(() => {
-    if (blocker.state === "blocked") blocker.proceed();
-  }, [blocker]);
-
+  // Submitting feedback records the reason and lets the navigation proceed.
   const handleSubmit = (reason: string, note: string) => {
     track("GL:PulseExitIntent_Submitted", { reason, note, source });
-    proceed();
+    if (blocker.state === "blocked") blocker.proceed();
   };
 
-  const handleDismiss = () => {
+  // Closing cancels the navigation — the user stays on the current page.
+  const handleClose = () => {
     track("GL:PulseExitIntent_Dismissed", { source });
-    proceed();
+    if (blocker.state === "blocked") blocker.reset();
   };
 
   if (!open) return null;
 
-  return (
-    <ExitIntentDialog
-      open={open}
-      onSubmit={handleSubmit}
-      onSkip={handleDismiss}
-      onClose={handleDismiss}
-    />
-  );
+  return <ExitIntentDialog open={open} onSubmit={handleSubmit} onClose={handleClose} />;
 }

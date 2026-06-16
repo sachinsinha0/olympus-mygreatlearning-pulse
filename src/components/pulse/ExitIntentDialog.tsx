@@ -6,12 +6,10 @@ import { EXIT_INTENT_REASONS } from "../../lib/pulse/exitIntent";
 export function ExitIntentDialog({
   open,
   onSubmit,
-  onSkip,
   onClose,
 }: {
   open: boolean;
   onSubmit: (reasonId: string, note: string) => void;
-  onSkip: () => void;
   onClose: () => void;
 }) {
   const [reason, setReason] = useState<string | null>(null);
@@ -139,10 +137,10 @@ export function ExitIntentDialog({
 
       <Box sx={{ display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 1.5, px: 3, py: 2 }}>
         <Button
-          onClick={onSkip}
+          onClick={onClose}
           sx={{ height: 40, px: 2, borderRadius: "8px", fontSize: 14, fontWeight: 500, textTransform: "none", color: "text.secondary" }}
         >
-          Skip
+          Close
         </Button>
         <Button
           variant="contained"
