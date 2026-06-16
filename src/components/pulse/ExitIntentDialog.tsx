@@ -51,12 +51,12 @@ export function ExitIntentDialog({
         <Typography
           sx={{ fontSize: 20, fontWeight: 600, lineHeight: "26px", letterSpacing: "-0.4px", color: "text.primary" }}
         >
-          Before you go
+          Why are you leaving?
         </Typography>
         <Typography
           sx={{ mt: 0.75, fontSize: 14, lineHeight: "20px", letterSpacing: "-0.2px", color: "text.secondary" }}
         >
-          What's holding you back from starting your free trial?
+          Your answer helps us make Pulse better.
         </Typography>
       </Box>
 
@@ -126,7 +126,7 @@ export function ExitIntentDialog({
         <TextField
           value={note}
           onChange={(e) => setNote(e.target.value)}
-          placeholder="Anything else? (optional)"
+          placeholder="Tell us more (optional)"
           multiline
           minRows={2}
           fullWidth
@@ -149,7 +149,7 @@ export function ExitIntentDialog({
           onClick={() => reason && onSubmit(reason, note.trim())}
           sx={{ height: 40, px: 2.5, borderRadius: "8px", fontSize: 14, fontWeight: 600, textTransform: "none" }}
         >
-          Submit &amp; continue
+          Send
         </Button>
       </Box>
     </Dialog>
