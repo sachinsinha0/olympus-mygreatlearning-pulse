@@ -63,7 +63,7 @@ export function ExitIntentDialog({
       </Box>
 
       <Box sx={{ px: 3, py: 1.5 }}>
-        <Stack direction="row" sx={{ flexWrap: "wrap", gap: 1 }}>
+        <Stack role="radiogroup" gap={1}>
           {EXIT_INTENT_REASONS.map((r) => {
             const selected = reason === r.id;
             return (
@@ -71,17 +71,23 @@ export function ExitIntentDialog({
                 key={r.id}
                 component="button"
                 type="button"
+                role="radio"
+                aria-checked={selected}
                 onClick={() => setReason(r.id)}
-                aria-pressed={selected}
                 sx={(theme) => ({
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1.25,
+                  width: "100%",
+                  textAlign: "left",
                   cursor: "pointer",
                   fontFamily: "inherit",
-                  fontSize: 13,
+                  fontSize: 14,
                   fontWeight: 500,
                   letterSpacing: "-0.1px",
                   px: 1.5,
-                  py: 0.875,
-                  borderRadius: 999,
+                  py: 1.25,
+                  borderRadius: "10px",
                   border: `1px solid ${selected ? theme.palette.primary.main : theme.palette.outlineVariant.main}`,
                   bgcolor: selected ? theme.palette.primary.light : "transparent",
                   color: selected ? theme.palette.primary.main : theme.palette.text.primary,
@@ -89,7 +95,31 @@ export function ExitIntentDialog({
                   "&:hover": { borderColor: theme.palette.primary.main },
                 })}
               >
-                {r.label}
+                <Box
+                  aria-hidden
+                  sx={(theme) => ({
+                    width: 18,
+                    height: 18,
+                    flexShrink: 0,
+                    borderRadius: "50%",
+                    border: `2px solid ${selected ? theme.palette.primary.main : theme.palette.outlineVariant.main}`,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  })}
+                >
+                  {selected && (
+                    <Box
+                      sx={(theme) => ({
+                        width: 8,
+                        height: 8,
+                        borderRadius: "50%",
+                        bgcolor: theme.palette.primary.main,
+                      })}
+                    />
+                  )}
+                </Box>
+                <span>{r.label}</span>
               </Box>
             );
           })}
