@@ -1,5 +1,6 @@
 import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
 import data from "../mocks/programSupport.json";
+import type { TicketStatus } from "../lib/support/tickets";
 
 export type ChatAction = {
   label: string;
@@ -31,9 +32,12 @@ export type Ticket = {
   subtitle: string;
   timestamp: string;
   category: string;
+  status: TicketStatus;
 };
 
 type SupportState = {
+  tickets: Ticket[];
+  /** Derived from `tickets` for backward compat; removed once callers migrate. */
   openTickets: Ticket[];
   closedTickets: Ticket[];
   threads: Thread[];
@@ -50,14 +54,14 @@ let counter = 0;
 const nextId = (prefix: string) => `${prefix}_gen_${++counter}`;
 
 export function SupportProvider({ children }: { children: ReactNode }) {
-  const [openTickets, setOpenTickets] = useState<Ticket[]>(data.open as Ticket[]);
-  const [closedTickets] = useState<Ticket[]>(data.closed as Ticket[]);
+  const [tickets, setTickets] = useState<Ticket[]>(data.tickets as Ticket[]);
   const [threads, setThreads] = useState<Thread[]>(data.threads as Thread[]);
 
   const value = useMemo<SupportState>(
     () => ({
-      openTickets,
-      closedTickets,
+      tickets,
+      openTickets: tickets.filter((t) => t.status === "open"),
+      closedTickets: tickets.filter((t) => t.status === "closed"),
       threads,
       getThread: (id) => threads.find((t) => t.id === id),
       createThread: (seed) => {
@@ -81,32 +85,34 @@ export function SupportProvider({ children }: { children: ReactNode }) {
         setThreads((prev) => {
           const thread = prev.find((t) => t.id === threadId);
           if (thread) {
-            setOpenTickets((tickets) => [
+            setTickets((ts) => [
               {
                 id: nextId("t"),
                 title: thread.title,
                 subtitle: thread.messages[0]?.text ?? "Raised from Glaide chat",
                 timestamp: "Just now",
                 category: thread.category,
+                status: "open",
               },
-              ...tickets,
+              ...ts,
             ]);
           }
           return prev.map((t) => (t.id === threadId ? { ...t, status: "ticketed" } : t));
         }),
       createTicket: (seed) =>
-        setOpenTickets((tickets) => [
+        setTickets((ts) => [
           {
             id: nextId("t"),
             title: seed.title,
             subtitle: seed.subtitle,
             timestamp: "Just now",
             category: seed.category,
+            status: "open",
           },
-          ...tickets,
+          ...ts,
         ]),
     }),
-    [openTickets, closedTickets, threads]
+    [tickets, threads]
   );
 
   return <SupportContext.Provider value={value}>{children}</SupportContext.Provider>;

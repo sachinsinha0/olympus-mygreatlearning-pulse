@@ -1,34 +1,213 @@
 {
-  "open": [
-    { "id": "t1", "title": "Payment not reflecting in Olympus", "subtitle": "Paid the installment yesterday but my dashboard still shows it as due.", "timestamp": "03 Jun 26 5:41 PM", "category": "payment" },
-    { "id": "t2", "title": "Unable to access Module 12", "subtitle": "The course content fails to load and keeps showing a blank screen.", "timestamp": "02 Jun 26 11:20 AM", "category": "query" },
-    { "id": "t3", "title": "Attendance not marked for live session", "subtitle": "I joined Tuesday's mentor session but it shows me as absent.", "timestamp": "30 May 26 6:15 PM", "category": "attendance" },
-    { "id": "t4", "title": "Certificate name correction", "subtitle": "My name is misspelled on the program certificate, please fix it.", "timestamp": "28 May 26 9:02 AM", "category": "general" },
-    { "id": "t5", "title": "Request to extend assignment deadline", "subtitle": "Need two extra days to submit the capstone due to travel.", "timestamp": "26 May 26 4:48 PM", "category": "query" },
-    { "id": "t6", "title": "Reschedule mentor 1:1", "subtitle": "Could we move my Friday call to early next week?", "timestamp": "24 May 26 1:10 PM", "category": "general" }
-  ],
-  "closed": [
-    { "id": "c1", "title": "Arunsankar - Final Installment Fees", "subtitle": "Hello Team,This month end I will be paying my final installment fees. Since I was referred to the program, I do have a discount of Rs. 10000 o...", "timestamp": "22 Feb 20 12:02 AM", "category": "payment" },
-    { "id": "c2", "title": "Attendance - Jan 11th & 19th, 2020", "subtitle": "Hello Team,My name is Arun Sankar - Transferred from Nov 2019 to Jan 2020 Batch. Please be informed that I have attended both the class...", "timestamp": "25 Jan 20 12:08 AM", "category": "attendance" }
+  "tickets": [
+    {
+      "id": "t1",
+      "title": "Payment not reflecting in Olympus",
+      "subtitle": "Paid the installment yesterday but my dashboard still shows it as due.",
+      "timestamp": "03 Jun 26 5:41 PM",
+      "category": "payment",
+      "status": "open"
+    },
+    {
+      "id": "t2",
+      "title": "Unable to access Module 12",
+      "subtitle": "The course content fails to load and keeps showing a blank screen.",
+      "timestamp": "02 Jun 26 11:20 AM",
+      "category": "query",
+      "status": "open"
+    },
+    {
+      "id": "t3",
+      "title": "Attendance not marked for live session",
+      "subtitle": "I joined Tuesday's mentor session but it shows me as absent.",
+      "timestamp": "30 May 26 6:15 PM",
+      "category": "attendance",
+      "status": "open"
+    },
+    {
+      "id": "t4",
+      "title": "Certificate name correction",
+      "subtitle": "My name is misspelled on the program certificate, please fix it.",
+      "timestamp": "28 May 26 9:02 AM",
+      "category": "general",
+      "status": "open"
+    },
+    {
+      "id": "t5",
+      "title": "Request to extend assignment deadline",
+      "subtitle": "Need two extra days to submit the capstone due to travel.",
+      "timestamp": "26 May 26 4:48 PM",
+      "category": "query",
+      "status": "open"
+    },
+    {
+      "id": "t6",
+      "title": "Reschedule mentor 1:1",
+      "subtitle": "Could we move my Friday call to early next week?",
+      "timestamp": "24 May 26 1:10 PM",
+      "category": "general",
+      "status": "open"
+    },
+    {
+      "id": "c1",
+      "title": "Arunsankar - Final Installment Fees",
+      "subtitle": "Hello Team,This month end I will be paying my final installment fees. Since I was referred to the program, I do have a discount of Rs. 10000 o...",
+      "timestamp": "22 Feb 20 12:02 AM",
+      "category": "payment",
+      "status": "closed"
+    },
+    {
+      "id": "c2",
+      "title": "Attendance - Jan 11th & 19th, 2020",
+      "subtitle": "Hello Team,My name is Arun Sankar - Transferred from Nov 2019 to Jan 2020 Batch. Please be informed that I have attended both the class...",
+      "timestamp": "25 Jan 20 12:08 AM",
+      "category": "attendance",
+      "status": "closed"
+    },
+    {
+      "id": "t7",
+      "title": "Quiz score not updated after re-evaluation",
+      "subtitle": "I raised this earlier and it was closed, but my corrected quiz score still isn't reflecting.",
+      "timestamp": "10 Jun 26 11:20 AM",
+      "category": "quizzes",
+      "status": "reopened"
+    }
   ],
   "recentActivity": [
-    { "id": "a1", "type": "assignment", "course": "Web and Social Media Analytics", "title": "Assignment: Test Your Understanding", "when": "20 Sep 24 6:30 PM - 24 Sep 24 6:30 PM" },
-    { "id": "a2", "type": "video", "course": "Career Prep", "title": "Introduction to Career Prep", "when": "4 Mins" },
-    { "id": "a3", "type": "assignment", "course": "Web and Social Media Analytics", "title": "Only From Practice Assignment: Test Your Understanding", "when": "16 May 23 6:30 PM - 20 May 23 6:30 PM" },
-    { "id": "a4", "type": "quiz", "course": "Python for Data Science", "title": "Quiz: Test Your Understanding", "when": "19 May 23 6:30 PM - 20 May 23 6:30 PM" },
-    { "id": "a5", "type": "video", "course": "Python for Data Science", "title": "Introduction to Clustering Part 1 - How to select the right number of clusters", "when": "4 Mins" },
-    { "id": "a6", "type": "assignment", "course": "Time series forecasting", "title": "Only From Practice Assignment: Test Your Understanding", "when": "14 May 23 6:30 PM - 19 May 23 6:30 PM" }
+    {
+      "id": "a1",
+      "type": "assignment",
+      "course": "Web and Social Media Analytics",
+      "title": "Assignment: Test Your Understanding",
+      "when": "20 Sep 24 6:30 PM - 24 Sep 24 6:30 PM"
+    },
+    {
+      "id": "a2",
+      "type": "video",
+      "course": "Career Prep",
+      "title": "Introduction to Career Prep",
+      "when": "4 Mins"
+    },
+    {
+      "id": "a3",
+      "type": "assignment",
+      "course": "Web and Social Media Analytics",
+      "title": "Only From Practice Assignment: Test Your Understanding",
+      "when": "16 May 23 6:30 PM - 20 May 23 6:30 PM"
+    },
+    {
+      "id": "a4",
+      "type": "quiz",
+      "course": "Python for Data Science",
+      "title": "Quiz: Test Your Understanding",
+      "when": "19 May 23 6:30 PM - 20 May 23 6:30 PM"
+    },
+    {
+      "id": "a5",
+      "type": "video",
+      "course": "Python for Data Science",
+      "title": "Introduction to Clustering Part 1 - How to select the right number of clusters",
+      "when": "4 Mins"
+    },
+    {
+      "id": "a6",
+      "type": "assignment",
+      "course": "Time series forecasting",
+      "title": "Only From Practice Assignment: Test Your Understanding",
+      "when": "14 May 23 6:30 PM - 19 May 23 6:30 PM"
+    }
   ],
   "categories": [
-    { "key": "fee", "label": "Fee related enquiries", "icon": "DollarSign", "items": ["Payment not reflecting in Olympus", "Access blocked", "Make payment"] },
-    { "key": "olympus", "label": "Olympus Issues", "icon": "BookOpen", "items": ["Something is not working", "Access blocked", "I need help with something else"] },
-    { "key": "career", "label": "Career Services", "icon": "Briefcase", "items": ["Excelerate", "Career Prep", "I need help with something else"] },
-    { "key": "projects", "label": "Projects", "icon": "Folder", "items": ["When will I receive the solution?", "I need further explanation", "I need detailed feedback"] },
-    { "key": "material", "label": "Learning Material", "icon": "ListVideo", "items": ["Something incorrect in the content", "I want to understand a topic", "I am looking for references"] },
-    { "key": "sessions", "label": "Live Session", "icon": "Video", "items": ["Cannot find session recordings", "Cannot find session material", "Need help with my schedule"] },
-    { "key": "quizzes", "label": "Quizzes", "icon": "MessagesSquare", "items": ["Error/stuck with code", "I have a conceptual doubt", "Quiz question is unclear"] },
-    { "key": "other", "label": "Others", "icon": "ClipboardList", "items": ["Hackathon", "Graduation/Certificate Related", "Inquire about other programs"] },
-    { "key": "feedback", "label": "Feedback", "icon": "MessageSquare", "items": ["Share a Testimonial", "Content Feedback", "Program Feedback"] }
+    {
+      "key": "fee",
+      "label": "Fee related enquiries",
+      "icon": "DollarSign",
+      "items": [
+        "Payment not reflecting in Olympus",
+        "Access blocked",
+        "Make payment"
+      ]
+    },
+    {
+      "key": "olympus",
+      "label": "Olympus Issues",
+      "icon": "BookOpen",
+      "items": [
+        "Something is not working",
+        "Access blocked",
+        "I need help with something else"
+      ]
+    },
+    {
+      "key": "career",
+      "label": "Career Services",
+      "icon": "Briefcase",
+      "items": [
+        "Excelerate",
+        "Career Prep",
+        "I need help with something else"
+      ]
+    },
+    {
+      "key": "projects",
+      "label": "Projects",
+      "icon": "Folder",
+      "items": [
+        "When will I receive the solution?",
+        "I need further explanation",
+        "I need detailed feedback"
+      ]
+    },
+    {
+      "key": "material",
+      "label": "Learning Material",
+      "icon": "ListVideo",
+      "items": [
+        "Something incorrect in the content",
+        "I want to understand a topic",
+        "I am looking for references"
+      ]
+    },
+    {
+      "key": "sessions",
+      "label": "Live Session",
+      "icon": "Video",
+      "items": [
+        "Cannot find session recordings",
+        "Cannot find session material",
+        "Need help with my schedule"
+      ]
+    },
+    {
+      "key": "quizzes",
+      "label": "Quizzes",
+      "icon": "MessagesSquare",
+      "items": [
+        "Error/stuck with code",
+        "I have a conceptual doubt",
+        "Quiz question is unclear"
+      ]
+    },
+    {
+      "key": "other",
+      "label": "Others",
+      "icon": "ClipboardList",
+      "items": [
+        "Hackathon",
+        "Graduation/Certificate Related",
+        "Inquire about other programs"
+      ]
+    },
+    {
+      "key": "feedback",
+      "label": "Feedback",
+      "icon": "MessageSquare",
+      "items": [
+        "Share a Testimonial",
+        "Content Feedback",
+        "Program Feedback"
+      ]
+    }
   ],
   "glaideResponses": {
     "fee": "I can help with fee queries. Most installment mismatches clear within 24 hours of payment. Could you tell me the date and amount you paid?",
@@ -44,20 +223,58 @@
   },
   "projectPicker": {
     "top": [
-      { "course": "Agentic AI Foundations", "name": "Apple HBR Report Document Q&A" },
-      { "course": "Business Applications with Agentic AI", "name": "AI-powered EHR Assistant" },
-      { "course": "Advanced Agentic AI Solutions", "name": "Last-Mile Delivery Exception Handling" }
+      {
+        "course": "Agentic AI Foundations",
+        "name": "Apple HBR Report Document Q&A"
+      },
+      {
+        "course": "Business Applications with Agentic AI",
+        "name": "AI-powered EHR Assistant"
+      },
+      {
+        "course": "Advanced Agentic AI Solutions",
+        "name": "Last-Mile Delivery Exception Handling"
+      }
     ],
     "courses": [
-      { "course": "Agentic AI Foundations", "projects": ["Apple HBR Report Document Q&A", "Prompt Chaining Workbook", "Tool-Use Mini Project"] },
-      { "course": "Business Applications with Agentic AI", "projects": ["AI-powered EHR Assistant", "Retail Demand Forecaster", "Support Ticket Router"] },
-      { "course": "Advanced Agentic AI Solutions", "projects": ["Last-Mile Delivery Exception Handling", "Multi-Agent Research Assistant", "Agentic Workflow Orchestrator"] }
+      {
+        "course": "Agentic AI Foundations",
+        "projects": [
+          "Apple HBR Report Document Q&A",
+          "Prompt Chaining Workbook",
+          "Tool-Use Mini Project"
+        ]
+      },
+      {
+        "course": "Business Applications with Agentic AI",
+        "projects": [
+          "AI-powered EHR Assistant",
+          "Retail Demand Forecaster",
+          "Support Ticket Router"
+        ]
+      },
+      {
+        "course": "Advanced Agentic AI Solutions",
+        "projects": [
+          "Last-Mile Delivery Exception Handling",
+          "Multi-Agent Research Assistant",
+          "Agentic Workflow Orchestrator"
+        ]
+      }
     ]
   },
   "projectIntents": [
     {
       "id": "extension",
-      "keywords": ["deadline", "more time", "extend", "extension", "missed", "late", "submit late"],
+      "keywords": [
+        "deadline",
+        "more time",
+        "extend",
+        "extension",
+        "missed",
+        "late",
+        "submit late"
+      ],
       "shape": "action",
       "response": "Yes, I can raise an extension request to your program team for \"{project}\". They will review and confirm.",
       "actionLabel": "Request extension",
@@ -66,7 +283,18 @@
     },
     {
       "id": "reeval",
-      "keywords": ["re-eval", "reevaluat", "re-evaluat", "graded wrong", "regrade", "re-grade", "marks are wrong", "score is wrong", "mis-scored", "wrongly graded"],
+      "keywords": [
+        "re-eval",
+        "reevaluat",
+        "re-evaluat",
+        "graded wrong",
+        "regrade",
+        "re-grade",
+        "marks are wrong",
+        "score is wrong",
+        "mis-scored",
+        "wrongly graded"
+      ],
       "shape": "action",
       "response": "I can request a re-evaluation for \"{project}\". A short note on what felt mis-scored helps the reviewer.",
       "actionLabel": "Request re-evaluation",
@@ -75,13 +303,30 @@
     },
     {
       "id": "solution_timing",
-      "keywords": ["when will i", "sample solution", "solution", "when do i get", "release"],
+      "keywords": [
+        "when will i",
+        "sample solution",
+        "solution",
+        "when do i get",
+        "release"
+      ],
       "shape": "lookup",
       "response": "Sample solutions release 7 days after the submission deadline for \"{project}\". You will get a notification when it is available."
     },
     {
       "id": "code",
-      "keywords": ["error", "stuck", "code", "exception", "traceback", "bug", "not working", "fails", "accessdenied", "credentials"],
+      "keywords": [
+        "error",
+        "stuck",
+        "code",
+        "exception",
+        "traceback",
+        "bug",
+        "not working",
+        "fails",
+        "accessdenied",
+        "credentials"
+      ],
       "shape": "mentor",
       "response": "Let's debug \"{project}\" together. Share the exact error message or the line it fails on, and tell me what you have already tried.",
       "actionLabel": "Talk to a human",
@@ -90,7 +335,16 @@
     },
     {
       "id": "concept",
-      "keywords": ["understand", "concept", "doubt", "confused", "explain", "how does", "what is", "why does"],
+      "keywords": [
+        "understand",
+        "concept",
+        "doubt",
+        "confused",
+        "explain",
+        "how does",
+        "what is",
+        "why does"
+      ],
       "shape": "mentor",
       "response": "Happy to explain. Tell me which part of \"{project}\" is unclear and I will walk you through it step by step.",
       "actionLabel": "Talk to a human",
@@ -117,52 +371,129 @@
   "topicFlows": {
     "fee": {
       "question": "Sure, let's sort the fee out. What is this about?",
-      "options": ["Installment not updated", "Payment failed", "Refund status", "Invoice or receipt"],
+      "options": [
+        "Installment not updated",
+        "Payment failed",
+        "Refund status",
+        "Invoice or receipt"
+      ],
       "reply": "Thanks. Most payment updates reflect within 24 hours. Could you share the date and amount so I can check the status?"
     },
     "olympus": {
       "question": "Let's get Olympus working. Where are you seeing the issue?",
-      "options": ["Page not loading", "Video not playing", "Login trouble", "Something looks broken"],
+      "options": [
+        "Page not loading",
+        "Video not playing",
+        "Login trouble",
+        "Something looks broken"
+      ],
       "reply": "Got it. A hard refresh or clearing the cache fixes most of these. Which browser and device are you on?"
     },
     "career": {
       "question": "Happy to help with Career Services. What do you need?",
-      "options": ["Resume review", "Mock interview", "Job referrals", "Profile feedback"],
+      "options": [
+        "Resume review",
+        "Mock interview",
+        "Job referrals",
+        "Profile feedback"
+      ],
       "reply": "Great choice. I can connect you with the Career team for this. Want me to set that up?"
     },
     "projects": {
       "question": "Which project is giving you trouble?",
-      "options": ["Apple HBR Report Document Q&A", "AI-powered EHR Assistant", "Last-Mile Delivery Exception Handling"],
+      "options": [
+        "Apple HBR Report Document Q&A",
+        "AI-powered EHR Assistant",
+        "Last-Mile Delivery Exception Handling"
+      ],
       "reply": "Got it. Is this about the brief, a submission error, or the feedback you received?"
     },
     "material": {
       "question": "Which module do you need help with?",
-      "options": ["Agentic AI Foundations", "Business Applications with Agentic AI", "Advanced Agentic AI Solutions"],
+      "options": [
+        "Agentic AI Foundations",
+        "Business Applications with Agentic AI",
+        "Advanced Agentic AI Solutions"
+      ],
       "reply": "Thanks. Tell me what you are looking for and I will point you to the right content."
     },
     "sessions": {
       "question": "Which session do you need help with?",
-      "options": ["Multi-Agent Systems", "Testing and Evaluation of Agentic Systems", "Securing Agentic AI Solutions", "Multimodal Agentic AI"],
+      "options": [
+        "Multi-Agent Systems",
+        "Testing and Evaluation of Agentic Systems",
+        "Securing Agentic AI Solutions",
+        "Multimodal Agentic AI"
+      ],
       "reply": "Got it. Do you need the recording, an attendance fix, or something else?"
     },
     "quizzes": {
       "question": "Which quiz do you need help with?",
-      "options": ["Introduction to AI Agents", "Tools and Memory in Agents", "Planning and Reasoning", "Multi-Agent Systems", "Testing and Evaluation", "Securing Agentic AI Solutions"],
+      "options": [
+        "Introduction to AI Agents",
+        "Tools and Memory in Agents",
+        "Planning and Reasoning",
+        "Multi-Agent Systems",
+        "Testing and Evaluation",
+        "Securing Agentic AI Solutions"
+      ],
       "reply": "Thanks. Is this about a locked attempt, your score, or a question you want explained?"
     },
     "other": {
       "question": "No problem. What can I help you with?",
-      "options": ["Certificate issue", "Account or profile", "Technical glitch", "Something else"],
+      "options": [
+        "Certificate issue",
+        "Account or profile",
+        "Technical glitch",
+        "Something else"
+      ],
       "reply": "Got it. Tell me a bit more and I will help or route this to the right team."
     },
     "feedback": {
       "question": "Thanks for sharing feedback. What is it about?",
-      "options": ["Course content", "Mentor or session", "Platform experience", "A suggestion"],
+      "options": [
+        "Course content",
+        "Mentor or session",
+        "Platform experience",
+        "A suggestion"
+      ],
       "reply": "Appreciate it. Go ahead and share the details, I am listening."
     }
   },
   "threads": [
-    { "id": "th1", "category": "quizzes", "title": "Quiz attempt locked", "status": "resolved", "timestamp": "01 Jun 26 3:20 PM", "messages": [ { "role": "user", "text": "My quiz attempt got locked midway." }, { "role": "bot", "text": "That happens on a dropped connection. I have reset your attempt, try again now." } ] },
-    { "id": "th2", "category": "olympus", "title": "Dashboard not loading", "status": "active", "timestamp": "29 May 26 10:05 AM", "messages": [ { "role": "user", "text": "The dashboard is stuck on a blank screen." }, { "role": "bot", "text": "A hard refresh fixes this most of the time. Did that help?" } ] }
+    {
+      "id": "th1",
+      "category": "quizzes",
+      "title": "Quiz attempt locked",
+      "status": "resolved",
+      "timestamp": "01 Jun 26 3:20 PM",
+      "messages": [
+        {
+          "role": "user",
+          "text": "My quiz attempt got locked midway."
+        },
+        {
+          "role": "bot",
+          "text": "That happens on a dropped connection. I have reset your attempt, try again now."
+        }
+      ]
+    },
+    {
+      "id": "th2",
+      "category": "olympus",
+      "title": "Dashboard not loading",
+      "status": "active",
+      "timestamp": "29 May 26 10:05 AM",
+      "messages": [
+        {
+          "role": "user",
+          "text": "The dashboard is stuck on a blank screen."
+        },
+        {
+          "role": "bot",
+          "text": "A hard refresh fixes this most of the time. Did that help?"
+        }
+      ]
+    }
   ]
 }
