@@ -37,9 +37,6 @@ export type Ticket = {
 
 type SupportState = {
   tickets: Ticket[];
-  /** Derived from `tickets` for backward compat; removed once callers migrate. */
-  openTickets: Ticket[];
-  closedTickets: Ticket[];
   threads: Thread[];
   getThread: (id: string) => Thread | undefined;
   createThread: (seed: { category: string; title: string; messages: ChatMessage[] }) => string;
@@ -60,8 +57,6 @@ export function SupportProvider({ children }: { children: ReactNode }) {
   const value = useMemo<SupportState>(
     () => ({
       tickets,
-      openTickets: tickets.filter((t) => t.status === "open"),
-      closedTickets: tickets.filter((t) => t.status === "closed"),
       threads,
       getThread: (id) => threads.find((t) => t.id === id),
       createThread: (seed) => {

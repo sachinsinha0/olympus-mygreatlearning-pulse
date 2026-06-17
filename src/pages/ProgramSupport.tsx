@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Box, Button, Card, Stack, Tab, Tabs, Typography } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +18,14 @@ import {
 } from "lucide-react";
 import { TopNav } from "../components/TopNav/TopNav";
 import { useSupport, type Thread, type Ticket } from "../context/SupportContext";
+import {
+  filterByStatus,
+  statusCounts,
+  STATUS_FILTERS,
+  STATUS_LABELS,
+  type StatusFilter,
+  type TicketStatus,
+} from "../lib/support/tickets";
 
 const CATEGORY: Record<string, { Icon: LucideIcon; bg: string; color: string }> = {
   payment: { Icon: DollarSign, bg: "#ffdcc0", color: "#8d4f00" },
@@ -38,9 +46,11 @@ const CATEGORY: Record<string, { Icon: LucideIcon; bg: string; color: string }> 
 
 export function ProgramSupport() {
   const navigate = useNavigate();
-  const { openTickets, closedTickets, threads } = useSupport();
+  const { tickets, threads } = useSupport();
   const [tab, setTab] = useState(0);
-  const tickets = tab === 0 ? openTickets : closedTickets;
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
+  const counts = useMemo(() => statusCounts(tickets), [tickets]);
+  const visibleTickets = useMemo(() => filterByStatus(tickets, statusFilter), [tickets, statusFilter]);
 
   return (
     <Box sx={{ minHeight: "100vh", bgcolor: "background.paper", display: "flex", flexDirection: "column" }}>
@@ -121,12 +131,11 @@ export function ProgramSupport() {
                 },
               }}
             >
-              <Tab label="Open Tickets" disableRipple />
-              <Tab label="Closed Tickets" disableRipple />
-              <Tab label="Support Threads" disableRipple />
+              <Tab label="Tickets" disableRipple />
+              <Tab label="Glaide Chat" disableRipple />
             </Tabs>
 
-            {tab === 2 ? (
+            {tab === 1 ? (
               <Box>
                 {threads.length === 0 ? (
                   <ThreadsEmptyState onAsk={() => navigate("/program_support/ask")} />
@@ -143,9 +152,14 @@ export function ProgramSupport() {
               </Box>
             ) : (
               <Box>
-                {tickets.map((t, i) => (
-                  <TicketRow key={t.id} ticket={t} divider={i < tickets.length - 1} />
-                ))}
+                <TicketFilterBar counts={counts} value={statusFilter} onChange={setStatusFilter} />
+                {visibleTickets.length === 0 ? (
+                  <TicketsEmptyState filter={statusFilter} />
+                ) : (
+                  visibleTickets.map((t, i) => (
+                    <TicketRow key={t.id} ticket={t} divider={i < visibleTickets.length - 1} />
+                  ))
+                )}
               </Box>
             )}
           </Card>
@@ -324,6 +338,8 @@ function TicketRow({ ticket, divider }: { ticket: Ticket; divider: boolean }) {
         </Typography>
       </Box>
 
+      <TicketStatusChip status={ticket.status} />
+
       <Typography
         sx={{
           fontSize: 12,
@@ -335,6 +351,100 @@ function TicketRow({ ticket, divider }: { ticket: Ticket; divider: boolean }) {
       >
         {ticket.timestamp}
       </Typography>
+    </Stack>
+  );
+}
+
+function TicketStatusChip({ status }: { status: TicketStatus }) {
+  return (
+    <Box
+      sx={(theme) => {
+        const tone = {
+          open: { bg: theme.palette.primary.light, fg: theme.palette.primary.main },
+          closed: { bg: alpha(theme.palette.text.primary, 0.08), fg: theme.palette.text.secondary },
+          reopened: {
+            bg: theme.palette.extended.warning.colorContainer,
+            fg: theme.palette.extended.warning.color,
+          },
+        }[status];
+        return {
+          flexShrink: 0,
+          px: 1,
+          py: 0.25,
+          borderRadius: 999,
+          bgcolor: tone.bg,
+          color: tone.fg,
+          fontSize: 12,
+          fontWeight: 600,
+          lineHeight: "18px",
+          letterSpacing: "-0.1px",
+          whiteSpace: "nowrap",
+        };
+      }}
+    >
+      {STATUS_LABELS[status]}
+    </Box>
+  );
+}
+
+function TicketFilterBar({
+  counts,
+  value,
+  onChange,
+}: {
+  counts: Record<StatusFilter, number>;
+  value: StatusFilter;
+  onChange: (filter: StatusFilter) => void;
+}) {
+  return (
+    <Stack
+      direction="row"
+      gap={1}
+      sx={{ flexWrap: "wrap", px: 2, py: 1.5, borderBottom: 1, borderColor: "outlineVariant.main" }}
+    >
+      {STATUS_FILTERS.map((f) => {
+        const selected = value === f;
+        const label = f === "all" ? "All" : STATUS_LABELS[f];
+        return (
+          <Box
+            key={f}
+            component="button"
+            type="button"
+            onClick={() => onChange(f)}
+            aria-pressed={selected}
+            sx={(theme) => ({
+              cursor: "pointer",
+              fontFamily: "inherit",
+              fontSize: 13,
+              fontWeight: 500,
+              letterSpacing: "-0.1px",
+              px: 1.5,
+              py: 0.625,
+              borderRadius: 999,
+              border: `1px solid ${selected ? theme.palette.primary.main : theme.palette.outlineVariant.main}`,
+              bgcolor: selected ? theme.palette.primary.light : "transparent",
+              color: selected ? theme.palette.primary.main : theme.palette.text.primary,
+              transition: "background-color 140ms ease, border-color 140ms ease, color 140ms ease",
+              "&:hover": { borderColor: theme.palette.primary.main },
+            })}
+          >
+            {label} {counts[f]}
+          </Box>
+        );
+      })}
+    </Stack>
+  );
+}
+
+function TicketsEmptyState({ filter }: { filter: StatusFilter }) {
+  const message =
+    filter === "all" ? "No tickets yet" : `No ${STATUS_LABELS[filter].toLowerCase()} tickets`;
+  return (
+    <Stack alignItems="center" gap={1} sx={{ py: 4, px: 2, textAlign: "center" }}>
+      <Box sx={{ color: "text.secondary", display: "flex" }}>
+        <ClipboardList size={28} strokeWidth={2} />
+      </Box>
+      <Typography sx={{ fontSize: 16, fontWeight: 500, color: "text.primary" }}>{message}</Typography>
     </Stack>
   );
 }
