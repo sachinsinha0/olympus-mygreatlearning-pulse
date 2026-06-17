@@ -371,7 +371,7 @@ function TicketStatusChip({ status }: { status: TicketStatus }) {
           flexShrink: 0,
           px: 1,
           py: 0.25,
-          borderRadius: 999,
+          borderRadius: "8px",
           bgcolor: tone.bg,
           color: tone.fg,
           fontSize: 12,
