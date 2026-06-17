@@ -420,7 +420,7 @@ function TicketFilterBar({
               letterSpacing: "-0.1px",
               px: 1.5,
               py: 0.625,
-              borderRadius: 999,
+              borderRadius: "8px",
               border: `1px solid ${selected ? theme.palette.primary.main : theme.palette.outlineVariant.main}`,
               bgcolor: selected ? theme.palette.primary.light : "transparent",
               color: selected ? theme.palette.primary.main : theme.palette.text.primary,
