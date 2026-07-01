@@ -13,6 +13,7 @@ import { SubscriptionPage } from "./pages/Pulse/SubscriptionPage";
 import { ProgramSupport } from "./pages/ProgramSupport";
 import { SupportProvider } from "./context/SupportContext";
 import { AskQuestion } from "./pages/AskQuestion";
+import { TopicCompose } from "./pages/TopicCompose";
 import { GlaideChat } from "./pages/GlaideChat";
 import { GlaideChatMock } from "./pages/GlaideChatMock";
 import { ProtoGuidedSteps } from "./pages/ProtoGuidedSteps";
@@ -49,6 +50,7 @@ const router = createBrowserRouter([
       { path: "/courses/:id", element: <CourseDetail /> },
       { path: "/program_support", element: <ProgramSupport /> },
       { path: "/program_support/ask", element: <AskQuestion /> },
+      { path: "/program_support/glaide", element: <TopicCompose /> },
       { path: "/program_support/chat", element: <GlaideChat /> },
       { path: "/program_support/chat/:threadId", element: <GlaideChat /> },
       { path: "/program_support/chat-mock", element: <GlaideChatMock /> },

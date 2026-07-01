@@ -120,93 +120,39 @@
   "categories": [
     {
       "key": "fee",
-      "label": "Fee related enquiries",
+      "label": "Payment",
       "icon": "DollarSign",
-      "items": [
-        "Payment not reflecting in Olympus",
-        "Access blocked",
-        "Make payment"
-      ]
+      "description": "Raise a payment or invoice query, or restore access that has been blocked on your account."
     },
     {
       "key": "olympus",
-      "label": "Olympus Issues",
-      "icon": "BookOpen",
-      "items": [
-        "Something is not working",
-        "Access blocked",
-        "I need help with something else"
-      ]
-    },
-    {
-      "key": "career",
-      "label": "Career Services",
-      "icon": "Briefcase",
-      "items": [
-        "Excelerate",
-        "Career Prep",
-        "I need help with something else"
-      ]
-    },
-    {
-      "key": "projects",
-      "label": "Projects",
-      "icon": "Folder",
-      "items": [
-        "When will I receive the solution?",
-        "I need further explanation",
-        "I need detailed feedback"
-      ]
+      "label": "Olympus",
+      "icon": "MonitorSmartphone",
+      "description": "Report a technical issue on Olympus or a problem with your lab environment."
     },
     {
       "key": "material",
-      "label": "Learning Material",
-      "icon": "ListVideo",
-      "items": [
-        "Something incorrect in the content",
-        "I want to understand a topic",
-        "I am looking for references"
-      ]
-    },
-    {
-      "key": "sessions",
-      "label": "Live Session",
-      "icon": "Video",
-      "items": [
-        "Cannot find session recordings",
-        "Cannot find session material",
-        "Need help with my schedule"
-      ]
+      "label": "Course Content",
+      "icon": "Tv",
+      "description": "Clear a doubt, flag something incorrect in the content, or find additional learning materials."
     },
     {
       "key": "quizzes",
-      "label": "Quizzes",
-      "icon": "MessagesSquare",
-      "items": [
-        "Error/stuck with code",
-        "I have a conceptual doubt",
-        "Quiz question is unclear"
-      ]
+      "label": "Assessment (Quiz, Projects)",
+      "icon": "FileText",
+      "description": "Extend a deadline, request a reattempt, fix a code error, or ask for a re-evaluation."
+    },
+    {
+      "key": "sessions",
+      "label": "Live Sessions",
+      "icon": "Video",
+      "description": "Fix an attendance issue, find a recording you missed, or sort out your live session schedule."
     },
     {
       "key": "other",
       "label": "Others",
-      "icon": "ClipboardList",
-      "items": [
-        "Hackathon",
-        "Graduation/Certificate Related",
-        "Inquire about other programs"
-      ]
-    },
-    {
-      "key": "feedback",
-      "label": "Feedback",
-      "icon": "MessageSquare",
-      "items": [
-        "Share a Testimonial",
-        "Content Feedback",
-        "Program Feedback"
-      ]
+      "icon": "CircleHelp",
+      "description": "Ask about a certificate or your learning schedule, or get clarity on a program policy."
     }
   ],
   "glaideResponses": {
@@ -216,7 +162,7 @@
     "projects": "Happy to help with your project. Is this about the brief, a submission error, or feedback you received?",
     "material": "I can point you to the right module content. Which topic is giving you trouble?",
     "sessions": "For live sessions I can share recordings or attendance fixes. Which session is this about?",
-    "quizzes": "Let us sort the quiz out. Is this about a score, a locked attempt, or a question you want explained?",
+    "quizzes": "Let's sort this out. Could you share a bit more about what's happening so I can point you the right way?",
     "other": "Tell me a bit more about the issue and I will do my best to help.",
     "feedback": "Thanks for sharing feedback. I am listening, go ahead.",
     "fallback": "I want to make sure I get this right. Could you add a little more detail?"
@@ -458,6 +404,139 @@
         "A suggestion"
       ],
       "reply": "Appreciate it. Go ahead and share the details, I am listening."
+    }
+  },
+  "topicCompose": {
+    "fee": {
+      "topicName": "Payment",
+      "entryType": "intent",
+      "intents": [
+        "I have a payment or invoice query",
+        "My access is blocked",
+        "I need help with something else"
+      ]
+    },
+    "olympus": {
+      "topicName": "Olympus",
+      "entryType": "intent",
+      "intents": [
+        "I am facing a technical issue on Olympus",
+        "I am facing an issue with lab",
+        "I need help with something else"
+      ]
+    },
+    "material": {
+      "topicName": "Course Content",
+      "entryType": "entity",
+      "entityNoun": "learning material",
+      "recentLabel": "Recent learning material",
+      "findLabel": "Find more learning material",
+      "recent": [
+        {
+          "id": "m-welcome",
+          "kind": "material",
+          "title": "Welcome Note",
+          "course": "Program Overview",
+          "bg": "#dee0ff",
+          "color": "#4355b9"
+        },
+        {
+          "id": "m-mas",
+          "kind": "material",
+          "title": "Multi-Agent Systems — Slides",
+          "course": "Agentic AI Foundations",
+          "bg": "#cae6ff",
+          "color": "#006493"
+        }
+      ],
+      "catalog": [
+        { "course": "Agentic AI Foundations", "items": ["Multi-Agent Systems — Slides", "Tool Use — Reading", "Prompting Patterns Handout"] },
+        { "course": "Business Applications with Agentic AI", "items": ["EHR Assistant — Case Study", "Retail Demand — Notebook"] },
+        { "course": "Designing and Building Agentic Systems", "items": ["Week 9 — Lecture Notes", "Evaluation Rubric"] }
+      ],
+      "intents": [
+        "I have a doubt or need an explanation",
+        "Something looks incorrect in the content",
+        "I am looking for additional materials",
+        "I need help with something else"
+      ]
+    },
+    "sessions": {
+      "topicName": "Live Sessions",
+      "entryType": "session",
+      "catalog": [
+        { "course": "Agentic AI Foundations", "sessions": ["Multi-Agent Systems", "Planning and Reasoning"] },
+        { "course": "Business Applications with Agentic AI", "sessions": ["Securing Agentic AI Solutions", "Multimodal Agentic AI"] },
+        { "course": "Designing and Building Agentic Systems", "sessions": ["Testing and Evaluation of Agentic Systems"] }
+      ],
+      "intents": [
+        "I have an attendance issue",
+        "I am not able to find the recording",
+        "I need help with my live session schedule",
+        "I need help with something else"
+      ]
+    },
+    "other": {
+      "topicName": "Others",
+      "entryType": "intent",
+      "intents": [
+        "I have a certificate related query",
+        "I have learning schedule query",
+        "I need clarification regarding program policy",
+        "I need help with something else"
+      ]
+    },
+    "quizzes": {
+      "topicName": "Assessment",
+      "entryType": "entity",
+      "entityNoun": "quiz or project",
+      "recentLabel": "Recent quizzes & projects",
+      "findLabel": "Find another quiz or project",
+      "recent": [
+        {
+          "id": "q-w9",
+          "kind": "quiz",
+          "title": "Week 9 : Graded Quiz",
+          "course": "Designing and Building Agentic Systems",
+          "bg": "#dee0ff",
+          "color": "#4355b9"
+        },
+        {
+          "id": "p-ehr",
+          "kind": "project",
+          "title": "AI-powered EHR Assistant",
+          "course": "Business Applications with Agentic AI",
+          "bg": "#ffdcc0",
+          "color": "#8d4f00"
+        },
+        {
+          "id": "q-mas",
+          "kind": "quiz",
+          "title": "Multi-Agent Systems",
+          "course": "Agentic AI Foundations",
+          "bg": "#cae6ff",
+          "color": "#006493"
+        }
+      ],
+      "catalog": [
+        { "course": "Agentic AI Foundations", "quizzes": ["Introduction to AI Agents", "Multi-Agent Systems"], "projects": ["Apple HBR Report Document Q&A"] },
+        { "course": "Business Applications with Agentic AI", "quizzes": ["Tools and Memory in Agents"], "projects": ["AI-powered EHR Assistant", "Retail Demand Forecaster"] },
+        { "course": "Designing and Building Agentic Systems", "quizzes": ["Week 9 : Graded Quiz"], "projects": ["Last-Mile Delivery Exception Handling"] }
+      ],
+      "quizIntents": [
+        "I want to extend my submission deadline",
+        "I want a reattempt",
+        "I am getting an error/stuck with code",
+        "I need an explanation of the right answer, feedback or sample solution",
+        "I need help with something else"
+      ],
+      "projectIntents": [
+        "I want to extend my submission deadline",
+        "I am getting an error/stuck with code",
+        "I need an explanation of the right answer, feedback or sample solution",
+        "I need help with project re-evaluation",
+        "I need help with something else"
+      ]
     }
   },
   "threads": [
