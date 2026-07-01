@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import { Box, Button, Card, Stack, Tab, Tabs, Typography } from "@mui/material";
 import { alpha } from "@mui/material/styles";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   DollarSign,
   MessageCircle,
@@ -18,6 +18,13 @@ import {
 } from "lucide-react";
 import { TopNav } from "../components/TopNav/TopNav";
 import { useSupport, type Thread, type Ticket } from "../context/SupportContext";
+import {
+  filterByStatus,
+  STATUS_FILTERS,
+  STATUS_LABELS,
+  type StatusFilter,
+  type TicketStatus,
+} from "../lib/support/tickets";
 
 const CATEGORY: Record<string, { Icon: LucideIcon; bg: string; color: string }> = {
   payment: { Icon: DollarSign, bg: "#ffdcc0", color: "#8d4f00" },
@@ -38,9 +45,12 @@ const CATEGORY: Record<string, { Icon: LucideIcon; bg: string; color: string }> 
 
 export function ProgramSupport() {
   const navigate = useNavigate();
-  const { openTickets, closedTickets, threads } = useSupport();
-  const [tab, setTab] = useState(0);
-  const tickets = tab === 0 ? openTickets : closedTickets;
+  const location = useLocation();
+  const { tickets, threads } = useSupport();
+  // "See All Chats" from the help page deep-links into the Glaide Chat tab.
+  const [tab, setTab] = useState(location.state?.tab === "glaide" ? 1 : 0);
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
+  const visibleTickets = useMemo(() => filterByStatus(tickets, statusFilter), [tickets, statusFilter]);
 
   return (
     <Box sx={{ minHeight: "100vh", bgcolor: "background.paper", display: "flex", flexDirection: "column" }}>
@@ -105,7 +115,7 @@ export function ProgramSupport() {
                   textTransform: "none",
                   color: "text.primary",
                 },
-                "& .MuiTab-root.Mui-selected": { color: "primary.main", fontWeight: 600 },
+                "& .MuiTab-root.Mui-selected": { color: "primary.main" },
                 // Material 3 primary-tab indicator: hugs the label, not the full column
                 "& .MuiTabs-indicator": {
                   height: 3,
@@ -121,12 +131,11 @@ export function ProgramSupport() {
                 },
               }}
             >
-              <Tab label="Open Tickets" disableRipple />
-              <Tab label="Closed Tickets" disableRipple />
-              <Tab label="Support Threads" disableRipple />
+              <Tab label="Tickets" disableRipple />
+              <Tab label="Glaide Chat" disableRipple />
             </Tabs>
 
-            {tab === 2 ? (
+            {tab === 1 ? (
               <Box>
                 {threads.length === 0 ? (
                   <ThreadsEmptyState onAsk={() => navigate("/program_support/ask")} />
@@ -143,9 +152,19 @@ export function ProgramSupport() {
               </Box>
             ) : (
               <Box>
-                {tickets.map((t, i) => (
-                  <TicketRow key={t.id} ticket={t} divider={i < tickets.length - 1} />
-                ))}
+                <TicketFilterBar value={statusFilter} onChange={setStatusFilter} />
+                {visibleTickets.length === 0 ? (
+                  <TicketsEmptyState filter={statusFilter} />
+                ) : (
+                  visibleTickets.map((t, i) => (
+                    <Fragment key={t.id}>
+                      <TicketRow ticket={t} />
+                      {i < visibleTickets.length - 1 && (
+                        <Box sx={{ mx: 2, borderBottom: 1, borderColor: "outlineVariant.main" }} />
+                      )}
+                    </Fragment>
+                  ))
+                )}
               </Box>
             )}
           </Card>
@@ -162,9 +181,47 @@ export function ProgramSupport() {
           textAlign: "center",
         }}
       >
-        <Typography sx={{ fontSize: 13, color: "text.secondary" }}>
-          © 2026 All rights reserved
-        </Typography>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="center"
+          gap={1}
+          sx={{ flexWrap: "wrap", px: 2 }}
+        >
+          <Typography sx={{ fontSize: 13, color: "text.secondary" }}>
+            © 2013 - 2026 Great Learning Education Services Pvt. Ltd. All rights reserved
+          </Typography>
+          <Typography component="span" sx={{ fontSize: 13, color: "text.secondary" }}>
+            ·
+          </Typography>
+          <Typography
+            component="a"
+            href="#"
+            sx={{
+              fontSize: 13,
+              color: "text.secondary",
+              textDecoration: "none",
+              "&:hover": { textDecoration: "underline" },
+            }}
+          >
+            Privacy
+          </Typography>
+          <Typography component="span" sx={{ fontSize: 13, color: "text.secondary" }}>
+            ·
+          </Typography>
+          <Typography
+            component="a"
+            href="#"
+            sx={{
+              fontSize: 13,
+              color: "text.secondary",
+              textDecoration: "none",
+              "&:hover": { textDecoration: "underline" },
+            }}
+          >
+            Terms
+          </Typography>
+        </Stack>
       </Box>
     </Box>
   );
@@ -185,7 +242,7 @@ function Hero({ onAsk }: { onAsk: () => void }) {
             fontSize: { xs: 24, md: 28 },
             fontWeight: 600,
             lineHeight: { xs: "30px", md: "32px" },
-            letterSpacing: "-0.5px",
+            letterSpacing: "-0.4px",
             color: "text.primary",
           }}
         >
@@ -215,6 +272,7 @@ function Hero({ onAsk }: { onAsk: () => void }) {
               fontSize: 16,
               fontWeight: 500,
               lineHeight: 1.5,
+              letterSpacing: "0.4px",
               borderRadius: "8px",
               minHeight: 40,
               py: "7px",
@@ -234,6 +292,7 @@ function Hero({ onAsk }: { onAsk: () => void }) {
               fontSize: 16,
               fontWeight: 500,
               lineHeight: 1.5,
+              letterSpacing: "0.4px",
               borderRadius: "8px",
               minHeight: 40,
               py: "7px",
@@ -261,7 +320,7 @@ function Hero({ onAsk }: { onAsk: () => void }) {
   );
 }
 
-function TicketRow({ ticket, divider }: { ticket: Ticket; divider: boolean }) {
+function TicketRow({ ticket }: { ticket: Ticket }) {
   const cat = CATEGORY[ticket.category] ?? CATEGORY.general;
   const { Icon } = cat;
   return (
@@ -273,16 +332,14 @@ function TicketRow({ ticket, divider }: { ticket: Ticket; divider: boolean }) {
         px: 2,
         py: 2,
         cursor: "pointer",
-        borderBottom: divider ? 1 : 0,
-        borderColor: "outlineVariant.main",
         transition: "background-color 120ms ease",
         "&:hover": { bgcolor: (t) => alpha(t.palette.primary.main, 0.08) },
       }}
     >
       <Box
         sx={{
-          width: 42,
-          height: 42,
+          width: 40,
+          height: 40,
           borderRadius: "50%",
           bgcolor: cat.bg,
           color: cat.color,
@@ -292,7 +349,7 @@ function TicketRow({ ticket, divider }: { ticket: Ticket; divider: boolean }) {
           justifyContent: "center",
         }}
       >
-        <Icon size={20} strokeWidth={2} />
+        <Icon size={24} strokeWidth={2} />
       </Box>
 
       <Box sx={{ minWidth: 0, flex: 1 }}>
@@ -324,17 +381,130 @@ function TicketRow({ ticket, divider }: { ticket: Ticket; divider: boolean }) {
         </Typography>
       </Box>
 
-      <Typography
-        sx={{
-          fontSize: 12,
-          color: "text.secondary",
-          letterSpacing: "-0.2px",
+      <Stack direction="row" alignItems="center" gap={1.5} sx={{ flexShrink: 0 }}>
+        <TicketStatusChip status={ticket.status} />
+        <Typography
+          sx={{
+            fontSize: 12,
+            color: "text.secondary",
+            letterSpacing: "-0.2px",
+            display: { xs: "none", sm: "block" },
+          }}
+        >
+          {ticket.timestamp}
+        </Typography>
+      </Stack>
+    </Stack>
+  );
+}
+
+function TicketStatusChip({ status }: { status: TicketStatus }) {
+  return (
+    <Box
+      sx={(theme) => {
+        const tone = {
+          // open → primaryContainer / onPrimaryContainer
+          open: { bg: theme.palette.primary.light, fg: theme.palette.primary.dark },
+          // closed → surfaceVariant / onSurfaceVariant
+          closed: { bg: "#e2e2ec", fg: theme.palette.text.secondary },
+          // reopened → warningContainer / onWarningContainer
+          reopened: {
+            bg: theme.palette.extended.warning.colorContainer,
+            fg: theme.palette.extended.warning.onColorContainer,
+          },
+        }[status];
+        return {
           flexShrink: 0,
-          display: { xs: "none", sm: "block" },
-        }}
-      >
-        {ticket.timestamp}
-      </Typography>
+          display: "inline-flex",
+          alignItems: "center",
+          height: 24,
+          px: 1.5,
+          borderRadius: "8px",
+          bgcolor: tone.bg,
+          color: tone.fg,
+          fontSize: 12,
+          fontWeight: 400,
+          lineHeight: "16px",
+          letterSpacing: "-0.2px",
+          whiteSpace: "nowrap",
+        };
+      }}
+    >
+      {STATUS_LABELS[status]}
+    </Box>
+  );
+}
+
+function TicketFilterBar({
+  value,
+  onChange,
+}: {
+  value: StatusFilter;
+  onChange: (filter: StatusFilter) => void;
+}) {
+  return (
+    <Stack
+      direction="row"
+      gap={1}
+      sx={{
+        flexWrap: "wrap",
+        px: 2,
+        py: 2,
+        bgcolor: "surfaceContainer.high",
+        borderBottom: 1,
+        borderColor: "outlineVariant.main",
+      }}
+    >
+      {STATUS_FILTERS.map((f) => {
+        const selected = value === f;
+        const label = f === "all" ? "All" : STATUS_LABELS[f];
+        return (
+          <Box
+            key={f}
+            component="button"
+            type="button"
+            onClick={() => onChange(f)}
+            aria-pressed={selected}
+            sx={(theme) => ({
+              cursor: "pointer",
+              fontFamily: "inherit",
+              display: "inline-flex",
+              alignItems: "center",
+              height: 24,
+              fontSize: 12,
+              fontWeight: 400,
+              letterSpacing: "-0.2px",
+              px: 1.5,
+              borderRadius: "8px",
+              // Selected → filled $primary + white; unselected → outlined $onSurfaceVariant
+              border: `1px solid ${selected ? theme.palette.primary.main : theme.palette.text.secondary}`,
+              bgcolor: selected ? theme.palette.primary.main : "transparent",
+              color: selected ? theme.palette.primary.contrastText : theme.palette.text.secondary,
+              transition: "background-color 140ms ease, border-color 140ms ease, color 140ms ease",
+              "&:hover": {
+                bgcolor: selected
+                  ? theme.palette.primary.main
+                  : alpha(theme.palette.text.primary, 0.08),
+              },
+            })}
+          >
+            {label}
+          </Box>
+        );
+      })}
+    </Stack>
+  );
+}
+
+function TicketsEmptyState({ filter }: { filter: StatusFilter }) {
+  const message =
+    filter === "all" ? "No tickets yet" : `No ${STATUS_LABELS[filter].toLowerCase()} tickets`;
+  return (
+    <Stack alignItems="center" gap={1} sx={{ py: 4, px: 2, textAlign: "center" }}>
+      <Box sx={{ color: "text.secondary", display: "flex" }}>
+        <ClipboardList size={28} strokeWidth={2} />
+      </Box>
+      <Typography sx={{ fontSize: 16, fontWeight: 500, color: "text.primary" }}>{message}</Typography>
     </Stack>
   );
 }
@@ -401,9 +571,9 @@ function ThreadRow({
           >
             {thread.title}
           </Typography>
-          {thread.status !== "active" && (
+          {thread.status === "ticketed" && (
             <Typography sx={{ fontSize: 12, color: "text.secondary", flexShrink: 0 }}>
-              {thread.status === "ticketed" ? "Ticket raised" : "Resolved"}
+              Ticket raised
             </Typography>
           )}
         </Stack>

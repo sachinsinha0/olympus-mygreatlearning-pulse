@@ -52,6 +52,7 @@ import {
   MessageCircle,
   Pencil,
   LifeBuoy,
+  FileText,
   type LucideIcon,
 } from "lucide-react";
 import { TopNav } from "../components/TopNav/TopNav";
@@ -742,17 +743,57 @@ type ComposerProps = {
   onAddHelp?: () => void;
 };
 
+type Att = { id: string; name: string; isImage: boolean; url?: string };
+
 const Composer = forwardRef<HTMLTextAreaElement, ComposerProps>(function Composer(
   { value, onChange, onSend, canSend, disabled, reduce, placeholder, hero, chips = [], showAddHelp, onAddHelp },
   ref
 ) {
+  const [files, setFiles] = useState<Att[]>([]);
+  const [dragging, setDragging] = useState(false);
+  const dragDepth = useRef(0);
+  const idc = useRef(0);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const addFiles = (list: FileList | null) => {
+    if (!list || list.length === 0) return;
+    const next = Array.from(list).map((f) => {
+      const isImage = f.type.startsWith("image/");
+      return { id: `att-${idc.current++}`, name: f.name, isImage, url: isImage ? URL.createObjectURL(f) : undefined } as Att;
+    });
+    setFiles((prev) => [...prev, ...next]);
+  };
+  const removeFile = (id: string) =>
+    setFiles((prev) => {
+      const f = prev.find((x) => x.id === id);
+      if (f?.url) URL.revokeObjectURL(f.url);
+      return prev.filter((x) => x.id !== id);
+    });
+  const clearFiles = () =>
+    setFiles((prev) => {
+      prev.forEach((f) => f.url && URL.revokeObjectURL(f.url));
+      return [];
+    });
+
+  // Send via parent; if it actually sent (canSend), also clear attachments.
+  const doSend = () => {
+    onSend();
+    if (canSend) clearFiles();
+  };
+
   const hasContextRow = chips.length > 0 || !!showAddHelp;
+
   return (
     <Box
+      onDragEnter={(e) => { e.preventDefault(); dragDepth.current += 1; setDragging(true); }}
+      onDragOver={(e) => { e.preventDefault(); }}
+      onDragLeave={(e) => { e.preventDefault(); dragDepth.current -= 1; if (dragDepth.current <= 0) { dragDepth.current = 0; setDragging(false); } }}
+      onDrop={(e) => { e.preventDefault(); dragDepth.current = 0; setDragging(false); addFiles(e.dataTransfer?.files ?? null); }}
       sx={{
+        position: "relative",
         bgcolor: "background.paper",
         border: "1px solid",
-        borderColor: "outlineVariant.main",
+        borderColor: dragging ? "primary.main" : "outlineVariant.main",
         borderRadius: hero ? "24px" : "22px",
         px: 2,
         py: 1.5,
@@ -763,6 +804,19 @@ const Composer = forwardRef<HTMLTextAreaElement, ComposerProps>(function Compose
         "&:focus-within": { borderColor: "primary.main", boxShadow: (t) => `0 0 0 4px ${alpha(t.palette.primary.main, 0.1)}, 0 18px 48px -16px ${alpha(t.palette.primary.main, 0.28)}` },
       }}
     >
+      {/* Hidden picker (opened by the paperclip) */}
+      <Box component="input" ref={fileInputRef} type="file" multiple accept="image/*,application/pdf,.doc,.docx,.txt,.csv,.zip"
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => { addFiles(e.target.files); e.target.value = ""; }}
+        sx={{ display: "none" }} />
+
+      {/* Drop overlay */}
+      {dragging && (
+        <Box aria-hidden sx={{ position: "absolute", inset: 0, zIndex: 3, borderRadius: "inherit", border: "1.5px dashed", borderColor: "primary.main", bgcolor: (t) => alpha(t.palette.primary.main, 0.06), display: "flex", alignItems: "center", justifyContent: "center", pointerEvents: "none" }}>
+          <Typography sx={{ fontSize: 14, fontWeight: 600, color: "primary.main" }}>Drop to attach</Typography>
+        </Box>
+      )}
+
+      {/* Row 1 — context chips (project / help-type) */}
       {hasContextRow && (
         <Stack direction="row" gap={0.75} flexWrap="wrap" sx={{ mb: 1.25 }}>
           {chips.map((c) => (
@@ -787,13 +841,36 @@ const Composer = forwardRef<HTMLTextAreaElement, ComposerProps>(function Compose
         </Stack>
       )}
 
+      {/* Row 2 — attachments (images as thumbnails, files as cards) */}
+      {files.length > 0 && (
+        <Stack direction="row" gap={1} flexWrap="wrap" sx={{ mb: 1.25 }}>
+          {files.map((f) =>
+            f.isImage ? (
+              <Box key={f.id} sx={{ position: "relative", width: 56, height: 56, borderRadius: "12px", overflow: "hidden", border: "1px solid", borderColor: "outlineVariant.main", flexShrink: 0 }}>
+                <Box component="img" src={f.url} alt={f.name} sx={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                <RemoveChip onClick={() => removeFile(f.id)} />
+              </Box>
+            ) : (
+              <Stack key={f.id} direction="row" alignItems="center" gap={1} sx={{ position: "relative", maxWidth: 230, height: 56, pl: 1, pr: 1.5, borderRadius: "12px", border: "1px solid", borderColor: "outlineVariant.main", bgcolor: "background.paper", flexShrink: 0 }}>
+                <FileTile name={f.name} />
+                <Box sx={{ minWidth: 0 }}>
+                  <Typography sx={{ fontSize: 13, fontWeight: 600, color: "text.primary", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{f.name}</Typography>
+                  <Typography sx={{ fontSize: 11, fontWeight: 600, color: "text.secondary", textTransform: "uppercase" }}>{(f.name.split(".").pop() || "file")}</Typography>
+                </Box>
+                <RemoveChip onClick={() => removeFile(f.id)} />
+              </Stack>
+            )
+          )}
+        </Stack>
+      )}
+
       <InputBase
         inputRef={ref}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         onKeyDown={(e) => {
           if (e.nativeEvent?.isComposing) return;
-          if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); onSend(); }
+          if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); doSend(); }
         }}
         multiline
         maxRows={8}
@@ -807,14 +884,14 @@ const Composer = forwardRef<HTMLTextAreaElement, ComposerProps>(function Compose
       />
 
       <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mt: 1 }}>
-        <Tooltip title="Attach a screenshot" placement="top" enterDelay={300}>
-          <IconButton aria-label="Attach a screenshot" sx={{ width: 34, height: 34, borderRadius: "10px", color: "text.secondary", "&:hover": { bgcolor: (t) => alpha(t.palette.primary.main, 0.08), color: "text.primary" } }}>
+        <Tooltip title="Attach files" placement="top" enterDelay={300}>
+          <IconButton onClick={() => fileInputRef.current?.click()} aria-label="Attach files" sx={{ width: 34, height: 34, borderRadius: "10px", color: "text.secondary", "&:hover": { bgcolor: (t) => alpha(t.palette.primary.main, 0.08), color: "text.primary" } }}>
             <Paperclip size={18} strokeWidth={2} />
           </IconButton>
         </Tooltip>
         <IconButton
           component={motion.button}
-          onClick={onSend}
+          onClick={doSend}
           disabled={!canSend}
           aria-label="Send message"
           whileTap={canSend && !reduce ? { scale: 0.92 } : undefined}
@@ -831,6 +908,40 @@ const Composer = forwardRef<HTMLTextAreaElement, ComposerProps>(function Compose
     </Box>
   );
 });
+
+// Colored file-type tile (PDFs red, everything else neutral primary).
+function FileTile({ name }: { name: string }) {
+  const isPdf = (name.split(".").pop() || "").toLowerCase() === "pdf";
+  return (
+    <Box
+      sx={{
+        width: 34, height: 34, borderRadius: "8px", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center",
+        bgcolor: isPdf ? "#ffe1de" : (t) => alpha(t.palette.primary.main, 0.1),
+        color: isPdf ? "#c0291f" : "primary.main",
+      }}
+    >
+      <FileText size={18} strokeWidth={2} />
+    </Box>
+  );
+}
+
+// Small dark circular remove control pinned to an attachment's top-right corner.
+function RemoveChip({ onClick }: { onClick: () => void }) {
+  return (
+    <IconButton
+      onClick={onClick}
+      aria-label="Remove attachment"
+      sx={{
+        position: "absolute", top: -7, right: -7, width: 20, height: 20, p: 0,
+        bgcolor: "text.primary", color: "background.paper",
+        boxShadow: "0 1px 3px rgba(0,0,0,0.3)",
+        "&:hover": { bgcolor: "text.primary", opacity: 0.85 },
+      }}
+    >
+      <X size={12} strokeWidth={2.75} />
+    </IconButton>
+  );
+}
 
 function ContextChip({ label, Icon, tone, onClear, reduce }: ChipModel & { reduce: boolean }) {
   const primary = tone === "primary";

@@ -23,7 +23,9 @@ type ActivitySeed = {
   activity: { id: string; type: string; course: string; title: string; when: string };
 };
 type CategorySeed = { kind: "category"; categoryKey: string; label: string };
-type SeedState = ActivitySeed | CategorySeed;
+// Funnel (TopicCompose) hands the chat a ready-made opening user message.
+type ComposedSeed = { kind: "composed"; category: string; title: string; userText: string };
+type SeedState = ActivitySeed | CategorySeed | ComposedSeed;
 
 // Map a recent-activity type to the closest support category for the reply bank.
 const ACTIVITY_TYPE_TO_CATEGORY: Record<string, string> = {
@@ -85,6 +87,21 @@ export function GlaideChat() {
         messages: [opening],
       });
       setThreadId(id);
+    } else if (seed.kind === "composed") {
+      // Compose funnel already gathered the topic + sub-category (+ optional text);
+      // open with that as the learner's first message, then Glaide replies.
+      const id = createThread({
+        category: seed.category,
+        title: seed.title,
+        messages: [{ role: "user", text: seed.userText }],
+      });
+      setThreadId(id);
+      setIsTyping(true);
+      const reply = glaideResponses[seed.category] ?? glaideResponses.fallback;
+      window.setTimeout(() => {
+        addMessage(id, { role: "bot", text: reply });
+        setIsTyping(false);
+      }, 800);
     } else {
       const flow = topicFlows[seed.categoryKey];
       const opening: ChatMessage =
