@@ -10,20 +10,33 @@ export type ContentFeedback = {
 
 export type FeedbackAspect = { id: string; label: string };
 
-export const PULSE_FEEDBACK_ASPECTS: FeedbackAspect[] = [
-  { id: "depth", label: "Content depth and difficulty" },
-  { id: "relevance", label: "Relevance to my work" },
-  { id: "pacing", label: "Pacing and length" },
-  { id: "clarity", label: "Clarity of explanation" },
-  { id: "quality", label: "Video or audio quality" },
-  { id: "other", label: "Other" },
+// The follow-up question adapts to the rating: 3-and-below asks what to improve,
+// 4-and-above asks what worked. Each set is 4 specific options + "Other". The ids
+// are prefixed so a selection made under one question doesn't carry over to the
+// other when the rating crosses the boundary.
+export const FEEDBACK_IMPROVE: FeedbackAspect[] = [
+  { id: "improve-depth", label: "Too basic or too advanced" },
+  { id: "improve-relevance", label: "Not relevant to my work" },
+  { id: "improve-pacing", label: "Pacing or length" },
+  { id: "improve-clarity", label: "Hard to follow" },
+  { id: "improve-other", label: "Other" },
 ];
 
-/** Dialog supporting copy, tuned to how the user rated the content. */
-export function feedbackPrompt(rating: number): string {
-  if (rating <= 2) return "Sorry this missed the mark. What could be better?";
-  if (rating === 3) return "Thanks for rating. What would make this better?";
-  return "Glad this was useful! Tell us what stood out.";
+export const FEEDBACK_LIKED: FeedbackAspect[] = [
+  { id: "liked-clarity", label: "Clear and easy to follow" },
+  { id: "liked-relevance", label: "Relevant to my work" },
+  { id: "liked-depth", label: "Right depth and detail" },
+  { id: "liked-pacing", label: "Well paced" },
+  { id: "liked-other", label: "Other" },
+];
+
+/** 4+ asks what the user liked; 3 and below asks what to improve. */
+export function feedbackAspects(rating: number): FeedbackAspect[] {
+  return rating >= 4 ? FEEDBACK_LIKED : FEEDBACK_IMPROVE;
+}
+
+export function feedbackAspectQuestion(rating: number): string {
+  return rating >= 4 ? "What did you like?" : "What could be better?";
 }
 
 export type FeedbackMap = Record<string, ContentFeedback>;

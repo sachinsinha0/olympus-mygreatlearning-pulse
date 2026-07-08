@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import {
   Box,
   Button,
@@ -13,8 +13,8 @@ import {
 } from "@mui/material";
 import { Check, ChevronRight, Star, X } from "lucide-react";
 import {
-  PULSE_FEEDBACK_ASPECTS,
-  feedbackPrompt,
+  feedbackAspectQuestion,
+  feedbackAspects,
   getFeedback,
   saveFeedback,
   type ContentFeedback,
@@ -42,6 +42,15 @@ export function ContentFeedbackCard({ itemId }: { itemId: string }) {
     setAspect(saved?.aspectId ?? null);
     setNote(saved?.note ?? "");
     setOpen(true);
+  };
+
+  const handleRating = (r: number) => {
+    setRating(r);
+    // The follow-up options depend on the rating bucket — drop a selection that
+    // no longer belongs to the current question.
+    if (aspect && !feedbackAspects(r).some((a) => a.id === aspect)) {
+      setAspect(null);
+    }
   };
 
   const submit = () => {
@@ -102,7 +111,7 @@ export function ContentFeedbackCard({ itemId }: { itemId: string }) {
         rating={rating}
         aspect={aspect}
         note={note}
-        onRating={setRating}
+        onRating={handleRating}
         onAspect={setAspect}
         onNote={setNote}
         onClose={() => setOpen(false)}
@@ -148,70 +157,75 @@ function FeedbackDialog({
         },
       }}
     >
-      {/* Heading + supporting text, with close affordance */}
-      <Box sx={{ display: "flex", alignItems: "flex-start", gap: 1, p: 2, pb: 1 }}>
-        <Box sx={{ flex: 1, minWidth: 0 }}>
-          <Typography
-            sx={{ fontSize: 20, fontWeight: 600, lineHeight: "24px", letterSpacing: "-0.4px", color: "text.primary" }}
-          >
-            Share your feedback
-          </Typography>
-          <Typography sx={{ mt: 1, fontSize: 14, fontWeight: 400, lineHeight: "20px", color: "text.secondary" }}>
-            {rating > 0 ? feedbackPrompt(rating) : "How would you rate this content?"}
-          </Typography>
-        </Box>
+      {/* Heading, with close affordance */}
+      <Box sx={{ display: "flex", alignItems: "flex-start", gap: 1, px: 2.5, pt: 2.5, pb: 0 }}>
+        <Typography
+          sx={{
+            flex: 1,
+            minWidth: 0,
+            fontSize: 20,
+            fontWeight: 600,
+            lineHeight: "24px",
+            letterSpacing: "-0.4px",
+            color: "text.primary",
+          }}
+        >
+          Share your feedback
+        </Typography>
         <IconButton onClick={onClose} aria-label="Close" sx={{ mt: -0.5, mr: -0.5, color: "text.secondary" }}>
           <X size={20} />
         </IconButton>
       </Box>
 
-      {/* Rating — chosen here */}
-      <Box sx={{ px: 2, py: 1 }}>
-        <DialogStarRow value={rating} onChange={onRating} />
-      </Box>
+      {/* Body — each section is a tight label→control group; groups separated by a
+          generous, uniform gap so the content reads as distinct blocks. */}
+      <Stack sx={{ px: 2.5, pt: 2.5 }} gap={2.5}>
+        {/* Rating */}
+        <Box>
+          <SectionLabel>How would you rate this content?</SectionLabel>
+          <DialogStarRow value={rating} onChange={onRating} />
+        </Box>
 
-      {/* Aspect (optional) */}
-      <Box sx={{ px: 2, pb: 1 }}>
-        <Typography sx={{ mb: 0.5, fontSize: 14, fontWeight: 500, color: "text.primary" }}>
-          What's your feedback about?{" "}
-          <Box component="span" sx={{ fontWeight: 400, color: "text.secondary" }}>
-            (Optional)
+        {/* Follow-up — question + options adapt to the rating; shown once rated */}
+        {rating > 0 && (
+          <Box>
+            <SectionLabel>{feedbackAspectQuestion(rating)}</SectionLabel>
+            <RadioGroup value={aspect ?? ""} onChange={(e) => onAspect(e.target.value)} sx={{ mt: -0.25 }}>
+              {feedbackAspects(rating).map((a) => (
+                <FormControlLabel
+                  key={a.id}
+                  value={a.id}
+                  control={<Radio size="small" />}
+                  label={<Typography sx={{ fontSize: 14, color: "text.primary" }}>{a.label}</Typography>}
+                  sx={{ mx: 0, my: 0.25, gap: 1 }}
+                />
+              ))}
+            </RadioGroup>
           </Box>
-        </Typography>
-        <RadioGroup value={aspect ?? ""} onChange={(e) => onAspect(e.target.value)}>
-          {PULSE_FEEDBACK_ASPECTS.map((a) => (
-            <FormControlLabel
-              key={a.id}
-              value={a.id}
-              control={<Radio size="small" />}
-              label={<Typography sx={{ fontSize: 14, color: "text.primary" }}>{a.label}</Typography>}
-              sx={{ mx: 0, my: 0.25, gap: 1 }}
-            />
-          ))}
-        </RadioGroup>
-      </Box>
+        )}
 
-      {/* Comment (optional) */}
-      <Box sx={{ px: 2, pb: 1 }}>
-        <Typography sx={{ mb: 1, fontSize: 14, fontWeight: 500, color: "text.primary" }}>
-          Comment{" "}
-          <Box component="span" sx={{ fontWeight: 400, color: "text.secondary" }}>
-            (Optional)
-          </Box>
-        </Typography>
-        <TextField
-          value={note}
-          onChange={(e) => onNote(e.target.value)}
-          placeholder="Tell us more"
-          multiline
-          minRows={2}
-          fullWidth
-          size="small"
-        />
-      </Box>
+        {/* Comment (optional) */}
+        <Box>
+          <SectionLabel>
+            Comment{" "}
+            <Box component="span" sx={{ fontWeight: 400, color: "text.secondary" }}>
+              (Optional)
+            </Box>
+          </SectionLabel>
+          <TextField
+            value={note}
+            onChange={(e) => onNote(e.target.value)}
+            placeholder="Tell us more"
+            multiline
+            minRows={2}
+            fullWidth
+            size="small"
+          />
+        </Box>
+      </Stack>
 
       {/* Actions */}
-      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 1, p: 2 }}>
+      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 1, px: 2.5, pt: 2.5, pb: 2.5 }}>
         <Button
           onClick={onClose}
           sx={{ height: 40, px: 2, borderRadius: "8px", fontSize: 14, fontWeight: 500, textTransform: "none" }}
@@ -229,6 +243,13 @@ function FeedbackDialog({
         </Button>
       </Box>
     </Dialog>
+  );
+}
+
+// Shared section label so the rating / follow-up / comment titles match.
+function SectionLabel({ children }: { children: ReactNode }) {
+  return (
+    <Typography sx={{ mb: 1, fontSize: 14, fontWeight: 500, color: "text.primary" }}>{children}</Typography>
   );
 }
 
