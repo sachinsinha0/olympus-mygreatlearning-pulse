@@ -4,6 +4,7 @@ import { ChevronDown, ChevronUp, HelpCircle, Maximize, Play, Settings, SquarePen
 import type { CourseItem } from "../../lib/pulse/types";
 import { useLearningProgress } from "../../lib/pulse/learningProgress";
 import { AskPulseAIBar } from "./AskPulseAIBar";
+import { ContentFeedbackCard } from "./ContentFeedbackCard";
 import { OverviewSurface } from "./OverviewSurface";
 
 export function ConsumePlayer({ item }: { item: CourseItem }) {
@@ -20,6 +21,9 @@ export function ConsumePlayer({ item }: { item: CourseItem }) {
           completed={hasItemCompleted(item.id)}
           onMark={() => markItemCompleted(item.id)}
         />
+      )}
+      {item.type !== "overview" && item.type !== "tyu" && (
+        <ContentFeedbackCard key={item.id} itemId={item.id} />
       )}
       {item.type !== "overview" && item.type !== "tyu" && <AskPulseAIBar />}
     </Stack>
