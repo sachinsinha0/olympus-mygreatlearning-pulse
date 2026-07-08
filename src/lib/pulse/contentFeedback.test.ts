@@ -1,19 +1,31 @@
 import { describe, expect, it } from "vitest";
-import { feedbackPrompt, upsertFeedback, type FeedbackMap } from "./contentFeedback";
+import { feedbackAspectQuestion, feedbackAspects, upsertFeedback, type FeedbackMap } from "./contentFeedback";
 
-describe("feedbackPrompt", () => {
-  it("uses an apologetic prompt for low ratings", () => {
-    expect(feedbackPrompt(1)).toMatch(/missed the mark/i);
-    expect(feedbackPrompt(2)).toMatch(/missed the mark/i);
+describe("feedbackAspects", () => {
+  it("asks what to improve for ratings 3 and below (4 options + Other)", () => {
+    for (const r of [1, 2, 3]) {
+      expect(feedbackAspectQuestion(r)).toBe("What could be better?");
+      const opts = feedbackAspects(r);
+      expect(opts).toHaveLength(5);
+      expect(opts.every((o) => o.id.startsWith("improve-"))).toBe(true);
+      expect(opts[opts.length - 1].label).toBe("Other");
+    }
   });
 
-  it("uses a neutral prompt for a middling rating", () => {
-    expect(feedbackPrompt(3)).toMatch(/what would make this better/i);
+  it("asks what the user liked for ratings 4 and above (4 options + Other)", () => {
+    for (const r of [4, 5]) {
+      expect(feedbackAspectQuestion(r)).toBe("What did you like?");
+      const opts = feedbackAspects(r);
+      expect(opts).toHaveLength(5);
+      expect(opts.every((o) => o.id.startsWith("liked-"))).toBe(true);
+      expect(opts[opts.length - 1].label).toBe("Other");
+    }
   });
 
-  it("uses a positive prompt for high ratings", () => {
-    expect(feedbackPrompt(4)).toMatch(/stood out/i);
-    expect(feedbackPrompt(5)).toMatch(/stood out/i);
+  it("uses disjoint ids across the two sets so a stale selection can't carry over", () => {
+    const improveIds = new Set(feedbackAspects(2).map((o) => o.id));
+    const likedIds = feedbackAspects(5).map((o) => o.id);
+    expect(likedIds.some((id) => improveIds.has(id))).toBe(false);
   });
 });
 
