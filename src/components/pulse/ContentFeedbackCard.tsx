@@ -2,11 +2,11 @@ import { useState, type ReactNode } from "react";
 import {
   Box,
   Button,
+  Checkbox,
   Dialog,
   FormControlLabel,
+  FormGroup,
   IconButton,
-  Radio,
-  RadioGroup,
   Stack,
   TextField,
   Typography,
@@ -16,6 +16,7 @@ import {
   feedbackAspectQuestion,
   feedbackAspects,
   getFeedback,
+  isOtherAspect,
   saveFeedback,
   type ContentFeedback,
 } from "../../lib/pulse/contentFeedback";
@@ -32,33 +33,37 @@ export function ContentFeedbackCard({ itemId }: { itemId: string }) {
   const [saved, setSaved] = useState<ContentFeedback | null>(() => getFeedback(itemId));
   const [open, setOpen] = useState(false);
   const [rating, setRating] = useState(0);
-  const [aspect, setAspect] = useState<string | null>(null);
+  const [aspectIds, setAspectIds] = useState<string[]>([]);
   const [note, setNote] = useState("");
+
+  const otherSelected = aspectIds.some(isOtherAspect);
 
   // The inline panel is just a clickable entry point — the rating is chosen inside
   // the dialog. Seed the draft from any saved feedback so editing pre-fills.
   const openDialog = () => {
     setRating(saved?.rating ?? 0);
-    setAspect(saved?.aspectId ?? null);
+    setAspectIds(saved?.aspectIds ?? []);
     setNote(saved?.note ?? "");
     setOpen(true);
   };
 
   const handleRating = (r: number) => {
     setRating(r);
-    // The follow-up options depend on the rating bucket — drop a selection that
-    // no longer belongs to the current question.
-    if (aspect && !feedbackAspects(r).some((a) => a.id === aspect)) {
-      setAspect(null);
-    }
+    // Options depend on the rating bucket — keep only selections valid for it.
+    const valid = new Set(feedbackAspects(r).map((a) => a.id));
+    setAspectIds((prev) => prev.filter((id) => valid.has(id)));
+  };
+
+  const toggleAspect = (id: string) => {
+    setAspectIds((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
   };
 
   const submit = () => {
     if (rating < 1) return;
     const fb: ContentFeedback = {
       rating,
-      aspectId: aspect ?? undefined,
-      note: note.trim() || undefined,
+      aspectIds: aspectIds.length ? aspectIds : undefined,
+      note: otherSelected ? note.trim() || undefined : undefined,
     };
     saveFeedback(itemId, fb);
     setSaved(fb);
@@ -109,10 +114,11 @@ export function ContentFeedbackCard({ itemId }: { itemId: string }) {
       <FeedbackDialog
         open={open}
         rating={rating}
-        aspect={aspect}
+        aspectIds={aspectIds}
         note={note}
+        otherSelected={otherSelected}
         onRating={handleRating}
-        onAspect={setAspect}
+        onToggleAspect={toggleAspect}
         onNote={setNote}
         onClose={() => setOpen(false)}
         onSubmit={submit}
@@ -124,20 +130,22 @@ export function ContentFeedbackCard({ itemId }: { itemId: string }) {
 function FeedbackDialog({
   open,
   rating,
-  aspect,
+  aspectIds,
   note,
+  otherSelected,
   onRating,
-  onAspect,
+  onToggleAspect,
   onNote,
   onClose,
   onSubmit,
 }: {
   open: boolean;
   rating: number;
-  aspect: string | null;
+  aspectIds: string[];
   note: string;
+  otherSelected: boolean;
   onRating: (r: number) => void;
-  onAspect: (id: string) => void;
+  onToggleAspect: (id: string) => void;
   onNote: (v: string) => void;
   onClose: () => void;
   onSubmit: () => void;
@@ -186,42 +194,46 @@ function FeedbackDialog({
           <DialogStarRow value={rating} onChange={onRating} />
         </Box>
 
-        {/* Follow-up — question + options adapt to the rating; shown once rated */}
+        {/* Follow-up — multi-select; question + options adapt to the rating. Shown
+            once rated. Selecting "Other" reveals an optional text field. */}
         {rating > 0 && (
           <Box>
-            <SectionLabel>{feedbackAspectQuestion(rating)}</SectionLabel>
-            <RadioGroup value={aspect ?? ""} onChange={(e) => onAspect(e.target.value)} sx={{ mt: -0.25 }}>
+            <SectionLabel>
+              {feedbackAspectQuestion(rating)}{" "}
+              <Box component="span" sx={{ fontWeight: 400, color: "text.secondary" }}>
+                (Select all that apply)
+              </Box>
+            </SectionLabel>
+            <FormGroup sx={{ mt: -0.25 }}>
               {feedbackAspects(rating).map((a) => (
                 <FormControlLabel
                   key={a.id}
-                  value={a.id}
-                  control={<Radio size="small" />}
+                  control={
+                    <Checkbox
+                      size="small"
+                      checked={aspectIds.includes(a.id)}
+                      onChange={() => onToggleAspect(a.id)}
+                    />
+                  }
                   label={<Typography sx={{ fontSize: 14, color: "text.primary" }}>{a.label}</Typography>}
                   sx={{ mx: 0, my: 0.25, gap: 1 }}
                 />
               ))}
-            </RadioGroup>
+            </FormGroup>
+            {otherSelected && (
+              <TextField
+                value={note}
+                onChange={(e) => onNote(e.target.value)}
+                placeholder="Tell us more"
+                multiline
+                minRows={2}
+                fullWidth
+                size="small"
+                sx={{ mt: 1 }}
+              />
+            )}
           </Box>
         )}
-
-        {/* Comment (optional) */}
-        <Box>
-          <SectionLabel>
-            Comment{" "}
-            <Box component="span" sx={{ fontWeight: 400, color: "text.secondary" }}>
-              (Optional)
-            </Box>
-          </SectionLabel>
-          <TextField
-            value={note}
-            onChange={(e) => onNote(e.target.value)}
-            placeholder="Tell us more"
-            multiline
-            minRows={2}
-            fullWidth
-            size="small"
-          />
-        </Box>
       </Stack>
 
       {/* Actions */}
