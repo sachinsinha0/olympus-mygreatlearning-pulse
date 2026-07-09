@@ -4,39 +4,44 @@
 
 export type ContentFeedback = {
   rating: number; // 1..5
-  aspectId?: string;
-  note?: string;
+  aspectIds?: string[];
+  note?: string; // free text tied to the "Other" option
 };
 
 export type FeedbackAspect = { id: string; label: string };
 
-// The follow-up question adapts to the rating: 3-and-below asks what to improve,
-// 4-and-above asks what worked. Each set is 4 specific options + "Other". The ids
-// are prefixed so a selection made under one question doesn't carry over to the
-// other when the rating crosses the boundary.
+// Multi-select follow-up ("select all that apply"). 3-and-below asks what didn't
+// work; 4-and-above asks what worked. Ids are prefixed per set so selections can't
+// carry across the boundary. The "-other" option reveals an optional text field.
 export const FEEDBACK_IMPROVE: FeedbackAspect[] = [
-  { id: "improve-depth", label: "Too basic or too advanced" },
-  { id: "improve-relevance", label: "Not relevant to my work" },
-  { id: "improve-pacing", label: "Pacing or length" },
-  { id: "improve-clarity", label: "Hard to follow" },
+  { id: "improve-too-basic", label: "Too basic for me" },
+  { id: "improve-too-advanced", label: "Too advanced for me" },
+  { id: "improve-not-usable", label: "Nothing I could actually use or apply" },
+  { id: "improve-not-relevant", label: "Not relevant to my role or industry" },
+  { id: "improve-free-elsewhere", label: "I can get this content free elsewhere" },
+  { id: "improve-hard-to-follow", label: "Hard to follow or too long" },
   { id: "improve-other", label: "Other" },
 ];
 
 export const FEEDBACK_LIKED: FeedbackAspect[] = [
-  { id: "liked-clarity", label: "Clear and easy to follow" },
-  { id: "liked-relevance", label: "Relevant to my work" },
-  { id: "liked-depth", label: "Right depth and detail" },
-  { id: "liked-pacing", label: "Well paced" },
+  { id: "liked-actionable", label: "Learned something I can use right away" },
+  { id: "liked-skill-level", label: "Matched my skill level" },
+  { id: "liked-saved-time", label: "Saved me time keeping up with AI" },
+  { id: "liked-relevant", label: "Relevant to my work" },
   { id: "liked-other", label: "Other" },
 ];
 
-/** 4+ asks what the user liked; 3 and below asks what to improve. */
+/** 4+ asks what worked well; 3 and below asks what didn't work. */
 export function feedbackAspects(rating: number): FeedbackAspect[] {
   return rating >= 4 ? FEEDBACK_LIKED : FEEDBACK_IMPROVE;
 }
 
 export function feedbackAspectQuestion(rating: number): string {
-  return rating >= 4 ? "What did you like?" : "What could be better?";
+  return rating >= 4 ? "What worked well?" : "What didn't work for you?";
+}
+
+export function isOtherAspect(id: string): boolean {
+  return id.endsWith("-other");
 }
 
 export type FeedbackMap = Record<string, ContentFeedback>;
