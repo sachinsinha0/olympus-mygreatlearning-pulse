@@ -19,6 +19,7 @@ import { GlaideChatMock } from "./pages/GlaideChatMock";
 import { ProtoGuidedSteps } from "./pages/ProtoGuidedSteps";
 import { ProtoStepper } from "./pages/ProtoStepper";
 import { ProtoIndex } from "./pages/ProtoIndex";
+import { InterviewReport } from "./pages/InterviewReport/InterviewReport";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -63,6 +64,7 @@ const router = createBrowserRouter([
       { path: "/pulse/subscription", element: <SubscriptionPage /> },
       { path: "/pulse/modules/:moduleId", element: <PulseConsumePage /> },
       { path: "/pulse/modules/:moduleId/items/:itemId", element: <PulseConsumePage /> },
+      { path: "/sublime", element: <InterviewReport /> },
       { path: "/pulse/course", element: <Navigate to="/pulse" replace /> },
       { path: "/pulse/course/*", element: <Navigate to="/pulse" replace /> },
     ],
