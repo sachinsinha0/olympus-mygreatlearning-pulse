@@ -5,6 +5,7 @@ import { TopNav } from "../../components/TopNav/TopNav";
 import { ConfirmDialog } from "../../components/pulse/ConfirmDialog";
 import { usePricing } from "../../lib/pulse/pricing";
 import { useLearningProgress } from "../../lib/pulse/learningProgress";
+import { PULSE_TODAY } from "../../lib/pulse/prototypeDate";
 import type { PulseIssue } from "../../lib/pulse/types";
 import issuesData from "../../mocks/pulse-issues.json";
 
@@ -20,16 +21,16 @@ function formatDate(d: string | null): string {
 }
 
 export function SubscriptionPage() {
-  const { state, activeUntil } = usePricing();
+  const { state, plan, activeUntil } = usePricing();
   const { hasStarted, hasCompleted } = useLearningProgress();
 
   const isPaid = state === "paid";
-  const planLabel = "Annual";
+  const planLabel = plan === "monthly" ? "Monthly" : "Annual";
   const [cancelled, setCancelled] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
 
   const stats = useMemo(() => {
-    const today = new Date().toISOString().slice(0, 10);
+    const today = PULSE_TODAY;
     const released = allIssues.filter((i) => i.releasedAt <= today);
     const startedCount = released.filter((i) => hasStarted(i.id)).length;
     const completedCount = released.filter((i) => hasCompleted(i.id)).length;

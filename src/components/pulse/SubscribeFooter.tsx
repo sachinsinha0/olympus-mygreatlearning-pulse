@@ -76,7 +76,7 @@ export function SubscribeFooter() {
         height: fullWidth ? 44 : 40,
         px: 2,
         width: fullWidth ? { xs: "100%", sm: "auto" } : "auto",
-        alignSelf: fullWidth ? { xs: "stretch", sm: "flex-start" } : "auto",
+        alignSelf: fullWidth ? { xs: "stretch", sm: "flex-start" } : "flex-start",
         fontSize: 15,
         fontWeight: 500,
         letterSpacing: "-0.2px",
@@ -106,14 +106,8 @@ export function SubscribeFooter() {
         py: { xs: 2, md: 3.5 },
       })}
     >
-      {/* Desktop layout (md+) — icon + content on left, CTA right-aligned */}
-      <Stack
-        direction="row"
-        gap={3}
-        alignItems="center"
-        justifyContent="space-between"
-        sx={{ position: "relative", display: { xs: "none", md: "flex" } }}
-      >
+      {/* Desktop layout (md+) — icon + content on top, CTA below (bottom action row) */}
+      <Stack gap={2.5} sx={{ position: "relative", display: { xs: "none", md: "flex" } }}>
         <Stack direction="row" gap={2.25} alignItems="flex-start" sx={{ minWidth: 0 }}>
           {iconTile(48)}
           <Stack gap={0.75} sx={{ minWidth: 0 }}>

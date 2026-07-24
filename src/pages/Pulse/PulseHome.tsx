@@ -10,6 +10,7 @@ import { isTrialExpired, usePricing } from "../../lib/pulse/pricing";
 import { useHasSeenIntro } from "../../lib/pulse/onboarding";
 import { useUnitLabel } from "../../lib/pulse/terminology";
 import type { PulseIssue } from "../../lib/pulse/types";
+import { PULSE_TODAY } from "../../lib/pulse/prototypeDate";
 import issuesData from "../../mocks/pulse-issues.json";
 
 const allIssues = issuesData as PulseIssue[];
@@ -28,7 +29,7 @@ export function PulseHome() {
   }, [introSeen, state, trialStartedAt, navigate]);
 
   const groups = useMemo(() => {
-    const today = new Date().toISOString().slice(0, 10);
+    const today = PULSE_TODAY;
     const released = allIssues
       .filter((i) => i.releasedAt <= today)
       .sort((a, b) => b.releasedAt.localeCompare(a.releasedAt))

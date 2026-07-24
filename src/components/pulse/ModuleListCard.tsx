@@ -8,7 +8,7 @@ import { isTrialExpired, usePricing } from "../../lib/pulse/pricing";
 import { useUnitLabel } from "../../lib/pulse/terminology";
 import { useLearningProgress } from "../../lib/pulse/learningProgress";
 import { usePageLoader } from "../common/PageLoader";
-import { getDefaultItemId } from "../../lib/pulse/courseItems";
+import { getDefaultItemId, getHandsOnItemId } from "../../lib/pulse/courseItems";
 
 export type ModuleListCardStatus = "released" | "upcoming";
 
@@ -33,6 +33,10 @@ export function ModuleListCard({
   const isLocked = state === "expired" || trialExpired;
   const isPreTrial = state === "trial" && !trialStartedAt;
   const started = hasStarted(issue.id);
+  const handsOnItemId = getHandsOnItemId(issue.id);
+  // The hands-on shortcut only makes sense on released, accessible modules that
+  // actually contain a hands-on item — hidden for upcoming and locked/expired cards.
+  const canShowHandsOn = !isUpcoming && !isLocked && handsOnItemId != null;
 
   const ctaLabel = state === "expired"
     ? "Renew to unlock"
@@ -44,15 +48,17 @@ export function ModuleListCard({
     ? "Resume Learning"
     : "Start Learning";
 
-  const navigateToModule = (withTrialFlag = false) => {
+  const navigateToItem = (itemId: string, withTrialFlag = false) => {
     markStarted(issue.id);
     runWithPageLoader(() => {
-      const itemId = getDefaultItemId(issue.id, started);
       const suffix = withTrialFlag ? "?trial=started" : "";
       const itemPath = itemId ? `/items/${itemId}` : "";
       navigate(`/pulse/modules/${issue.id}${itemPath}${suffix}`);
     }, withTrialFlag ? 950 : 700);
   };
+
+  const navigateToModule = (withTrialFlag = false) =>
+    navigateToItem(getDefaultItemId(issue.id, started), withTrialFlag);
 
   const onStart = () => {
     if (loading) return;
@@ -69,6 +75,18 @@ export function ModuleListCard({
     }
     // Trial-active or paid: just full-page loader for the navigation.
     navigateToModule();
+  };
+
+  // Secondary CTA: jump straight to the hands-on demo. Pre-trial users start the
+  // trial and land directly on the demo — the fastest path to the payoff.
+  const onTryHandsOn = () => {
+    if (loading || !handsOnItemId) return;
+    if (isPreTrial) {
+      startTrial();
+      navigateToItem(handsOnItemId, true);
+      return;
+    }
+    navigateToItem(handsOnItemId);
   };
 
   const onCardClick = isUpcoming ? undefined : onStart;
@@ -131,7 +149,7 @@ export function ModuleListCard({
     </Typography>
   );
 
-  const ctaButton = (compact: boolean) => (
+  const primaryButton = (fullWidth: boolean) => (
     <Button
       variant="contained"
       disableElevation
@@ -148,21 +166,19 @@ export function ModuleListCard({
         if (!isUpcoming) onStart();
       }}
       sx={(theme) => ({
-        height: compact ? 36 : 44,
-        px: 2,
-        py: 1,
-        width: compact ? "auto" : { xs: "100%", sm: "auto" },
-        alignSelf: compact ? "auto" : { xs: "stretch", sm: "flex-start" },
+        height: 44,
+        px: 2.5,
         fontSize: 15,
         fontWeight: 500,
         letterSpacing: "-0.2px",
         lineHeight: "22px",
         borderRadius: "8px",
-        bgcolor: theme.palette.primary.light,
-        color: theme.palette.primary.main,
+        width: fullWidth ? "100%" : "auto",
         textTransform: "none",
         whiteSpace: "nowrap",
         boxShadow: "none",
+        bgcolor: theme.palette.primary.light,
+        color: theme.palette.primary.main,
         "&:hover": {
           bgcolor: theme.palette.primary.light,
           filter: "brightness(0.95)",
@@ -176,6 +192,51 @@ export function ModuleListCard({
     >
       {isUpcoming ? "Coming soon" : ctaLabel}
     </Button>
+  );
+
+  const handsOnButton = (fullWidth: boolean) => (
+    <Button
+      variant="outlined"
+      disabled={loading}
+      onClick={(e) => {
+        e.stopPropagation();
+        onTryHandsOn();
+      }}
+      sx={(theme) => ({
+        height: 44,
+        px: 2.5,
+        fontSize: 15,
+        fontWeight: 500,
+        letterSpacing: "-0.2px",
+        lineHeight: "22px",
+        borderRadius: "8px",
+        width: fullWidth ? "100%" : "auto",
+        textTransform: "none",
+        whiteSpace: "nowrap",
+        // Prod @gl/elements "outlined": transparent bg, subtle outlineVariant border, primary text.
+        color: theme.palette.primary.main,
+        borderColor: theme.palette.outlineVariant.main,
+        borderWidth: "1px",
+        "&:hover": {
+          borderWidth: "1px",
+          borderColor: theme.palette.outlineVariant.main,
+          bgcolor: theme.palette.primary.light,
+        },
+      })}
+    >
+      Hands-on demo
+    </Button>
+  );
+
+  const actionRow = (fullWidth: boolean) => (
+    <Stack
+      direction={fullWidth ? "column" : "row"}
+      gap={1.25}
+      sx={{ mt: 2, width: fullWidth ? "100%" : "auto" }}
+    >
+      {primaryButton(fullWidth)}
+      {canShowHandsOn && handsOnButton(fullWidth)}
+    </Stack>
   );
 
   const outcomesBlock = outcomes.length > 0 && (
@@ -236,25 +297,23 @@ export function ModuleListCard({
             },
       })}
     >
-      {/* Desktop layout (md+) — single column under header for easy top-to-bottom scan */}
+      {/* Desktop layout (md+) — single column under header, then a bottom action row */}
       <Box sx={{ display: { xs: "none", md: "block" } }}>
         <Stack direction="row" gap={3} alignItems="flex-start">
           <ToolLogo issue={issue} />
           <Stack gap={1} sx={{ flex: 1, minWidth: 0 }}>
-            <Stack direction="row" gap={5} alignItems="flex-start" justifyContent="space-between">
-              <Stack gap={0.75} sx={{ flex: 1, minWidth: 0 }}>
-                {eyebrowRow}
-                {titleEl}
-                {descriptionEl}
-              </Stack>
-              <Box sx={{ flexShrink: 0, pt: 0.5 }}>{ctaButton(true)}</Box>
+            <Stack gap={0.75} sx={{ minWidth: 0 }}>
+              {eyebrowRow}
+              {titleEl}
+              {descriptionEl}
             </Stack>
             {outcomesBlock}
+            {actionRow(false)}
           </Stack>
         </Stack>
       </Box>
 
-      {/* Mobile + tablet layout (xs/sm) — Olympus dev handoff: logo top, then eyebrow + title + description + outcomes stacked, CTA at bottom. CTA full-width on phones, auto-width on tablet. */}
+      {/* Mobile + tablet layout (xs/sm) — logo top, then eyebrow + title + description + outcomes stacked, action row at bottom (full-width buttons). */}
       <Stack gap={2} sx={{ display: { xs: "flex", md: "none" } }}>
         <ToolLogo issue={issue} />
         <Stack gap={0.75}>
@@ -263,7 +322,7 @@ export function ModuleListCard({
         </Stack>
         {descriptionEl}
         {outcomesBlock}
-        {ctaButton(false)}
+        {actionRow(true)}
       </Stack>
     </Card>
   );

@@ -6,6 +6,7 @@ import type { LucideIcon } from "lucide-react";
 import { daysUntil, isTrialExpired, usePricing } from "../../lib/pulse/pricing";
 import { usePageLoader } from "../common/PageLoader";
 import { getDefaultItemId } from "../../lib/pulse/courseItems";
+import { PULSE_TODAY } from "../../lib/pulse/prototypeDate";
 import glLogo from "../../assets/gl-logo.svg";
 import { clearIntroSeen } from "../../lib/pulse/onboarding";
 import type { PulseIssue } from "../../lib/pulse/types";
@@ -78,7 +79,7 @@ function useHeroCopy(): HeroCopy {
   const { state, trialStartedAt, activeUntil, startTrial, openPricingModal } = usePricing();
 
   const firstModule = useMemo(() => {
-    const today = new Date().toISOString().slice(0, 10);
+    const today = PULSE_TODAY;
     return [...allIssues]
       .filter((i) => i.releasedAt <= today)
       .sort((a, b) => b.releasedAt.localeCompare(a.releasedAt))[0];
@@ -607,7 +608,7 @@ function ExpiredBanner() {
   // Count modules released after expiry — what the user is missing.
   const missedCount = useMemo(() => {
     if (!activeUntil) return 0;
-    const today = new Date().toISOString().slice(0, 10);
+    const today = PULSE_TODAY;
     return allIssues.filter((i) => i.releasedAt > activeUntil && i.releasedAt <= today).length;
   }, [activeUntil]);
 

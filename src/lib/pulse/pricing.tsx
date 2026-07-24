@@ -1,11 +1,17 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 
 export type PricingState = "trial" | "paid" | "expired";
-export type Plan = "annual";
+export type Plan = "annual" | "monthly";
 
 export const PLAN_PRICE: Record<Plan, { display: string; perMo: string; billing: string }> = {
   annual: { display: "$25/mo", perMo: "$25/mo", billing: "Billed annually" },
+  monthly: { display: "$30/mo", perMo: "$30/mo", billing: "Billed monthly" },
 };
+
+/** How many days of access a plan grants once subscribed. */
+export function planDurationDays(plan: Plan): number {
+  return plan === "monthly" ? 30 : 365;
+}
 
 type PricingCtx = {
   state: PricingState;
@@ -54,7 +60,7 @@ function getInitial(): Stored {
       const parsed = JSON.parse(raw) as Partial<Stored> & { state?: string };
       const validStates = ["trial", "paid", "expired"];
       const s = parsed.state && validStates.includes(parsed.state) ? (parsed.state as PricingState) : "trial";
-      const p = parsed.plan === "annual" ? parsed.plan : null;
+      const p = parsed.plan === "annual" || parsed.plan === "monthly" ? parsed.plan : null;
       const a = parsed.activeUntil ?? null;
       const t = parsed.trialStartedAt ?? null;
       return { state: s, plan: p, activeUntil: a, trialStartedAt: t };
@@ -111,7 +117,7 @@ export function PricingProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const subscribe = useCallback((p: Plan) => {
-    setStored({ state: "paid", plan: p, activeUntil: daysFromNow(365), trialStartedAt: null });
+    setStored({ state: "paid", plan: p, activeUntil: daysFromNow(planDurationDays(p)), trialStartedAt: null });
     setModalOpen(false);
   }, []);
 
