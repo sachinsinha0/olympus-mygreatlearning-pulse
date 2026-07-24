@@ -177,11 +177,11 @@ export function ModuleListCard({
         textTransform: "none",
         whiteSpace: "nowrap",
         boxShadow: "none",
-        bgcolor: theme.palette.primary.light,
-        color: theme.palette.primary.main,
+        bgcolor: theme.palette.primary.main,
+        color: theme.palette.primary.contrastText,
         "&:hover": {
-          bgcolor: theme.palette.primary.light,
-          filter: "brightness(0.95)",
+          bgcolor: theme.palette.primary.main,
+          filter: "brightness(0.93)",
           boxShadow: "none",
         },
         "&.Mui-disabled": {

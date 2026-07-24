@@ -15,7 +15,8 @@ type PlanCard = {
   plan: Plan;
   name: string;
   meta: string;
-  perMo: string;
+  price: string;
+  unit: string;
   save?: string;
 };
 
@@ -23,15 +24,17 @@ const PLAN_CARDS: PlanCard[] = [
   {
     plan: "annual",
     name: "Annual",
-    meta: "Billed annually · $300/year",
-    perMo: "$25",
+    meta: "Billed annually · $25/month",
+    price: "$300",
+    unit: "/year",
     save: "Save $60/year",
   },
   {
     plan: "monthly",
     name: "Monthly",
-    meta: "Billed monthly · cancel anytime",
-    perMo: "$30",
+    meta: "Billed monthly",
+    price: "$30",
+    unit: "/month",
   },
 ];
 
@@ -169,10 +172,10 @@ export function PricingModal() {
                         px: 1,
                         py: 0.375,
                         borderRadius: "6px",
-                        bgcolor: theme.palette.primary.light,
+                        bgcolor: theme.palette.extended.success.colorContainer,
                       })}
                     >
-                      <Typography sx={(theme) => ({ fontSize: 11.5, fontWeight: 700, color: theme.palette.primary.main, letterSpacing: "-0.1px" })}>
+                      <Typography sx={(theme) => ({ fontSize: 11.5, fontWeight: 700, color: theme.palette.extended.success.onColorContainer, letterSpacing: "-0.1px" })}>
                         {card.save}
                       </Typography>
                     </Box>
@@ -181,9 +184,9 @@ export function PricingModal() {
 
                 <Stack direction="row" alignItems="baseline" gap={0.5} sx={{ flexShrink: 0, pt: 0.25 }}>
                   <Typography sx={{ fontSize: 26, fontWeight: 700, letterSpacing: "-0.8px", color: "text.primary", lineHeight: 1 }}>
-                    {card.perMo}
+                    {card.price}
                   </Typography>
-                  <Typography sx={{ fontSize: 14, fontWeight: 500, color: "text.secondary" }}>/mo</Typography>
+                  <Typography sx={{ fontSize: 14, fontWeight: 500, color: "text.secondary" }}>{card.unit}</Typography>
                 </Stack>
               </Box>
             );
