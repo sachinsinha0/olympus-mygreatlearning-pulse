@@ -111,12 +111,12 @@ The module card gains a bottom **action row** containing both CTAs (a departure 
 │         ✓ Set up Claude Code on your own project          │
 │         ✓ Ship a real change end to end                   │
 │                                                            │
-│         [ Start Learning ]  [ 🖥 Try the hands-on demo → ]│
+│         [ Start Learning ]  [ Try the hands-on demo ]     │
 └──────────────────────────────────────────────────────────┘
 ```
 
-- **Primary** — "Start Learning" (existing label logic preserved: Start / Resume / Start Free Trial / Subscribe to unlock / Renew to unlock). Filled style.
-- **Secondary** — "🖥 Try the hands-on demo →". Outlined button using the existing **deep-orange** hands-on tone (`extended.deepOrange.color` text, soft border/`colorContainer` background) — the same color+monitor-icon language already used for "Hands-on Demos Completed" in the Learning Journey, so it reads as one system. Clearly a button, but visually subordinate to the filled primary.
+- **Primary** — "Start Learning" (existing label logic preserved: Start / Resume / Start Free Trial / Subscribe to unlock / Renew to unlock). Filled/solid primary (`variant="contained"`).
+- **Secondary** — "Try the hands-on demo". **Outlined primary button** (`variant="outlined"`, `primary.main` border + text, transparent background) — same blue family as the primary, differentiated only by weight (solid vs outlined). No icon and no arrow, matching the plain-text "Start Learning" primary for a consistent button pair; the label carries the meaning on its own. Clearly a button, but visually subordinate to the filled primary.
 - **Desktop:** buttons sit as a row at the bottom of the card body (replacing the top-right compact CTA). **Mobile/tablet:** buttons stack full-width at the bottom (consistent with today's mobile CTA), primary on top.
 
 ### Fixed copy, computed destination
