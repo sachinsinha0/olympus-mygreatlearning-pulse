@@ -4,7 +4,6 @@ import { Bell, Check, Clock, FlaskConical, Lock } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import type { PulseIssue } from "../../lib/pulse/types";
-import { formatIssueDate } from "../../lib/format";
 import { isTrialExpired, usePricing } from "../../lib/pulse/pricing";
 import { useUnitLabel } from "../../lib/pulse/terminology";
 import { useLearningProgress } from "../../lib/pulse/learningProgress";
@@ -95,9 +94,10 @@ export function ModuleListCard({
   const onCardClick = isUpcoming ? undefined : onStart;
   const outcomes = issue.outcomes.slice(0, 4);
 
-  // Upcoming cards render at full strength — identical weight to released ones.
-  // The only signal that they are not yet out is the "Coming" date prefix and the
-  // outlined, non-interactive CTA below; nothing is dimmed.
+  // Release dates are deliberately not shown on the card. Upcoming cards render at
+  // full strength — identical weight to released ones — so the only signals that a
+  // module is not yet out are the "Upcoming Modules" section header and the
+  // "I'm Interested" CTA in place of "Start Learning". Nothing is dimmed.
   const eyebrowRow = (
     <Stack direction="row" gap={1} alignItems="center">
       <Typography
@@ -111,19 +111,6 @@ export function ModuleListCard({
         }}
       >
         {unit.numbered(displayNumber ?? issue.issueNumber)}
-      </Typography>
-      <Dot />
-      <Typography
-        sx={{
-          fontSize: 12,
-          fontWeight: 400,
-          lineHeight: "16px",
-          letterSpacing: "-0.2px",
-          color: "text.secondary",
-        }}
-      >
-        {isUpcoming ? "Coming " : ""}
-        {formatIssueDate(issue.releasedAt)}
       </Typography>
     </Stack>
   );

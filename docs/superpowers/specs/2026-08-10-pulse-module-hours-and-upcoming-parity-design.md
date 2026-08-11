@@ -101,7 +101,7 @@ locked and upcoming are different states and should not converge.
 |---|---|---|
 | Card | `opacity: 0.65` | `opacity: 1` |
 | Eyebrow number | `text.disabled` | `primary.main` |
-| Eyebrow date | `text.disabled`, "Jun 24, 2026" | `text.secondary`, **"Coming Jun 24, 2026"** |
+| Eyebrow date | `text.disabled`, "Jun 24, 2026" | **removed from the card entirely** (see below) |
 | Title | `text.secondary` | `text.primary` |
 | Outcome check icons | `text.disabled` | `primary.main` |
 | Outcome text | `text.disabled` | `text.primary` |
@@ -110,8 +110,17 @@ locked and upcoming are different states and should not converge.
 Unchanged: the card is not clickable, there is no hover lift, and the hands-on shortcut stays hidden
 (it deep-links into content that does not exist yet).
 
-Two signals now carry "not yet released": the "Coming" date prefix and the distinct interest CTA in
-place of "Start Learning". That is deliberate — the card should read as anticipated, not unavailable.
+### Release dates removed from the card
+
+The eyebrow originally read `MODULE 04 · Coming Jun 24, 2026`. Dates are now dropped from every card,
+released and upcoming alike, leaving just `MODULE 04`. `releasedAt` still drives sorting and the
+released/upcoming split — it is simply not displayed.
+
+**Consequence:** with both the dimming and the date gone, only two things now mark a card as
+unreleased — the "Upcoming Modules" section header above it, and the "I'm Interested" CTA in place of
+"Start Learning". A card viewed in isolation (or if the section headers are ever dropped) carries no
+release signal of its own. That is an accepted trade for now; restoring a date-less "Coming soon"
+chip to the eyebrow is the cheapest fix if the distinction ever reads too weakly.
 
 **Known consequence:** in the expired/locked state, released cards dim to `opacity: 0.78` while
 upcoming cards stay at full strength, so upcoming reads stronger than released. This is correct
@@ -206,9 +215,9 @@ existing `src/lib/pulse/*.test.ts` suite — 43 tests passing. `npm run build` c
 Visual and interaction pass at 1280px and 390px across the pre-trial and expired states, confirming:
 
 - the meta row renders on all four visible cards and fits one line at 390px;
-- upcoming cards render at full strength with "Coming &lt;date&gt;";
-- section order is Upcoming → AI Pulse Modules, with labels counting down 04 → 01 and dates
-  descending;
+- upcoming cards render at full strength, with no date anywhere on the page;
+- section order is Upcoming → AI Pulse Modules, with labels counting down 04 → 01 and the underlying
+  `releasedAt` sort still descending;
 - "I'm Interested" (bell) locks into a disabled, full-colour "✓ Interested" on tap, persists across
   reload, and emits `GL:PulseUpcomingModuleInterest_Marked` with the module id and title;
 - the expired state retains its dimming, filled "Renew to unlock" CTA, and hidden hands-on button.
