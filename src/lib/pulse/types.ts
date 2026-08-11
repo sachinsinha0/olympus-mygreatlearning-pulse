@@ -52,6 +52,11 @@ export type PulseIssue = {
   description: string;
   releasedAt: string;
   durationMinutes: number;
+  /** Video/segment time, excluding the hands-on demo. Authored so that
+   *  learningMinutes + handsOnMinutes === durationMinutes. */
+  learningMinutes: number;
+  /** Hands-on demo time. 0 for a module with no hands-on component. */
+  handsOnMinutes: number;
   tags: TopicTag[];
   isFoundations: boolean;
   coverColor: CoverColor;

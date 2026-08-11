@@ -28,17 +28,22 @@ export function PulseHome() {
     }
   }, [introSeen, state, trialStartedAt, navigate]);
 
+  // Newest-first everywhere: upcoming above released, and both sections sorted by
+  // date descending, so the page reads as one continuous reverse timeline and the
+  // freshest module is always the first thing on screen. Module numbers therefore
+  // count *down* the page — the bottom card is the earliest of the visible set.
   const groups = useMemo(() => {
     const today = PULSE_TODAY;
+    const byDateDesc = (a: PulseIssue, b: PulseIssue) => b.releasedAt.localeCompare(a.releasedAt);
     const released = allIssues
       .filter((i) => i.releasedAt <= today)
-      .sort((a, b) => b.releasedAt.localeCompare(a.releasedAt))
+      .sort(byDateDesc)
       .slice(0, 2);
-    const upcoming = allIssues
-      .filter((i) => i.releasedAt > today)
-      .sort((a, b) => a.releasedAt.localeCompare(b.releasedAt));
+    const upcoming = allIssues.filter((i) => i.releasedAt > today).sort(byDateDesc);
     return { released, upcoming };
   }, []);
+
+  const totalVisible = groups.released.length + groups.upcoming.length;
 
   return (
     <Box sx={{ minHeight: "100vh", bgcolor: "background.default" }}>
@@ -48,21 +53,6 @@ export function PulseHome() {
         <PulseV2Hero />
 
         <Stack gap={4} sx={{ mt: 4 }}>
-          {groups.released.length > 0 && (
-            <Stack id="released-modules" gap={2} sx={{ scrollMarginTop: 96 }}>
-              <SectionHeader title="AI Pulse Modules" />
-              <Stack gap={1.5}>
-                {groups.released.map((issue, i) => (
-                  <ModuleListCard
-                    key={issue.id}
-                    issue={issue}
-                    status="released"
-                    displayNumber={i + 1}
-                  />
-                ))}
-              </Stack>
-            </Stack>
-          )}
           {groups.upcoming.length > 0 && (
             <Stack gap={2}>
               <SectionHeader title="Upcoming Modules" />
@@ -72,7 +62,22 @@ export function PulseHome() {
                     key={issue.id}
                     issue={issue}
                     status="upcoming"
-                    displayNumber={groups.released.length + i + 1}
+                    displayNumber={totalVisible - i}
+                  />
+                ))}
+              </Stack>
+            </Stack>
+          )}
+          {groups.released.length > 0 && (
+            <Stack id="released-modules" gap={2} sx={{ scrollMarginTop: 96 }}>
+              <SectionHeader title="AI Pulse Modules" />
+              <Stack gap={1.5}>
+                {groups.released.map((issue, i) => (
+                  <ModuleListCard
+                    key={issue.id}
+                    issue={issue}
+                    status="released"
+                    displayNumber={groups.released.length - i}
                   />
                 ))}
               </Stack>

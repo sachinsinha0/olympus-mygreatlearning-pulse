@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { Avatar, Box, Button, Card, CircularProgress, Stack, Typography } from "@mui/material";
-import { Check, Lock } from "lucide-react";
+import { Bell, Check, Clock, FlaskConical, Lock } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import type { PulseIssue } from "../../lib/pulse/types";
 import { formatIssueDate } from "../../lib/format";
 import { isTrialExpired, usePricing } from "../../lib/pulse/pricing";
 import { useUnitLabel } from "../../lib/pulse/terminology";
 import { useLearningProgress } from "../../lib/pulse/learningProgress";
+import { useModuleInterest } from "../../lib/pulse/moduleInterest";
 import { usePageLoader } from "../common/PageLoader";
 import { getDefaultItemId, getHandsOnItemId } from "../../lib/pulse/courseItems";
 
@@ -26,6 +28,7 @@ export function ModuleListCard({
   const { state, trialStartedAt, activeUntil, openPricingModal, startTrial } = usePricing();
   const { runWithPageLoader } = usePageLoader();
   const { hasStarted, markStarted } = useLearningProgress();
+  const { interested, markInterested } = useModuleInterest(issue.id, issue.title);
   const [loading, setLoading] = useState(false);
 
   const isUpcoming = status === "upcoming";
@@ -92,6 +95,9 @@ export function ModuleListCard({
   const onCardClick = isUpcoming ? undefined : onStart;
   const outcomes = issue.outcomes.slice(0, 4);
 
+  // Upcoming cards render at full strength — identical weight to released ones.
+  // The only signal that they are not yet out is the "Coming" date prefix and the
+  // outlined, non-interactive CTA below; nothing is dimmed.
   const eyebrowRow = (
     <Stack direction="row" gap={1} alignItems="center">
       <Typography
@@ -101,7 +107,7 @@ export function ModuleListCard({
           letterSpacing: 1.4,
           textTransform: "uppercase",
           lineHeight: "16px",
-          color: isUpcoming ? "text.disabled" : "primary.main",
+          color: "primary.main",
         }}
       >
         {unit.numbered(displayNumber ?? issue.issueNumber)}
@@ -113,9 +119,10 @@ export function ModuleListCard({
           fontWeight: 400,
           lineHeight: "16px",
           letterSpacing: "-0.2px",
-          color: isUpcoming ? "text.disabled" : "text.secondary",
+          color: "text.secondary",
         }}
       >
+        {isUpcoming ? "Coming " : ""}
         {formatIssueDate(issue.releasedAt)}
       </Typography>
     </Stack>
@@ -128,7 +135,7 @@ export function ModuleListCard({
         fontWeight: 700,
         lineHeight: "24px",
         letterSpacing: "-0.4px",
-        color: isUpcoming ? "text.secondary" : "text.primary",
+        color: "text.primary",
       }}
     >
       {issue.title}
@@ -149,13 +156,36 @@ export function ModuleListCard({
     </Typography>
   );
 
+  // Time split: video/segment time vs the hands-on demo. Both are authored on the
+  // issue and sum to durationMinutes, so the card never contradicts the "under 60
+  // minutes per module" promise made in the hero and pricing dialog.
+  const durationRow = (
+    <Stack
+      direction="row"
+      alignItems="center"
+      gap={1.25}
+      sx={{ flexWrap: "wrap", rowGap: 0.5 }}
+    >
+      <DurationItem Icon={Clock} label={`${issue.learningMinutes} min learning`} />
+      {issue.handsOnMinutes > 0 && (
+        <>
+          <Dot />
+          <DurationItem
+            Icon={FlaskConical}
+            label={`${issue.handsOnMinutes} min hands-on`}
+          />
+        </>
+      )}
+    </Stack>
+  );
+
   const primaryButton = (fullWidth: boolean) => (
     <Button
       variant="contained"
       disableElevation
-      disabled={isUpcoming || loading}
+      disabled={loading}
       startIcon={
-        isUpcoming || isLocked ? (
+        isLocked ? (
           <Lock size={16} strokeWidth={2.25} />
         ) : loading ? (
           <CircularProgress size={16} thickness={5} sx={{ color: "inherit" }} />
@@ -163,7 +193,7 @@ export function ModuleListCard({
       }
       onClick={(e) => {
         e.stopPropagation();
-        if (!isUpcoming) onStart();
+        onStart();
       }}
       sx={(theme) => ({
         height: 44,
@@ -190,7 +220,56 @@ export function ModuleListCard({
         },
       })}
     >
-      {isUpcoming ? "Coming soon" : ctaLabel}
+      {ctaLabel}
+    </Button>
+  );
+
+  // Upcoming cards carry a demand signal instead of a dead "Coming soon" label.
+  // Marking interest is one-way: once recorded the button locks into a settled
+  // confirmation, so the count can't be walked back or double-counted. It stays
+  // full-colour while disabled — this is a completed action, not an unavailable one.
+  const interestButton = (fullWidth: boolean) => (
+    <Button
+      variant="outlined"
+      disabled={interested}
+      onClick={(e) => {
+        e.stopPropagation();
+        markInterested();
+      }}
+      startIcon={
+        interested ? (
+          <Check size={16} strokeWidth={2.5} />
+        ) : (
+          <Bell size={16} strokeWidth={2.25} />
+        )
+      }
+      sx={(theme) => ({
+        height: 44,
+        px: 2.5,
+        fontSize: 15,
+        fontWeight: 500,
+        letterSpacing: "-0.2px",
+        lineHeight: "22px",
+        borderRadius: "8px",
+        width: fullWidth ? "100%" : "auto",
+        textTransform: "none",
+        whiteSpace: "nowrap",
+        color: theme.palette.primary.main,
+        borderColor: theme.palette.outlineVariant.main,
+        borderWidth: "1px",
+        "&:hover": {
+          borderWidth: "1px",
+          borderColor: theme.palette.outlineVariant.main,
+          bgcolor: theme.palette.primary.light,
+        },
+        "&.Mui-disabled": {
+          color: theme.palette.primary.main,
+          border: `1px solid ${theme.palette.primary.main}`,
+          bgcolor: theme.palette.primary.light,
+        },
+      })}
+    >
+      {interested ? "Interested" : "I'm Interested"}
     </Button>
   );
 
@@ -234,8 +313,14 @@ export function ModuleListCard({
       gap={1.25}
       sx={{ mt: 2, width: fullWidth ? "100%" : "auto" }}
     >
-      {primaryButton(fullWidth)}
-      {canShowHandsOn && handsOnButton(fullWidth)}
+      {isUpcoming ? (
+        interestButton(fullWidth)
+      ) : (
+        <>
+          {primaryButton(fullWidth)}
+          {canShowHandsOn && handsOnButton(fullWidth)}
+        </>
+      )}
     </Stack>
   );
 
@@ -255,7 +340,7 @@ export function ModuleListCard({
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              color: isUpcoming ? theme.palette.text.disabled : theme.palette.primary.main,
+              color: theme.palette.primary.main,
             })}
           >
             <Check size={16} strokeWidth={2.5} />
@@ -266,7 +351,7 @@ export function ModuleListCard({
               fontWeight: 400,
               lineHeight: "20px",
               letterSpacing: "-0.2px",
-              color: isUpcoming ? "text.disabled" : "text.primary",
+              color: "text.primary",
             }}
           >
             {o}
@@ -283,7 +368,7 @@ export function ModuleListCard({
         cursor: isUpcoming ? "default" : "pointer",
         p: { xs: 2.5, md: 3 },
         borderRadius: "12px",
-        opacity: isUpcoming ? 0.65 : isLocked ? 0.78 : 1,
+        opacity: isLocked ? 0.78 : 1,
         transition:
           "border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease",
         "&:hover": isUpcoming
@@ -307,6 +392,7 @@ export function ModuleListCard({
               {titleEl}
               {descriptionEl}
             </Stack>
+            {durationRow}
             {outcomesBlock}
             {actionRow(false)}
           </Stack>
@@ -321,6 +407,7 @@ export function ModuleListCard({
           {titleEl}
         </Stack>
         {descriptionEl}
+        {durationRow}
         {outcomesBlock}
         {actionRow(true)}
       </Stack>
@@ -351,6 +438,34 @@ function ToolLogo({ issue }: { issue: PulseIssue }) {
     >
       {fallback}
     </Avatar>
+  );
+}
+
+function DurationItem({ Icon, label }: { Icon: LucideIcon; label: string }) {
+  return (
+    <Stack direction="row" alignItems="center" gap={0.75} sx={{ minWidth: 0 }}>
+      <Box
+        sx={(theme) => ({
+          flexShrink: 0,
+          display: "flex",
+          color: theme.palette.primary.main,
+        })}
+      >
+        <Icon size={14} strokeWidth={2} />
+      </Box>
+      <Typography
+        sx={{
+          fontSize: 13,
+          fontWeight: 500,
+          lineHeight: "18px",
+          letterSpacing: "-0.1px",
+          color: "text.secondary",
+          whiteSpace: "nowrap",
+        }}
+      >
+        {label}
+      </Typography>
+    </Stack>
   );
 }
 

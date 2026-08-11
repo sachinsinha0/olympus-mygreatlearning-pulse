@@ -6,6 +6,8 @@
     "description": "Point an agent at a repo it has never seen and get a working change back. Here is what holds up and what still needs a human.",
     "releasedAt": "2026-06-24",
     "durationMinutes": 50,
+    "learningMinutes": 35,
+    "handsOnMinutes": 15,
     "tags": [
       "agents",
       "coding"
@@ -45,6 +47,8 @@
     "description": "Figma's stock dipped on a Friday. Claude Design wasn't the story, it was a symptom.",
     "releasedAt": "2026-05-27",
     "durationMinutes": 50,
+    "learningMinutes": 35,
+    "handsOnMinutes": 15,
     "tags": [
       "multimodal",
       "agents"
@@ -84,6 +88,8 @@
     "description": "The blank slide is officially dead. Turn a messy brain dump into a boardroom-ready deck before your coffee gets cold.",
     "releasedAt": "2026-06-10",
     "durationMinutes": 50,
+    "learningMinutes": 32,
+    "handsOnMinutes": 18,
     "tags": [
       "agents",
       "foundations"
@@ -123,6 +129,8 @@
     "description": "OpenClaw set the architecture for autonomous agents. Cowork packages the same architecture but narrows two of the four primitives by design. This module maps both.",
     "releasedAt": "2026-05-13",
     "durationMinutes": 55,
+    "learningMinutes": 35,
+    "handsOnMinutes": 20,
     "tags": [
       "code-gen",
       "agents"
@@ -213,6 +221,8 @@
     "description": "Stop fighting broken VLOOKUPs and hours of manual data entry. What if your spreadsheet could read your data and understand what you want to do with it?",
     "releasedAt": "2026-04-29",
     "durationMinutes": 50,
+    "learningMinutes": 30,
+    "handsOnMinutes": 20,
     "tags": [
       "agents",
       "ops"
@@ -302,6 +312,8 @@
     "description": "Model Context Protocol moved from spec to standard. How to actually wire agents to your tools and data without rebuilding the connector layer for every model.",
     "releasedAt": "2026-04-15",
     "durationMinutes": 50,
+    "learningMinutes": 35,
+    "handsOnMinutes": 15,
     "tags": [
       "mcp",
       "agents",
@@ -396,6 +408,8 @@
     "description": "o3, Claude Sonnet 4.5 Thinking, Gemini 2.5: when test-time compute earns its price, and when it just burns tokens.",
     "releasedAt": "2026-03-25",
     "durationMinutes": 45,
+    "learningMinutes": 30,
+    "handsOnMinutes": 15,
     "tags": [
       "reasoning",
       "evals"
@@ -486,6 +500,8 @@
     "description": "Sora 2, Veo 3, and Runway Gen-4: what their APIs actually unlock once you stop trying to make Pixar movies.",
     "releasedAt": "2026-03-04",
     "durationMinutes": 50,
+    "learningMinutes": 34,
+    "handsOnMinutes": 16,
     "tags": [
       "multimodal"
     ],
@@ -575,6 +591,8 @@
     "description": "Long context is here and cheap. Do you still need a retrieval pipeline? And if yes, what should it look like in 2026?",
     "releasedAt": "2026-02-11",
     "durationMinutes": 55,
+    "learningMinutes": 37,
+    "handsOnMinutes": 18,
     "tags": [
       "rag",
       "foundations"
@@ -665,6 +683,8 @@
     "description": "Realtime APIs hit mainstream. The voice-agent stack, latency budgets, and the production gotchas nobody warns you about.",
     "releasedAt": "2026-01-21",
     "durationMinutes": 50,
+    "learningMinutes": 32,
+    "handsOnMinutes": 18,
     "tags": [
       "multimodal",
       "ops"
@@ -755,6 +775,8 @@
     "description": "If you don't measure it, you're guessing. A working playbook for evaluating LLM features in 2026: rubrics, regression suites, and LLM-as-judge done right.",
     "releasedAt": "2025-12-17",
     "durationMinutes": 50,
+    "learningMinutes": 34,
+    "handsOnMinutes": 16,
     "tags": [
       "evals",
       "ops",
@@ -849,6 +871,8 @@
     "description": "Cursor, Windsurf, Devin, Lovable, Bolt. Who's actually shipping the most code, and where the moat is by mid-2025.",
     "releasedAt": "2025-09-24",
     "durationMinutes": 45,
+    "learningMinutes": 30,
+    "handsOnMinutes": 15,
     "tags": [
       "code-gen"
     ],
@@ -938,6 +962,8 @@
     "description": "The first Pulse. A working map of foundation models in mid-2025: who's good at what, what each costs, and where the moats actually sit.",
     "releasedAt": "2025-05-28",
     "durationMinutes": 50,
+    "learningMinutes": 36,
+    "handsOnMinutes": 14,
     "tags": [
       "foundations"
     ],
