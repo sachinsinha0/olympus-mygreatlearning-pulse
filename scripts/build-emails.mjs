@@ -82,7 +82,7 @@ function readTemplate(file) {
   return { slug, file, title, preheader, personalised, templated };
 }
 
-const files = readdirSync(EMAILS).filter((f) => f.endsWith(".html") && f !== "index.html");
+const files = readdirSync(EMAILS).filter((f) => f.endsWith(".html") && f !== "index.html" && f !== "view.html");
 const items = files.map(readTemplate).sort((a, b) => {
   const ia = ORDER.indexOf(a.slug);
   const ib = ORDER.indexOf(b.slug);
@@ -98,7 +98,9 @@ function card(item, featured) {
     item.templated ? "templated" : null,
   ].filter(Boolean);
 
-  return `        <a class="card${featured ? " card--featured" : ""}" href="./${esc(item.file)}" target="_blank" rel="noopener">
+  // Links to the viewer, not the raw file, so the email opens with chrome that can
+  // navigate back. Same tab, so browser back works too.
+  return `        <a class="card${featured ? " card--featured" : ""}" href="./view.html?e=${esc(item.slug)}">
           <div class="card__stage">
             <div class="card__frame">
               <iframe src="./${esc(item.file)}" title="${esc(item.title)}" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
@@ -395,11 +397,166 @@ ${sections}
 writeFileSync(join(EMAILS, "index.html"), page);
 console.log(`gallery: emails/index.html (${items.length} templates)`);
 
+/* ---------------------------------------------------------------------------
+ * view.html — chrome around a template.
+ *
+ * The email templates are the files send.py actually mails, so nothing may be
+ * injected into them. Navigation lives here instead and the template is loaded
+ * untouched in an iframe.
+ * ------------------------------------------------------------------------- */
+const manifest = items.map((i) => ({ slug: i.slug, file: i.file, title: i.title }));
+
+const viewer = `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Pulse / Email preview</title>
+<link rel="icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#f2f5fb;--ink-dim:#8b95ac;--ink-faint:#5b6479;
+    --bg:#07090f;--surface:#0f131c;
+    --line:rgba(255,255,255,.075);--line-strong:rgba(255,255,255,.16);
+    --blue:#2e9afb;
+    --serif:"Instrument Serif",Georgia,serif;
+    --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+    --bar:60px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--mono);font-size:13px}
+
+  .bar{
+    position:fixed;top:0;left:0;right:0;height:var(--bar);z-index:10;
+    display:flex;align-items:center;gap:16px;padding:0 18px;
+    background:rgba(9,12,19,.86);backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+  }
+  .back{
+    display:inline-flex;align-items:center;gap:8px;flex-shrink:0;
+    color:var(--ink-dim);text-decoration:none;
+    font-size:11px;letter-spacing:.13em;text-transform:uppercase;
+    border:1px solid var(--line-strong);border-radius:999px;padding:8px 15px;
+    transition:color .18s ease,border-color .18s ease;
+  }
+  .back:hover{color:var(--ink);border-color:var(--ink-faint)}
+  .back svg{width:12px;height:12px}
+
+  .id{min-width:0;flex:1}
+  .id h1{
+    font-family:var(--serif);font-weight:400;font-size:19px;line-height:1.2;margin:0;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .id p{margin:2px 0 0;font-size:10.5px;color:var(--blue);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+  .tools{display:flex;align-items:center;gap:10px;flex-shrink:0}
+  .seg{display:inline-flex;border:1px solid var(--line-strong);border-radius:999px;overflow:hidden;background:var(--surface)}
+  .seg button{
+    appearance:none;border:0;background:transparent;color:var(--ink-dim);cursor:pointer;
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;padding:8px 14px;
+  }
+  .seg button[aria-pressed="true"]{background:var(--ink);color:#05070c}
+  .step{
+    display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;
+    border:1px solid var(--line-strong);border-radius:50%;background:var(--surface);
+    color:var(--ink-dim);text-decoration:none;transition:color .18s ease,border-color .18s ease;
+  }
+  .step:hover{color:var(--ink);border-color:var(--ink-faint)}
+  .step[aria-disabled="true"]{opacity:.3;pointer-events:none}
+  .step svg{width:13px;height:13px}
+  .raw{color:var(--ink-faint);text-decoration:none;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
+  .raw:hover{color:var(--blue)}
+  @media (max-width:900px){ .raw,.id p{display:none} }
+  @media (max-width:640px){ .back span{display:none} .back{padding:8px 11px} }
+
+  .stage{padding:calc(var(--bar) + 22px) 16px 40px;display:flex;justify-content:center}
+  iframe{
+    width:680px;max-width:100%;height:calc(100vh - var(--bar) - 62px);
+    border:1px solid var(--line);border-radius:10px;background:#f5f5f7;
+    box-shadow:0 26px 70px -34px rgba(0,0,0,.95);
+  }
+  iframe.is-mobile{width:390px}
+</style>
+</head>
+<body>
+  <div class="bar">
+    <a class="back" href="./">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>All emails</span>
+    </a>
+    <div class="id"><h1 id="t">Loading</h1><p id="f"></p></div>
+    <div class="tools">
+      <div class="seg" role="group" aria-label="Preview width">
+        <button type="button" data-w="desktop" aria-pressed="true">Desktop</button>
+        <button type="button" data-w="mobile" aria-pressed="false">Mobile</button>
+      </div>
+      <a class="step" id="prev" title="Previous email" aria-disabled="true">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a class="step" id="next" title="Next email" aria-disabled="true">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3 5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a class="raw" id="raw" target="_blank" rel="noopener">Raw &#8599;</a>
+    </div>
+  </div>
+
+  <div class="stage"><iframe id="frame" title="Email preview"></iframe></div>
+
+<script>
+  var EMAILS = ${JSON.stringify(manifest)};
+
+  var slug = new URLSearchParams(location.search).get('e');
+  var i = EMAILS.findIndex(function (e) { return e.slug === slug; });
+  if (i < 0) { location.replace('./'); }
+
+  var cur = EMAILS[i] || EMAILS[0];
+  document.getElementById('t').textContent = cur.title;
+  document.getElementById('f').textContent = cur.file;
+  document.getElementById('frame').src = './' + cur.file;
+  document.getElementById('raw').href = './' + cur.file;
+  document.title = cur.title + ' / AI Pulse';
+
+  function step(el, target) {
+    if (!target) return;
+    el.setAttribute('href', './view.html?e=' + target.slug);
+    el.setAttribute('aria-disabled', 'false');
+    el.title = target.title;
+  }
+  step(document.getElementById('prev'), EMAILS[i - 1]);
+  step(document.getElementById('next'), EMAILS[i + 1]);
+
+  var frame = document.getElementById('frame');
+  document.querySelectorAll('.seg button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      frame.classList.toggle('is-mobile', b.dataset.w === 'mobile');
+      document.querySelectorAll('.seg button').forEach(function (x) {
+        x.setAttribute('aria-pressed', String(x === b));
+      });
+    });
+  });
+
+  // Arrow keys move between emails, Escape returns to the library.
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft' && EMAILS[i - 1]) location.href = './view.html?e=' + EMAILS[i - 1].slug;
+    if (e.key === 'ArrowRight' && EMAILS[i + 1]) location.href = './view.html?e=' + EMAILS[i + 1].slug;
+    if (e.key === 'Escape') location.href = './';
+  });
+</script>
+</body>
+</html>
+`;
+
+writeFileSync(join(EMAILS, "view.html"), viewer);
+console.log("viewer: emails/view.html");
+
 // Copy templates + gallery into the Vercel output.
 if (existsSync(join(ROOT, "dist"))) {
   mkdirSync(DIST, { recursive: true });
-  for (const f of [...files, "index.html"]) copyFileSync(join(EMAILS, f), join(DIST, f));
-  console.log(`copied ${files.length + 1} files to dist/emails/`);
+  for (const f of [...files, "index.html", "view.html"]) copyFileSync(join(EMAILS, f), join(DIST, f));
+  console.log(`copied ${files.length + 2} files to dist/emails/`);
 } else {
   console.log("dist/ not present, skipped copy (run after vite build)");
 }
