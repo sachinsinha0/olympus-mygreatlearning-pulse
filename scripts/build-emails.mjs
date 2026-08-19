@@ -20,6 +20,15 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const EMAILS = join(ROOT, "emails");
 const DIST = join(ROOT, "dist", "emails");
 
+/**
+ * Public base path. Must be root-absolute, not relative.
+ *
+ * Vercel serves the library at /emails with no trailing slash, so a relative
+ * "./view.html" resolves against / and 404s. Absolute paths work whether or not
+ * the trailing slash is present.
+ */
+const BASE = "/emails";
+
 /** Lifecycle order. Anything not listed is appended alphabetically. */
 const ORDER = [
   "product-launch",
@@ -100,10 +109,10 @@ function card(item, featured) {
 
   // Links to the viewer, not the raw file, so the email opens with chrome that can
   // navigate back. Same tab, so browser back works too.
-  return `        <a class="card${featured ? " card--featured" : ""}" href="./view.html?e=${esc(item.slug)}">
+  return `        <a class="card${featured ? " card--featured" : ""}" href="${BASE}/view.html?e=${esc(item.slug)}">
           <div class="card__stage">
             <div class="card__frame">
-              <iframe src="./${esc(item.file)}" title="${esc(item.title)}" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
+              <iframe src="${BASE}/${esc(item.file)}" title="${esc(item.title)}" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
             </div>
           </div>
           <div class="card__body">
@@ -483,7 +492,7 @@ const viewer = `<!doctype html>
 </head>
 <body>
   <div class="bar">
-    <a class="back" href="./">
+    <a class="back" href="${BASE}/">
       <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <span>All emails</span>
     </a>
@@ -510,18 +519,18 @@ const viewer = `<!doctype html>
 
   var slug = new URLSearchParams(location.search).get('e');
   var i = EMAILS.findIndex(function (e) { return e.slug === slug; });
-  if (i < 0) { location.replace('./'); }
+  if (i < 0) { location.replace('${BASE}/'); }
 
   var cur = EMAILS[i] || EMAILS[0];
   document.getElementById('t').textContent = cur.title;
   document.getElementById('f').textContent = cur.file;
-  document.getElementById('frame').src = './' + cur.file;
-  document.getElementById('raw').href = './' + cur.file;
+  document.getElementById('frame').src = '${BASE}/' + cur.file;
+  document.getElementById('raw').href = '${BASE}/' + cur.file;
   document.title = cur.title + ' / AI Pulse';
 
   function step(el, target) {
     if (!target) return;
-    el.setAttribute('href', './view.html?e=' + target.slug);
+    el.setAttribute('href', '${BASE}/view.html?e=' + target.slug);
     el.setAttribute('aria-disabled', 'false');
     el.title = target.title;
   }
@@ -540,9 +549,9 @@ const viewer = `<!doctype html>
 
   // Arrow keys move between emails, Escape returns to the library.
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'ArrowLeft' && EMAILS[i - 1]) location.href = './view.html?e=' + EMAILS[i - 1].slug;
-    if (e.key === 'ArrowRight' && EMAILS[i + 1]) location.href = './view.html?e=' + EMAILS[i + 1].slug;
-    if (e.key === 'Escape') location.href = './';
+    if (e.key === 'ArrowLeft' && EMAILS[i - 1]) location.href = '${BASE}/view.html?e=' + EMAILS[i - 1].slug;
+    if (e.key === 'ArrowRight' && EMAILS[i + 1]) location.href = '${BASE}/view.html?e=' + EMAILS[i + 1].slug;
+    if (e.key === 'Escape') location.href = '${BASE}/';
   });
 </script>
 </body>
