@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="x-apple-disable-message-reformatting">
+  <meta name="color-scheme" content="light">
+  <meta name="supported-color-schemes" content="light">
+  <title>Your AI Pulse trial ended 3 days ago</title>
+  <!--[if mso]>
+  <noscript><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml></noscript>
+  <![endif]-->
+  <style>
+    @media (max-width: 700px) {
+      .container { width: 100% !important; }
+      .page-pad { padding: 0 !important; }
+      .px { padding-left: 20px !important; padding-right: 20px !important; }
+      .footer-pad { padding: 32px 24px !important; }
+    }
+    a { text-decoration: none; }
+  </style>
+</head>
+
+<!--
+  ============================================================================
+  AI PULSE / DAY 3 AFTER TRIAL EXPIRY
+  ============================================================================
+  Sent 3 days after a learner's 30-day trial ends. Goal: subscribe.
+
+  TONE RULE / READ BEFORE EDITING COPY
+  Audience is Great Learning alumni, not prospects. This is an ACCOUNT
+  STATUS NOTIFICATION, not a reactivation campaign. Direct, factual,
+  respectful of their time. No artificial urgency, no FOMO, no
+  "don't miss out" framing. Lead with the action ("Subscribe to
+  continue"), never with a conditional ("If you subscribe"). The landing
+  page handles the selling, the email does not need to.
+  House style: no em dashes anywhere in learner-facing copy.
+
+  CONTENT RULE / READ BEFORE EDITING COPY
+  Modules ship every 2 weeks, but trial expiry is per-learner. A release
+  falls inside any given learner's 3-day post-expiry window only ~21% of
+  the time. This email therefore NEVER claims a new module "just went
+  live". Every statement below is true in all three cases:
+      A. a module released during those 3 days
+      B. no release since expiry, next one is days away
+      C. no release since expiry, next one is ~2 weeks away
+  Nothing here depends on a release having happened. Keep it that way.
+
+  LAYOUT RULE
+  Deliberately short and scannable. Module entries are compact rows, the
+  same treatment used in trial-expired-reminder.html. Do not promote them
+  back into full cards with descriptions and outcome lists, that belongs
+  in biweekly-release.html. Rows are clickable, there is exactly ONE
+  button in the email (Subscribe to AI Pulse) so the primary action is
+  never in competition.
+
+  MERGE FIELDS + FALLBACKS
+  {first_name}          learner first name.  Fallback: "there"
+
+  Available modules / ALWAYS EXACTLY 3 ROWS. HARD CAP, NEVER MORE.
+  The library was 11 modules at time of writing and grows by 26 a year,
+  so this list must never render one row per released module. The email's
+  length has to stay constant as the catalogue grows. If you need to show
+  more, that is what the "View all modules" link below the rows is for.
+
+  Selection priority, fill 3 slots in this order:
+    1. the module the learner left IN PROGRESS, if any
+    2. most recent RELEASED modules they have NOT completed, newest first
+  Order rows by RELEASE DATE, newest at the top, not by module number.
+  The two do not always agree in the catalogue data.
+    3. if they completed everything: 3 most recent released modules
+  (Note: these are uncompleted modules, so this section must never be
+  labelled "what you completed".)
+  Fields per row: number / title / icon / duration / url
+  Populated below with live prototype data (Modules 03, 02, 01).
+
+  The "View all modules" link is a TEXT link, not a button, so the single
+  primary button rule still holds. If you would rather show the catalogue
+  size, swap its label for "View all {released_count} modules". It is left
+  countless by default so the number can never go stale in a sent email.
+
+  Upcoming Modules (1 row) / the first SCHEDULED unreleased module.
+  Section sits ABOVE the available list, mirroring PulseHome.tsx, which
+  renders "Upcoming Modules" above "AI Pulse Modules". Label matches the
+  product term, do not rename it back to "Coming next".
+
+  The row renders at FULL STRENGTH and is CLICKABLE, exactly like a
+  released row, and links to the Pulse page. Do not dim it, do not grey
+  the title, do not make it inert. See ModuleListCard.tsx: "Upcoming cards
+  render at full strength, identical weight to released ones ... Nothing
+  is dimmed." The section header is what signals the module is not out yet.
+
+  No release date is shown, matching the product decision in commit
+  1110658 "remove release dates from module cards". A date printed in a
+  sent email also cannot be corrected if the release slips.
+  {next_module_number} {next_module_title} {next_module_date}
+  Fallback if nothing is scheduled: hide that <TR> entirely. The cadence
+  line above the button still stands alone, so the email survives the cut.
+  ============================================================================
+-->
+
+<body style="margin:0;padding:0;background:#f5f5f7;font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;color:#1a1b1e;">
+
+  <!-- Preheader -->
+  <div style="display:none;max-height:0;overflow:hidden;mso-hide:all;font-size:1px;line-height:1px;color:#f5f5f7;opacity:0;">
+    Your progress is saved. Access to AI Pulse modules is currently paused.
+  </div>
+
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f5f5f7;">
+    <tr>
+      <td align="center" class="page-pad" style="padding:32px 16px;">
+
+        <table role="presentation" width="680" class="container" cellpadding="0" cellspacing="0" border="0" style="width:680px;max-width:680px;background:#ffffff;">
+
+          <!-- 0. Brand accent bar -->
+          <tr>
+            <td style="background:#0054d6;line-height:0;font-size:0;height:6px;">&nbsp;</td>
+          </tr>
+
+          <!-- 1. Brand bar -->
+          <tr>
+            <td align="center" style="padding:20px 32px;background:#ffffff;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center">
+                <tr>
+                  <td style="font:700 18px/1 Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:-0.3px;color:#1a1b1e;padding-right:8px;vertical-align:middle;">AI Pulse</td>
+                  <td style="font:400 14px/1 Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#86868b;padding-right:8px;vertical-align:middle;">by</td>
+                  <td style="vertical-align:middle;line-height:0;">
+                    <img src="https://pulse-email-assets.vercel.app/gl-logo.png?v=2" alt="Great Learning" height="28" style="display:block;height:28px;width:auto;border:0;outline:none;text-decoration:none;">
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- 2. Editorial intro -->
+          <tr>
+            <td class="px" style="padding:32px 32px 8px;background:#ffffff;">
+              <p style="margin:0 0 14px;font:700 11px/16px Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:1.4px;color:#0054d6;text-transform:uppercase;">
+                <span style="display:inline-block;width:6px;height:6px;border-radius:3px;background:#0054d6;vertical-align:middle;margin-right:8px;margin-bottom:2px;"></span>
+                Your trial ended 3 days ago
+              </p>
+              <p style="margin:0;font:400 15px/1.55 Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:-0.1px;color:#1a1b1e;">
+                Hi {first_name},
+              </p>
+              <p style="margin:14px 0 0;font:400 16px/24px Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:-0.2px;color:#45464f;">
+                Your AI Pulse trial ended <span style="font-weight:600;color:#1a1b1e;">3 days ago</span>. Your progress is saved, but access to the modules is currently paused.
+              </p>
+              <p style="margin:14px 0 0;font:400 16px/24px Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:-0.2px;color:#45464f;">
+                Subscribe to continue from where you stopped and access new modules as they are released.
+              </p>
+            </td>
+          </tr>
+
+          <!-- 2a. Paused status banner (matches trial-expired.html) -->
+          <tr>
+            <td class="px" style="padding:20px 32px 0;background:#ffffff;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#fbeeed;border:1px solid #f0d6d3;border-radius:12px;">
+                <tr>
+                  <td style="padding:16px 18px;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td valign="middle" style="width:42px;padding-right:14px;">
+                          <img src="https://pulse-email-assets.vercel.app/icons/lock.png" alt="Locked" width="42" height="42" style="display:block;width:42px;height:42px;border:0;">
+                        </td>
+                        <td valign="middle">
+                          <p style="margin:0 0 3px;font:700 15px/22px Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:-0.2px;color:#c0392b;">Full access paused</p>
+                          <p style="margin:0;font:400 14px/20px Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:-0.1px;color:#9b5b54;">Subscribe to unlock every module again.</p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- 3. UPCOMING MODULES / full strength and clickable, never dimmed. Hide this whole TR if nothing is scheduled. -->
+          <tr>
+            <td class="px" style="padding:24px 32px 0;background:#ffffff;">
+              <p style="margin:0 0 12px;font:700 11px/16px Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:1.4px;color:#86868b;text-transform:uppercase;">
+                Upcoming Modules
+              </p>
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#ffffff;border:1px solid #ebebef;border-radius:10px;">
+                <tr>
+                  <td style="padding:12px 14px;">
+                    <a href="https://olympus.mygreatlearning.com/pulse" style="display:block;text-decoration:none;">
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td valign="middle" style="width:40px;padding-right:12px;">
+                          <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                            <tr><td style="width:40px;height:40px;background:#dae1ff;border:1px solid #ebebef;border-radius:9px;text-align:center;vertical-align:middle;">
+                              <img src="https://pulse-email-assets.vercel.app/modules/slides.png?v=2" alt="The Zero-to-Slide Workflow" width="34" height="34" style="display:block;width:34px;height:34px;border-radius:7px;border:0;margin:0 auto;">
+                            </td></tr>
+                          </table>
+                        </td>
+                        <td valign="middle">
+                          <p style="margin:0 0 3px;font:700 10px/13px Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:1.2px;color:#0054d6;text-transform:uppercase;">Module 04</p>
+                          <p style="margin:0;font:600 14px/1.35 Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:-0.2px;color:#1a1b1e;">The Zero-to-Slide Workflow</p>
+                        </td>
+                      </tr>
+                    </table>
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- 4. AVAILABLE IN AI PULSE / compact clickable rows, always populated -->
+          <tr>
+            <td class="px" style="padding:24px 32px 12px;background:#ffffff;">
+              <p style="margin:0;font:700 11px/16px Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:1.4px;color:#0054d6;text-transform:uppercase;">
+                Available in AI Pulse
+              </p>
+            </td>
+          </tr>
+
+          <!-- 4a. Row 1 -->
+          <tr>
+            <td class="px" style="padding:0 32px 8px;background:#ffffff;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#ffffff;border:1px solid #ebebef;border-radius:10px;">
+                <tr>
+                  <td style="padding:12px 14px;">
+                    <a href="https://olympus.mygreatlearning.com/pulse" style="display:block;text-decoration:none;">
+                      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                        <tr>
+                          <td valign="middle" style="width:40px;padding-right:12px;">
+                            <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                              <tr><td style="width:40px;height:40px;background:#dae1ff;border:1px solid #ebebef;border-radius:9px;text-align:center;vertical-align:middle;">
+                                <img src="https://pulse-email-assets.vercel.app/modules/claude-design.png?v=2" alt="The Month Claude Became a Platform" width="34" height="34" style="display:block;width:34px;height:34px;border-radius:7px;border:0;margin:0 auto;">
+                              </td></tr>
+                            </table>
+                          </td>
+                          <td valign="middle">
+                            <p style="margin:0 0 3px;font:700 10px/13px Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:1.2px;color:#0054d6;text-transform:uppercase;">Module 03 &nbsp;·&nbsp; 50 min</p>
+                            <p style="margin:0;font:600 14px/1.35 Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:-0.2px;color:#1a1b1e;">The Month Claude Became a Platform</p>
+                          </td>
+                        </tr>
+                      </table>
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- 4b. Row 2 -->
+          <tr>
+            <td class="px" style="padding:0 32px 8px;background:#ffffff;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#ffffff;border:1px solid #ebebef;border-radius:10px;">
+                <tr>
+                  <td style="padding:12px 14px;">
+                    <a href="https://olympus.mygreatlearning.com/pulse" style="display:block;text-decoration:none;">
+                      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                        <tr>
+                          <td valign="middle" style="width:40px;padding-right:12px;">
+                            <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                              <tr><td style="width:40px;height:40px;background:#dae1ff;border:1px solid #ebebef;border-radius:9px;text-align:center;vertical-align:middle;">
+                                <img src="https://pulse-email-assets.vercel.app/modules/claude-cowork.png?v=2" alt="What OpenClaw built. How Cowork makes most of it safe." width="34" height="34" style="display:block;width:34px;height:34px;border-radius:7px;border:0;margin:0 auto;">
+                              </td></tr>
+                            </table>
+                          </td>
+                          <td valign="middle">
+                            <p style="margin:0 0 3px;font:700 10px/13px Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:1.2px;color:#0054d6;text-transform:uppercase;">Module 02 &nbsp;·&nbsp; 55 min</p>
+                            <p style="margin:0;font:600 14px/1.35 Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:-0.2px;color:#1a1b1e;">What OpenClaw built. How Cowork makes most of it safe.</p>
+                          </td>
+                        </tr>
+                      </table>
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- 4c. Row 3 -->
+          <tr>
+            <td class="px" style="padding:0 32px 0;background:#ffffff;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#ffffff;border:1px solid #ebebef;border-radius:10px;">
+                <tr>
+                  <td style="padding:12px 14px;">
+                    <a href="https://olympus.mygreatlearning.com/pulse" style="display:block;text-decoration:none;">
+                      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                        <tr>
+                          <td valign="middle" style="width:40px;padding-right:12px;">
+                            <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                              <tr><td style="width:40px;height:40px;background:#dae1ff;border:1px solid #ebebef;border-radius:9px;text-align:center;vertical-align:middle;">
+                                <img src="https://pulse-email-assets.vercel.app/modules/sheet.png?v=2" alt="The Spreadsheet that Thinks" width="34" height="34" style="display:block;width:34px;height:34px;border-radius:7px;border:0;margin:0 auto;">
+                              </td></tr>
+                            </table>
+                          </td>
+                          <td valign="middle">
+                            <p style="margin:0 0 3px;font:700 10px/13px Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:1.2px;color:#0054d6;text-transform:uppercase;">Module 01 &nbsp;·&nbsp; 50 min</p>
+                            <p style="margin:0;font:600 14px/1.35 Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:-0.2px;color:#1a1b1e;">The Spreadsheet that Thinks</p>
+                          </td>
+                        </tr>
+                      </table>
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- 4d. Route to the full library. Text link, not a button. -->
+          <tr>
+            <td class="px" style="padding:12px 32px 0;background:#ffffff;">
+              <a href="https://olympus.mygreatlearning.com/pulse" style="font:600 14px/20px Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:-0.1px;color:#0054d6;text-decoration:none;">
+                View all modules &nbsp;&rsaquo;
+              </a>
+            </td>
+          </tr>
+
+          <!-- 5. Cadence line + the single primary CTA -->
+          <tr>
+            <td class="px" style="padding:24px 32px 0;background:#ffffff;">
+              <p style="margin:0;font:600 16px/24px Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:-0.2px;color:#1a1b1e;">
+                A new module is added every two weeks.
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td class="px" style="padding:16px 32px 4px;background:#ffffff;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td style="background:#0054d6;border-radius:8px;">
+                    <a href="https://olympus.mygreatlearning.com/pulse" style="display:inline-block;padding:12px 24px;font:500 15px/22px Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:-0.2px;color:#ffffff;border-radius:8px;">
+                      Subscribe to AI Pulse
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- 6. Sign-off -->
+          <tr>
+            <td class="px" style="padding:24px 32px 40px;background:#ffffff;">
+              <p style="margin:0 0 16px;font:400 16px/24px Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:-0.2px;color:#45464f;">
+                Your previous progress will remain saved, so you can continue where you left off.
+              </p>
+              <p style="margin:0;font:500 14px/1.55 Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:-0.1px;color:#45464f;">
+                <span style="font-weight:600;color:#1a1b1e;">The Great Learning Team</span>
+              </p>
+            </td>
+          </tr>
+
+          <!-- 7. Footer -->
+          <tr>
+            <td class="footer-pad" align="center" style="padding:37px 32px;background:#fafafa;border-top:1px solid #ebebef;text-align:center;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center">
+                <tr>
+                  <td style="font:500 14px/1.57 Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:-0.4px;color:#86868b;padding-right:8px;vertical-align:middle;">AI Pulse &nbsp;·&nbsp; by</td>
+                <td style="vertical-align:middle;line-height:0;">
+                    <img src="https://pulse-email-assets.vercel.app/gl-logo.png?v=2" alt="Great Learning" height="20" style="display:block;height:20px;width:auto;border:0;outline:none;text-decoration:none;">
+                  </td>
+                </tr>
+              </table>
+              <p style="margin:14px 0 0;font:400 12px/1.6 Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#86868b;">
+                <a href="https://greatlearning.in" style="color:#86868b;text-decoration:underline;">Great Learning</a>
+                &nbsp;·&nbsp;
+                <a href="https://pulse.greatlearning.in/unsubscribe" style="color:#86868b;text-decoration:underline;">Unsubscribe</a>
+              </p>
+              <p style="margin:8px 0 0;font:400 11px/1.5 Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#86868b;">© 2026 Great Learning. All rights reserved.</p>
+            </td>
+          </tr>
+
+        </table>
+
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>

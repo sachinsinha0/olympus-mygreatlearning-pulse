@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && node scripts/build-emails.mjs",
     "preview": "vite preview",
+    "emails": "node scripts/build-emails.mjs",
     "test": "vitest run"
   },
   "dependencies": {

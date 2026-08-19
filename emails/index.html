@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Pulse / Email Library</title>
+<meta name="description" content="Every AI Pulse email template, previewed live.">
+<link rel="icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#f2f5fb;
+    --ink-dim:#8b95ac;
+    --ink-faint:#5b6479;
+    --bg:#07090f;
+    --surface:#0f131c;
+    --surface-2:#141926;
+    --line:rgba(255,255,255,.075);
+    --line-strong:rgba(255,255,255,.16);
+    --blue:#2e9afb;
+    --blue-deep:#004fce;
+    --serif:"Instrument Serif",Georgia,"Times New Roman",serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+    --stage-h:280px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:var(--mono);font-size:13px;line-height:1.6;
+    -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+  }
+  /* Grain + a single deep glow so the canvas is not flat black. */
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:
+      radial-gradient(900px 520px at 12% -8%,rgba(0,79,206,.28),transparent 62%),
+      radial-gradient(760px 460px at 92% 4%,rgba(46,154,251,.13),transparent 60%);
+  }
+  body::after{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.16;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+  }
+  .wrap{position:relative;z-index:1;max-width:1320px;margin:0 auto;padding:0 28px 120px}
+
+  /* ---- masthead ---- */
+  header{padding:76px 0 0}
+  .kicker{
+    display:flex;align-items:center;gap:10px;
+    font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 26px;
+  }
+  .kicker .dot{width:6px;height:6px;border-radius:50%;background:var(--blue);box-shadow:0 0 14px 2px rgba(46,154,251,.7)}
+  h1{
+    font-family:var(--serif);font-weight:400;
+    font-size:clamp(46px,8.2vw,104px);line-height:.94;letter-spacing:-.02em;
+    margin:0;color:var(--ink);
+  }
+  h1 em{
+    font-style:italic;
+    background:linear-gradient(96deg,var(--blue-deep),var(--blue));
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .lede{
+    max-width:60ch;margin:26px 0 0;color:var(--ink-dim);font-size:14px;line-height:1.75;
+  }
+  .stats{
+    display:flex;flex-wrap:wrap;gap:34px;margin:44px 0 0;
+    padding:22px 0 0;border-top:1px solid var(--line);
+  }
+  .stat b{
+    display:block;font-family:var(--serif);font-size:34px;font-weight:400;line-height:1;color:var(--ink);
+  }
+  .stat span{display:block;margin-top:8px;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint)}
+
+  /* ---- viewport toggle ---- */
+  .toolbar{
+    position:sticky;top:0;z-index:5;margin:54px 0 0;padding:14px 0;
+    display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;
+    background:linear-gradient(180deg,var(--bg) 68%,rgba(7,9,15,0));
+  }
+  .toolbar__label{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint)}
+  .seg{display:inline-flex;border:1px solid var(--line-strong);border-radius:999px;overflow:hidden;background:var(--surface)}
+  .seg button{
+    appearance:none;border:0;background:transparent;color:var(--ink-dim);cursor:pointer;
+    font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+    padding:9px 18px;transition:color .18s ease,background .18s ease;
+  }
+  .seg button[aria-pressed="true"]{background:var(--ink);color:#05070c}
+  .seg button:not([aria-pressed="true"]):hover{color:var(--ink)}
+
+  /* ---- groups ---- */
+  .group{margin:64px 0 0}
+  .group__head{
+    display:grid;grid-template-columns:auto 1fr auto;align-items:baseline;gap:18px;
+    padding-bottom:16px;border-bottom:1px solid var(--line);margin-bottom:26px;
+  }
+  .group__label{
+    font-family:var(--serif);font-weight:400;font-size:27px;letter-spacing:-.01em;margin:0;color:var(--ink);
+  }
+  .group__note{margin:0;color:var(--ink-faint);font-size:11.5px}
+  .group__count{
+    font-size:11px;color:var(--ink-faint);border:1px solid var(--line-strong);
+    border-radius:999px;padding:3px 11px;
+  }
+  @media (max-width:720px){
+    .group__head{grid-template-columns:1fr auto}
+    .group__note{grid-column:1/-1;order:3}
+  }
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:22px}
+
+  /* ---- card ---- */
+  .card{
+    position:relative;display:flex;flex-direction:column;text-decoration:none;color:inherit;
+    background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;
+    opacity:0;transform:translateY(14px);
+    animation:rise .62s cubic-bezier(.22,.68,.36,1) forwards;
+    transition:border-color .22s ease,transform .22s ease,box-shadow .22s ease;
+  }
+  @keyframes rise{to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){
+    .card{animation:none;opacity:1;transform:none}
+  }
+  .card:hover{
+    border-color:var(--line-strong);transform:translateY(-3px);
+    box-shadow:0 18px 44px -22px rgba(0,0,0,.9),0 0 0 1px rgba(46,154,251,.16);
+  }
+  .card:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+
+  /* Live preview, clipped to a fixed stage and scaled to fit. */
+  .card__stage{
+    position:relative;height:var(--stage-h);overflow:hidden;
+    background:#f5f5f7;border-bottom:1px solid var(--line);
+  }
+  .card__frame{position:absolute;inset:0;transform-origin:top left}
+  .card__stage iframe{width:680px;height:1600px;border:0;display:block;background:#f5f5f7}
+  .card__stage::after{
+    content:"";position:absolute;left:0;right:0;bottom:0;height:88px;pointer-events:none;
+    background:linear-gradient(180deg,rgba(15,19,28,0),rgba(15,19,28,.92));
+  }
+
+  .card__body{padding:18px 19px 19px;display:flex;flex-direction:column;gap:9px;flex:1}
+  .card__file{
+    margin:0;font-size:10.5px;letter-spacing:.06em;color:var(--blue);
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  }
+  .card__title{
+    font-family:var(--serif);font-weight:400;font-size:21px;line-height:1.24;letter-spacing:-.01em;
+    margin:0;color:var(--ink);
+  }
+  .card__pre{
+    margin:0;color:var(--ink-dim);font-size:11.5px;line-height:1.6;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  }
+  .card__meta{display:flex;align-items:center;gap:7px;margin-top:auto;padding-top:12px;flex-wrap:wrap}
+  .tag{
+    font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint);
+    border:1px solid var(--line-strong);border-radius:999px;padding:3px 9px;
+  }
+  .card__open{
+    margin-left:auto;display:inline-flex;align-items:center;gap:6px;
+    font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint);
+    transition:color .2s ease;
+  }
+  .card__open svg{width:11px;height:11px}
+  .card:hover .card__open{color:var(--blue)}
+
+  footer{
+    margin:96px 0 0;padding-top:24px;border-top:1px solid var(--line);
+    display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    color:var(--ink-faint);font-size:11px;
+  }
+  footer a{color:var(--ink-dim);text-decoration:none;border-bottom:1px solid var(--line-strong)}
+  footer a:hover{color:var(--blue)}
+</style>
+</head>
+<body>
+  <div class="wrap">
+
+    <header>
+      <p class="kicker"><span class="dot"></span> Great Learning / AI Pulse</p>
+      <h1>The email<br><em>library</em></h1>
+      <p class="lede">
+        Every AI Pulse template, rendered live from source. Each tile below is the real
+        HTML in an iframe, not a screenshot, so what you see is what lands in the inbox.
+        Open any tile for the full email.
+      </p>
+      <div class="stats">
+        <div class="stat"><b>10</b><span>Email templates</span></div>
+        <div class="stat"><b>3</b><span>Overview pages</span></div>
+        <div class="stat"><b>680</b><span>Canvas width, px</span></div>
+      </div>
+    </header>
+
+    <div class="toolbar">
+      <span class="toolbar__label">Preview width</span>
+      <div class="seg" role="group" aria-label="Preview width">
+        <button type="button" data-w="680" aria-pressed="true">Desktop</button>
+        <button type="button" data-w="390" aria-pressed="false">Mobile</button>
+      </div>
+    </div>
+
+      <section class="group" id="lifecycle">
+        <div class="group__head">
+          <h2 class="group__label">Trial lifecycle</h2>
+          <p class="group__note">Sent as a learner moves through the 30 day trial and past its end.</p>
+          <span class="group__count">5</span>
+        </div>
+        <div class="grid">
+        <a class="card" href="./trial-expiring-10-days.html" target="_blank" rel="noopener">
+          <div class="card__stage">
+            <div class="card__frame">
+              <iframe src="./trial-expiring-10-days.html" title="10 days left in your AI Pulse trial" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
+            </div>
+          </div>
+          <div class="card__body">
+            <p class="card__file">trial-expiring-10-days.html</p>
+            <h3 class="card__title">10 days left in your AI Pulse trial</h3>
+            <p class="card__pre">You've got 10 days left. Pick up where you left off or start a new module.</p>
+            <div class="card__meta">
+              <span class="tag">personalised</span>
+              <span class="card__open">Open<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3h8v8M13 3 3 13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </div>
+          </div>
+        </a>
+        <a class="card" href="./trial-expiring-3-days.html" target="_blank" rel="noopener">
+          <div class="card__stage">
+            <div class="card__frame">
+              <iframe src="./trial-expiring-3-days.html" title="3 days left in your AI Pulse trial" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
+            </div>
+          </div>
+          <div class="card__body">
+            <p class="card__file">trial-expiring-3-days.html</p>
+            <h3 class="card__title">3 days left in your AI Pulse trial</h3>
+            <p class="card__pre">You've got 3 days left. Pick up where you left off or start a new module.</p>
+            <div class="card__meta">
+              <span class="tag">personalised</span>
+              <span class="card__open">Open<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3h8v8M13 3 3 13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </div>
+          </div>
+        </a>
+        <a class="card" href="./trial-expired.html" target="_blank" rel="noopener">
+          <div class="card__stage">
+            <div class="card__frame">
+              <iframe src="./trial-expired.html" title="Your AI Pulse trial has ended" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
+            </div>
+          </div>
+          <div class="card__body">
+            <p class="card__file">trial-expired.html</p>
+            <h3 class="card__title">Your AI Pulse trial has ended</h3>
+            <p class="card__pre">Your trial has ended. Subscribe to get your full access back.</p>
+            <div class="card__meta">
+              <span class="tag">personalised</span>
+              <span class="card__open">Open<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3h8v8M13 3 3 13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </div>
+          </div>
+        </a>
+        <a class="card" href="./trial-expired-day-3.html" target="_blank" rel="noopener">
+          <div class="card__stage">
+            <div class="card__frame">
+              <iframe src="./trial-expired-day-3.html" title="Your AI Pulse trial ended 3 days ago" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
+            </div>
+          </div>
+          <div class="card__body">
+            <p class="card__file">trial-expired-day-3.html</p>
+            <h3 class="card__title">Your AI Pulse trial ended 3 days ago</h3>
+            <p class="card__pre">Your progress is saved. Access to AI Pulse modules is currently paused.</p>
+            <div class="card__meta">
+              <span class="tag">personalised</span>
+              <span class="card__open">Open<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3h8v8M13 3 3 13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </div>
+          </div>
+        </a>
+        <a class="card" href="./trial-expired-reminder.html" target="_blank" rel="noopener">
+          <div class="card__stage">
+            <div class="card__frame">
+              <iframe src="./trial-expired-reminder.html" title="A reminder: your AI Pulse access is still paused" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
+            </div>
+          </div>
+          <div class="card__body">
+            <p class="card__file">trial-expired-reminder.html</p>
+            <h3 class="card__title">A reminder: your AI Pulse access is still paused</h3>
+            <p class="card__pre">You haven't reactivated yet. Your progress is saved and waiting.</p>
+            <div class="card__meta">
+              <span class="tag">personalised</span>
+              <span class="card__open">Open<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3h8v8M13 3 3 13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </div>
+          </div>
+        </a>
+        </div>
+      </section>
+      <section class="group" id="programme">
+        <div class="group__head">
+          <h2 class="group__label">Programme</h2>
+          <p class="group__note">Launch, release cadence, feedback and re-engagement.</p>
+          <span class="group__count">4</span>
+        </div>
+        <div class="grid">
+        <a class="card" href="./product-launch.html" target="_blank" rel="noopener">
+          <div class="card__stage">
+            <div class="card__frame">
+              <iframe src="./product-launch.html" title="AI Pulse. Your AI learning companion." loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
+            </div>
+          </div>
+          <div class="card__body">
+            <p class="card__file">product-launch.html</p>
+            <h3 class="card__title">AI Pulse. Your AI learning companion.</h3>
+            <p class="card__pre">Your AI learning companion. Free for 30 days.</p>
+            <div class="card__meta">
+              
+              <span class="card__open">Open<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3h8v8M13 3 3 13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </div>
+          </div>
+        </a>
+        <a class="card" href="./biweekly-release.html" target="_blank" rel="noopener">
+          <div class="card__stage">
+            <div class="card__frame">
+              <iframe src="./biweekly-release.html" title="New module live: {module_title}" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
+            </div>
+          </div>
+          <div class="card__body">
+            <p class="card__file">biweekly-release.html</p>
+            <h3 class="card__title">New module live: {module_title}</h3>
+            <p class="card__pre">A new AI Pulse module just went live: {module_title}. Hands-on, under 60 minutes.</p>
+            <div class="card__meta">
+              <span class="tag">personalised</span><span class="tag">templated</span>
+              <span class="card__open">Open<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3h8v8M13 3 3 13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </div>
+          </div>
+        </a>
+        <a class="card" href="./module-feedback.html" target="_blank" rel="noopener">
+          <div class="card__stage">
+            <div class="card__frame">
+              <iframe src="./module-feedback.html" title="How was {module_title}?" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
+            </div>
+          </div>
+          <div class="card__body">
+            <p class="card__file">module-feedback.html</p>
+            <h3 class="card__title">How was {module_title}?</h3>
+            <p class="card__pre">Two minutes of feedback shapes what we build next. How was {module_title}?</p>
+            <div class="card__meta">
+              <span class="tag">personalised</span><span class="tag">templated</span>
+              <span class="card__open">Open<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3h8v8M13 3 3 13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </div>
+          </div>
+        </a>
+        <a class="card" href="./re-engagement.html" target="_blank" rel="noopener">
+          <div class="card__stage">
+            <div class="card__frame">
+              <iframe src="./re-engagement.html" title="Your AI Pulse module is waiting. 30 minutes, real results." loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
+            </div>
+          </div>
+          <div class="card__body">
+            <p class="card__file">re-engagement.html</p>
+            <h3 class="card__title">Your AI Pulse module is waiting. 30 minutes, real results.</h3>
+            <p class="card__pre">You started your trial. Your first module takes 30 minutes and you can apply it the same day.</p>
+            <div class="card__meta">
+              <span class="tag">personalised</span>
+              <span class="card__open">Open<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3h8v8M13 3 3 13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </div>
+          </div>
+        </a>
+        </div>
+      </section>
+      <section class="group" id="internal">
+        <div class="group__head">
+          <h2 class="group__label">Guru</h2>
+          <p class="group__note">Addressed to Gurus rather than learners.</p>
+          <span class="group__count">1</span>
+        </div>
+        <div class="grid">
+        <a class="card" href="./guru-dashboard-default.html" target="_blank" rel="noopener">
+          <div class="card__stage">
+            <div class="card__frame">
+              <iframe src="./guru-dashboard-default.html" title="The New Guru Dashboard becomes your default from 15 July" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
+            </div>
+          </div>
+          <div class="card__body">
+            <p class="card__file">guru-dashboard-default.html</p>
+            <h3 class="card__title">The New Guru Dashboard becomes your default from 15 July</h3>
+            <p class="card__pre">From 15 July, the new Guru Dashboard becomes your default experience. Share your feedback before we make the change permanent.</p>
+            <div class="card__meta">
+              
+              <span class="card__open">Open<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3h8v8M13 3 3 13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </div>
+          </div>
+        </a>
+        </div>
+      </section>
+      <section class="group" id="pages">
+        <div class="group__head">
+          <h2 class="group__label">Module overview pages</h2>
+          <p class="group__note">Web reading pages, not emails. Grouped here because they live alongside the templates.</p>
+          <span class="group__count">3</span>
+        </div>
+        <div class="grid">
+        <a class="card" href="./module-01-overview.html" target="_blank" rel="noopener">
+          <div class="card__stage">
+            <div class="card__frame">
+              <iframe src="./module-01-overview.html" title="What OpenClaw Built, and How Cowork Makes Most of It Safe · Overview" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
+            </div>
+          </div>
+          <div class="card__body">
+            <p class="card__file">module-01-overview.html</p>
+            <h3 class="card__title">What OpenClaw Built, and How Cowork Makes Most of It Safe · Overview</h3>
+            
+            <div class="card__meta">
+              
+              <span class="card__open">Open<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3h8v8M13 3 3 13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </div>
+          </div>
+        </a>
+        <a class="card" href="./module-02-overview.html" target="_blank" rel="noopener">
+          <div class="card__stage">
+            <div class="card__frame">
+              <iframe src="./module-02-overview.html" title="The Spreadsheet that Thinks · Overview" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
+            </div>
+          </div>
+          <div class="card__body">
+            <p class="card__file">module-02-overview.html</p>
+            <h3 class="card__title">The Spreadsheet that Thinks · Overview</h3>
+            
+            <div class="card__meta">
+              
+              <span class="card__open">Open<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3h8v8M13 3 3 13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </div>
+          </div>
+        </a>
+        <a class="card" href="./module-12-overview.html" target="_blank" rel="noopener">
+          <div class="card__stage">
+            <div class="card__frame">
+              <iframe src="./module-12-overview.html" title="The Month Claude Became a Platform · Overview" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
+            </div>
+          </div>
+          <div class="card__body">
+            <p class="card__file">module-12-overview.html</p>
+            <h3 class="card__title">The Month Claude Became a Platform · Overview</h3>
+            
+            <div class="card__meta">
+              
+              <span class="card__open">Open<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3h8v8M13 3 3 13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </div>
+          </div>
+        </a>
+        </div>
+      </section>
+
+    <footer>
+      <span>Generated from /emails by scripts/build-emails.mjs</span>
+      <span><a href="https://olympus.mygreatlearning.com/pulse">AI Pulse</a></span>
+    </footer>
+
+  </div>
+
+<script>
+  // Scale each live preview so a 680px (or 390px) email fits its tile.
+  var width = 680;
+
+  function fit() {
+    document.querySelectorAll('.card__stage').forEach(function (stage) {
+      var frame = stage.querySelector('.card__frame');
+      var iframe = stage.querySelector('iframe');
+      if (!frame || !iframe) return;
+      iframe.style.width = width + 'px';
+      // Never upscale. A 390px mobile email in a wider tile renders 1:1, centred,
+      // rather than being blown up and going soft.
+      var scale = Math.min(stage.clientWidth / width, 1);
+      var offset = Math.max((stage.clientWidth - width * scale) / 2, 0);
+      frame.style.transform = 'translateX(' + offset + 'px) scale(' + scale + ')';
+      // Counter the scale so the clipped stage still shows a full-height crop.
+      frame.style.width = width + 'px';
+      frame.style.height = (stage.clientHeight / scale) + 'px';
+    });
+  }
+
+  document.querySelectorAll('.seg button').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      width = Number(btn.dataset.w);
+      document.querySelectorAll('.seg button').forEach(function (b) {
+        b.setAttribute('aria-pressed', String(b === btn));
+      });
+      fit();
+    });
+  });
+
+  // Stagger the reveal without hand-writing a delay per card.
+  document.querySelectorAll('.card').forEach(function (card, i) {
+    card.style.animationDelay = Math.min(i * 55, 700) + 'ms';
+  });
+
+  window.addEventListener('resize', fit);
+  window.addEventListener('load', fit);
+  fit();
+</script>
+</body>
+</html>
