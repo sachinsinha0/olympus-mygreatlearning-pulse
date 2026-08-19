@@ -120,13 +120,12 @@
     border-radius:9px;color:var(--ink-dim);text-decoration:none;
     background:rgba(10,13,20,.72);border:1px solid var(--line-strong);
     backdrop-filter:blur(8px);
-    opacity:0;transform:translateY(-4px);
-    transition:opacity .18s ease,transform .18s ease,color .18s ease,border-color .18s ease;
+    opacity:.62;
+    transition:opacity .18s ease,color .18s ease,border-color .18s ease,background .18s ease;
   }
   .dl svg{width:14px;height:14px}
-  .cardwrap:hover .dl,.dl:focus-visible{opacity:1;transform:none}
-  .dl:hover{color:var(--ink);border-color:var(--ink-faint)}
-  @media (hover:none){ .dl{opacity:1;transform:none} }
+  .cardwrap:hover .dl,.dl:focus-visible{opacity:1}
+  .dl:hover{opacity:1;color:#05070c;background:var(--blue);border-color:var(--blue)}
 
   /* ---- card ---- */
   .card{

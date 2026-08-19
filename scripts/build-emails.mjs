@@ -273,13 +273,12 @@ const page = `<!doctype html>
     border-radius:9px;color:var(--ink-dim);text-decoration:none;
     background:rgba(10,13,20,.72);border:1px solid var(--line-strong);
     backdrop-filter:blur(8px);
-    opacity:0;transform:translateY(-4px);
-    transition:opacity .18s ease,transform .18s ease,color .18s ease,border-color .18s ease;
+    opacity:.62;
+    transition:opacity .18s ease,color .18s ease,border-color .18s ease,background .18s ease;
   }
   .dl svg{width:14px;height:14px}
-  .cardwrap:hover .dl,.dl:focus-visible{opacity:1;transform:none}
-  .dl:hover{color:var(--ink);border-color:var(--ink-faint)}
-  @media (hover:none){ .dl{opacity:1;transform:none} }
+  .cardwrap:hover .dl,.dl:focus-visible{opacity:1}
+  .dl:hover{opacity:1;color:#05070c;background:var(--blue);border-color:var(--blue)}
 
   /* ---- card ---- */
   .card{
@@ -498,9 +497,24 @@ const viewer = `<!doctype html>
   .step:hover{color:var(--ink);border-color:var(--ink-faint)}
   .step[aria-disabled="true"]{opacity:.3;pointer-events:none}
   .step svg{width:13px;height:13px}
-  .raw{color:var(--ink-faint);text-decoration:none;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
-  .raw:hover{color:var(--blue)}
-  @media (max-width:900px){ .raw,.id p{display:none} }
+  .btn{
+    display:inline-flex;align-items:center;gap:7px;white-space:nowrap;text-decoration:none;
+    height:34px;padding:0 14px;border-radius:999px;
+    border:1px solid var(--line-strong);background:var(--surface);color:var(--ink-dim);
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+    transition:color .18s ease,border-color .18s ease,background .18s ease,transform .18s ease;
+  }
+  .btn svg{width:13px;height:13px;flex:none}
+  .btn:hover{color:var(--ink);border-color:var(--ink-faint)}
+  .btn:active{transform:translateY(1px)}
+  .btn--primary{
+    background:var(--blue);border-color:var(--blue);color:#05070c;font-weight:500;
+    box-shadow:0 0 0 1px rgba(46,154,251,.28),0 8px 22px -12px rgba(46,154,251,.9);
+  }
+  .btn--primary:hover{background:#4facff;border-color:#4facff;color:#05070c}
+  /* Collapse to the icon rather than disappearing. */
+  @media (max-width:1040px){ .btn span{display:none} .btn{padding:0 11px} }
+  @media (max-width:900px){ .id p{display:none} }
   @media (max-width:640px){ .back span{display:none} .back{padding:8px 11px} }
 
   .stage{padding:calc(var(--bar) + 22px) 16px 40px;display:flex;justify-content:center}
@@ -530,8 +544,14 @@ const viewer = `<!doctype html>
       <a class="step" id="next" title="Next email" aria-disabled="true">
         <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3 5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
-      <a class="raw" id="raw" target="_blank" rel="noopener">Raw &#8599;</a>
-      <a class="raw" id="dl">Download &#8595;</a>
+      <a class="btn" id="raw" target="_blank" rel="noopener" title="Open the raw HTML in a new tab">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3h7v7M13 3 4 12" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Raw</span>
+      </a>
+      <a class="btn btn--primary" id="dl" title="Download the HTML file">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0L4.6 6.6M8 10l3.4-3.4M2.5 13.5h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Download</span>
+      </a>
     </div>
   </div>
 
