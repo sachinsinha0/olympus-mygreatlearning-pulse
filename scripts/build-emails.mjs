@@ -109,7 +109,11 @@ function card(item, featured) {
 
   // Links to the viewer, not the raw file, so the email opens with chrome that can
   // navigate back. Same tab, so browser back works too.
-  return `        <a class="card${featured ? " card--featured" : ""}" href="${BASE}/view.html?e=${esc(item.slug)}">
+  return `        <div class="cardwrap">
+        <a class="dl" href="${BASE}/${esc(item.file)}" download="${esc(item.file)}" title="Download ${esc(item.file)}" aria-label="Download ${esc(item.file)}">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v9m0 0L4.5 7.5M8 11l3.5-3.5M2.5 13.5h11" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a class="card${featured ? " card--featured" : ""}" href="${BASE}/view.html?e=${esc(item.slug)}">
           <div class="card__stage">
             <div class="card__frame">
               <iframe src="${BASE}/${esc(item.file)}" title="${esc(item.title)}" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
@@ -124,7 +128,8 @@ function card(item, featured) {
               <span class="card__open">Open<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3h8v8M13 3 3 13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
             </div>
           </div>
-        </a>`;
+        </a>
+        </div>`;
 }
 
 const used = new Set();
@@ -258,6 +263,23 @@ const page = `<!doctype html>
   }
 
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:22px}
+
+  /* Download sits outside the card anchor: nesting anchors is invalid markup. */
+  .cardwrap{position:relative;display:flex}
+  .cardwrap>.card{flex:1}
+  .dl{
+    position:absolute;top:12px;right:12px;z-index:2;
+    display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;
+    border-radius:9px;color:var(--ink-dim);text-decoration:none;
+    background:rgba(10,13,20,.72);border:1px solid var(--line-strong);
+    backdrop-filter:blur(8px);
+    opacity:0;transform:translateY(-4px);
+    transition:opacity .18s ease,transform .18s ease,color .18s ease,border-color .18s ease;
+  }
+  .dl svg{width:14px;height:14px}
+  .cardwrap:hover .dl,.dl:focus-visible{opacity:1;transform:none}
+  .dl:hover{color:var(--ink);border-color:var(--ink-faint)}
+  @media (hover:none){ .dl{opacity:1;transform:none} }
 
   /* ---- card ---- */
   .card{
@@ -509,6 +531,7 @@ const viewer = `<!doctype html>
         <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3 5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
       <a class="raw" id="raw" target="_blank" rel="noopener">Raw &#8599;</a>
+      <a class="raw" id="dl">Download &#8595;</a>
     </div>
   </div>
 
@@ -526,6 +549,9 @@ const viewer = `<!doctype html>
   document.getElementById('f').textContent = cur.file;
   document.getElementById('frame').src = '${BASE}/' + cur.file;
   document.getElementById('raw').href = '${BASE}/' + cur.file;
+  var dl = document.getElementById('dl');
+  dl.href = '${BASE}/' + cur.file;
+  dl.setAttribute('download', cur.file);   // same-origin, so the browser saves rather than navigates
   document.title = cur.title + ' / AI Pulse';
 
   function step(el, target) {

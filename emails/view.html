@@ -92,6 +92,7 @@
         <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3 5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
       <a class="raw" id="raw" target="_blank" rel="noopener">Raw &#8599;</a>
+      <a class="raw" id="dl">Download &#8595;</a>
     </div>
   </div>
 
@@ -109,6 +110,9 @@
   document.getElementById('f').textContent = cur.file;
   document.getElementById('frame').src = '/emails/' + cur.file;
   document.getElementById('raw').href = '/emails/' + cur.file;
+  var dl = document.getElementById('dl');
+  dl.href = '/emails/' + cur.file;
+  dl.setAttribute('download', cur.file);   // same-origin, so the browser saves rather than navigates
   document.title = cur.title + ' / AI Pulse';
 
   function step(el, target) {
