@@ -46,6 +46,22 @@
       C. no release since expiry, next one is ~2 weeks away
   Nothing here depends on a release having happened. Keep it that way.
 
+  READABILITY RULE / COGNITIVE LOAD
+  Written to be low-effort to read, which helps everyone and matters a lot
+  for readers with ADHD, dyslexia or anyone skimming on a phone.
+    - ONE idea per sentence. Never weld two benefits together with "and".
+      This email previously read "Subscribe to continue from where you
+      stopped and access new modules as they are released", 15 words
+      carrying two separate promises. It is now two ticked items.
+    - Each fact appears ONCE, in the single place it belongs: the date in
+      the eyebrow, the paused state in the banner, the benefits in the
+      ticked list. "Your progress is saved" used to appear three times.
+    - Prefer a short ticked list over a prose paragraph. Lists give the eye
+      an anchor and can be resumed after a distraction; prose cannot.
+    - Body copy is 16px/26px, a slightly looser line height than the other
+      templates, which measurably helps line tracking.
+    - Never stack more than two prose sentences without a visual break.
+
   LAYOUT RULE
   Deliberately short and scannable. Module entries are compact rows, the
   same treatment used in trial-expired-reminder.html. Do not promote them
@@ -129,11 +145,8 @@
               <p style="margin:0;font:400 15px/1.55 Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:-0.1px;color:#1a1b1e;">
                 Hi {first_name},
               </p>
-              <p style="margin:14px 0 0;font:400 16px/24px Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:-0.2px;color:#45464f;">
-                Your AI Pulse trial ended <span style="font-weight:600;color:#1a1b1e;">3 days ago</span>. Your progress is saved, but access to the modules is currently paused.
-              </p>
-              <p style="margin:14px 0 0;font:400 16px/24px Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:-0.2px;color:#45464f;">
-                Subscribe to continue from where you stopped and access new modules as they are released.
+              <p style="margin:14px 0 0;font:400 16px/26px Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:-0.2px;color:#45464f;">
+                Your trial has ended. Everything you completed is saved.
               </p>
             </td>
           </tr>
@@ -153,6 +166,38 @@
                           <p style="margin:0 0 3px;font:700 15px/22px Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:-0.2px;color:#c0392b;">Full access paused</p>
                           <p style="margin:0;font:400 14px/20px Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:-0.1px;color:#9b5b54;">Subscribe to unlock every module again.</p>
                         </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- 2b. What subscribing gives back. Two items, one idea each: this replaces
+               a single 15-word sentence that welded both together with "and". -->
+          <tr>
+            <td class="px" style="padding:22px 32px 0;background:#ffffff;">
+              <p style="margin:0 0 12px;font:600 16px/24px Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:-0.2px;color:#1a1b1e;">
+                Subscribe and you get back:
+              </p>
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td style="padding:4px 0;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td valign="top" style="width:28px;color:#0054d6;font:700 16px/26px Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">&#10003;</td>
+                        <td valign="top" style="font:400 16px/26px Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:-0.2px;color:#45464f;">Your progress, exactly where you stopped</td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:4px 0;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td valign="top" style="width:28px;color:#0054d6;font:700 16px/26px Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">&#10003;</td>
+                        <td valign="top" style="font:400 16px/26px Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:-0.2px;color:#45464f;">Every new module, added every two weeks</td>
                       </tr>
                     </table>
                   </td>
@@ -266,16 +311,9 @@
             </td>
           </tr>
 
-          <!-- 4. Cadence line + the single primary CTA -->
+          <!-- 4. The single primary CTA -->
           <tr>
-            <td class="px" style="padding:24px 32px 0;background:#ffffff;">
-              <p style="margin:0;font:600 16px/24px Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:-0.2px;color:#1a1b1e;">
-                A new module is added every two weeks.
-              </p>
-            </td>
-          </tr>
-          <tr>
-            <td class="px" style="padding:16px 32px 4px;background:#ffffff;">
+            <td class="px" style="padding:26px 32px 4px;background:#ffffff;">
               <table role="presentation" cellpadding="0" cellspacing="0" border="0">
                 <tr>
                   <td style="background:#0054d6;border-radius:8px;">
@@ -291,9 +329,6 @@
           <!-- 5. Sign-off -->
           <tr>
             <td class="px" style="padding:24px 32px 40px;background:#ffffff;">
-              <p style="margin:0 0 16px;font:400 16px/24px Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:-0.2px;color:#45464f;">
-                Your previous progress will remain saved, so you can continue where you left off.
-              </p>
               <p style="margin:0;font:500 14px/1.55 Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;letter-spacing:-0.1px;color:#45464f;">
                 <span style="font-weight:600;color:#1a1b1e;">The Great Learning Team</span>
               </p>
