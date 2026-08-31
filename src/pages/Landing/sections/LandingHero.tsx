@@ -1,11 +1,14 @@
 import type { ReactNode } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { motion, useReducedMotion } from "framer-motion";
 import { ShieldCheck } from "lucide-react";
 import { GL } from "../landingTheme";
 import { ContentColumn } from "../parts";
 import { HeroOrbit } from "./HeroOrbit";
+import { HeroFeed } from "./HeroFeed";
+import { HeroTrace } from "./HeroTrace";
+import { HeroRadar } from "./HeroRadar";
 import { HERO, VALUE_PROPS } from "../content";
 
 /**
@@ -21,6 +24,25 @@ import { HERO, VALUE_PROPS } from "../content";
  * then the paragraph, the CTA row and the pillars each get more air. Spacing everything
  * equally is what makes a column read as laid out rather than composed.
  */
+/**
+ * EXPLORATION. Four hero visual concepts, switched by ?hero= in the URL so motion can
+ * be judged live in the real layout rather than argued about from stills:
+ *
+ *   /ai-pulse             orbit  the ecosystem circling a beating pulse
+ *   /ai-pulse?hero=feed   feed   real modules landing on the release cadence
+ *   /ai-pulse?hero=trace  trace  a pulse trace, labs ticking as it passes
+ *   /ai-pulse?hero=radar  radar  a sweep scanning still stations
+ *
+ * Orbit stays the default. Once one wins, the losers and this switch come out.
+ * The mobile band keeps the orbit for every variant, the exploration is desktop first.
+ */
+const HERO_VARIANTS = {
+  orbit: { Visual: HeroOrbit, region: { right: -180, width: 720, height: 720 } },
+  feed: { Visual: HeroFeed, region: { right: 120, width: 400, height: 520, transform: "translateY(-50%)" } },
+  trace: { Visual: HeroTrace, region: { right: -30, width: 620, height: 400 } },
+  radar: { Visual: HeroRadar, region: { right: -150, width: 660, height: 660 } },
+} as const;
+
 /** Material Design 3 emphasized decelerate, the same entrance curve the orbit uses. */
 const ENTER = [0.05, 0.7, 0.1, 1] as const;
 
@@ -44,6 +66,9 @@ function Reveal({ delay, children }: { delay: number; children: ReactNode }) {
 
 export function LandingHero() {
   const navigate = useNavigate();
+  const [params] = useSearchParams();
+  const variantKey = (params.get("hero") ?? "orbit") as keyof typeof HERO_VARIANTS;
+  const { Visual, region } = HERO_VARIANTS[variantKey] ?? HERO_VARIANTS.orbit;
 
   const goToLogin = () => navigate("/ai-pulse/login");
 
@@ -66,13 +91,11 @@ export function LandingHero() {
           display: { xs: "none", lg: "block" },
           position: "absolute",
           top: "50%",
-          right: -180,
           transform: "translateY(-56%)",
-          width: 720,
-          height: 720,
+          ...region,
         }}
       >
-        <HeroOrbit />
+        <Visual />
       </Box>
 
       <ContentColumn sx={{ position: "relative" }}>
