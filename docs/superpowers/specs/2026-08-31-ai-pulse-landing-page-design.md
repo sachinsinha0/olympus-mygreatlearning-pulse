@@ -204,7 +204,8 @@ Follows the reference part for part.
   under an hour. Use what you learn at work the same day."
 - Buttons: `Start Free Trial` solid, `Log In` outlined.
 - Information line with a small icon, in place of the reference's deadline line: "New module every
-  second Tuesday."
+  two weeks." Checked against the data: `releasedAt` gaps are 14 days for the recent run, but the
+  dates fall on Wednesdays and Fridays, so naming a weekday would be untrue.
 - Stat strip, four cells: `14 Days / Free trial`, `Every 2 weeks / New module`,
   `Under 60 min / Per module`, `11 modules / Available now`.
 - Right column: `public/hero/hero image.jpg`, the photograph already used by `PulseV2Hero`, in a
@@ -289,8 +290,7 @@ get a known lead to log in.
 
 So the rail keeps the card in the same slot and the same shape, with one field instead of six:
 heading "Start your free trial", the line "14 days of full access. No credit card.", an email input,
-a full width `Start Free Trial` button, the consent line, and "New module every second Tuesday"
-beneath.
+a full width `Start Free Trial` button, the consent line, and "New module every two weeks" beneath.
 
 The email typed here is carried to the login step, so the field is the first step of logging in
 rather than a form that goes nowhere.
