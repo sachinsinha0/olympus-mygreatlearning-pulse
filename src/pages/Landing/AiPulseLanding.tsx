@@ -9,6 +9,7 @@ import { WhySubscribe } from "./sections/WhySubscribe";
 import { ModulesSection } from "./sections/ModulesSection";
 import { TrialSection } from "./sections/TrialSection";
 import { PgProgramSection } from "./sections/PgProgramSection";
+import { FaqSection } from "./sections/FaqSection";
 
 export function AiPulseLanding() {
   return (
@@ -23,6 +24,7 @@ export function AiPulseLanding() {
         <ModulesSection />
         <TrialSection />
         <PgProgramSection />
+        <FaqSection />
       </Box>
     </ThemeProvider>
   );
