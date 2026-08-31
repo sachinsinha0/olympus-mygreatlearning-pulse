@@ -14,11 +14,27 @@ export const PG_PROGRAM_URL =
  * same voice on both sides of the login step. See PulseIntroPage and PulseV2Hero.
  */
 export const HERO = {
+  /**
+   * The product name, which the headline never says. A lead arriving from a sales call
+   * needs to see "AI Pulse" above the fold, and this also gives the top of the column
+   * the mass the reference heroes get from their partner institution logos.
+   */
+  name: "AI Pulse",
+  by: "by Great Learning",
   tagline: "Your AI learning companion",
-  title: "AI moves fast. Pulse keeps you in sync.",
+  /**
+   * Broken deliberately, the way the product's own hero breaks it. Left to wrap on its
+   * own at this width the second line was the single word "sync.".
+   */
+  titleLines: ["AI moves fast.", "Pulse keeps you in sync."],
   body: "Learn one cutting-edge AI tool or innovation, every two weeks. Up to 60 minutes each. Short enough to fit your schedule, deep enough to apply at work immediately.",
   primaryCta: "Start Free Trial",
-  cadence: "New module every two weeks.",
+  /**
+   * Sits beside the CTA, where the reference template prints its application deadline.
+   * This slot used to repeat the release cadence, which the body paragraph and the stat
+   * strip both already carry. Verbatim from PulseV2Hero.
+   */
+  reassurance: `Free for ${TRIAL_DAYS} days · No credit card required`,
 } as const;
 
 /**
