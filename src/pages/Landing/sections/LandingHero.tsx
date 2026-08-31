@@ -10,6 +10,7 @@ import { HeroFeed } from "./HeroFeed";
 import { HeroTrace } from "./HeroTrace";
 import { HeroRadar } from "./HeroRadar";
 import { HeroWall } from "./HeroWall";
+import { HeroSync } from "./HeroSync";
 import { HERO, VALUE_PROPS } from "../content";
 
 /**
@@ -34,6 +35,7 @@ import { HERO, VALUE_PROPS } from "../content";
  *   /ai-pulse?hero=trace  trace  a pulse trace, labs ticking as it passes
  *   /ai-pulse?hero=radar  radar  a sweep scanning still stations
  *   /ai-pulse?hero=wall   wall   the curriculum and its labs drifting as a tile wall
+ *   /ai-pulse?hero=sync   sync   the headline performed: rushing terms snap legible at the line
  *
  * Orbit stays the default. Once one wins, the losers and this switch come out.
  * The mobile band keeps the orbit for every variant, the exploration is desktop first.
@@ -47,6 +49,7 @@ const HERO_VARIANTS = {
   // must stop short of the pillars strip: a solid slab crossing that white row looked
   // broken, where the orbit's hairline arcs can pass behind it invisibly.
   wall: { Visual: HeroWall, region: { top: "40%", right: -48, width: 430, height: 423 } },
+  sync: { Visual: HeroSync, region: { right: -24, width: 640, height: 380, transform: "translateY(-62%)" } },
 } as const;
 
 /** Material Design 3 emphasized decelerate, the same entrance curve the orbit uses. */
