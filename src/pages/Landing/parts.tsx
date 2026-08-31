@@ -93,38 +93,50 @@ export function Lede({ children, align = "left" }: { children: ReactNode; align?
 }
 
 /**
- * The bordered four cell strip under the hero. Vertical dividers between cells on
- * desktop, a two by two grid on phones.
+ * The cadence stats, in the shape the product already uses.
+ *
+ * PulseIntroPage renders the same two figures as caption above, then the number and its
+ * unit on one baseline. That structure is copied here rather than invented. The product
+ * sets its numbers in a gradient; this page uses solid ink, since gradient text is one
+ * of the things the design brief rules out.
  */
-export function StatStrip({ items }: { items: { value: string; label: string }[] }) {
+export function CadenceStats({
+  items,
+}: {
+  items: { caption: string; number: string; unit: string }[];
+}) {
   return (
-    <Box
-      sx={{
-        display: "grid",
-        gridTemplateColumns: { xs: "1fr 1fr", md: `repeat(${items.length}, 1fr)` },
-        border: `1px solid ${GL.border}`,
-        borderRadius: "8px",
-        overflow: "hidden",
-      }}
-    >
-      {items.map((item, i) => (
-        <Box
-          key={item.label}
-          sx={{
-            px: 2,
-            py: 2.25,
-            textAlign: "center",
-            borderRight: {
-              xs: i % 2 === 0 ? `1px solid ${GL.border}` : "none",
-              md: i < items.length - 1 ? `1px solid ${GL.border}` : "none",
-            },
-            borderBottom: { xs: i < items.length - 2 ? `1px solid ${GL.border}` : "none", md: "none" },
-          }}
-        >
-          <Typography sx={{ fontSize: 16, fontWeight: 600, color: GL.heading, lineHeight: 1.4 }}>
-            {item.value}
+    <Box sx={{ display: "flex", gap: { xs: 5, sm: 7 } }}>
+      {items.map((item) => (
+        <Box key={item.caption}>
+          <Typography
+            sx={{
+              fontSize: 11,
+              fontWeight: 700,
+              letterSpacing: "1.4px",
+              textTransform: "uppercase",
+              color: GL.body,
+            }}
+          >
+            {item.caption}
           </Typography>
-          <Typography sx={{ fontSize: 14, color: GL.body, lineHeight: 1.4 }}>{item.label}</Typography>
+          <Box sx={{ display: "flex", alignItems: "baseline", gap: 1, mt: 1 }}>
+            <Typography
+              sx={{
+                fontSize: { xs: 34, md: 40 },
+                fontWeight: 700,
+                lineHeight: 1,
+                letterSpacing: "-1.5px",
+                color: GL.heading,
+                fontVariantNumeric: "tabular-nums",
+              }}
+            >
+              {item.number}
+            </Typography>
+            <Typography sx={{ fontSize: { xs: 16, md: 18 }, fontWeight: 600, color: GL.heading }}>
+              {item.unit}
+            </Typography>
+          </Box>
         </Box>
       ))}
     </Box>

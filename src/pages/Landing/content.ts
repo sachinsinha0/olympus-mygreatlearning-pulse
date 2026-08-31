@@ -31,13 +31,15 @@ export const HERO = {
 } as const;
 
 /**
- * Three of the four cells in the hero stat strip. The fourth is the live module
- * count, appended in LandingHero because it is computed from the real data.
+ * The cadence, taken from the CadenceVisual block in PulseIntroPage, which renders
+ * exactly these two stats with the caption above the number.
+ *
+ * Nothing here is derived or reworded. "1 new module every 2 weeks" and "26 modules
+ * annually" are the product's own numbers and its own labels.
  */
-export const HERO_STATS: { value: string; label: string }[] = [
-  { value: `${TRIAL_DAYS} Days`, label: "Free trial" },
-  { value: "Every 2 weeks", label: "New module" },
-  { value: "Under 60 min", label: "Per module" },
+export const CADENCE_STATS: { caption: string; number: string; unit: string }[] = [
+  { caption: "every 2 weeks", number: "1", unit: "new module" },
+  { caption: "annually", number: "26", unit: "modules" },
 ];
 
 /**

@@ -1,13 +1,9 @@
-import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { ShieldCheck } from "lucide-react";
 import { GL } from "../landingTheme";
-import { Section, StatStrip } from "../parts";
-import { HERO, HERO_STATS } from "../content";
-import { selectLandingModules } from "../../../lib/pulse/landingModules";
-import type { PulseIssue } from "../../../lib/pulse/types";
-import issuesData from "../../../mocks/pulse-issues.json";
+import { CadenceStats, Section } from "../parts";
+import { CADENCE_STATS, HERO } from "../content";
 
 /**
  * The hero. Copy on the left, the photograph on the right, in the order the Great
@@ -22,11 +18,6 @@ import issuesData from "../../../mocks/pulse-issues.json";
  */
 export function LandingHero() {
   const navigate = useNavigate();
-
-  // The fourth stat cell is the real released module count, read from the same mock
-  // file /pulse reads. Counting it here keeps the number honest if a module is added.
-  const { total } = useMemo(() => selectLandingModules(issuesData as PulseIssue[]), []);
-  const stats = [...HERO_STATS, { value: `${total} modules`, label: "Available now" }];
 
   const goToLogin = () => navigate("/ai-pulse/login");
 
@@ -96,7 +87,7 @@ export function LandingHero() {
           </Stack>
 
           <Box sx={{ mt: 5 }}>
-            <StatStrip items={stats} />
+            <CadenceStats items={CADENCE_STATS} />
           </Box>
         </Box>
 
