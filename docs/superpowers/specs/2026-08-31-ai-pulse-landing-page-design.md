@@ -23,6 +23,7 @@ trial to a 14 day trial across the whole prototype.
 | Price on the page | No price anywhere. The page sells the free trial only. |
 | Positioning | Sells AI Pulse on its own, then connects it to the PG Program near the end. |
 | Visual language | The Great Learning course landing template, scoped to the landing route only. |
+| Page length | Short. Sections only where real content backs them. See "Scale" below. |
 | Main button | Goes to a login step, which starts the trial and lands the user on a module. |
 
 ## The reference
@@ -64,19 +65,16 @@ Measured from the live pages, not guessed.
 | Primary button | Solid `#196AE5`, white text |
 | Secondary button | Transparent, 1px `#196AE5` border, blue text |
 | Cards | 8px radius, 1px light border, subtle shadow |
-| Chips | 4px radius, pale blue fill, 11px uppercase blue with wide letter spacing |
 | Content width | 1256px |
 
-Section backgrounds, in the order they appear on the reference:
+Section backgrounds this page uses:
 
 | Role | Colour |
 |---|---|
 | Default | White |
 | Dark section | `#0C111D` |
 | Pale band | `rgba(0,0,0,0.04)` |
-| Navy divider band | `#0D3573` |
 | Expert band | Cream, `#FDF4E7` |
-| Urgency text | Orange, `#E86C00` |
 
 Note `rgba(0,0,0,0.92)` is already the heading colour in `PulseV2Hero`. The newer Great Learning
 pages and our product share tokens, so the two ends of the journey already agree.
@@ -95,7 +93,6 @@ pages and our product share tokens, so the two ends of the journey already agree
   phone number.
 - **Ratings row.** A centred heading, then four bordered white boxes each holding a score, a gold
   star, and the review site name.
-- **Sticky section tabs.** A white bar that sticks under the nav. Blue underline on the active tab.
 - **Sticky bottom bar.** Product name and meta on the left, primary and secondary button on the
   right, one small line beneath them.
 - **Dark feature section.** Left aligned white heading, then two columns of items. Each item has a
@@ -103,14 +100,8 @@ pages and our product share tokens, so the two ends of the journey already agree
 - **Labelled section.** A round pale blue circle icon, a small blue uppercase label, then the plain
   heading. This is the template's eyebrow. It is a coloured uppercase word, never `//`.
 - **Checkmark list.** Blue circled ticks with plain sentences beside them. One column, left aligned.
-- **Two column feature grid.** Small square outlined icon tile, bold title, grey body. Plain grid,
-  no cards, no fills, no shadows.
-- **Skills chips.** A wrapped row of pale blue chips with a `VIEW MORE` blue text link under it.
 - **Accordion.** White card rows with a bold title on the left and a light grey circular `+` on the
   right. Rows are separated by a small gap, not a shared border.
-- **Review carousel.** White cards. Blue quote glyph top left, gold stars and a numeric score top
-  right, a bold headline, the quote set off by a thin grey vertical rule, a `Read More` link, then
-  avatar, name, role, two grey chips and a date. Circular arrow controls.
 - **Question headings.** Most section headings are plain questions. "Why should you join this
   certificate course?" "Who is the certificate for?" "What is the certificate curriculum?" Single
   colour, no decoration.
@@ -122,13 +113,13 @@ The user's constraint, and it is the reason the reference changed. Banned outrig
 - `//` eyebrow marks.
 - Two tone headlines where the second phrase switches to violet.
 - Coloured `border-left` or `border-top` accent strips on cards. The reference uses a thin neutral
-  grey rule to set off a blockquote, which is typography, not an accent stripe. That is the only
-  one directional border allowed.
+  grey rule to set off a blockquote, which is typography, not an accent stripe. That is the only one
+  directional border allowed, and this page does not currently need it.
 - Gradient text, glow blobs behind the hero, glassmorphism, backdrop blur.
 - Dark gradient tile grids standing in for a real image.
 - The same three column icon card grid repeated section after section.
 - An icon in a rounded square on every list item. The template mixes plain checkmark lists, plain
-  grids, chips, and accordions instead.
+  grids and accordions instead.
 - Emoji as icons.
 - Everything centred, everything the same size, symmetry without hierarchy.
 - Decorative pill badges.
@@ -150,35 +141,62 @@ This is deliberate. A past global theme alignment pass on this repo was reverted
 result looked wrong. The marketing skin belongs to marketing pages only. Crossing the login step is
 the moment the product theme takes over, which is how the real site behaves.
 
+## Scale: this is a feature, not a programme
+
+The reference pages sell 4 to 7 month programmes costing tens of thousands of rupees. They run past
+12,000px and carry faculty bios, industry speakers, fees, EMI options, a selection process,
+eligibility criteria, batch dates, blog cards and trending programmes. They need that length because
+the decision is large.
+
+AI Pulse is a feature. It has 11 released modules, a two week cadence, and a free trial. The
+decision is small: log in and try it.
+
+So the template supplies the **visual language and the patterns**, not the page length. Sections only
+exist where real content backs them. Anything the reference has that we cannot fill honestly is
+dropped rather than padded, because padding a short story into a long page is itself the tell we are
+trying to avoid.
+
+Dropped from the template, and why:
+
+| Dropped | Reason |
+|---|---|
+| Reviews carousel | No real learner quotes exist. Three invented ones would be the least trustworthy thing on the page. |
+| Sticky section tabs | Six sections do not need a tab bar. The reference needs one because its page is three times longer. |
+| Separate "what will you learn" checklist | The module accordion already lists real `outcomes` per module. |
+| Second feature grid ("why choose") | Says the same thing as "why subscribe". |
+| Skills chips | Our `tags` are only agents, coding, multimodal and foundations. Too thin for a row. |
+| "Who is it for" section | No real audience data. Becomes one FAQ answer. |
+| Navy cadence band | One sentence the hero already carries. |
+| Separate "talk to us" section | The cream expert band already carries the phone number. |
+| Faculty, mentors, academic director | AI Pulse has none. |
+| Fees, EMI, selection process, eligibility, batch dates | None apply to a free trial. |
+| Certificate section | Pulse issues no certificate. |
+| Blog cards, similar courses, trending programmes | Site furniture, not part of this page's job. |
+
 ## Page structure
 
-Section order follows the reference template.
+Eleven bands.
 
-| # | Section | Background | Notes |
+| # | Section | Background | Backed by |
 |---|---|---|---|
-| 1 | Global nav | White | GL nav with a `LOGIN` button. |
-| 2 | Breadcrumb | White, bottom border | `Home > Artificial Intelligence Courses > AI Pulse` |
-| 3 | Hero | White | Two columns. Photograph on the right. |
-| 4 | Expert band | Cream | `Speak with our expert +91 797-117-1332` |
-| 5 | Ratings | White | Centred heading, four rating boxes. |
-| 6 | Section tabs | White, sticky | Overview, What You Learn, Modules, Free Trial, Reviews, FAQ |
-| 7 | Why subscribe | `#0C111D` | Two columns of items. The trial card starts floating here. |
-| 8 | What you learn | White | Circle icon, blue label, question heading, checkmark list. |
-| 9 | Why choose AI Pulse | White | Two column feature grid, then skills chips. |
-| 10 | Who it is for | Pale | Role columns. |
-| 11 | Cadence band | `#0D3573` | One line. `11 modules live. A new one every two weeks.` |
-| 12 | What is inside | White | Centred heading, module accordion from real data. |
-| 13 | How the trial works | Pale | Centred heading, three numbered steps. |
-| 14 | Reviews | Pale | Review card carousel. |
-| 15 | The PG Program | `#0C111D` | Outbound link and advisor number. |
-| 16 | FAQ | White | Accordion. |
-| 17 | Talk to us | White | Email and phone. |
-| 18 | Footer | Dark | Link columns, socials, contact, copyright. |
-| 19 | Sticky bottom bar | White | Appears once the hero scrolls out of view. |
+| 1 | Global nav + breadcrumb | White | GL nav, real |
+| 2 | Hero | White | Real cadence, real trial terms, existing hero photograph |
+| 3 | Expert band | Cream | Advisor phone number |
+| 4 | Ratings row | White | Great Learning's real review site scores |
+| 5 | Why subscribe | `#0C111D` | The four value props in `docs/great-learning-pulse-brief.md` |
+| 6 | What is inside AI Pulse | White | `src/mocks/pulse-issues.json`, the file the product reads |
+| 7 | How the trial works | Pale | The real trial flow |
+| 8 | The PG Program | `#0C111D` | Real programme, real link, real number |
+| 9 | FAQ | White | Written answers, no invented facts |
+| 10 | Footer | Dark | GL footer links |
+| 11 | Sticky bottom bar | White | Appears once the hero scrolls out of view |
 
-### 3. Hero
+Plus the sticky trial card in the right rail, which starts at section 5 and releases at the end of
+section 6.
 
-Follows the reference exactly, including the order of the parts.
+### 2. Hero
+
+Follows the reference part for part.
 
 - Blue tagline, 14px: "Stay current with AI without falling behind."
 - H1, 36px, plain `#101828`: "AI Pulse: new AI tools every two weeks"
@@ -192,37 +210,35 @@ Follows the reference exactly, including the order of the parts.
 - Right column: `public/hero/hero image.jpg`, the photograph already used by `PulseV2Hero`, in a
   rounded rectangle. Not a tile grid.
 
-### 7. Why subscribe
+### 4. Ratings row
 
-Dark section. Heading "Why should you subscribe to AI Pulse?" Two columns of two items, each a small
-square outlined icon tile, a bold white title, grey body. Content from the four value props in
-`docs/great-learning-pulse-brief.md`: structured progression, the human vetting gate, applied at
-work, and the compounding archive.
+Centred heading "Delivered by Great Learning", then four bordered white boxes, each a score, a gold
+star, and the review site name. These are Great Learning's own scores, so the section is real. We do
+not have the review site logos as local assets, so the name is set as text.
 
-### 8. What you learn
+### 5. Why subscribe
 
-Circle icon, blue uppercase label `WHAT YOU LEARN`, heading "What will you learn to build and
-apply?", one grey intro line, then a blue circled checkmark list of six outcomes drawn from the
-released modules.
+Dark section. Heading "Why should you subscribe to AI Pulse?" Two columns of two items. Each item is
+a small square outlined icon tile, a bold white title, and grey body text. No card backgrounds.
 
-### 9. Why choose AI Pulse
+The four items are the four value props from the brief: structured progression, the human vetting
+gate, applied at work, and the compounding archive.
 
-Heading "Why choose AI Pulse". Two column grid of six items with square outlined icon tiles. Then
-"Skills you will learn" as a wrapped row of pale blue chips, sourced from the `tags` across
-`pulse-issues.json`, with a `VIEW MORE` link.
+The sticky trial card floats over the right of this section, as the reference form does.
 
-### 12. What is inside AI Pulse
+### 6. What is inside AI Pulse
 
-The strongest section on the page, because it is real. It reads
-`src/mocks/pulse-issues.json`, the same file the product reads.
+The centrepiece, and the reason the page can be short. It reads `src/mocks/pulse-issues.json`, the
+same file the product reads.
 
+- Centred heading "What is inside AI Pulse?", centred intro line, then the accordion.
 - Released modules only, meaning `releasedAt <= PULSE_TODAY`. That is 11 of the 13.
 - Newest first, sorted by `releasedAt` descending. Same rule as `PulseHome`.
-- Six rows, then a `View all modules` control that reveals the rest.
+- Six rows, then a `View all modules` control that reveals the remaining five.
 - Row title is the product's own label, `useUnitLabel().numbered(issue.issueNumber)` followed by the
   module title, so a row reading "Module 12" matches what the lead sees after logging in.
 - Collapsed row: white card, bold title, light grey circular `+` on the right.
-- Expanded row: the `description`, the `outcomes` as a checkmark list, a line giving
+- Expanded row: the `description`, the `outcomes` as a blue circled checkmark list, one line giving
   `learningMinutes` and `handsOnMinutes`, and a tools row showing `toolName` with `toolLogo`.
 
 No tinted inner panels. The reference accordion opens into plain body text and lists.
@@ -232,7 +248,7 @@ sequence, while the product numbers them by `issueNumber`. This spec makes the l
 the product, because the landing page sits one click from the product. It does not resolve the email
 mismatch. That still needs one decision across the whole set.
 
-### 13. How the trial works
+### 7. How the trial works
 
 Centred heading "How does the free trial work?" Three numbered steps as large numerals.
 
@@ -243,15 +259,7 @@ Centred heading "How does the free trial work?" Three numbered steps as large nu
 Then one line: "After 14 days you can subscribe to keep going. Everything you finished stays yours."
 No price, per the decision above.
 
-### 14. Reviews
-
-Review cards in the template's shape. No photos, because we have none, so the avatar slot is
-dropped and the name sits alone.
-
-**These reviews are invented placeholder copy.** They are marked as such in `content.ts` and must be
-replaced with real learner quotes before the page is shown to a real lead.
-
-### 15. The PG Program
+### 8. The PG Program
 
 Dark section. Heading "Ready to go deeper than two weeks at a time?" Body explaining that Pulse
 keeps you current while the PG Program builds the full skill set. Three short lines: live mentoring,
@@ -259,11 +267,19 @@ a full curriculum, career support. Then an `Explore the PG Program` button linki
 `https://www.mygreatlearning.com/pg-program-online-artificial-intelligence-machine-learning`, and
 the advisor phone number.
 
-### 19. Sticky bottom bar
+### 9. FAQ
 
-The reference pattern. `AI Pulse` and `14 days free · No credit card · Cancel anytime` on the left,
-`Start Free Trial` solid and `Log In` outlined on the right. Appears once the hero has scrolled out
-of view.
+Six questions, in the template's accordion. What AI Pulse is. Who it is for. Whether a card is
+needed. What happens after 14 days. How much time a module takes. How it relates to the PG Program.
+
+The "after 14 days" answer says the trial converts to a paid subscription. It does not name a price,
+because the page shows no price.
+
+### 11. Sticky bottom bar
+
+The reference pattern, and it does real work on a short page. `AI Pulse` with
+`14 days free · No credit card` on the left, `Start Free Trial` solid and `Log In` outlined on the
+right. Appears once the hero has scrolled out of view.
 
 ### The right rail card
 
@@ -326,26 +342,19 @@ src/pages/Landing/
   AiPulseLanding.tsx        page shell, composes the sections
   AiPulseLogin.tsx          the login step
   landingTheme.ts           Poppins, #196AE5, template tokens
-  content.ts                all copy: outcomes, features, roles, reviews, FAQ, ratings
-  parts.tsx                 SectionShell, SectionHeading, EyebrowLabel, GlButton, StatStrip,
-                            IconTile, CheckList, Chip
+  content.ts                all copy: value props, FAQ, ratings, trial steps
+  parts.tsx                 SectionShell, SectionHeading, GlButton, StatStrip, IconTile,
+                            CheckList
   sections/
     GlobalNav.tsx           nav + breadcrumb row
     LandingHero.tsx
     ExpertBand.tsx
     RatingsRow.tsx
-    SectionTabs.tsx
     WhySubscribe.tsx
-    LearningOutcomes.tsx
-    WhyChoose.tsx
-    AudienceSection.tsx
-    CadenceBand.tsx
     ModulesSection.tsx
     TrialSection.tsx
-    ReviewsSection.tsx
     PgProgramSection.tsx
     FaqSection.tsx
-    TalkToUs.tsx
     LandingFooter.tsx
     TrialRailCard.tsx
     StickyCtaBar.tsx
@@ -396,11 +405,13 @@ The page itself is checked by running it and looking at it, at 1440px, at 768px,
 
 ## Handover notes
 
-Three things must be settled before this page is shown to a real lead:
+Two things must be settled before this page is shown to a real lead:
 
-1. The reviews are invented placeholder copy and need real learner quotes.
-2. The four review site scores are copied from the live reference pages. Confirm they are current.
+1. The four review site scores are copied from the live reference pages. Confirm they are current.
    We also do not have the Google, Course Report, Switchup and Career Karma logos as local assets,
    so the rating boxes show the site name as text next to a gold star.
-3. The advisor phone number is the one printed on the reference pages. Confirm the right number for
+2. The advisor phone number is the one printed on the reference pages. Confirm the right number for
    AI Pulse.
+
+There are no invented testimonials on this page. That section was dropped rather than filled with
+placeholder quotes.
