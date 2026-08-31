@@ -1,4 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { TRIAL_DAYS } from "./trial";
 
 export type PricingState = "trial" | "paid" | "expired";
 export type Plan = "annual" | "monthly";
@@ -113,7 +114,7 @@ export function PricingProvider({ children }: { children: ReactNode }) {
   const closePricingModal = useCallback(() => setModalOpen(false), []);
 
   const startTrial = useCallback(() => {
-    setStored({ state: "trial", plan: null, activeUntil: daysFromNow(30), trialStartedAt: todayISO() });
+    setStored({ state: "trial", plan: null, activeUntil: daysFromNow(TRIAL_DAYS), trialStartedAt: todayISO() });
   }, []);
 
   const subscribe = useCallback((p: Plan) => {
