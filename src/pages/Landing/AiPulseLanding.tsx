@@ -8,6 +8,7 @@ import { RatingsRow } from "./sections/RatingsRow";
 import { WhySubscribe } from "./sections/WhySubscribe";
 import { ModulesSection } from "./sections/ModulesSection";
 import { TrialSection } from "./sections/TrialSection";
+import { PgProgramSection } from "./sections/PgProgramSection";
 
 export function AiPulseLanding() {
   return (
@@ -21,6 +22,7 @@ export function AiPulseLanding() {
         <WhySubscribe />
         <ModulesSection />
         <TrialSection />
+        <PgProgramSection />
       </Box>
     </ThemeProvider>
   );
