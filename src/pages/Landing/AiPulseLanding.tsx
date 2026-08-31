@@ -3,6 +3,8 @@ import { Box, CssBaseline } from "@mui/material";
 import { landingTheme } from "./landingTheme";
 import { GlobalNav } from "./sections/GlobalNav";
 import { LandingHero } from "./sections/LandingHero";
+import { ExpertBand } from "./sections/ExpertBand";
+import { RatingsRow } from "./sections/RatingsRow";
 
 export function AiPulseLanding() {
   return (
@@ -11,6 +13,8 @@ export function AiPulseLanding() {
       <Box sx={{ bgcolor: "#ffffff", minHeight: "100vh" }}>
         <GlobalNav />
         <LandingHero />
+        <ExpertBand />
+        <RatingsRow />
       </Box>
     </ThemeProvider>
   );
