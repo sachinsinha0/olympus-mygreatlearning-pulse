@@ -25,9 +25,9 @@ export function WhySubscribe() {
           <Box
             sx={{
               display: "grid",
-              gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
+              gridTemplateColumns: { xs: "1fr", md: "repeat(3, 1fr)" },
               columnGap: 5,
-              rowGap: 4.5,
+              rowGap: 5,
               mt: 5,
             }}
           >

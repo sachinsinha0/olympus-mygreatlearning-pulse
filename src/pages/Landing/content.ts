@@ -1,4 +1,4 @@
-import { Briefcase, Clock, Library, Sparkles } from "lucide-react";
+import { Briefcase, Clock, Sparkles } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { TRIAL_DAYS } from "../../lib/pulse/trial";
 
@@ -55,16 +55,13 @@ export const RATINGS: { score: string; site: string }[] = [
 ];
 
 /**
- * The first three are the product's own pillars, verbatim from PulseV2Hero, which the
- * pricing dialog repeats. A lead should hear the same three reasons here that they will
- * hear inside the product.
+ * The product's three pillars, verbatim from PILLARS in PulseV2Hero, which
+ * PricingModal repeats as its feature list.
  *
- * The fourth is the compounding archive argument from docs/great-learning-pulse-brief.md.
- * The product does not state it anywhere in the UI, but it is the strongest reason to
- * keep a subscription rather than dip in once, which is exactly what this page is for.
- *
- * The pillar body reads "30 to 60 minutes" where the product writes "30-60". Ranges
- * spelled out read more easily than dashed ones.
+ * Copied exactly, including the en dash in "30–60 minutes", which is how the product
+ * writes it. A fourth point
+ * about the compounding archive used to sit here. It came from the brief document, not
+ * from the product, so it is gone.
  */
 export const VALUE_PROPS: { Icon: LucideIcon; title: string; body: string }[] = [
   {
@@ -75,17 +72,12 @@ export const VALUE_PROPS: { Icon: LucideIcon; title: string; body: string }[] = 
   {
     Icon: Clock,
     title: "Bite-sized modules",
-    body: "30 to 60 minutes, designed to fit your schedule.",
+    body: "30–60 minutes, designed to fit your schedule.",
   },
   {
     Icon: Briefcase,
     title: "Use it at work",
     body: "Apply what you learn at work immediately.",
-  },
-  {
-    Icon: Library,
-    title: "The archive keeps growing",
-    body: "Every release joins the back catalogue. Your subscription is worth more in month twelve than in month one.",
   },
 ];
 
@@ -106,9 +98,14 @@ export const AI_LABS: { slug: string; label: string }[] = [
   { slug: "v0", label: "v0" },
 ];
 
+/**
+ * Both lines are the onboarding carousel's third slide, verbatim. The heading is the
+ * first line of that slide's title; the body is its body, including "what's" as the
+ * product contracts it.
+ */
 export const LABS_SECTION = {
-  title: "Hands-on with what is new from the AI labs",
-  body: "Hands-on modules on what is new from OpenAI, Anthropic, Google and other important AI labs, so you can stay current with minimal effort.",
+  title: "Hands-on with real examples",
+  body: "Hands-on modules on what's new from OpenAI, Anthropic, Google and other important AI labs, so you can stay current with minimal effort.",
 } as const;
 
 /**
