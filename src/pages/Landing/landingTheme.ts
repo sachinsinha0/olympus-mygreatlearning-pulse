@@ -59,10 +59,10 @@ export const landingTheme = createTheme({
           borderRadius: 4,
           textTransform: "none",
           fontFamily: FONT,
-          fontSize: 16,
+          fontSize: 15,
           fontWeight: 600,
-          minHeight: 56,
-          padding: "16px 24px",
+          minHeight: 48,
+          padding: "12px 22px",
           boxShadow: "none",
         },
         contained: {

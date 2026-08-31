@@ -78,18 +78,6 @@ export function StickyCtaBar() {
 
         <Stack direction="row" gap={1.5} sx={{ width: { xs: "100%", sm: "auto" } }}>
           <Button
-            variant="outlined"
-            onClick={goToLogin}
-            sx={{
-              display: { xs: "none", sm: "inline-flex" },
-              minHeight: 44,
-              padding: "10px 20px",
-              fontSize: 15,
-            }}
-          >
-            {STICKY_BAR.secondaryCta}
-          </Button>
-          <Button
             variant="contained"
             onClick={goToLogin}
             sx={{

@@ -44,13 +44,24 @@ export function PgProgramSection() {
             ))}
           </Stack>
 
+          {/* Secondary, not primary. This was solid blue, which made it compete with
+              Start Free Trial for the one primary slot on the page. White on the dark
+              ground rather than the theme's blue outline, which would not read here. */}
           <Button
-            variant="contained"
+            variant="outlined"
             component="a"
             href={PG_PROGRAM_URL}
             target="_blank"
             rel="noopener noreferrer"
-            sx={{ mt: 4 }}
+            sx={{
+              mt: 4,
+              color: "#ffffff",
+              borderColor: "rgba(255, 255, 255, 0.45)",
+              "&:hover": {
+                borderColor: "#ffffff",
+                backgroundColor: "rgba(255, 255, 255, 0.08)",
+              },
+            }}
           >
             {PG_SECTION.cta}
           </Button>

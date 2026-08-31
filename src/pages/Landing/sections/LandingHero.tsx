@@ -55,25 +55,18 @@ export function LandingHero() {
             {HERO.body}
           </Typography>
 
-          <Stack direction={{ xs: "column", sm: "row" }} gap={2}>
-            {/* The reference template gives both hero buttons near equal generous widths
-                (215px and 210px on the live page). Left to size themselves the two labels
-                here differ by 80px, which reads auto-sized rather than designed. */}
+          {/* One CTA. A Log In button sat beside this and gave the lead a second
+              decision to make, when every route off this page runs through the same
+              login step anyway. */}
+          <Box>
             <Button
               variant="contained"
               onClick={goToLogin}
-              sx={{ fontSize: 18, minHeight: 58, minWidth: { sm: 200 } }}
+              sx={{ fontSize: 16, minHeight: 52, minWidth: { sm: 200 }, width: { xs: "100%", sm: "auto" } }}
             >
               {HERO.primaryCta}
             </Button>
-            <Button
-              variant="outlined"
-              onClick={goToLogin}
-              sx={{ fontSize: 18, minHeight: 58, minWidth: { sm: 190 } }}
-            >
-              {HERO.secondaryCta}
-            </Button>
-          </Stack>
+          </Box>
 
           {/* Where the reference template prints its application deadline. AI Pulse has
               no deadline, so this states the release cadence instead. */}

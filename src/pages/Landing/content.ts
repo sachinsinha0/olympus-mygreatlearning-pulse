@@ -19,7 +19,6 @@ export const HERO = {
   title: "AI Pulse: new AI tools every two weeks",
   body: "Learn one new AI tool every two weeks. Each module takes under an hour. Use what you learn at work the same day.",
   primaryCta: "Start Free Trial",
-  secondaryCta: "Log In",
   cadence: "New module every two weeks.",
 } as const;
 
@@ -128,7 +127,6 @@ export const STICKY_BAR = {
   name: "AI Pulse",
   meta: `${TRIAL_DAYS} days free · No credit card`,
   primaryCta: "Start Free Trial",
-  secondaryCta: "Log In",
 } as const;
 
 export const FOOTER_COLUMNS: { heading: string; links: string[] }[] = [
