@@ -24,6 +24,7 @@ import { InterviewReport } from "./pages/InterviewReport/InterviewReport";
 // Lazy so the Poppins font CSS and the marketing theme only load for someone who
 // actually visits the landing page. Product users never download them.
 const AiPulseLanding = lazy(() => import("./pages/Landing/AiPulseLanding"));
+const AiPulseLogin = lazy(() => import("./pages/Landing/AiPulseLogin"));
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -73,6 +74,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={null}>
             <AiPulseLanding />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/ai-pulse/login",
+        element: (
+          <Suspense fallback={null}>
+            <AiPulseLogin />
           </Suspense>
         ),
       },
