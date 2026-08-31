@@ -10,6 +10,7 @@ import { ModulesSection } from "./sections/ModulesSection";
 import { TrialSection } from "./sections/TrialSection";
 import { PgProgramSection } from "./sections/PgProgramSection";
 import { FaqSection } from "./sections/FaqSection";
+import { LandingFooter } from "./sections/LandingFooter";
 
 export function AiPulseLanding() {
   return (
@@ -25,6 +26,7 @@ export function AiPulseLanding() {
         <TrialSection />
         <PgProgramSection />
         <FaqSection />
+        <LandingFooter />
       </Box>
     </ThemeProvider>
   );
