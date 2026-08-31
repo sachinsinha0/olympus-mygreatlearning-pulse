@@ -37,9 +37,9 @@ describe("selectLandingModules", () => {
     expect(selectLandingModules(all, "2026-06-05", 2).total).toBe(3);
   });
 
-  it("keeps the most recent modules when the limit bites, not the oldest", () => {
+  it("keeps the first modules when the limit bites, so the list starts at the start", () => {
     const { modules } = selectLandingModules(all, "2026-06-05", 2);
-    expect(modules.map((i) => i.id)).toEqual(["older", "today"]);
+    expect(modules.map((i) => i.id)).toEqual(["oldest", "older"]);
   });
 
   it("still reads forwards after trimming", () => {
@@ -47,8 +47,10 @@ describe("selectLandingModules", () => {
     expect(modules[0].releasedAt < modules[1].releasedAt).toBe(true);
   });
 
-  it("names the newest module even when the limit trimmed the list", () => {
-    expect(selectLandingModules(all, "2026-06-05", 1).newest?.id).toBe("today");
+  it("names the newest released module even when the limit trimmed it off the list", () => {
+    const { modules, newest } = selectLandingModules(all, "2026-06-05", 1);
+    expect(modules.map((i) => i.id)).toEqual(["oldest"]);
+    expect(newest?.id).toBe("today");
   });
 
   it("returns everything when the limit is larger than the list", () => {

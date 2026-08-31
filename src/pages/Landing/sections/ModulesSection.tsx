@@ -16,11 +16,12 @@ import issuesData from "../../../mocks/pulse-issues.json";
  * Row titles use the product's own numbering, so a row here matches what the lead
  * sees once they log in.
  *
- * The list runs in chronological order and shows every released module. It reads as a
- * curriculum, which is why it counts upward rather than newest first like /pulse does.
- * Nothing is held back behind a "view all", because the newest module is the strongest
- * thing on the page and a chronological list would have buried it at the bottom of the
- * hidden half.
+ * The list runs in chronological order and shows the first eight. It reads as a
+ * curriculum, which is why it counts upward rather than newest first like /pulse does,
+ * and why it starts at Module 01 rather than at whatever the eight most recent happen
+ * to begin with.
+ *
+ * The lede carries the real total, so trimming the list never overstates the library.
  */
 export function ModulesSection() {
   const unit = useUnitLabel();
@@ -40,7 +41,7 @@ export function ModulesSection() {
       <Box sx={{ mt: 2 }}>
         <Lede align="center">
           {modules.length < total
-            ? `${total} modules are live right now. These are the ${modules.length} most recent.`
+            ? `${total} modules are live right now. Here are the first ${modules.length}.`
             : `${total} modules are live right now. A new one lands every two weeks.`}
         </Lede>
       </Box>

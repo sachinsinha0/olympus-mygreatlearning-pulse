@@ -23,13 +23,13 @@ export type LandingModules = {
  * release date, not issue number, because the issue numbers are not chronological:
  * pulse-11 releases after pulse-12.
  *
- * `limit` trims from the FRONT, so the list keeps the most recent modules and still
- * reads forwards. Trimming from the back would have dropped the newest module, which
- * is the strongest thing on the page. `total` still counts everything released, so the
- * page can say how many exist without listing them all.
+ * `limit` keeps the first modules, so the list starts at Module 01 and reads as a
+ * curriculum from the beginning. `total` still counts everything released, so the page
+ * can say how many exist without listing them all.
  *
- * `newest` is returned separately because the login step drops a new trial user into
- * the freshest module, which is the far end of this list from where it starts.
+ * `newest` is returned separately, and is the newest of everything released rather than
+ * of the trimmed list. The login step drops a new trial user into the freshest module,
+ * which the limit usually trims off.
  */
 export function selectLandingModules(
   all: PulseIssue[],
@@ -40,7 +40,7 @@ export function selectLandingModules(
     .filter((i) => i.releasedAt <= today)
     .sort((a, b) => a.releasedAt.localeCompare(b.releasedAt));
   return {
-    modules: released.slice(Math.max(0, released.length - limit)),
+    modules: released.slice(0, limit),
     newest: released.length > 0 ? released[released.length - 1] : null,
     total: released.length,
   };
