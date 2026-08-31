@@ -2,7 +2,7 @@ import { Box, Button, Stack, Typography } from "@mui/material";
 import { Check } from "lucide-react";
 import { GL } from "../landingTheme";
 import { DarkHeading, Section } from "../parts";
-import { ADVISOR_PHONE, ADVISOR_PHONE_HREF, PG_PROGRAM_URL, PG_SECTION } from "../content";
+import { PG_PROGRAM_URL, PG_SECTION } from "../content";
 
 /**
  * The cross sell to the PG Program.
@@ -65,17 +65,6 @@ export function PgProgramSection() {
           >
             {PG_SECTION.cta}
           </Button>
-
-          <Stack direction="row" gap={1} alignItems="center" flexWrap="wrap" sx={{ mt: 2 }}>
-            <Typography sx={{ fontSize: 14, color: GL.darkBody }}>Speak with our expert</Typography>
-            <Box
-              component="a"
-              href={ADVISOR_PHONE_HREF}
-              sx={{ fontSize: 14, fontWeight: 600, color: "#ffffff", textDecoration: "underline" }}
-            >
-              {ADVISOR_PHONE}
-            </Box>
-          </Stack>
         </Box>
       </Box>
     </Section>

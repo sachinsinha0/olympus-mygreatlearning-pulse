@@ -74,7 +74,6 @@ Section backgrounds this page uses:
 | Default | White |
 | Dark section | `#0C111D` |
 | Pale band | `rgba(0,0,0,0.04)` |
-| Expert band | Cream, `#FDF4E7` |
 
 Note `rgba(0,0,0,0.92)` is already the heading colour in `PulseV2Hero`. The newer Great Learning
 pages and our product share tokens, so the two ends of the journey already agree.
@@ -90,8 +89,6 @@ pages and our product share tokens, so the two ends of the journey already agree
   photograph in a rounded rectangle.
 - **Stat strip.** A bordered card about 96px tall holding four cells with vertical dividers. Bold
   value on top, grey label under it.
-- **Expert band.** A full width cream strip with one centred line: `Speak with our expert` and a
-  phone number.
 - **Ratings row.** A centred heading, then four bordered white boxes each holding a score, a gold
   star, and the review site name.
 - **Sticky bottom bar.** Product name and meta on the left, primary and secondary button on the
@@ -168,7 +165,7 @@ Dropped from the template, and why:
 | Skills chips | Our `tags` are only agents, coding, multimodal and foundations. Too thin for a row. |
 | "Who is it for" section | No real audience data. Becomes one FAQ answer. |
 | Navy cadence band | One sentence the hero already carries. |
-| Separate "talk to us" section | The cream expert band already carries the phone number. |
+| Separate "talk to us" section | Not wanted. The footer carries a contact line and that is enough. |
 | Faculty, mentors, academic director | AI Pulse has none. |
 | Fees, EMI, selection process, eligibility, batch dates | None apply to a free trial. |
 | Certificate section | Pulse issues no certificate. |
@@ -176,13 +173,13 @@ Dropped from the template, and why:
 
 ## Page structure
 
-Eleven bands.
+Ten bands. The cream advisor strip the template runs under its hero was dropped: an
+"Speak with our expert" line is not wanted on this page.
 
 | # | Section | Background | Backed by |
 |---|---|---|---|
 | 1 | Header | White | Great Learning logo only |
 | 2 | Hero | White | Real cadence, real trial terms, existing hero photograph |
-| 3 | Expert band | Cream | Advisor phone number |
 | 4 | Ratings row | White | Great Learning's real review site scores |
 | 5 | Why subscribe | `#0C111D` | The four value props in `docs/great-learning-pulse-brief.md` |
 | 6 | What is inside AI Pulse | White | `src/mocks/pulse-issues.json`, the file the product reads |
@@ -212,7 +209,7 @@ Follows the reference part for part.
 - Right column: `public/hero/hero image.jpg`, the photograph already used by `PulseV2Hero`, in a
   rounded rectangle. Not a tile grid.
 
-### 4. Ratings row
+### Ratings row
 
 Centred heading "Delivered by Great Learning", then four bordered white boxes, each a score, a gold
 star, and the review site name. These are Great Learning's own scores, so the section is real. We do
@@ -267,7 +264,7 @@ Dark section. Heading "Ready to go deeper than two weeks at a time?" Body explai
 keeps you current while the PG Program builds the full skill set. Three short lines: live mentoring,
 a full curriculum, career support. Then an `Explore the PG Program` button linking to
 `https://www.mygreatlearning.com/pg-program-online-artificial-intelligence-machine-learning`, and
-the advisor phone number.
+
 
 ### 9. FAQ
 
@@ -411,8 +408,8 @@ Two things must be settled before this page is shown to a real lead:
 1. The four review site scores are copied from the live reference pages. Confirm they are current.
    We also do not have the Google, Course Report, Switchup and Career Karma logos as local assets,
    so the rating boxes show the site name as text next to a gold star.
-2. The advisor phone number is the one printed on the reference pages. Confirm the right number for
-   AI Pulse.
+2. The footer still prints a contact phone number, which is the one from the reference pages.
+   Confirm the right number for AI Pulse.
 
 There are no invented testimonials on this page. That section was dropped rather than filled with
 placeholder quotes.

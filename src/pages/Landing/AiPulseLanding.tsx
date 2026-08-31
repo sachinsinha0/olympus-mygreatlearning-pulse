@@ -3,7 +3,6 @@ import { Box, CssBaseline } from "@mui/material";
 import { landingTheme } from "./landingTheme";
 import { GlobalNav } from "./sections/GlobalNav";
 import { LandingHero } from "./sections/LandingHero";
-import { ExpertBand } from "./sections/ExpertBand";
 import { RatingsRow } from "./sections/RatingsRow";
 import { WhySubscribe } from "./sections/WhySubscribe";
 import { ModulesSection } from "./sections/ModulesSection";
@@ -21,7 +20,6 @@ export function AiPulseLanding() {
       <Box sx={{ bgcolor: "#ffffff", minHeight: "100vh" }}>
         <GlobalNav />
         <LandingHero />
-        <ExpertBand />
         <RatingsRow />
         {/* The trial card travels past both of these, the way the lead capture form
             does on the real course pages. */}

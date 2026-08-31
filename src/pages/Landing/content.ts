@@ -3,14 +3,6 @@ import type { LucideIcon } from "lucide-react";
 import { TRIAL_DAYS } from "../../lib/pulse/trial";
 
 export const ADVISOR_PHONE = "+91 797-117-1332";
-/**
- * The same number with the spacing stripped.
- *
- * A `tel:` URI may not contain a literal space (RFC 3966). Most browsers recover,
- * but some mobile dialers truncate at the space and would dial a wrong number. Use
- * this for the href and ADVISOR_PHONE for the visible text.
- */
-export const ADVISOR_PHONE_HREF = `tel:${ADVISOR_PHONE.replace(/[^+\d]/g, "")}`;
 export const PG_PROGRAM_URL =
   "https://www.mygreatlearning.com/pg-program-online-artificial-intelligence-machine-learning";
 

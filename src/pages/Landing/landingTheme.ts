@@ -27,8 +27,6 @@ export const GL = {
   darkBody: "#B9BFCB",
   /** Pale band. rgba(0,0,0,0.04) resolved over white. */
   pale: "#F5F5F5",
-  /** The "Speak with our expert" strip. */
-  cream: "#FDF4E7",
   border: "#E4E7EC",
   darkBorder: "#2A3140",
   gold: "#F5B301",
