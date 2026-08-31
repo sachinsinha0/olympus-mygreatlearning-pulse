@@ -12,6 +12,7 @@ import { PgProgramSection } from "./sections/PgProgramSection";
 import { FaqSection } from "./sections/FaqSection";
 import { LandingFooter } from "./sections/LandingFooter";
 import { StickyCtaBar } from "./sections/StickyCtaBar";
+import { TrialRailRegion } from "./sections/TrialRailRegion";
 
 export function AiPulseLanding() {
   return (
@@ -22,8 +23,12 @@ export function AiPulseLanding() {
         <LandingHero />
         <ExpertBand />
         <RatingsRow />
-        <WhySubscribe />
-        <ModulesSection />
+        {/* The trial card travels past both of these, the way the lead capture form
+            does on the real course pages. */}
+        <TrialRailRegion>
+          <WhySubscribe />
+          <ModulesSection />
+        </TrialRailRegion>
         <TrialSection />
         <PgProgramSection />
         <FaqSection />

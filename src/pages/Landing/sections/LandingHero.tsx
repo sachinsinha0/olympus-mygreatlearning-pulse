@@ -25,7 +25,7 @@ export function LandingHero() {
   const goToLogin = () => navigate("/ai-pulse/login");
 
   return (
-    <Section>
+    <Section id="landing-hero">
       <Box
         sx={{
           display: "grid",

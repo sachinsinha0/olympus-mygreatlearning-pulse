@@ -1,10 +1,24 @@
 import type { ReactNode } from "react";
 import { Box, Stack, Typography } from "@mui/material";
+import type { SxProps, Theme } from "@mui/material/styles";
 import { Check } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { GL } from "./landingTheme";
 
-/** A full width band with the template's 1256px content column inside it. */
+/**
+ * The template's 1256px content column. Every band on the page lines its content up
+ * on the same left edge, including the header and the fixed bottom bar, which are not
+ * Sections and so use this directly.
+ */
+export function ContentColumn({ children, sx }: { children: ReactNode; sx?: SxProps<Theme> }) {
+  return (
+    <Box sx={{ maxWidth: GL.maxWidth, mx: "auto", px: { xs: 2.5, md: 4 }, ...sx } as SxProps<Theme>}>
+      {children}
+    </Box>
+  );
+}
+
+/** A full width band with the content column inside it. */
 export function Section({
   id,
   bg = "#ffffff",
@@ -13,12 +27,12 @@ export function Section({
 }: {
   id?: string;
   bg?: string;
-  py?: object | number;
+  py?: SxProps<Theme>[keyof SxProps<Theme>] | number | Record<string, number>;
   children: ReactNode;
 }) {
   return (
     <Box component="section" id={id} sx={{ bgcolor: bg, py }}>
-      <Box sx={{ maxWidth: GL.maxWidth, mx: "auto", px: { xs: 2.5, md: 4 } }}>{children}</Box>
+      <ContentColumn>{children}</ContentColumn>
     </Box>
   );
 }

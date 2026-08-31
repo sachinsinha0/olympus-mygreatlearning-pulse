@@ -80,13 +80,14 @@ export function FaqSection() {
                 </Box>
               </Box>
 
-              {open && (
-                <Box id={panelId} sx={{ padding: "0 22px 22px" }}>
+              {/* Rendered whether open or not, and hidden with the attribute. A button
+                  whose aria-controls points at an id that is not in the document reads
+                  as a broken reference to some assistive tech. */}
+              <Box id={panelId} hidden={!open} sx={{ padding: "0 22px 22px" }}>
                   <Typography sx={{ fontSize: 15, lineHeight: 1.65, color: GL.body }}>
                     {item.a}
                   </Typography>
-                </Box>
-              )}
+              </Box>
             </Box>
           );
         })}

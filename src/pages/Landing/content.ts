@@ -3,6 +3,14 @@ import type { LucideIcon } from "lucide-react";
 import { TRIAL_DAYS } from "../../lib/pulse/trial";
 
 export const ADVISOR_PHONE = "+91 797-117-1332";
+/**
+ * The same number with the spacing stripped.
+ *
+ * A `tel:` URI may not contain a literal space (RFC 3966). Most browsers recover,
+ * but some mobile dialers truncate at the space and would dial a wrong number. Use
+ * this for the href and ADVISOR_PHONE for the visible text.
+ */
+export const ADVISOR_PHONE_HREF = `tel:${ADVISOR_PHONE.replace(/[^+\d]/g, "")}`;
 export const PG_PROGRAM_URL =
   "https://www.mygreatlearning.com/pg-program-online-artificial-intelligence-machine-learning";
 
@@ -15,7 +23,10 @@ export const HERO = {
   cadence: "New module every two weeks.",
 } as const;
 
-/** Four cells, matching the template's stat strip. `modules` is filled in at render time. */
+/**
+ * Three of the four cells in the hero stat strip. The fourth is the live module
+ * count, appended in LandingHero because it is computed from the real data.
+ */
 export const HERO_STATS: { value: string; label: string }[] = [
   { value: `${TRIAL_DAYS} Days`, label: "Free trial" },
   { value: "Every 2 weeks", label: "New module" },
@@ -96,11 +107,11 @@ export const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "How much time does a module take?",
-    a: "Under 60 minutes. Around 35 minutes of learning and 15 to 20 minutes hands-on.",
+    a: "Under 60 minutes. Around 35 minutes of learning, then 14 to 20 minutes hands-on.",
   },
   {
     q: "How does this relate to the PG Program?",
-    a: "Pulse keeps you current on what is new. The PG Program builds the full skill set with live mentoring and career support. Many learners do both.",
+    a: "Pulse keeps you current on what is new. The PG Program builds the full skill set. It adds live mentoring and career support. Many learners do both.",
   },
 ];
 

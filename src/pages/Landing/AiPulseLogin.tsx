@@ -35,12 +35,20 @@ export function AiPulseLogin() {
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim()) return;
-    const first = selectLandingModules(issuesData as PulseIssue[]).visible[0];
+    // The freshest module, which is the far end of the chronological list the landing
+    // page shows. Same destination as the Start Free Trial button on /pulse.
+    const newest = selectLandingModules(issuesData as PulseIssue[]).newest;
     runWithPageLoader(() => {
       startTrial();
-      const itemId = first ? getDefaultItemId(first.id, false) : "";
+      if (!newest) {
+        // Nothing released. Send them to the Pulse home rather than to
+        // /pulse/modules/, which matches no route and would strand them on a blank page.
+        navigate("/pulse");
+        return;
+      }
+      const itemId = getDefaultItemId(newest.id, false);
       const itemPath = itemId ? `/items/${itemId}` : "";
-      navigate(`/pulse/modules/${first?.id ?? ""}${itemPath}?trial=started`);
+      navigate(`/pulse/modules/${newest.id}${itemPath}?trial=started`);
     }, 950);
   };
 

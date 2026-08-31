@@ -4,6 +4,7 @@ import { Minus, Plus } from "lucide-react";
 import { GL } from "../landingTheme";
 import { CheckList, Lede, Section, SectionHeading } from "../parts";
 import { TrialRailCard } from "./TrialRailCard";
+import { RAIL_GUTTER } from "./TrialRailRegion";
 import { selectLandingModules } from "../../../lib/pulse/landingModules";
 import { useUnitLabel } from "../../../lib/pulse/terminology";
 import type { PulseIssue } from "../../../lib/pulse/types";
@@ -13,20 +14,27 @@ import issuesData from "../../../mocks/pulse-issues.json";
  * The module accordion, built from the same mock file /pulse reads.
  *
  * Row titles use the product's own numbering, so a row here matches what the lead
- * sees once they log in. Six rows show first, the rest are one click away.
+ * sees once they log in.
+ *
+ * The list runs in chronological order and shows every released module. It reads as a
+ * curriculum, which is why it counts upward rather than newest first like /pulse does.
+ * Nothing is held back behind a "view all", because the newest module is the strongest
+ * thing on the page and a chronological list would have buried it at the bottom of the
+ * hidden half.
  */
 export function ModulesSection() {
   const unit = useUnitLabel();
-  const { visible, hidden, total } = useMemo(
+  const { modules, total } = useMemo(
     () => selectLandingModules(issuesData as PulseIssue[]),
     [],
   );
   const [expanded, setExpanded] = useState<string | null>(null);
-  const [showAll, setShowAll] = useState(false);
-  const rows = showAll ? [...visible, ...hidden] : visible;
 
   return (
     <Section py={{ xs: 6, md: 9 }}>
+      {/* From lg up the trial card floats over the right of this section, so the
+          heading and the accordion centre inside what is left rather than under it. */}
+      <Box sx={{ pr: { lg: `${RAIL_GUTTER}px` } }}>
       <SectionHeading align="center">What is inside AI Pulse?</SectionHeading>
 
       <Box sx={{ mt: 2 }}>
@@ -36,7 +44,7 @@ export function ModulesSection() {
       </Box>
 
       <Stack gap={1.25} sx={{ mt: 4, maxWidth: 900, mx: "auto" }}>
-        {rows.map((issue) => {
+        {modules.map((issue) => {
           const open = expanded === issue.id;
           const panelId = `module-panel-${issue.id}`;
           const minutes = issue.handsOnMinutes
@@ -95,8 +103,10 @@ export function ModulesSection() {
                 </Box>
               </Box>
 
-              {open && (
-                <Box id={panelId} sx={{ padding: "0 22px 22px" }}>
+              {/* Rendered whether open or not, and hidden with the attribute. A button
+                  whose aria-controls points at an id that is not in the document reads
+                  as a broken reference to some assistive tech. */}
+              <Box id={panelId} hidden={!open} sx={{ padding: "0 22px 22px" }}>
                   <Typography sx={{ fontSize: 15, lineHeight: 1.65, color: GL.body }}>
                     {issue.description}
                   </Typography>
@@ -137,37 +147,16 @@ export function ModulesSection() {
                       </Typography>
                     </Box>
                   )}
-                </Box>
-              )}
+              </Box>
             </Box>
           );
         })}
       </Stack>
 
-      {hidden.length > 0 && !showAll && (
-        <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
-          <Box
-            component="button"
-            type="button"
-            onClick={() => setShowAll(true)}
-            sx={{
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              fontFamily: "inherit",
-              fontSize: 15,
-              fontWeight: 600,
-              color: GL.blue,
-              padding: 0,
-            }}
-          >
-            {`View all ${total} modules`}
-          </Box>
-        </Box>
-      )}
+      </Box>
 
-      {/* The rail card once for phones and tablets. From lg up the sticky card in the
-          dark section above is the one that shows, so it never appears twice. */}
+      {/* The card once for phones and tablets. From lg up TrialRailRegion's sticky
+          copy is the one that shows, so it never appears twice. */}
       <Box sx={{ display: { xs: "flex", lg: "none" }, justifyContent: "center", mt: 6 }}>
         <TrialRailCard />
       </Box>

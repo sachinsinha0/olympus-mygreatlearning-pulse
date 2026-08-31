@@ -7,22 +7,36 @@ import { STICKY_BAR } from "../content";
 /**
  * The bar that follows the lead down the page once the hero has scrolled away.
  *
- * Visibility comes from a plain scroll threshold rather than an IntersectionObserver
- * on the hero, because the hero height changes per breakpoint and a threshold is
- * easier to reason about.
+ * The bar appears once the hero has scrolled away. The threshold is measured from the
+ * hero itself rather than hardcoded, because the hero is roughly 1070px tall on a
+ * phone and roughly 640px on a desktop. One fixed number showed the bar while the
+ * hero's own two buttons were still on screen, which read as duplicate calls to
+ * action. The measurement is taken on mount and on resize, never on scroll, so the
+ * scroll handler stays cheap and never forces a layout.
  *
  * The bar stays mounted at all times and slides on a transform, so it never pops in.
  */
 export function StickyCtaBar() {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
+  const [threshold, setThreshold] = useState(600);
 
   useEffect(() => {
-    const onScroll = () => setShow(window.scrollY > 600);
+    const measure = () => {
+      const hero = document.getElementById("landing-hero");
+      setThreshold(hero ? hero.offsetTop + hero.offsetHeight : 600);
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
+
+  useEffect(() => {
+    const onScroll = () => setShow(window.scrollY > threshold);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [threshold]);
 
   const goToLogin = () => navigate("/ai-pulse/login");
 

@@ -2,7 +2,7 @@ import { Box, Stack, Typography } from "@mui/material";
 import { GL } from "../landingTheme";
 import { DarkHeading, IconTile, Section } from "../parts";
 import { VALUE_PROPS } from "../content";
-import { TrialRailCard } from "./TrialRailCard";
+import { RAIL_GUTTER } from "./TrialRailRegion";
 
 /**
  * The dark band, and the start of the sticky rail.
@@ -11,20 +11,14 @@ import { TrialRailCard } from "./TrialRailCard";
  * outlined tile, a title and a paragraph on the dark ground, which is what the course
  * landing template does here.
  *
- * The rail card is sticky from lg up and overlaps the boundary into the section below,
- * the way the reference lead form does. Below lg it is not rendered here at all. The
- * modules section renders it once instead, so it never appears twice at the same time.
+ * The trial card is not rendered here. It is positioned over this section and the
+ * modules section together by TrialRailRegion, so it can travel past both. All this
+ * section does is leave RAIL_GUTTER clear on the right from lg up.
  */
 export function WhySubscribe() {
   return (
     <Section bg={GL.dark} py={{ xs: 6, md: 9 }}>
-      <Box
-        sx={{
-          display: "grid",
-          gridTemplateColumns: { xs: "1fr", lg: "1fr 400px" },
-          gap: { xs: 5, lg: 8 },
-        }}
-      >
+      <Box sx={{ pr: { lg: `${RAIL_GUTTER}px` } }}>
         <Box>
           <DarkHeading>Why should you subscribe to AI Pulse?</DarkHeading>
 
@@ -49,10 +43,6 @@ export function WhySubscribe() {
               </Stack>
             ))}
           </Box>
-        </Box>
-
-        <Box sx={{ display: { xs: "none", lg: "block" }, position: "sticky", top: 96, alignSelf: "start" }}>
-          <TrialRailCard />
         </Box>
       </Box>
     </Section>

@@ -28,6 +28,9 @@ export function RatingsRow() {
         {RATINGS.map((rating) => (
           <Box
             key={rating.site}
+            // The star is the only thing signalling that this number is a rating, and
+            // an unlabelled icon says nothing. The box carries the sentence instead.
+            aria-label={`Rated ${rating.score} out of 5 on ${rating.site}`}
             sx={{
               border: `1px solid ${GL.border}`,
               borderRadius: "8px",
@@ -40,7 +43,7 @@ export function RatingsRow() {
             <Typography sx={{ fontSize: 20, fontWeight: 600, color: GL.heading }}>
               {rating.score}
             </Typography>
-            <Box sx={{ display: "flex" }}>
+            <Box aria-hidden sx={{ display: "flex" }}>
               <Star size={16} fill={GL.gold} color={GL.gold} />
             </Box>
             <Typography sx={{ fontSize: 14, fontWeight: 500, color: GL.body }}>

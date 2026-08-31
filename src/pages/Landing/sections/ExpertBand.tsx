@@ -1,7 +1,7 @@
 import { Box, Stack, Typography } from "@mui/material";
 import { UserRound } from "lucide-react";
 import { GL } from "../landingTheme";
-import { ADVISOR_PHONE } from "../content";
+import { ADVISOR_PHONE, ADVISOR_PHONE_HREF } from "../content";
 
 /**
  * The cream advisor strip the course landing template runs under its hero.
@@ -26,7 +26,7 @@ export function ExpertBand() {
           <Typography sx={{ fontSize: 14, color: GL.body }}>Speak with our expert</Typography>
           <Box
             component="a"
-            href={`tel:${ADVISOR_PHONE}`}
+            href={ADVISOR_PHONE_HREF}
             sx={{
               fontSize: 14,
               fontWeight: 600,

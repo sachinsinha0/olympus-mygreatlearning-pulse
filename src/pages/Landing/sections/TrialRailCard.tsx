@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Box, Button, Divider, TextField, Typography } from "@mui/material";
 import { GL } from "../landingTheme";
 import { RAIL_CARD } from "../content";
+import pulseArt from "../../../assets/pulse-home-asset.png";
 
 /**
  * The rail card that replaces the six field lead capture form on the real course
@@ -21,7 +22,8 @@ export function TrialRailCard() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
 
-  const start = () => {
+  const start = (e: React.FormEvent) => {
+    e.preventDefault();
     const trimmed = email.trim();
     navigate(trimmed ? `/ai-pulse/login?email=${encodeURIComponent(trimmed)}` : "/ai-pulse/login");
   };
@@ -33,46 +35,72 @@ export function TrialRailCard() {
         border: `1px solid ${GL.border}`,
         borderRadius: "8px",
         boxShadow: "0 4px 24px rgba(16, 24, 40, 0.10)",
-        padding: { xs: 3, md: 3.5 },
         width: "100%",
         maxWidth: 400,
+        overflow: "hidden",
       }}
     >
-      <Typography
-        sx={{ fontSize: 20, fontWeight: 600, color: GL.heading, textAlign: "center", lineHeight: 1.35 }}
+      {/* The product's own AI mark, on a tinted well so it reads as part of the card
+          rather than as art floating on white. The PNG has an alpha channel, so the
+          tint shows through around it. Decorative, hence the empty alt. */}
+      <Box
+        sx={{
+          backgroundColor: "#EEF3FC",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          py: 2.5,
+        }}
       >
-        {RAIL_CARD.title}
-      </Typography>
+        <Box
+          component="img"
+          src={pulseArt}
+          alt=""
+          sx={{ height: 104, width: "auto", display: "block" }}
+        />
+      </Box>
 
-      <Typography sx={{ fontSize: 14, color: GL.body, textAlign: "center", mt: 0.75 }}>
-        {RAIL_CARD.body}
-      </Typography>
+      <Box component="form" onSubmit={start} sx={{ p: { xs: 3, md: 3.5 } }}>
+        <Typography
+          sx={{ fontSize: 20, fontWeight: 600, color: GL.heading, textAlign: "center", lineHeight: 1.35 }}
+        >
+          {RAIL_CARD.title}
+        </Typography>
 
-      <TextField
-        fullWidth
-        size="medium"
-        type="email"
-        placeholder={RAIL_CARD.placeholder}
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        sx={{ mt: 2.5 }}
-      />
+        <Typography sx={{ fontSize: 14, color: GL.body, textAlign: "center", mt: 0.75 }}>
+          {RAIL_CARD.body}
+        </Typography>
 
-      <Button variant="contained" fullWidth onClick={start} sx={{ mt: 1.5 }}>
-        {RAIL_CARD.cta}
-      </Button>
+        {/* A placeholder is not an accessible name. Once text is typed it disappears,
+            and a screen reader is left announcing an unlabelled edit box. This is the
+            page's main conversion field, so it carries a real label. */}
+        <TextField
+          fullWidth
+          size="medium"
+          type="email"
+          label="Email"
+          placeholder={RAIL_CARD.placeholder}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          sx={{ mt: 2.5 }}
+        />
 
-      <Typography
-        sx={{ fontSize: 11, color: GL.body, textAlign: "center", mt: 1.5, lineHeight: 1.5 }}
-      >
-        {RAIL_CARD.consent}
-      </Typography>
+        <Button type="submit" variant="contained" fullWidth sx={{ mt: 1.5 }}>
+          {RAIL_CARD.cta}
+        </Button>
 
-      <Divider sx={{ mt: 1.5 }} />
+        <Typography
+          sx={{ fontSize: 11, color: GL.body, textAlign: "center", mt: 1.5, lineHeight: 1.5 }}
+        >
+          {RAIL_CARD.consent}
+        </Typography>
 
-      <Typography sx={{ fontSize: 13, color: GL.body, textAlign: "center", mt: 1.5 }}>
-        {RAIL_CARD.footnote}
-      </Typography>
+        <Divider sx={{ mt: 1.5 }} />
+
+        <Typography sx={{ fontSize: 13, color: GL.body, textAlign: "center", mt: 1.5 }}>
+          {RAIL_CARD.footnote}
+        </Typography>
+      </Box>
     </Box>
   );
 }
