@@ -22,6 +22,15 @@ import { GL } from "../landingTheme";
  * logo stays upright while it travels. The slowest ring takes three minutes per
  * revolution: motion this slow reads as atmosphere, not as an effect.
  *
+ * THE BEAT. Every 4.8 seconds the beacon contracts and a wavefront leaves it. The
+ * chips orbit at fixed radii, so the wave reaches each ring at a constant time no
+ * matter where the chips have rotated to, and each lab ticks as the wave passes:
+ * inner ring at 0.45s, middle at 0.9s, outer at 1.8s, solved from the wave's ease
+ * out curve. The headline says Pulse keeps you in sync, and this is that sentence
+ * as motion. Same radius chips tick together because the wavefront hits them
+ * together, which also keeps the number of things moving at once inside the motion
+ * skill's one third rule.
+ *
  * Still inside the design rules: no gradients, no glow, no blur. Everything freezes
  * under prefers-reduced-motion, entrances included.
  */
@@ -36,10 +45,32 @@ const counterSpin = keyframes`
   to   { transform: rotate(-360deg); }
 `;
 
-const pulseRing = keyframes`
-  0%   { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
-  70%  { opacity: 0.08; }
-  100% { transform: translate(-50%, -50%) scale(11); opacity: 0; }
+/**
+ * The wavefront. 28px scaled to 26x is a 740px diameter, so the wave dies just past
+ * the outer orbit. It expands over 60% of the beat and rests for the remainder, on
+ * an ease out, the way a ripple loses energy.
+ */
+const waveFront = keyframes`
+  0%   { transform: translate(-50%, -50%) scale(1); opacity: 0.45; }
+  40%  { opacity: 0.2; }
+  60%  { transform: translate(-50%, -50%) scale(26); opacity: 0; }
+  100% { transform: translate(-50%, -50%) scale(26); opacity: 0; }
+`;
+
+/** The heart contracts as the wave leaves. Anticipation, then release. */
+const beaconBeat = keyframes`
+  0%   { transform: scale(1); }
+  3%   { transform: scale(1.4); }
+  9%   { transform: scale(1); }
+  100% { transform: scale(1); }
+`;
+
+/** One lab acknowledging the wave as it passes. A short lift, then settle. */
+const chipTick = keyframes`
+  0%    { transform: scale(1); }
+  4.5%  { transform: scale(1.09); }
+  12%   { transform: scale(1); }
+  100%  { transform: scale(1); }
 `;
 
 /** Material Design 3 emphasized decelerate. The skill's entrance curve. */
@@ -102,9 +133,18 @@ const T = {
   beacon: 0.15,
   ring: (i: number) => 0.25 + i * 0.13,
   chip: (n: number) => 0.55 + n * 0.06,
-  /** CSS delay before the first beat of each infinite pulse ring. */
-  pulse: [1.5, 3.3],
 };
+
+/** Seconds per heartbeat. Calm, per the motion skill's emotion mapping. */
+const BEAT = 4.8;
+/** The first beat fires one breath after the entrance has assembled the system. */
+const BEAT_START = 1.6;
+/**
+ * When the wavefront crosses each orbit, solved from the wave's easeOutCubic curve
+ * against the ring radii of 150, 250 and 350 in the 720 system. Fixed radii mean
+ * fixed arrival times, however far the ring has rotated.
+ */
+const WAVE_ARRIVAL = [0.45, 0.9, 1.8];
 
 export function HeroOrbit() {
   const reduce = useReducedMotion();
@@ -171,6 +211,16 @@ export function HeroOrbit() {
                         animationDirection: ring.reverse ? "reverse" : "normal",
                       }}
                     >
+                      {/* The tick lives on its own wrapper. The framer element below
+                          owns its transform for entrance and hover, and the counter
+                          spin above owns another, so the beat needs a layer of its
+                          own. Delay is the beat start plus this ring's wave arrival,
+                          so the chip lifts exactly as the wavefront passes. */}
+                      <Box
+                        sx={{
+                          animation: `${chipTick} ${BEAT}s ease ${BEAT_START + WAVE_ARRIVAL[ringIdx]}s infinite`,
+                        }}
+                      >
                       <motion.div
                         title={chip.label}
                         initial={reduce ? false : { opacity: 0, scale: 0.6 }}
@@ -208,6 +258,7 @@ export function HeroOrbit() {
                           sx={{ width: "56%", height: "56%", objectFit: "contain", display: "block" }}
                         />
                       </motion.div>
+                      </Box>
                     </Box>
                   </Box>
                 </Box>
@@ -217,8 +268,10 @@ export function HeroOrbit() {
         </motion.div>
       ))}
 
-      {/* The pulse at the centre of the system. The beacon lands first, and the
-          first beat waits until the ecosystem has assembled around it. */}
+      {/* The heart of the system. The framer wrapper lands it during the entrance,
+          and the inner element carries the infinite beat, because the two cannot
+          share one transform. It contracts at the top of every cycle, exactly as
+          the wavefront leaves. */}
       <motion.div
         initial={reduce ? false : { opacity: 0, scale: 0 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -229,13 +282,26 @@ export function HeroOrbit() {
           margin: "auto",
           width: 16,
           height: 16,
-          borderRadius: 999,
-          backgroundColor: GL.blue,
         }}
-      />
-      {T.pulse.map((delay) => (
+      >
         <Box
-          key={delay}
+          sx={{
+            width: "100%",
+            height: "100%",
+            borderRadius: "999px",
+            backgroundColor: GL.blue,
+            animation: `${beaconBeat} ${BEAT}s ease ${BEAT_START}s infinite`,
+          }}
+        />
+      </motion.div>
+
+      {/* The wavefront, and a faint echo a beat's breath behind it. */}
+      {[
+        { opacity: 0.5, offset: 0 },
+        { opacity: 0.18, offset: 0.18 },
+      ].map((wave) => (
+        <Box
+          key={wave.offset}
           sx={{
             position: "absolute",
             top: "50%",
@@ -246,7 +312,7 @@ export function HeroOrbit() {
             border: `1.5px solid ${GL.blue}`,
             transform: "translate(-50%, -50%)",
             opacity: 0,
-            animation: `${pulseRing} 3.6s ease-out ${delay}s infinite`,
+            animation: `${waveFront} ${BEAT}s cubic-bezier(0.33, 1, 0.68, 1) ${BEAT_START + wave.offset}s infinite`,
           }}
         />
       ))}
