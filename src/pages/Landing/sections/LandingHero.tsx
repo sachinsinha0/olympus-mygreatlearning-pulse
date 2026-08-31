@@ -56,10 +56,21 @@ export function LandingHero() {
           </Typography>
 
           <Stack direction={{ xs: "column", sm: "row" }} gap={2}>
-            <Button variant="contained" onClick={goToLogin} sx={{ fontSize: 18, minHeight: 58 }}>
+            {/* The reference template gives both hero buttons near equal generous widths
+                (215px and 210px on the live page). Left to size themselves the two labels
+                here differ by 80px, which reads auto-sized rather than designed. */}
+            <Button
+              variant="contained"
+              onClick={goToLogin}
+              sx={{ fontSize: 18, minHeight: 58, minWidth: { sm: 200 } }}
+            >
               {HERO.primaryCta}
             </Button>
-            <Button variant="outlined" onClick={goToLogin} sx={{ fontSize: 18, minHeight: 58 }}>
+            <Button
+              variant="outlined"
+              onClick={goToLogin}
+              sx={{ fontSize: 18, minHeight: 58, minWidth: { sm: 190 } }}
+            >
               {HERO.secondaryCta}
             </Button>
           </Stack>

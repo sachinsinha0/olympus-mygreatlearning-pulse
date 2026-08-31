@@ -116,6 +116,8 @@ export const RAIL_CARD = {
 export const STICKY_BAR = {
   name: "AI Pulse",
   meta: `${TRIAL_DAYS} days free · No credit card`,
+  primaryCta: "Start Free Trial",
+  secondaryCta: "Log In",
 } as const;
 
 export const FOOTER_COLUMNS: { heading: string; links: string[] }[] = [

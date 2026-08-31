@@ -40,7 +40,13 @@ export function StickyCtaBar() {
         boxShadow: "0 -4px 20px rgba(16,24,40,0.08)",
         py: 1.5,
         transform: show ? "translateY(0)" : "translateY(110%)",
-        transition: "transform 220ms ease",
+        // `visibility` is what takes the parked bar out of the tab order. Without it a
+        // Tab sweep at the top of the page lands on two buttons nobody can see. It is
+        // delayed to the end of the slide on the way out so the transform still shows.
+        visibility: show ? "visible" : "hidden",
+        transition: show
+          ? "transform 220ms ease, visibility 0s"
+          : "transform 220ms ease, visibility 0s linear 220ms",
         // While it is parked off screen it must not swallow clicks near the bottom edge.
         pointerEvents: show ? "auto" : "none",
       }}
@@ -74,7 +80,7 @@ export function StickyCtaBar() {
               fontSize: 15,
             }}
           >
-            Log In
+            {STICKY_BAR.secondaryCta}
           </Button>
           <Button
             variant="contained"
@@ -86,7 +92,7 @@ export function StickyCtaBar() {
               fontSize: 15,
             }}
           >
-            Start Free Trial
+            {STICKY_BAR.primaryCta}
           </Button>
         </Stack>
       </Box>
