@@ -11,6 +11,7 @@ import { TrialSection } from "./sections/TrialSection";
 import { PgProgramSection } from "./sections/PgProgramSection";
 import { FaqSection } from "./sections/FaqSection";
 import { LandingFooter } from "./sections/LandingFooter";
+import { StickyCtaBar } from "./sections/StickyCtaBar";
 
 export function AiPulseLanding() {
   return (
@@ -27,6 +28,7 @@ export function AiPulseLanding() {
         <PgProgramSection />
         <FaqSection />
         <LandingFooter />
+        <StickyCtaBar />
       </Box>
     </ThemeProvider>
   );

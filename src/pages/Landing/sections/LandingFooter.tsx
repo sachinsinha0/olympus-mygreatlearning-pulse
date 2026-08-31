@@ -50,7 +50,10 @@ export function LandingFooter() {
         direction={{ xs: "column", sm: "row" }}
         justifyContent="space-between"
         gap={1}
-        sx={{ mt: 3 }}
+        // The extra bottom padding keeps the fixed CTA bar clear of the copyright line
+        // at the very end of the page. Section only exposes a symmetric py, so it is
+        // set on the last row rather than on the band.
+        sx={{ mt: 3, pb: { xs: 10, sm: 11 } }}
       >
         <Typography sx={{ fontSize: 13, color: GL.darkBody }}>
           © 2026 Great Learning. All rights reserved.
