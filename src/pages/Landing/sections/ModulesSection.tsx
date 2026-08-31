@@ -39,7 +39,9 @@ export function ModulesSection() {
 
       <Box sx={{ mt: 2 }}>
         <Lede align="center">
-          {`${total} modules are live right now. A new one lands every two weeks.`}
+          {modules.length < total
+            ? `${total} modules are live right now. These are the ${modules.length} most recent.`
+            : `${total} modules are live right now. A new one lands every two weeks.`}
         </Lede>
       </Box>
 
