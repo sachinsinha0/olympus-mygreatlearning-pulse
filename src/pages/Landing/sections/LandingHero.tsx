@@ -2,8 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { ShieldCheck } from "lucide-react";
 import { GL } from "../landingTheme";
-import { CadenceStats, Section } from "../parts";
-import { CADENCE_STATS, HERO } from "../content";
+import { Section } from "../parts";
+import { HERO, VALUE_PROPS } from "../content";
 
 /**
  * The hero. Copy on the left, the photograph on the right, in the order the Great
@@ -26,7 +26,9 @@ export function LandingHero() {
       <Box
         sx={{
           display: "grid",
-          gridTemplateColumns: { xs: "1fr", lg: "1fr 480px" },
+          // 380 rather than 480. The square is the tallest thing in the row, so a
+          // larger one left 88px of dead space above and below the copy.
+          gridTemplateColumns: { xs: "1fr", lg: "1fr 380px" },
           gap: { xs: 5, lg: 7 },
           alignItems: "center",
         }}
@@ -86,9 +88,6 @@ export function LandingHero() {
             </Stack>
           </Stack>
 
-          <Box sx={{ mt: 5 }}>
-            <CadenceStats items={CADENCE_STATS} />
-          </Box>
         </Box>
 
         {/* A square frame. The photograph is pale and was dissolving into the white
@@ -121,6 +120,50 @@ export function LandingHero() {
             }}
           />
         </Box>
+      </Box>
+
+      {/* The three pillars, in the hero, the way /pulse renders them: a strip along the
+          bottom of the hero with a rule above it and rules between the cells. The
+          product puts a translucent fill and a blur behind it because it sits on a
+          gradient. This hero is plain white, so the rule alone does the work. */}
+      <Box
+        sx={{
+          mt: { xs: 5, lg: 7 },
+          pt: { xs: 3, md: 3.5 },
+          borderTop: `1px solid ${GL.border}`,
+          display: "grid",
+          gridTemplateColumns: { xs: "1fr", md: "repeat(3, 1fr)" },
+          rowGap: 3,
+        }}
+      >
+        {VALUE_PROPS.map((p, i) => (
+          <Stack
+            key={p.title}
+            direction="row"
+            gap={1.5}
+            alignItems="flex-start"
+            sx={{
+              px: { md: 3 },
+              pl: { md: i === 0 ? 0 : 3 },
+              // A 1px neutral rule dividing columns, which is what /pulse puts between
+              // its own pillars. Not a coloured accent strip, which is the thing the
+              // design brief bans.
+              borderLeft: { xs: "none", md: i === 0 ? "none" : `1px solid ${GL.border}` },
+            }}
+          >
+            <Box aria-hidden sx={{ display: "flex", color: GL.blue, flexShrink: 0, mt: "2px" }}>
+              <p.Icon size={18} strokeWidth={2} />
+            </Box>
+            <Box>
+              <Typography sx={{ fontSize: 15, fontWeight: 600, color: GL.heading, lineHeight: 1.4 }}>
+                {p.title}
+              </Typography>
+              <Typography sx={{ fontSize: 14, color: GL.body, lineHeight: 1.5, mt: 0.25 }}>
+                {p.body}
+              </Typography>
+            </Box>
+          </Stack>
+        ))}
       </Box>
     </Section>
   );

@@ -30,17 +30,6 @@ export const HERO = {
   reassurance: `Free for ${TRIAL_DAYS} days · No credit card required`,
 } as const;
 
-/**
- * The cadence, taken from the CadenceVisual block in PulseIntroPage, which renders
- * exactly these two stats with the caption above the number.
- *
- * Nothing here is derived or reworded. "1 new module every 2 weeks" and "26 modules
- * annually" are the product's own numbers and its own labels.
- */
-export const CADENCE_STATS: { caption: string; number: string; unit: string }[] = [
-  { caption: "every 2 weeks", number: "1", unit: "new module" },
-  { caption: "annually", number: "26", unit: "modules" },
-];
 
 /**
  * Great Learning's own review scores, copied from the live course landing pages.

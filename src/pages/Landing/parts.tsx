@@ -2,7 +2,6 @@ import type { ReactNode } from "react";
 import { Box, Stack, Typography } from "@mui/material";
 import type { SxProps, Theme } from "@mui/material/styles";
 import { Check } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
 import { GL } from "./landingTheme";
 
 /**
@@ -92,80 +91,7 @@ export function Lede({ children, align = "left" }: { children: ReactNode; align?
   );
 }
 
-/**
- * The cadence stats, in the shape the product already uses.
- *
- * PulseIntroPage renders the same two figures as caption above, then the number and its
- * unit on one baseline. That structure is copied here rather than invented. The product
- * sets its numbers in a gradient; this page uses solid ink, since gradient text is one
- * of the things the design brief rules out.
- */
-export function CadenceStats({
-  items,
-}: {
-  items: { caption: string; number: string; unit: string }[];
-}) {
-  return (
-    <Box sx={{ display: "flex", gap: { xs: 5, sm: 7 } }}>
-      {items.map((item) => (
-        <Box key={item.caption}>
-          <Typography
-            sx={{
-              fontSize: 11,
-              fontWeight: 700,
-              letterSpacing: "1.4px",
-              textTransform: "uppercase",
-              color: GL.body,
-            }}
-          >
-            {item.caption}
-          </Typography>
-          <Box sx={{ display: "flex", alignItems: "baseline", gap: 1, mt: 1 }}>
-            <Typography
-              sx={{
-                fontSize: { xs: 34, md: 40 },
-                fontWeight: 700,
-                lineHeight: 1,
-                letterSpacing: "-1.5px",
-                color: GL.heading,
-                fontVariantNumeric: "tabular-nums",
-              }}
-            >
-              {item.number}
-            </Typography>
-            <Typography sx={{ fontSize: { xs: 16, md: 18 }, fontWeight: 600, color: GL.heading }}>
-              {item.unit}
-            </Typography>
-          </Box>
-        </Box>
-      ))}
-    </Box>
-  );
-}
 
-/**
- * The template's small outlined square icon tile. Note it is a full 1px border on all
- * four sides. A one directional coloured accent border is banned on this page.
- */
-export function IconTile({ Icon, dark = false }: { Icon: LucideIcon; dark?: boolean }) {
-  return (
-    <Box
-      sx={{
-        width: 48,
-        height: 48,
-        borderRadius: "8px",
-        border: `1px solid ${dark ? GL.darkBorder : GL.border}`,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        flexShrink: 0,
-        color: dark ? "#ffffff" : GL.heading,
-      }}
-    >
-      <Icon size={20} strokeWidth={1.75} />
-    </Box>
-  );
-}
 
 /**
  * The reference template's skill chip: pale blue fill, uppercase blue label, wide

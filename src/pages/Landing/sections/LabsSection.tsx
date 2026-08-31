@@ -1,4 +1,5 @@
 import { Box } from "@mui/material";
+import { GL } from "../landingTheme";
 import { Lede, Section, SectionHeading } from "../parts";
 import { AI_LABS, LABS_SECTION } from "../content";
 
@@ -12,10 +13,14 @@ import { AI_LABS, LABS_SECTION } from "../content";
  *
  * Each logo keeps its real name as alt text, so the wall is a readable list rather than
  * ten unlabelled images.
+ *
+ * On the pale ground rather than white. The dark band that used to sit between the
+ * ratings row and the modules is gone, and without a break here the page ran four white
+ * sections in a row.
  */
 export function LabsSection() {
   return (
-    <Section>
+    <Section bg={GL.pale}>
       <SectionHeading align="center">{LABS_SECTION.title}</SectionHeading>
 
       <Box sx={{ mt: 2 }}>
