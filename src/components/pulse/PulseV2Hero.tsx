@@ -329,7 +329,7 @@ function MarketingHero() {
                 <Typography
                   sx={{ fontSize: 13, fontWeight: 500, letterSpacing: "-0.1px", lineHeight: "18px", whiteSpace: "nowrap" }}
                 >
-                  Free for 30 days · No credit card required
+                  Free for 14 days · No credit card required
                 </Typography>
               </Stack>
             )}

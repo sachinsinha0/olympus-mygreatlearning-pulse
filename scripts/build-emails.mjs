@@ -48,7 +48,7 @@ const GROUPS = [
   {
     id: "lifecycle",
     label: "Trial lifecycle",
-    note: "Sent as a learner moves through the 30 day trial and past its end.",
+    note: "Sent as a learner moves through the 14 day trial and past its end.",
     match: (s) => s.startsWith("trial-"),
   },
   {
