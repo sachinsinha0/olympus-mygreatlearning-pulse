@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { createBrowserRouter, RouterProvider, Outlet, Navigate, useLocation } from "react-router-dom";
 import { DevPanel } from "./components/common/DevPanel";
 import { PageLoaderProvider } from "./components/common/PageLoader";
@@ -20,6 +20,10 @@ import { ProtoGuidedSteps } from "./pages/ProtoGuidedSteps";
 import { ProtoStepper } from "./pages/ProtoStepper";
 import { ProtoIndex } from "./pages/ProtoIndex";
 import { InterviewReport } from "./pages/InterviewReport/InterviewReport";
+
+// Lazy so the Poppins font CSS and the marketing theme only load for someone who
+// actually visits the landing page. Product users never download them.
+const AiPulseLanding = lazy(() => import("./pages/Landing/AiPulseLanding"));
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -64,6 +68,14 @@ const router = createBrowserRouter([
       { path: "/pulse/subscription", element: <SubscriptionPage /> },
       { path: "/pulse/modules/:moduleId", element: <PulseConsumePage /> },
       { path: "/pulse/modules/:moduleId/items/:itemId", element: <PulseConsumePage /> },
+      {
+        path: "/ai-pulse",
+        element: (
+          <Suspense fallback={null}>
+            <AiPulseLanding />
+          </Suspense>
+        ),
+      },
       { path: "/sublime", element: <InterviewReport /> },
       { path: "/pulse/course", element: <Navigate to="/pulse" replace /> },
       { path: "/pulse/course/*", element: <Navigate to="/pulse" replace /> },
