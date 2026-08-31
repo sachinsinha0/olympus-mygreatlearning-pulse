@@ -13,13 +13,11 @@ import issuesData from "../../../mocks/pulse-issues.json";
  * The hero. Copy on the left, the photograph on the right, in the order the Great
  * Learning course landing template uses.
  *
- * The template opens its left column with the partner institution's logos, which give
- * the top of the column some mass. AI Pulse has no partner, so the product name does
- * that job here. It also fixes a real gap: the headline never says "AI Pulse", and a
- * lead arriving from a sales call needs to see the name above the fold.
+ * The template opens its left column with the partner institution's logos. AI Pulse
+ * has no partner, so the column opens on the tagline.
  *
- * The spacing is deliberately uneven. The name, tagline and headline sit close as one
- * block, then the paragraph, the CTA row and the stat strip each get more air. Spacing
+ * The spacing is deliberately uneven. The tagline and headline sit close as one block,
+ * then the paragraph, the CTA row and the stat strip each get more air. Spacing
  * everything equally is what makes a column read as laid out rather than composed.
  */
 export function LandingHero() {
@@ -43,18 +41,9 @@ export function LandingHero() {
         }}
       >
         <Box>
-          {/* Name, tagline and headline read as one block, so the gaps inside it are
-              tight and the air comes after it. */}
-          <Stack direction="row" alignItems="baseline" gap={1}>
-            <Typography
-              sx={{ fontSize: 15, fontWeight: 700, letterSpacing: "-0.2px", color: GL.heading }}
-            >
-              {HERO.name}
-            </Typography>
-            <Typography sx={{ fontSize: 13, color: GL.body }}>{HERO.by}</Typography>
-          </Stack>
-
-          <Typography sx={{ mt: 2.5, fontSize: 14, fontWeight: 400, color: GL.blue }}>
+          {/* Tagline and headline read as one block, so the gap between them is tight
+              and the air comes after. */}
+          <Typography sx={{ fontSize: 14, fontWeight: 400, color: GL.blue }}>
             {HERO.tagline}
           </Typography>
 
@@ -111,17 +100,17 @@ export function LandingHero() {
           </Box>
         </Box>
 
-        {/* The photograph is pale and was dissolving into the white page with only a
-            radius to contain it. The tinted ground and the hairline give it an edge, and
-            the crop pushes past the empty light area on the left of the source so the
-            devices fill the frame. */}
+        {/* A square frame. The photograph is pale and was dissolving into the white
+            page with only a radius to contain it, so it sits on a tinted ground with a
+            hairline edge. */}
         <Box
           sx={{
             backgroundColor: "#EEF3FC",
             border: `1px solid ${GL.border}`,
             borderRadius: "8px",
             overflow: "hidden",
-            height: { xs: 240, sm: 300, lg: 380 },
+            aspectRatio: "1 / 1",
+            width: "100%",
           }}
         >
           <Box
@@ -132,10 +121,11 @@ export function LandingHero() {
               width: "100%",
               height: "100%",
               objectFit: "cover",
-              // The source is 1979x718, so a near square frame can only ever show
-              // about 40% of its width. 78% is where the AI cube, the phone and the
-              // laptop all land inside the crop.
-              objectPosition: "78% center",
+              // The source is 1979x718 and the frame is square, so only about 36% of
+              // its width is ever visible, at every breakpoint. 84% is where the laptop
+              // sits fully inside the crop. Lower clips its right edge, higher clips its
+              // left. The phone at the frame edge is deliberate, it reads as depth.
+              objectPosition: "84% center",
               display: "block",
             }}
           />

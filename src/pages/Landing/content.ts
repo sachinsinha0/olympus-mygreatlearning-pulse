@@ -14,13 +14,6 @@ export const PG_PROGRAM_URL =
  * same voice on both sides of the login step. See PulseIntroPage and PulseV2Hero.
  */
 export const HERO = {
-  /**
-   * The product name, which the headline never says. A lead arriving from a sales call
-   * needs to see "AI Pulse" above the fold, and this also gives the top of the column
-   * the mass the reference heroes get from their partner institution logos.
-   */
-  name: "AI Pulse",
-  by: "by Great Learning",
   tagline: "Your AI learning companion",
   /**
    * Broken deliberately, the way the product's own hero breaks it. Left to wrap on its
