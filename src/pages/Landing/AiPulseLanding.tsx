@@ -2,12 +2,14 @@ import { ThemeProvider } from "@mui/material/styles";
 import { Box, CssBaseline } from "@mui/material";
 import { landingTheme } from "./landingTheme";
 import { Section, SectionHeading } from "./parts";
+import { GlobalNav } from "./sections/GlobalNav";
 
 export function AiPulseLanding() {
   return (
     <ThemeProvider theme={landingTheme}>
       <CssBaseline />
       <Box sx={{ bgcolor: "#ffffff", minHeight: "100vh" }}>
+        <GlobalNav />
         <Section>
           <SectionHeading>AI Pulse landing page</SectionHeading>
         </Section>
