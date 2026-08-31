@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { Box } from "@mui/material";
-import { GL } from "../landingTheme";
+import { ContentColumn } from "../parts";
 import { TrialRailCard } from "./TrialRailCard";
 
 /** Card width, and the gutter the sections underneath must leave clear for it. */
@@ -39,15 +39,7 @@ export function TrialRailRegion({ children }: { children: ReactNode }) {
           pointerEvents: "none",
         }}
       >
-        <Box
-          sx={{
-            maxWidth: GL.maxWidth,
-            mx: "auto",
-            px: { xs: 2.5, md: 4 },
-            height: "100%",
-            pt: 9,
-          }}
-        >
+        <ContentColumn sx={{ height: "100%", pt: 9 }}>
           <Box
             sx={{
               position: "sticky",
@@ -59,7 +51,7 @@ export function TrialRailRegion({ children }: { children: ReactNode }) {
           >
             <TrialRailCard />
           </Box>
-        </Box>
+        </ContentColumn>
       </Box>
     </Box>
   );

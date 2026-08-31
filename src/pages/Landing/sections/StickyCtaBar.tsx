@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { GL } from "../landingTheme";
+import { ContentColumn } from "../parts";
 import { STICKY_BAR } from "../content";
 
 /**
@@ -65,16 +66,8 @@ export function StickyCtaBar() {
         pointerEvents: show ? "auto" : "none",
       }}
     >
-      <Box
-        sx={{
-          maxWidth: GL.maxWidth,
-          mx: "auto",
-          px: { xs: 2.5, md: 4 },
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: 2,
-        }}
+      <ContentColumn
+        sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 2 }}
       >
         <Box sx={{ display: { xs: "none", sm: "block" } }}>
           <Typography sx={{ fontSize: 17, fontWeight: 600, color: GL.heading, lineHeight: 1.3 }}>
@@ -109,7 +102,7 @@ export function StickyCtaBar() {
             {STICKY_BAR.primaryCta}
           </Button>
         </Stack>
-      </Box>
+      </ContentColumn>
     </Box>
   );
 }

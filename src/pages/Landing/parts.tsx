@@ -27,7 +27,8 @@ export function Section({
 }: {
   id?: string;
   bg?: string;
-  py?: SxProps<Theme>[keyof SxProps<Theme>] | number | Record<string, number>;
+  /** A spacing step, or a breakpoint map of them, e.g. `{ xs: 6, md: 9 }`. */
+  py?: number | string | Record<string, number | string>;
   children: ReactNode;
 }) {
   return (

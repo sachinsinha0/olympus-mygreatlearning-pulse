@@ -1,6 +1,7 @@
 import { Box, Stack, Typography } from "@mui/material";
 import { UserRound } from "lucide-react";
 import { GL } from "../landingTheme";
+import { ContentColumn } from "../parts";
 import { ADVISOR_PHONE, ADVISOR_PHONE_HREF } from "../content";
 
 /**
@@ -12,7 +13,7 @@ import { ADVISOR_PHONE, ADVISOR_PHONE_HREF } from "../content";
 export function ExpertBand() {
   return (
     <Box sx={{ backgroundColor: GL.cream, py: 1.5 }}>
-      <Box sx={{ maxWidth: GL.maxWidth, mx: "auto", px: { xs: 2.5, md: 4 } }}>
+      <ContentColumn>
         <Stack
           direction="row"
           gap={1}
@@ -37,7 +38,7 @@ export function ExpertBand() {
             {ADVISOR_PHONE}
           </Box>
         </Stack>
-      </Box>
+      </ContentColumn>
     </Box>
   );
 }

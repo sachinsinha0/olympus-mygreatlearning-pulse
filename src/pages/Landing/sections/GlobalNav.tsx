@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
 import { GL } from "../landingTheme";
+import { ContentColumn } from "../parts";
 import logo from "../../../assets/gl-logo.svg";
 
 /**
@@ -26,18 +27,9 @@ export function GlobalNav() {
         zIndex: 20,
       }}
     >
-      <Box
-        sx={{
-          maxWidth: GL.maxWidth,
-          mx: "auto",
-          px: { xs: 2.5, md: 4 },
-          height: "100%",
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
+      <ContentColumn sx={{ height: "100%", display: "flex", alignItems: "center" }}>
         <Box component="img" src={logo} alt="Great Learning" sx={{ height: 30 }} />
-      </Box>
+      </ContentColumn>
     </Box>
   );
 }
