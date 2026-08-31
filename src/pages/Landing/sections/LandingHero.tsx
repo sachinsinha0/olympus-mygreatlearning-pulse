@@ -3,6 +3,7 @@ import { Box, Button, Stack, Typography } from "@mui/material";
 import { ShieldCheck } from "lucide-react";
 import { GL } from "../landingTheme";
 import { Section } from "../parts";
+import { HeroPulseVisual } from "./HeroPulseVisual";
 import { HERO, VALUE_PROPS } from "../content";
 
 /**
@@ -90,36 +91,10 @@ export function LandingHero() {
 
         </Box>
 
-        {/* A square frame. The photograph is pale and was dissolving into the white
-            page with only a radius to contain it, so it sits on a tinted ground with a
-            hairline edge. */}
-        <Box
-          sx={{
-            backgroundColor: "#EEF3FC",
-            border: `1px solid ${GL.border}`,
-            borderRadius: "8px",
-            overflow: "hidden",
-            aspectRatio: "1 / 1",
-            width: "100%",
-          }}
-        >
-          <Box
-            component="img"
-            src="/hero/hero%20image.jpg"
-            alt="AI Pulse open on a laptop and a phone"
-            sx={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              // The source is 1979x718 and the frame is square, so only about 36% of
-              // its width is ever visible, at every breakpoint. 84% is where the laptop
-              // sits fully inside the crop. Lower clips its right edge, higher clips its
-              // left. The phone at the frame edge is deliberate, it reads as depth.
-              objectPosition: "84% center",
-              display: "block",
-            }}
-          />
-        </Box>
+        {/* The pulse visual. The photograph this replaced was an extreme landscape
+            source fighting a square frame, and it said nothing about Pulse. See
+            HeroPulseVisual for what this is and why it is restrained. */}
+        <HeroPulseVisual />
       </Box>
 
       {/* The three pillars, in the hero, the way /pulse renders them: a strip along the
