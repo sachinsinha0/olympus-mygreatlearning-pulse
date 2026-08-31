@@ -37,7 +37,7 @@
 | `src/pages/Landing/parts.tsx` | `Section`, `SectionHeading`, `DarkHeading`, `Lede`, `StatStrip`, `IconTile`, `CheckList`. Buttons come straight from MUI, styled once in the theme. |
 | `src/pages/Landing/AiPulseLanding.tsx` | Page shell. Theme provider, section order, rail layout. |
 | `src/pages/Landing/AiPulseLogin.tsx` | The prototype login step. |
-| `src/pages/Landing/sections/*.tsx` | One file per page band. Eleven of them plus the rail card and sticky bar. |
+| `src/pages/Landing/sections/*.tsx` | One file per page band, plus the rail card and the sticky bar. |
 
 ---
 
@@ -976,51 +976,38 @@ git commit -m "feat(landing): lazy /ai-pulse route with the marketing theme"
 
 ---
 
-## Task 9: Global nav and breadcrumb
+## Task 9: Header
+
+> **Revised after review.** This originally reproduced the full Great Learning site nav plus a
+> breadcrumb. That was wrong. The course pages carry both because they sit inside the course
+> taxonomy and a learner needs a route back up to it. AI Pulse is not a programme in that taxonomy,
+> and the standalone pages on the real site confirm the pattern: `/enterprise` and `/universities`
+> have no breadcrumb. The header is now the logo alone. Logging in is offered by the hero and the
+> sticky bottom bar instead.
 
 **Files:**
 - Create: `src/pages/Landing/sections/GlobalNav.tsx`
 - Modify: `src/pages/Landing/AiPulseLanding.tsx`
 
-- [ ] **Step 1: Write the nav**
+- [ ] **Step 1: Write the header**
 
-Create `src/pages/Landing/sections/GlobalNav.tsx`. Build exactly this, matching the live site nav:
+A `Box component="header"`, `height: 72`, `bgcolor: "#ffffff"`,
+`borderBottom: 1px solid GL.border`, `position: sticky`, `top: 0`, `zIndex: 20`.
 
-- A white bar, 72px tall, `borderBottom: 1px solid GL.border`, `position: sticky, top: 0, zIndex: 20`.
-- Inside, the `GL.maxWidth` column, `display: flex`, `alignItems: center`, `gap: 3`.
-- `src/assets/gl-logo.svg` at `height: 30`.
-- An `Explore Programs` contained button with a `ChevronDown` from lucide at `size={16}` as
-  `endIcon`. Override `minHeight: 40, padding: "8px 16px", fontSize: 15`.
-- Plain text links, 15px, weight 500, colour `GL.heading`, `gap: 3.5`, hidden below `md`:
-  `Career Support`, `Success Stories`, `Enterprise`, `For Recruiters`, and `More` with a
-  `ChevronDown size={14}`. These are non-functional on a prototype, so render them as `<Box
-  component="span">` with `cursor: default`, not as anchors that go nowhere.
-- `marginLeft: auto`, then a `LOGIN` button: `backgroundColor: "#EEF2F7"`, `color: GL.blue`,
-  `fontSize: 15`, `fontWeight: 600`, `minHeight: 40`, `padding: "8px 20px"`, `borderRadius: 4`,
-  routing to `/ai-pulse/login`.
-- Below the bar, a second row 44px tall with `borderBottom: 1px solid GL.border`, holding the
-  breadcrumb inside the same column: a `Home` lucide icon at `size={14}`, a `ChevronRight size={13}`,
-  the text `Artificial Intelligence Courses`, another chevron, then `AI Pulse`. 13px, colour
-  `GL.body`, the last item at `GL.heading`.
+Inside, the shared content column (`maxWidth: GL.maxWidth`, `mx: auto`, `px: { xs: 2.5, md: 4 }`,
+`height: 100%`, `display: flex`, `alignItems: center`) holding one thing: `src/assets/gl-logo.svg`
+imported as a module, at `height: 30`, with `alt="Great Learning"`.
 
-Below `md` hide the text links and show only the logo and the LOGIN button.
+The horizontal padding matches `Section` in `parts.tsx` so the logo and every section below it
+share one left edge.
 
-- [ ] **Step 2: Mount it**
+- [ ] **Step 2: Mount it as the first child inside the page shell's outer Box.**
 
-In `AiPulseLanding.tsx`, import `GlobalNav` and render it as the first child inside the outer `Box`,
-above the placeholder `Section`.
-
-- [ ] **Step 3: Check it in the browser**
-
-Reload `http://localhost:5173/ai-pulse`. Compare against the live nav at
-`https://www.mygreatlearning.com/`. The logo, the blue Explore Programs button, the link row and the
-pale LOGIN button should read the same.
-
-- [ ] **Step 4: Commit**
+- [ ] **Step 3: Check it, then commit**
 
 ```bash
 git add src/pages/Landing/sections/GlobalNav.tsx src/pages/Landing/AiPulseLanding.tsx
-git commit -m "feat(landing): Great Learning global nav and breadcrumb"
+git commit -m "feat(landing): page header"
 ```
 
 ---

@@ -81,9 +81,10 @@ pages and our product share tokens, so the two ends of the journey already agree
 
 ### Template patterns
 
-- **Global nav.** The real site nav. Logo, an `Explore Programs` solid blue button with a chevron,
-  then Career Support, Success Stories, Enterprise, For Recruiters, More. A `LOGIN` button on the
-  right, pale grey fill with blue text. Below it a breadcrumb row with a bottom border.
+- **Header.** Great Learning logo on a 72px white bar with a bottom border, and nothing else. The
+  course pages carry the full site nav and a breadcrumb because they sit inside the course
+  taxonomy. AI Pulse does not, and the standalone pages on the real site agree: `/enterprise` and
+  `/universities` have no breadcrumb. Logging in is offered by the hero and the sticky bottom bar.
 - **Hero.** Two columns. Left is a blue tagline line, a plain H1, a three line paragraph, two
   buttons, one line of extra information with a small icon, then the stat strip. Right is a real
   photograph in a rounded rectangle.
@@ -179,7 +180,7 @@ Eleven bands.
 
 | # | Section | Background | Backed by |
 |---|---|---|---|
-| 1 | Global nav + breadcrumb | White | GL nav, real |
+| 1 | Header | White | Great Learning logo only |
 | 2 | Hero | White | Real cadence, real trial terms, existing hero photograph |
 | 3 | Expert band | Cream | Advisor phone number |
 | 4 | Ratings row | White | Great Learning's real review site scores |
@@ -346,7 +347,7 @@ src/pages/Landing/
   parts.tsx                 SectionShell, SectionHeading, GlButton, StatStrip, IconTile,
                             CheckList
   sections/
-    GlobalNav.tsx           nav + breadcrumb row
+    GlobalNav.tsx           the logo header
     LandingHero.tsx
     ExpertBand.tsx
     RatingsRow.tsx
