@@ -207,11 +207,10 @@ Follows the reference part for part.
   dates fall on Wednesdays and Fridays, so naming a weekday would be untrue.
 - Stat strip, four cells: `14 Days / Free trial`, `Every 2 weeks / New module`,
   `Under 60 min / Per module`, `11 modules / Available now`.
-- Right side: the orbit visual. The AI labs' logos in slow continuous orbit around a beating
-  pulse, anchored partly off the viewport edge so the arcs clip off the page. Pure CSS loops plus
-  a framer-motion entrance choreographed to the LottieFiles motion-design skill: MD3 emphasized
-  easing, staggered reveals inside budget, everything frozen under prefers-reduced-motion. The
-  hero photograph this replaced could only ever show 36% of itself in the frame.
+- The hero is the product's own banner, PulseV2Hero reproduced value for value: the gradient
+  card, the masked photograph, the lockup, the headline, the subtitle, the CTA row and the
+  pillars strip. Six invented hero visuals were explored and rejected before settling here. The
+  banner a lead sees on this page is the banner they see after logging in.
 
 ### Ratings row
 

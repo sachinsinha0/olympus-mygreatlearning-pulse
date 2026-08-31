@@ -7,26 +7,17 @@ export const PG_PROGRAM_URL =
   "https://www.mygreatlearning.com/pg-program-online-artificial-intelligence-machine-learning";
 
 /**
- * The hero says what the product says.
- *
- * `tagline` and `title` are lifted from the onboarding carousel and the /pulse hero
- * rather than written fresh, so a lead who reads this page and then logs in hears the
- * same voice on both sides of the login step. See PulseIntroPage and PulseV2Hero.
+ * The hero is the product's banner, so every string here is PulseV2Hero's, verbatim:
+ * the lockup, the headline it renders as two lines, the subtitle, the CTA label and
+ * the reassurance line. A lead sees this banner here and then sees the same banner
+ * after logging in.
  */
 export const HERO = {
-  tagline: "Your AI learning companion",
-  /**
-   * Broken deliberately, the way the product's own hero breaks it. Left to wrap on its
-   * own at this width the second line was the single word "sync.".
-   */
+  name: "AI Pulse",
+  by: "by",
   titleLines: ["AI moves fast.", "Pulse keeps you in sync."],
-  body: "Learn one cutting-edge AI tool or innovation, every two weeks. Up to 60 minutes each. Short enough to fit your schedule, deep enough to apply at work immediately.",
+  body: "A biweekly learning module on the new AI tools, innovations, and workflows reshaping work, distilled into 60 minutes of learning that you can actually apply.",
   primaryCta: "Start Free Trial",
-  /**
-   * Sits beside the CTA, where the reference template prints its application deadline.
-   * This slot used to repeat the release cadence, which the body paragraph and the stat
-   * strip both already carry. Verbatim from PulseV2Hero.
-   */
   reassurance: `Free for ${TRIAL_DAYS} days · No credit card required`,
 } as const;
 

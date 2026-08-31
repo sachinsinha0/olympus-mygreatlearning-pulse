@@ -1,252 +1,243 @@
-import type { ReactNode } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { motion, useReducedMotion } from "framer-motion";
-import { ShieldCheck } from "lucide-react";
+import { ArrowRight, ShieldCheck } from "lucide-react";
 import { GL } from "../landingTheme";
 import { ContentColumn } from "../parts";
-import { HeroOrbit } from "./HeroOrbit";
-import { HeroFeed } from "./HeroFeed";
-import { HeroTrace } from "./HeroTrace";
-import { HeroRadar } from "./HeroRadar";
-import { HeroWall } from "./HeroWall";
-import { HeroSync } from "./HeroSync";
 import { HERO, VALUE_PROPS } from "../content";
+import glLogo from "../../../assets/gl-logo.svg";
 
 /**
- * The hero. Copy on the left, the orbit system sweeping in from the right edge of the
- * viewport, then the product's three pillars as a strip along the bottom, the way
- * /pulse renders them.
+ * The hero: the product's own banner.
  *
- * This section does not use the shared Section wrapper because it owns its own
- * clipping: the orbit is anchored partly off screen and the section's overflow is what
- * crops it, so the arcs run off the page instead of sitting inside a panel.
+ * This is the marketing hero from PulseV2Hero on /pulse, reproduced faithfully. The
+ * gradient card, the masked photograph on the right, the lockup, the headline, the
+ * subtitle, the CTA row and the pillars strip along the bottom are the product's
+ * design, copied value for value. Six invented hero visuals were explored and
+ * rejected before this: the banner a lead sees here is the banner they see after
+ * logging in, which is the strongest continuity this page can offer.
  *
- * The spacing is deliberately uneven. The tagline and headline sit close as one block,
- * then the paragraph, the CTA row and the pillars each get more air. Spacing everything
- * equally is what makes a column read as laid out rather than composed.
+ * Two values here break this page's own design rules and are kept deliberately,
+ * because they are the product's: the card background gradient and the pillars
+ * strip's backdrop blur come verbatim from PulseV2Hero. Product canon beats the
+ * local rulebook, the same way the intro marquee's mask does.
+ *
+ * Differences from /pulse, all behavioural rather than visual: the CTA routes to the
+ * landing login step instead of starting a trial in place, there is no trial state
+ * logic because this page is public, and there is no Replay intro button because
+ * that is product chrome.
  */
-/**
- * EXPLORATION. Four hero visual concepts, switched by ?hero= in the URL so motion can
- * be judged live in the real layout rather than argued about from stills:
- *
- *   /ai-pulse             orbit  the ecosystem circling a beating pulse
- *   /ai-pulse?hero=feed   feed   real modules landing on the release cadence
- *   /ai-pulse?hero=trace  trace  a pulse trace, labs ticking as it passes
- *   /ai-pulse?hero=radar  radar  a sweep scanning still stations
- *   /ai-pulse?hero=wall   wall   the curriculum and its labs drifting as a tile wall
- *   /ai-pulse?hero=sync   sync   the headline performed: rushing terms snap legible at the line
- *
- * Orbit stays the default. Once one wins, the losers and this switch come out.
- * The mobile band keeps the orbit for every variant, the exploration is desktop first.
- */
-const HERO_VARIANTS = {
-  orbit: { Visual: HeroOrbit, region: { right: -180, width: 720, height: 720 } },
-  feed: { Visual: HeroFeed, region: { right: 120, width: 400, height: 520, transform: "translateY(-50%)" } },
-  trace: { Visual: HeroTrace, region: { right: -30, width: 620, height: 400 } },
-  radar: { Visual: HeroRadar, region: { right: -150, width: 660, height: 660 } },
-  // Bleeds past the section top so it reads as a glimpse of something larger, but it
-  // must stop short of the pillars strip: a solid slab crossing that white row looked
-  // broken, where the orbit's hairline arcs can pass behind it invisibly.
-  wall: { Visual: HeroWall, region: { top: "40%", right: -48, width: 430, height: 423 } },
-  sync: { Visual: HeroSync, region: { right: -24, width: 640, height: 380, transform: "translateY(-62%)" } },
-} as const;
-
-/** Material Design 3 emphasized decelerate, the same entrance curve the orbit uses. */
-const ENTER = [0.05, 0.7, 0.1, 1] as const;
-
-/**
- * One step of the load choreography: rise 18px and fade, per the motion-design
- * skill's entrance rules. Never opacity alone, always with position. Under reduced
- * motion the content simply renders in place.
- */
-function Reveal({ delay, children }: { delay: number; children: ReactNode }) {
-  const reduce = useReducedMotion();
-  return (
-    <motion.div
-      initial={reduce ? false : { opacity: 0, y: 18 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay, ease: ENTER }}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
 export function LandingHero() {
   const navigate = useNavigate();
-  const [params] = useSearchParams();
-  const variantKey = (params.get("hero") ?? "orbit") as keyof typeof HERO_VARIANTS;
-  const { Visual, region } = HERO_VARIANTS[variantKey] ?? HERO_VARIANTS.orbit;
+  const reduce = useReducedMotion();
 
   const goToLogin = () => navigate("/ai-pulse/login");
 
   return (
-    <Box
-      component="section"
-      id="landing-hero"
-      sx={{
-        position: "relative",
-        overflow: "hidden",
-        bgcolor: "#ffffff",
-        py: { xs: 6, md: 9 },
-      }}
-    >
-      {/* Desktop: the orbit hangs off the right edge of the viewport. It sits behind
-          the content column in the stacking order, and the copy keeps clear of it by
-          width, not by z-index tricks. */}
-      <Box
-        sx={{
-          display: { xs: "none", lg: "block" },
-          position: "absolute",
-          top: "50%",
-          transform: "translateY(-56%)",
-          ...region,
-        }}
-      >
-        <Visual />
-      </Box>
-
-      <ContentColumn sx={{ position: "relative" }}>
-        <Box sx={{ maxWidth: 600 }}>
-          {/* Tagline and headline read as one block, so the gap between them is tight
-              and the air comes after. The copy staggers up at 70ms intervals, inside
-              the skill's standard budget, everything rising from the same direction. */}
-          <Reveal delay={0}>
-          <Typography sx={{ fontSize: 14, fontWeight: 400, color: GL.blue }}>
-            {HERO.tagline}
-          </Typography>
-          </Reveal>
-
-          <Reveal delay={0.07}>
-          <Typography
-            component="h1"
-            sx={{
-              mt: 0.75,
-              fontSize: { xs: 30, md: 38 },
-              fontWeight: 500,
-              lineHeight: 1.2,
-              letterSpacing: "-0.6px",
-              color: GL.ink,
-            }}
-          >
-            {HERO.titleLines.map((line) => (
-              <Box key={line} component="span" sx={{ display: "block" }}>
-                {line}
-              </Box>
-            ))}
-          </Typography>
-          </Reveal>
-
-          <Reveal delay={0.14}>
-          <Typography sx={{ mt: 3, fontSize: 16, lineHeight: 1.6, color: GL.body, maxWidth: 560 }}>
-            {HERO.body}
-          </Typography>
-          </Reveal>
-
-          {/* The CTA and the reassurance share a row, so the width is filled by
-              something true rather than by a second button. */}
-          <Reveal delay={0.21}>
-          <Stack
-            direction={{ xs: "column", sm: "row" }}
-            alignItems={{ xs: "stretch", sm: "center" }}
-            gap={{ xs: 2, sm: 2.5 }}
-            sx={{ mt: 4 }}
-          >
-            <Button
-              variant="contained"
-              onClick={goToLogin}
-              sx={{ fontSize: 16, minHeight: 52, minWidth: { sm: 200 }, width: { xs: "100%", sm: "auto" } }}
-            >
-              {HERO.primaryCta}
-            </Button>
-            <Stack direction="row" alignItems="center" gap={1}>
-              <Box aria-hidden sx={{ display: "flex", color: GL.body, flexShrink: 0 }}>
-                <ShieldCheck size={16} />
-              </Box>
-              <Typography sx={{ fontSize: 14, fontWeight: 500, color: GL.body }}>
-                {HERO.reassurance}
-              </Typography>
-            </Stack>
-          </Stack>
-          </Reveal>
-        </Box>
-
-        {/* Phones and tablets get the orbit as a full bleed band under the copy,
-            clipped top and bottom, scaled down. The negative margins run it out to the
-            section edges past the column padding. */}
-        <Box
-          sx={{
-            display: { xs: "block", lg: "none" },
-            position: "relative",
-            height: 300,
-            overflow: "hidden",
-            mt: 5,
-            mx: { xs: -2.5, md: -4 },
-          }}
+    <Box component="section" id="landing-hero" sx={{ bgcolor: "#ffffff", py: { xs: 4, md: 6 } }}>
+      <ContentColumn>
+        <motion.div
+          initial={reduce ? false : { opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, ease: [0.05, 0.7, 0.1, 1] }}
         >
           <Box
             sx={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%) scale(0.55)",
-              width: 720,
-              height: 720,
+              position: "relative",
+              overflow: "hidden",
+              borderRadius: "16px",
+              border: `1px solid ${GL.border}`,
+              bgcolor: { xs: "#ffffff", md: "transparent" },
+              // Product canon: PulseV2Hero's card ground, verbatim.
+              background: {
+                xs: "none",
+                md: "linear-gradient(to right, #ffffff 0%, #ffffff 50%, #c1cedb 100%)",
+              },
             }}
           >
-            <HeroOrbit />
-          </Box>
-        </Box>
-
-        {/* The three pillars, in the hero, the way /pulse renders them: a strip along
-            the bottom of the hero with a rule above it and rules between the cells. The
-            white fill keeps the orbit's faint outer arcs from running behind the text
-            where the two meet. This is the choreography's secondary layer, so it
-            arrives after the copy has landed. */}
-        <Reveal delay={0.35}>
-        <Box
-          sx={{
-            mt: { xs: 5, lg: 7 },
-            pt: { xs: 3, md: 3.5 },
-            borderTop: `1px solid ${GL.border}`,
-            display: "grid",
-            gridTemplateColumns: { xs: "1fr", md: "repeat(3, 1fr)" },
-            rowGap: 3,
-            position: "relative",
-            backgroundColor: "#ffffff",
-          }}
-        >
-          {VALUE_PROPS.map((p, i) => (
-            <Stack
-              key={p.title}
-              direction="row"
-              gap={1.5}
-              alignItems="flex-start"
+            {/* Phones: the photograph stacked on top, scaled from the right edge so
+                the subject stays anchored, exactly as the product does it. */}
+            <Box
               sx={{
-                px: { md: 3 },
-                pl: { md: i === 0 ? 0 : 3 },
-                // A 1px neutral rule dividing columns, which is what /pulse puts between
-                // its own pillars. Not a coloured accent strip, which is the thing the
-                // design brief bans.
-                borderLeft: { xs: "none", md: i === 0 ? "none" : `1px solid ${GL.border}` },
+                display: { xs: "block", md: "none" },
+                width: "100%",
+                height: { xs: 180, sm: 210 },
+                overflow: "hidden",
               }}
             >
-              <Box aria-hidden sx={{ display: "flex", color: GL.blue, flexShrink: 0, mt: "2px" }}>
-                <p.Icon size={18} strokeWidth={2} />
-              </Box>
-              <Box>
-                <Typography sx={{ fontSize: 15, fontWeight: 600, color: GL.heading, lineHeight: 1.4 }}>
-                  {p.title}
+              <Box
+                component="img"
+                src="/hero/hero%20image.jpg"
+                alt=""
+                sx={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  objectPosition: "right center",
+                  transform: { xs: "translate(16px, -12px) scale(1.2)", sm: "translate(16px, -12px) scale(1.25)" },
+                  transformOrigin: "right center",
+                }}
+              />
+            </Box>
+
+            <Box sx={{ position: "relative", overflow: "hidden" }}>
+              {/* Desktop: the photograph fading in from the right, the product's mask. */}
+              <Box
+                aria-hidden
+                component="img"
+                src="/hero/hero%20image.jpg"
+                alt=""
+                sx={{
+                  position: "absolute",
+                  right: -72,
+                  top: -28,
+                  bottom: 0,
+                  height: "114%",
+                  width: "auto",
+                  display: { xs: "none", lg: "block" },
+                  pointerEvents: "none",
+                  objectFit: "cover",
+                  objectPosition: "right center",
+                  maskImage: "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.4) 14%, black 28%)",
+                  WebkitMaskImage: "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.4) 14%, black 28%)",
+                }}
+              />
+
+              <Stack
+                gap={2.5}
+                sx={{
+                  position: "relative",
+                  px: { xs: 2, md: 4 },
+                  pt: { xs: 2, md: 4 },
+                  pb: { xs: 2, md: 4 },
+                  maxWidth: { xs: "100%", lg: 680 },
+                }}
+              >
+                <Stack direction="row" alignItems="center" gap={1.25}>
+                  <Typography sx={{ fontSize: 15, fontWeight: 700, letterSpacing: "-0.2px", color: GL.heading }}>
+                    {HERO.name}
+                  </Typography>
+                  <Typography sx={{ fontSize: 13, fontWeight: 400, letterSpacing: "-0.1px", color: GL.body }}>
+                    {HERO.by}
+                  </Typography>
+                  <Box component="img" src={glLogo} alt="Great Learning" sx={{ height: 22, width: "auto", display: "block" }} />
+                </Stack>
+
+                <Typography
+                  component="h1"
+                  sx={{
+                    fontSize: { xs: 28, md: 40 },
+                    fontWeight: 700,
+                    lineHeight: { xs: 1.15, md: 1.2 },
+                    letterSpacing: "-0.84px",
+                    color: "rgba(0, 0, 0, 0.92)",
+                  }}
+                >
+                  {HERO.titleLines.map((line) => (
+                    <Box key={line} component="span" sx={{ display: "block" }}>
+                      {line}
+                    </Box>
+                  ))}
                 </Typography>
-                <Typography sx={{ fontSize: 14, color: GL.body, lineHeight: 1.5, mt: 0.25 }}>
-                  {p.body}
+
+                <Typography
+                  sx={{
+                    fontSize: 16,
+                    lineHeight: "24px",
+                    letterSpacing: "-0.2px",
+                    color: "rgba(0, 0, 0, 0.56)",
+                    textWrap: "balance",
+                  }}
+                >
+                  {HERO.body}
                 </Typography>
-              </Box>
-            </Stack>
-          ))}
-        </Box>
-        </Reveal>
+
+                <Stack
+                  direction={{ xs: "column", sm: "row" }}
+                  alignItems={{ xs: "stretch", sm: "center" }}
+                  gap={{ xs: 1.25, sm: 2 }}
+                >
+                  <Button
+                    variant="contained"
+                    endIcon={<ArrowRight size={18} />}
+                    onClick={goToLogin}
+                    sx={{
+                      // The product button's proportions, not the landing theme's.
+                      height: { xs: 44, md: 40 },
+                      minHeight: 0,
+                      px: 2,
+                      width: { xs: "100%", sm: "auto" },
+                      fontSize: 15,
+                      fontWeight: 500,
+                      letterSpacing: "-0.2px",
+                      borderRadius: "8px",
+                      flexShrink: 0,
+                    }}
+                  >
+                    {HERO.primaryCta}
+                  </Button>
+                  <Stack direction="row" alignItems="center" gap={0.75} sx={{ color: GL.body, px: { xs: 0.5, sm: 0 } }}>
+                    <ShieldCheck size={14} strokeWidth={2} />
+                    <Typography
+                      sx={{ fontSize: 13, fontWeight: 500, letterSpacing: "-0.1px", lineHeight: "18px", whiteSpace: "nowrap" }}
+                    >
+                      {HERO.reassurance}
+                    </Typography>
+                  </Stack>
+                </Stack>
+              </Stack>
+            </Box>
+
+            {/* The pillars strip along the card's bottom edge, the product's own. The
+                translucent fill and blur sit over the photograph where it passes
+                behind. Product canon, verbatim from PulseV2Hero. */}
+            <Box
+              sx={{
+                position: "relative",
+                display: "grid",
+                gridTemplateColumns: { xs: "1fr", md: "repeat(3, 1fr)" },
+                borderTop: `1px solid ${GL.border}`,
+                bgcolor: "rgba(255, 255, 255, 0.55)",
+                backdropFilter: "blur(10px)",
+                WebkitBackdropFilter: "blur(10px)",
+              }}
+            >
+              {VALUE_PROPS.map((p, i) => (
+                <Stack
+                  key={p.title}
+                  direction="row"
+                  alignItems="flex-start"
+                  gap={1.25}
+                  sx={{
+                    px: 2.5,
+                    py: { xs: 1.5, md: 2 },
+                    minWidth: 0,
+                    borderRight: {
+                      xs: "none",
+                      md: i < VALUE_PROPS.length - 1 ? `1px solid ${GL.border}` : "none",
+                    },
+                    borderBottom: {
+                      xs: i < VALUE_PROPS.length - 1 ? `1px solid ${GL.border}` : "none",
+                      md: "none",
+                    },
+                  }}
+                >
+                  <Box sx={{ flexShrink: 0, display: "flex", color: GL.blue, mt: "1px" }}>
+                    <p.Icon size={18} strokeWidth={2} />
+                  </Box>
+                  <Stack gap={0.5} sx={{ minWidth: 0 }}>
+                    <Typography sx={{ fontSize: 14, fontWeight: 600, lineHeight: "20px", color: "rgba(33, 33, 33, 0.92)" }}>
+                      {p.title}
+                    </Typography>
+                    <Typography sx={{ fontSize: 14, lineHeight: 1.43, color: "rgba(33, 33, 33, 0.72)" }}>
+                      {p.body}
+                    </Typography>
+                  </Stack>
+                </Stack>
+              ))}
+            </Box>
+          </Box>
+        </motion.div>
       </ContentColumn>
     </Box>
   );
