@@ -2,20 +2,22 @@ import { useNavigate } from "react-router-dom";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { ShieldCheck } from "lucide-react";
 import { GL } from "../landingTheme";
-import { Section } from "../parts";
-import { HeroPulseVisual } from "./HeroPulseVisual";
+import { ContentColumn } from "../parts";
+import { HeroOrbit } from "./HeroOrbit";
 import { HERO, VALUE_PROPS } from "../content";
 
 /**
- * The hero. Copy on the left, the photograph on the right, in the order the Great
- * Learning course landing template uses.
+ * The hero. Copy on the left, the orbit system sweeping in from the right edge of the
+ * viewport, then the product's three pillars as a strip along the bottom, the way
+ * /pulse renders them.
  *
- * The template opens its left column with the partner institution's logos. AI Pulse
- * has no partner, so the column opens on the tagline.
+ * This section does not use the shared Section wrapper because it owns its own
+ * clipping: the orbit is anchored partly off screen and the section's overflow is what
+ * crops it, so the arcs run off the page instead of sitting inside a panel.
  *
  * The spacing is deliberately uneven. The tagline and headline sit close as one block,
- * then the paragraph, the CTA row and the stat strip each get more air. Spacing
- * everything equally is what makes a column read as laid out rather than composed.
+ * then the paragraph, the CTA row and the pillars each get more air. Spacing everything
+ * equally is what makes a column read as laid out rather than composed.
  */
 export function LandingHero() {
   const navigate = useNavigate();
@@ -23,18 +25,35 @@ export function LandingHero() {
   const goToLogin = () => navigate("/ai-pulse/login");
 
   return (
-    <Section id="landing-hero">
+    <Box
+      component="section"
+      id="landing-hero"
+      sx={{
+        position: "relative",
+        overflow: "hidden",
+        bgcolor: "#ffffff",
+        py: { xs: 6, md: 9 },
+      }}
+    >
+      {/* Desktop: the orbit hangs off the right edge of the viewport. It sits behind
+          the content column in the stacking order, and the copy keeps clear of it by
+          width, not by z-index tricks. */}
       <Box
         sx={{
-          display: "grid",
-          // 380 rather than 480. The square is the tallest thing in the row, so a
-          // larger one left 88px of dead space above and below the copy.
-          gridTemplateColumns: { xs: "1fr", lg: "1fr 380px" },
-          gap: { xs: 5, lg: 7 },
-          alignItems: "center",
+          display: { xs: "none", lg: "block" },
+          position: "absolute",
+          top: "50%",
+          right: -180,
+          transform: "translateY(-56%)",
+          width: 720,
+          height: 720,
         }}
       >
-        <Box>
+        <HeroOrbit />
+      </Box>
+
+      <ContentColumn sx={{ position: "relative" }}>
+        <Box sx={{ maxWidth: 600 }}>
           {/* Tagline and headline read as one block, so the gap between them is tight
               and the air comes after. */}
           <Typography sx={{ fontSize: 14, fontWeight: 400, color: GL.blue }}>
@@ -63,9 +82,8 @@ export function LandingHero() {
             {HERO.body}
           </Typography>
 
-          {/* The CTA and the reassurance share a row. The reference fills this width
-              with two buttons, but there is only one CTA on this page, so the
-              reassurance is the counterweight rather than a second button. */}
+          {/* The CTA and the reassurance share a row, so the width is filled by
+              something true rather than by a second button. */}
           <Stack
             direction={{ xs: "column", sm: "row" }}
             alignItems={{ xs: "stretch", sm: "center" }}
@@ -75,7 +93,7 @@ export function LandingHero() {
             <Button
               variant="contained"
               onClick={goToLogin}
-              sx={{ fontSize: 16, minHeight: 52, minWidth: { sm: 200 } }}
+              sx={{ fontSize: 16, minHeight: 52, minWidth: { sm: 200 }, width: { xs: "100%", sm: "auto" } }}
             >
               {HERO.primaryCta}
             </Button>
@@ -88,59 +106,82 @@ export function LandingHero() {
               </Typography>
             </Stack>
           </Stack>
-
         </Box>
 
-        {/* The pulse visual. The photograph this replaced was an extreme landscape
-            source fighting a square frame, and it said nothing about Pulse. See
-            HeroPulseVisual for what this is and why it is restrained. */}
-        <HeroPulseVisual />
-      </Box>
-
-      {/* The three pillars, in the hero, the way /pulse renders them: a strip along the
-          bottom of the hero with a rule above it and rules between the cells. The
-          product puts a translucent fill and a blur behind it because it sits on a
-          gradient. This hero is plain white, so the rule alone does the work. */}
-      <Box
-        sx={{
-          mt: { xs: 5, lg: 7 },
-          pt: { xs: 3, md: 3.5 },
-          borderTop: `1px solid ${GL.border}`,
-          display: "grid",
-          gridTemplateColumns: { xs: "1fr", md: "repeat(3, 1fr)" },
-          rowGap: 3,
-        }}
-      >
-        {VALUE_PROPS.map((p, i) => (
-          <Stack
-            key={p.title}
-            direction="row"
-            gap={1.5}
-            alignItems="flex-start"
+        {/* Phones and tablets get the orbit as a full bleed band under the copy,
+            clipped top and bottom, scaled down. The negative margins run it out to the
+            section edges past the column padding. */}
+        <Box
+          sx={{
+            display: { xs: "block", lg: "none" },
+            position: "relative",
+            height: 300,
+            overflow: "hidden",
+            mt: 5,
+            mx: { xs: -2.5, md: -4 },
+          }}
+        >
+          <Box
             sx={{
-              px: { md: 3 },
-              pl: { md: i === 0 ? 0 : 3 },
-              // A 1px neutral rule dividing columns, which is what /pulse puts between
-              // its own pillars. Not a coloured accent strip, which is the thing the
-              // design brief bans.
-              borderLeft: { xs: "none", md: i === 0 ? "none" : `1px solid ${GL.border}` },
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%) scale(0.55)",
+              width: 720,
+              height: 720,
             }}
           >
-            <Box aria-hidden sx={{ display: "flex", color: GL.blue, flexShrink: 0, mt: "2px" }}>
-              <p.Icon size={18} strokeWidth={2} />
-            </Box>
-            <Box>
-              <Typography sx={{ fontSize: 15, fontWeight: 600, color: GL.heading, lineHeight: 1.4 }}>
-                {p.title}
-              </Typography>
-              <Typography sx={{ fontSize: 14, color: GL.body, lineHeight: 1.5, mt: 0.25 }}>
-                {p.body}
-              </Typography>
-            </Box>
-          </Stack>
-        ))}
-      </Box>
-    </Section>
+            <HeroOrbit />
+          </Box>
+        </Box>
+
+        {/* The three pillars, in the hero, the way /pulse renders them: a strip along
+            the bottom of the hero with a rule above it and rules between the cells. The
+            white fill keeps the orbit's faint outer arcs from running behind the text
+            where the two meet. */}
+        <Box
+          sx={{
+            mt: { xs: 5, lg: 7 },
+            pt: { xs: 3, md: 3.5 },
+            borderTop: `1px solid ${GL.border}`,
+            display: "grid",
+            gridTemplateColumns: { xs: "1fr", md: "repeat(3, 1fr)" },
+            rowGap: 3,
+            position: "relative",
+            backgroundColor: "#ffffff",
+          }}
+        >
+          {VALUE_PROPS.map((p, i) => (
+            <Stack
+              key={p.title}
+              direction="row"
+              gap={1.5}
+              alignItems="flex-start"
+              sx={{
+                px: { md: 3 },
+                pl: { md: i === 0 ? 0 : 3 },
+                // A 1px neutral rule dividing columns, which is what /pulse puts between
+                // its own pillars. Not a coloured accent strip, which is the thing the
+                // design brief bans.
+                borderLeft: { xs: "none", md: i === 0 ? "none" : `1px solid ${GL.border}` },
+              }}
+            >
+              <Box aria-hidden sx={{ display: "flex", color: GL.blue, flexShrink: 0, mt: "2px" }}>
+                <p.Icon size={18} strokeWidth={2} />
+              </Box>
+              <Box>
+                <Typography sx={{ fontSize: 15, fontWeight: 600, color: GL.heading, lineHeight: 1.4 }}>
+                  {p.title}
+                </Typography>
+                <Typography sx={{ fontSize: 14, color: GL.body, lineHeight: 1.5, mt: 0.25 }}>
+                  {p.body}
+                </Typography>
+              </Box>
+            </Stack>
+          ))}
+        </Box>
+      </ContentColumn>
+    </Box>
   );
 }
 
