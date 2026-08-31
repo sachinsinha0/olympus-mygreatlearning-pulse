@@ -6,6 +6,7 @@ import { LandingHero } from "./sections/LandingHero";
 import { ExpertBand } from "./sections/ExpertBand";
 import { RatingsRow } from "./sections/RatingsRow";
 import { WhySubscribe } from "./sections/WhySubscribe";
+import { ModulesSection } from "./sections/ModulesSection";
 
 export function AiPulseLanding() {
   return (
@@ -17,6 +18,7 @@ export function AiPulseLanding() {
         <ExpertBand />
         <RatingsRow />
         <WhySubscribe />
+        <ModulesSection />
       </Box>
     </ThemeProvider>
   );
