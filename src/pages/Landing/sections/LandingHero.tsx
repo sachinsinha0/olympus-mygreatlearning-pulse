@@ -1,5 +1,7 @@
+import type { ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Button, Stack, Typography } from "@mui/material";
+import { motion, useReducedMotion } from "framer-motion";
 import { ShieldCheck } from "lucide-react";
 import { GL } from "../landingTheme";
 import { ContentColumn } from "../parts";
@@ -19,6 +21,27 @@ import { HERO, VALUE_PROPS } from "../content";
  * then the paragraph, the CTA row and the pillars each get more air. Spacing everything
  * equally is what makes a column read as laid out rather than composed.
  */
+/** Material Design 3 emphasized decelerate, the same entrance curve the orbit uses. */
+const ENTER = [0.05, 0.7, 0.1, 1] as const;
+
+/**
+ * One step of the load choreography: rise 18px and fade, per the motion-design
+ * skill's entrance rules. Never opacity alone, always with position. Under reduced
+ * motion the content simply renders in place.
+ */
+function Reveal({ delay, children }: { delay: number; children: ReactNode }) {
+  const reduce = useReducedMotion();
+  return (
+    <motion.div
+      initial={reduce ? false : { opacity: 0, y: 18 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay, ease: ENTER }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
 export function LandingHero() {
   const navigate = useNavigate();
 
@@ -55,11 +78,15 @@ export function LandingHero() {
       <ContentColumn sx={{ position: "relative" }}>
         <Box sx={{ maxWidth: 600 }}>
           {/* Tagline and headline read as one block, so the gap between them is tight
-              and the air comes after. */}
+              and the air comes after. The copy staggers up at 70ms intervals, inside
+              the skill's standard budget, everything rising from the same direction. */}
+          <Reveal delay={0}>
           <Typography sx={{ fontSize: 14, fontWeight: 400, color: GL.blue }}>
             {HERO.tagline}
           </Typography>
+          </Reveal>
 
+          <Reveal delay={0.07}>
           <Typography
             component="h1"
             sx={{
@@ -77,13 +104,17 @@ export function LandingHero() {
               </Box>
             ))}
           </Typography>
+          </Reveal>
 
+          <Reveal delay={0.14}>
           <Typography sx={{ mt: 3, fontSize: 16, lineHeight: 1.6, color: GL.body, maxWidth: 560 }}>
             {HERO.body}
           </Typography>
+          </Reveal>
 
           {/* The CTA and the reassurance share a row, so the width is filled by
               something true rather than by a second button. */}
+          <Reveal delay={0.21}>
           <Stack
             direction={{ xs: "column", sm: "row" }}
             alignItems={{ xs: "stretch", sm: "center" }}
@@ -106,6 +137,7 @@ export function LandingHero() {
               </Typography>
             </Stack>
           </Stack>
+          </Reveal>
         </Box>
 
         {/* Phones and tablets get the orbit as a full bleed band under the copy,
@@ -138,7 +170,9 @@ export function LandingHero() {
         {/* The three pillars, in the hero, the way /pulse renders them: a strip along
             the bottom of the hero with a rule above it and rules between the cells. The
             white fill keeps the orbit's faint outer arcs from running behind the text
-            where the two meet. */}
+            where the two meet. This is the choreography's secondary layer, so it
+            arrives after the copy has landed. */}
+        <Reveal delay={0.35}>
         <Box
           sx={{
             mt: { xs: 5, lg: 7 },
@@ -180,6 +214,7 @@ export function LandingHero() {
             </Stack>
           ))}
         </Box>
+        </Reveal>
       </ContentColumn>
     </Box>
   );
