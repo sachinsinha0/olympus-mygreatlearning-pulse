@@ -173,8 +173,8 @@ Dropped from the template, and why:
 
 ## Page structure
 
-Ten bands. The cream advisor strip the template runs under its hero was dropped: an
-"Speak with our expert" line is not wanted on this page.
+Ten bands. The cream advisor strip the template runs under its hero was dropped, because
+a "Speak with our expert" line is not wanted on this page.
 
 | # | Section | Background | Backed by |
 |---|---|---|---|
