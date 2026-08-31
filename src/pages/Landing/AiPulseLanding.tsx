@@ -4,6 +4,7 @@ import { landingTheme } from "./landingTheme";
 import { GlobalNav } from "./sections/GlobalNav";
 import { LandingHero } from "./sections/LandingHero";
 import { RatingsRow } from "./sections/RatingsRow";
+import { LabsSection } from "./sections/LabsSection";
 import { WhySubscribe } from "./sections/WhySubscribe";
 import { ModulesSection } from "./sections/ModulesSection";
 import { TrialSection } from "./sections/TrialSection";
@@ -21,6 +22,7 @@ export function AiPulseLanding() {
         <GlobalNav />
         <LandingHero />
         <RatingsRow />
+        <LabsSection />
         {/* The trial card travels past both of these, the way the lead capture form
             does on the real course pages. */}
         <TrialRailRegion>

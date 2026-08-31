@@ -162,7 +162,7 @@ Dropped from the template, and why:
 | Sticky section tabs | Six sections do not need a tab bar. The reference needs one because its page is three times longer. |
 | Separate "what will you learn" checklist | The module accordion already lists real `outcomes` per module. |
 | Second feature grid ("why choose") | Says the same thing as "why subscribe". |
-| Skills chips | Our `tags` are only agents, coding, multimodal and foundations. Too thin for a row. |
+| ~~Skills chips~~ | **Reinstated.** Dropped for lack of content, which was wrong: `PulseIntroPage` carries an 18 item topic vocabulary, written at concept level so it does not go stale. It is the topic row under the modules now. |
 | "Who is it for" section | No real audience data. Becomes one FAQ answer. |
 | Navy cadence band | One sentence the hero already carries. |
 | Separate "talk to us" section | Not wanted. The footer carries a contact line and that is enough. |
@@ -173,7 +173,7 @@ Dropped from the template, and why:
 
 ## Page structure
 
-Ten bands. The cream advisor strip the template runs under its hero was dropped, because
+Eleven bands. The cream advisor strip the template runs under its hero was dropped, because
 a "Speak with our expert" line is not wanted on this page.
 
 | # | Section | Background | Backed by |
@@ -181,7 +181,8 @@ a "Speak with our expert" line is not wanted on this page.
 | 1 | Header | White | Great Learning logo only |
 | 2 | Hero | White | Real cadence, real trial terms, existing hero photograph |
 | 4 | Ratings row | White | Great Learning's real review site scores |
-| 5 | Why subscribe | `#0C111D` | The four value props in `docs/great-learning-pulse-brief.md` |
+| 5 | AI labs | White | The lab list and logos the onboarding carousel already ships |
+| 6 | Why subscribe | `#0C111D` | The three product pillars in `PulseV2Hero`, plus the archive argument from the brief |
 | 6 | What is inside AI Pulse | White | `src/mocks/pulse-issues.json`, the file the product reads |
 | 7 | How the trial works | Pale | The real trial flow |
 | 8 | The PG Program | `#0C111D` | Real programme, real link, real number |
@@ -220,8 +221,13 @@ not have the review site logos as local assets, so the name is set as text.
 Dark section. Heading "Why should you subscribe to AI Pulse?" Two columns of two items. Each item is
 a small square outlined icon tile, a bold white title, and grey body text. No card backgrounds.
 
-The four items are the four value props from the brief: structured progression, the human vetting
-gate, applied at work, and the compounding archive.
+The first three items are the product's own pillars, taken verbatim from `PulseV2Hero` and repeated
+by `PricingModal`: stay ahead of the AI curve, bite-sized modules, use it at work. A lead should
+hear the same three reasons here that they will hear inside the product.
+
+The fourth is the compounding archive argument from `docs/great-learning-pulse-brief.md`. The
+product UI never states it, but it is the reason to hold a subscription rather than dip in once,
+which is what this page is selling.
 
 The sticky trial card floats over the right of this section, as the reference form does.
 

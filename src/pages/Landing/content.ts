@@ -1,4 +1,4 @@
-import { Briefcase, Layers, Library, ShieldCheck } from "lucide-react";
+import { Briefcase, Clock, Library, Sparkles } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { TRIAL_DAYS } from "../../lib/pulse/trial";
 
@@ -6,10 +6,17 @@ export const ADVISOR_PHONE = "+91 797-117-1332";
 export const PG_PROGRAM_URL =
   "https://www.mygreatlearning.com/pg-program-online-artificial-intelligence-machine-learning";
 
+/**
+ * The hero says what the product says.
+ *
+ * `tagline` and `title` are lifted from the onboarding carousel and the /pulse hero
+ * rather than written fresh, so a lead who reads this page and then logs in hears the
+ * same voice on both sides of the login step. See PulseIntroPage and PulseV2Hero.
+ */
 export const HERO = {
-  tagline: "Stay current with AI without falling behind.",
-  title: "AI Pulse: new AI tools every two weeks",
-  body: "Learn one new AI tool every two weeks. Each module takes under an hour. Use what you learn at work the same day.",
+  tagline: "Your AI learning companion",
+  title: "AI moves fast. Pulse keeps you in sync.",
+  body: "Learn one cutting-edge AI tool or innovation, every two weeks. Up to 60 minutes each. Short enough to fit your schedule, deep enough to apply at work immediately.",
   primaryCta: "Start Free Trial",
   cadence: "New module every two weeks.",
 } as const;
@@ -36,28 +43,89 @@ export const RATINGS: { score: string; site: string }[] = [
   { score: "4.7", site: "Career Karma" },
 ];
 
-/** The four value props from docs/great-learning-pulse-brief.md. */
+/**
+ * The first three are the product's own pillars, verbatim from PulseV2Hero, which the
+ * pricing dialog repeats. A lead should hear the same three reasons here that they will
+ * hear inside the product.
+ *
+ * The fourth is the compounding archive argument from docs/great-learning-pulse-brief.md.
+ * The product does not state it anywhere in the UI, but it is the strongest reason to
+ * keep a subscription rather than dip in once, which is exactly what this page is for.
+ *
+ * The pillar body reads "30 to 60 minutes" where the product writes "30-60". Ranges
+ * spelled out read more easily than dashed ones.
+ */
 export const VALUE_PROPS: { Icon: LucideIcon; title: string; body: string }[] = [
   {
-    Icon: Layers,
-    title: "Structured, not a feed",
-    body: "YouTube is a feed. Every Pulse module builds on the last. After a year you have a clear record of how AI changed.",
+    Icon: Sparkles,
+    title: "Stay ahead of the AI curve",
+    body: "New AI tools and innovations every two weeks.",
   },
   {
-    Icon: ShieldCheck,
-    title: "Someone used it first",
-    body: "No module ships until a team member has used the tool on a real problem. If it does not hold up, we drop the topic.",
+    Icon: Clock,
+    title: "Bite-sized modules",
+    body: "30 to 60 minutes, designed to fit your schedule.",
   },
   {
     Icon: Briefcase,
-    title: "Built to use at work",
-    body: "Every module ends with something you build yourself. Most of it is useful the same day.",
+    title: "Use it at work",
+    body: "Apply what you learn at work immediately.",
   },
   {
     Icon: Library,
     title: "The archive keeps growing",
     body: "Every release joins the back catalogue. Your subscription is worth more in month twelve than in month one.",
   },
+];
+
+/**
+ * The AI labs the modules cover, and the assets are already in public/brand-logos/.
+ * This is the same list the onboarding carousel scrolls past on its third slide.
+ */
+export const AI_LABS: { slug: string; label: string }[] = [
+  { slug: "openai", label: "OpenAI" },
+  { slug: "anthropic", label: "Anthropic" },
+  { slug: "google", label: "Google" },
+  { slug: "claude", label: "Claude" },
+  { slug: "googlegemini", label: "Gemini" },
+  { slug: "perplexity", label: "Perplexity" },
+  { slug: "cursor", label: "Cursor" },
+  { slug: "githubcopilot", label: "GitHub Copilot" },
+  { slug: "huggingface", label: "Hugging Face" },
+  { slug: "v0", label: "v0" },
+];
+
+export const LABS_SECTION = {
+  title: "Hands-on with what is new from the AI labs",
+  body: "Hands-on modules on what is new from OpenAI, Anthropic, Google and other important AI labs, so you can stay current with minimal effort.",
+} as const;
+
+/**
+ * The topics the modules cover.
+ *
+ * Copied from TECH_ROWS in PulseIntroPage, which carries a comment explaining that the
+ * list is deliberately concept-level rather than tool-specific so it never goes stale.
+ * That property is exactly what a landing page needs, so the list is reused as it is.
+ */
+export const TOPICS: string[] = [
+  "LLMs",
+  "AI Agents",
+  "Multimodal",
+  "AI Automation",
+  "Prompt Engineering",
+  "AI Coding",
+  "RAG",
+  "MCP",
+  "Tool Use",
+  "Computer Use",
+  "Reasoning Models",
+  "Voice AI",
+  "Image Generation",
+  "Data Analysis",
+  "Evals",
+  "Guardrails",
+  "Enterprise AI",
+  "AI Research",
 ];
 
 export const TRIAL_STEPS: { title: string; body: string }[] = [
