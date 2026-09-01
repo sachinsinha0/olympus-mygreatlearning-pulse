@@ -46,7 +46,7 @@ export function LandingHero() {
           display: { xs: "none", lg: "block" },
           position: "absolute",
           inset: 0,
-          backgroundImage: 'url("/hero/hero-wide.jpg")',
+          backgroundImage: 'url("/hero/hero-wide2.jpg")',
           backgroundSize: "cover",
           backgroundPosition: "right center",
         }}
@@ -58,7 +58,7 @@ export function LandingHero() {
         sx={{
           display: { xs: "block", lg: "none" },
           height: { xs: 190, sm: 230, md: 280 },
-          backgroundImage: 'url("/hero/hero-wide.jpg")',
+          backgroundImage: 'url("/hero/hero-wide2.jpg")',
           backgroundSize: "cover",
           backgroundPosition: "right center",
         }}
