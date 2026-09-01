@@ -119,7 +119,10 @@ export function LandingHero() {
                   component="h1"
                   sx={{
                     fontSize: { xs: 28, md: 40 },
-                    fontWeight: 700,
+                    // One step below the product's 700. Poppins carries more visual
+                    // weight than the product's Inter at the same setting, and 700
+                    // read heavy here.
+                    fontWeight: 600,
                     lineHeight: { xs: 1.15, md: 1.2 },
                     letterSpacing: "-0.84px",
                     color: "rgba(0, 0, 0, 0.92)",
