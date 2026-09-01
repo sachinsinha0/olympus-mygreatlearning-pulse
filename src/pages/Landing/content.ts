@@ -8,13 +8,12 @@ export const PG_PROGRAM_URL =
 
 /**
  * The hero is the product's banner, so every string here is PulseV2Hero's, verbatim:
- * the lockup, the headline it renders as two lines, the subtitle, the CTA label and
- * the reassurance line. A lead sees this banner here and then sees the same banner
- * after logging in.
+ * the headline it renders as two lines, the subtitle, the CTA label and the
+ * reassurance line. A lead sees this banner here and then sees the same banner after
+ * logging in. The product's lockup row is not carried over, the page header already
+ * shows the Great Learning logo.
  */
 export const HERO = {
-  name: "AI Pulse",
-  by: "by",
   titleLines: ["AI moves fast.", "Pulse keeps you in sync."],
   body: "A biweekly learning module on the new AI tools, innovations, and workflows reshaping work, distilled into 60 minutes of learning that you can actually apply.",
   primaryCta: "Start Free Trial",

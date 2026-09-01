@@ -5,14 +5,13 @@ import { ArrowRight, ShieldCheck } from "lucide-react";
 import { GL } from "../landingTheme";
 import { ContentColumn } from "../parts";
 import { HERO, VALUE_PROPS } from "../content";
-import glLogo from "../../../assets/gl-logo.svg";
 
 /**
  * The hero: the product's own banner.
  *
  * This is the marketing hero from PulseV2Hero on /pulse, reproduced faithfully. The
- * gradient card, the masked photograph on the right, the lockup, the headline, the
- * subtitle, the CTA row and the pillars strip along the bottom are the product's
+ * gradient card, the masked photograph on the right, the headline, the subtitle,
+ * the CTA row and the pillars strip along the bottom are the product's
  * design, copied value for value. Six invented hero visuals were explored and
  * rejected before this: the banner a lead sees here is the banner they see after
  * logging in, which is the strongest continuity this page can offer.
@@ -24,8 +23,9 @@ import glLogo from "../../../assets/gl-logo.svg";
  *
  * Differences from /pulse, all behavioural rather than visual: the CTA routes to the
  * landing login step instead of starting a trial in place, there is no trial state
- * logic because this page is public, and there is no Replay intro button because
- * that is product chrome.
+ * logic because this page is public, there is no Replay intro button because that
+ * is product chrome, and the "AI Pulse by Great Learning" lockup is dropped because
+ * the page header already carries the Great Learning logo two lines above it.
  */
 export function LandingHero() {
   const navigate = useNavigate();
@@ -113,16 +113,6 @@ export function LandingHero() {
                   maxWidth: { xs: "100%", lg: 680 },
                 }}
               >
-                <Stack direction="row" alignItems="center" gap={1.25}>
-                  <Typography sx={{ fontSize: 15, fontWeight: 700, letterSpacing: "-0.2px", color: GL.heading }}>
-                    {HERO.name}
-                  </Typography>
-                  <Typography sx={{ fontSize: 13, fontWeight: 400, letterSpacing: "-0.1px", color: GL.body }}>
-                    {HERO.by}
-                  </Typography>
-                  <Box component="img" src={glLogo} alt="Great Learning" sx={{ height: 22, width: "auto", display: "block" }} />
-                </Stack>
-
                 <Typography
                   component="h1"
                   sx={{
