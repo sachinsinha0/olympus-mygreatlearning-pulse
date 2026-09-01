@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography, keyframes } from "@mui/material";
 import type { SxProps, Theme } from "@mui/material/styles";
 import { Check } from "lucide-react";
 import { GL } from "./landingTheme";
@@ -93,6 +93,83 @@ export function Lede({ children, align = "left" }: { children: ReactNode; align?
 
 
 
+
+/**
+ * The intro carousel's marquee: the same keyframes and the same travel to -50%, which
+ * is what makes the loop seamless once the list is rendered twice.
+ */
+const marqueeScroll = keyframes`
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+`;
+
+/**
+ * A scrolling row, the way /pulse/intro scrolls its logos and its topic chips.
+ *
+ * The list is rendered twice and travelled half its width, so the loop has no seam.
+ * Edges are masked rather than clipped, which is the product's treatment, and a
+ * gradient is permitted here because it paints a mask and never a surface.
+ *
+ * Two behaviours the product does not need and this page does. The row pauses under
+ * the pointer, because these rows carry readable labels and someone may want to stop
+ * on one. And it freezes under prefers-reduced-motion, where the product instead
+ * pauses whenever its slide is inactive.
+ */
+export function Marquee<T>({
+  items,
+  keyOf,
+  renderItem,
+  duration = 64,
+  reverse = false,
+  fade = 12,
+  sx,
+}: {
+  items: readonly T[];
+  keyOf: (item: T) => string;
+  renderItem: (item: T) => ReactNode;
+  /** Seconds for one full pass. */
+  duration?: number;
+  reverse?: boolean;
+  /** Width of the edge fade, as a percentage of the row. */
+  fade?: number;
+  sx?: SxProps<Theme>;
+}) {
+  const doubled = [...items, ...items];
+  const mask = `linear-gradient(90deg, transparent 0%, black ${fade}%, black ${100 - fade}%, transparent 100%)`;
+
+  return (
+    <Box
+      sx={{
+        overflow: "hidden",
+        maskImage: mask,
+        WebkitMaskImage: mask,
+        "&:hover .marquee-track": { animationPlayState: "paused" },
+        "@media (prefers-reduced-motion: reduce)": {
+          "& .marquee-track": { animation: "none" },
+        },
+        ...sx,
+      } as SxProps<Theme>}
+    >
+      <Box
+        className="marquee-track"
+        sx={{
+          display: "flex",
+          alignItems: "flex-start",
+          width: "max-content",
+          animation: `${marqueeScroll} ${duration}s linear infinite`,
+          animationDirection: reverse ? "reverse" : "normal",
+          willChange: "transform",
+        }}
+      >
+        {doubled.map((item, i) => (
+          <Box key={`${keyOf(item)}-${i}`} sx={{ flexShrink: 0 }}>
+            {renderItem(item)}
+          </Box>
+        ))}
+      </Box>
+    </Box>
+  );
+}
 
 /**
  * A small uppercase label on a rule, the eyebrow the product's onboarding carousel

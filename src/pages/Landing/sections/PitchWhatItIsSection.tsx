@@ -1,6 +1,6 @@
-import { Box, Typography, keyframes } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { GL } from "../landingTheme";
-import { ContentColumn } from "../parts";
+import { ContentColumn, Marquee } from "../parts";
 import { AI_LABS, INTRO_PITCH } from "../content";
 
 /**
@@ -14,89 +14,48 @@ import { AI_LABS, INTRO_PITCH } from "../content";
  * opening statement, so it is centred, set large, and given the carousel's blue
  * wash to itself.
  */
-/**
- * The intro carousel's marquee, same keyframes and same 64 second period. The list is
- * rendered twice and travelled to -50%, which is what makes the loop seamless.
- */
-const marqueeScroll = keyframes`
-  from { transform: translate3d(0, 0, 0); }
-  to   { transform: translate3d(-50%, 0, 0); }
-`;
 
 /**
- * The labs, scrolling the way /pulse/intro scrolls them.
- *
- * Faithful to the product: 64s linear, the doubled list, and the same edge mask so
- * logos fade in and out rather than clipping at a hard edge. The mask is a gradient,
- * which this page permits as a mask and never as paint.
- *
- * Two additions. The row pauses under the pointer, because each logo now carries its
- * lab's name and a reader may want to stop and read one. And it freezes entirely
- * under prefers-reduced-motion.
+ * The labs, scrolling the way /pulse/intro scrolls them: 64 seconds, one direction,
+ * each logo carrying its lab's name.
  *
  * At this speed the row travels about 23px per second, so the names stay readable
- * while moving.
+ * while moving. The mechanics live in Marquee, which the topic rows share.
  */
 function LabsMarquee() {
-  const doubled = [...AI_LABS, ...AI_LABS];
-
   return (
-    <Box
-      sx={{
-        mt: { xs: 3.5, md: 4.5 },
-        maxWidth: 1000,
-        mx: "auto",
-        overflow: "hidden",
-        maskImage:
-          "linear-gradient(90deg, transparent 0%, black 12%, black 88%, transparent 100%)",
-        WebkitMaskImage:
-          "linear-gradient(90deg, transparent 0%, black 12%, black 88%, transparent 100%)",
-        "&:hover .labs-track": { animationPlayState: "paused" },
-        "@media (prefers-reduced-motion: reduce)": {
-          "& .labs-track": { animation: "none" },
-        },
-      }}
-    >
-      <Box
-        className="labs-track"
-        sx={{
-          display: "flex",
-          alignItems: "flex-start",
-          width: "max-content",
-          animation: `${marqueeScroll} 64s linear infinite`,
-          willChange: "transform",
-        }}
-      >
-        {doubled.map((lab, i) => (
+    <Marquee
+      items={AI_LABS}
+      keyOf={(lab) => lab.slug}
+      duration={64}
+      sx={{ mt: { xs: 3.5, md: 4.5 }, maxWidth: 1000, mx: "auto" }}
+      renderItem={(lab) => (
+        <Box
+          sx={{
+            width: { xs: 104, md: 124 },
+            textAlign: "center",
+            px: { xs: 1, md: 1.5 },
+          }}
+        >
           <Box
-            key={`${lab.slug}-${i}`}
+            component="img"
+            src={`/brand-logos/${lab.slug}.png`}
+            alt=""
+            loading="lazy"
             sx={{
-              flexShrink: 0,
-              width: { xs: 104, md: 124 },
-              textAlign: "center",
-              px: { xs: 1, md: 1.5 },
+              width: { xs: 38, md: 44 },
+              height: { xs: 38, md: 44 },
+              objectFit: "contain",
+              display: "block",
+              mx: "auto",
             }}
-          >
-            <Box
-              component="img"
-              src={`/brand-logos/${lab.slug}.png`}
-              alt=""
-              loading="lazy"
-              sx={{
-                width: { xs: 38, md: 44 },
-                height: { xs: 38, md: 44 },
-                objectFit: "contain",
-                display: "block",
-                mx: "auto",
-              }}
-            />
-            <Typography sx={{ mt: 1.25, fontSize: 12, color: GL.body, lineHeight: 1.35 }}>
-              {lab.label}
-            </Typography>
-          </Box>
-        ))}
-      </Box>
-    </Box>
+          />
+          <Typography sx={{ mt: 1.25, fontSize: 12, color: GL.body, lineHeight: 1.35 }}>
+            {lab.label}
+          </Typography>
+        </Box>
+      )}
+    />
   );
 }
 

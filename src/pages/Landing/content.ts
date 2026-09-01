@@ -118,31 +118,17 @@ export const INTRO_PITCH = {
 } as const;
 
 /**
- * The topics the modules cover.
+ * The topics the modules cover, in the product's own two rows.
  *
- * Copied from TECH_ROWS in PulseIntroPage, which carries a comment explaining that the
- * list is deliberately concept-level rather than tool-specific so it never goes stale.
- * That property is exactly what a landing page needs, so the list is reused as it is.
+ * Copied from TECH_ROWS in PulseIntroPage, whose comment explains both halves of the
+ * decision: the vocabulary is deliberately concept level rather than tool specific so
+ * it never goes stale, and it is two rows because the slide scrolls them as
+ * alternating-direction marquees. This page had flattened it to one list of eighteen
+ * and rendered it static, losing the second half of that.
  */
-export const TOPICS: string[] = [
-  "LLMs",
-  "AI Agents",
-  "Multimodal",
-  "AI Automation",
-  "Prompt Engineering",
-  "AI Coding",
-  "RAG",
-  "MCP",
-  "Tool Use",
-  "Computer Use",
-  "Reasoning Models",
-  "Voice AI",
-  "Image Generation",
-  "Data Analysis",
-  "Evals",
-  "Guardrails",
-  "Enterprise AI",
-  "AI Research",
+export const TOPIC_ROWS: readonly (readonly string[])[] = [
+  ["LLMs", "AI Agents", "Multimodal", "AI Automation", "AI Research", "Prompt Engineering", "AI Coding", "RAG", "MCP"],
+  ["Tool Use", "Computer Use", "Reasoning Models", "Voice AI", "Image Generation", "Data Analysis", "Evals", "Guardrails", "Enterprise AI"],
 ];
 
 /**
