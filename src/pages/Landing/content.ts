@@ -120,11 +120,11 @@ export const INTRO_PITCH = {
 /**
  * The topics the modules cover, in the product's own two rows.
  *
- * Copied from TECH_ROWS in PulseIntroPage, whose comment explains both halves of the
- * decision: the vocabulary is deliberately concept level rather than tool specific so
- * it never goes stale, and it is two rows because the slide scrolls them as
- * alternating-direction marquees. This page had flattened it to one list of eighteen
- * and rendered it static, losing the second half of that.
+ * Copied from TECH_ROWS in PulseIntroPage, whose comment explains the vocabulary: it
+ * is deliberately concept level rather than tool specific, so it never goes stale and
+ * needs no upkeep. The split into two is the slide's, which scrolls them as
+ * alternating-direction marquees. The landing page renders them as one still cluster
+ * and so flattens them, but the shape is kept here to stay one edit from the source.
  */
 export const TOPIC_ROWS: readonly (readonly string[])[] = [
   ["LLMs", "AI Agents", "Multimodal", "AI Automation", "AI Research", "Prompt Engineering", "AI Coding", "RAG", "MCP"],
