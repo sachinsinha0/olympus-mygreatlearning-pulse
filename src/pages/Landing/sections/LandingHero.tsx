@@ -46,10 +46,8 @@ export function LandingHero() {
           position: "absolute",
           inset: 0,
           backgroundImage: 'url("/hero/hero%20image.jpg")',
-          // Oversized slightly beyond cover so the image has travel to be nudged:
-          // 96px further right and 28px up from the pinned right center position.
-          backgroundSize: "calc(100% + 140px) auto",
-          backgroundPosition: "calc(100% + 96px) calc(50% + 28px)",
+          backgroundSize: "cover",
+          backgroundPosition: "right center",
         }}
       />
 
@@ -71,7 +69,7 @@ export function LandingHero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, ease: [0.05, 0.7, 0.1, 1] }}
         >
-          <Stack gap={2.5} sx={{ maxWidth: { xs: "100%", lg: 620 }, pt: { xs: 3, lg: 10 }, pb: { xs: 3, lg: 14 } }}>
+          <Stack gap={2.5} sx={{ maxWidth: { xs: "100%", lg: 620 }, py: { xs: 3, lg: 10 } }}>
             <Typography
               component="h1"
               sx={{
