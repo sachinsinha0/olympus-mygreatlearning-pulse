@@ -4,7 +4,7 @@ import { landingTheme } from "./landingTheme";
 import { GlobalNav } from "./sections/GlobalNav";
 import { LandingHero } from "./sections/LandingHero";
 import { RatingsRow } from "./sections/RatingsRow";
-import { LabsSection } from "./sections/LabsSection";
+import { IntroPitchSection } from "./sections/IntroPitchSection";
 import { ModulesSection } from "./sections/ModulesSection";
 import { TrialSection } from "./sections/TrialSection";
 import { PgProgramSection } from "./sections/PgProgramSection";
@@ -21,7 +21,7 @@ export function AiPulseLanding() {
         <GlobalNav />
         <LandingHero />
         <RatingsRow />
-        <LabsSection />
+        <IntroPitchSection />
         <TrialRailRegion>
           <ModulesSection />
         </TrialRailRegion>

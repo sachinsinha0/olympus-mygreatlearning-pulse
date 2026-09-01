@@ -181,7 +181,7 @@ a "Speak with our expert" line is not wanted on this page.
 | 1 | Header | White | Great Learning logo only |
 | 2 | Hero | White | Real cadence, real trial terms, existing hero photograph |
 | 4 | Ratings row | White | Great Learning's real review site scores |
-| 5 | AI labs | White | The lab list and logos the onboarding carousel already ships |
+| 5 | Intro pitch | Pale | The product's three slide onboarding story, verbatim: what Pulse is, the cadence with its 1 and 26 stat cards, and the labs wall |
 | 6 | Why subscribe | `#0C111D` | The three product pillars in `PulseV2Hero`, plus the archive argument from the brief |
 | 6 | What is inside AI Pulse | White | `src/mocks/pulse-issues.json`, the file the product reads |
 | 7 | How the trial works | Pale | The real trial flow |

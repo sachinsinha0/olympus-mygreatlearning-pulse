@@ -79,14 +79,34 @@ export const AI_LABS: { slug: string; label: string }[] = [
 ];
 
 /**
- * Both lines come from the onboarding carousel's third slide. One word differs: the
- * slide says "stay current", which reads bookish, and this page says "stay updated",
- * which is how people actually say it. Landing copy follows spoken tone even where
- * the product does not.
+ * The product's three slide onboarding pitch, from PulseIntroPage, verbatim. A lead
+ * never sees the intro carousel, so the landing page tells the same story in the
+ * same words: what it is, how often it lands, what is inside.
+ *
+ * Two deliberate differences from the slides. Beat three says "stay updated" where
+ * the slide says "stay current", the spoken register fix Sachin asked for. And the
+ * slide's second title line, "The only learning companion you need", is left out
+ * because beat one already calls Pulse your learning companion, and one section
+ * saying it twice reads like a tic. Flagged rather than hidden.
  */
-export const LABS_SECTION = {
-  title: "Hands-on with real examples",
-  body: "Hands-on modules on what's new from OpenAI, Anthropic, Google and other important AI labs, so you can stay updated with minimal effort.",
+export const INTRO_PITCH = {
+  welcome: {
+    title: "Your AI learning companion",
+    body: "Learn new AI tools and how you can use them at work.",
+  },
+  release: {
+    title: "Learn one cutting-edge AI tool or innovation, every two weeks",
+    body: "Up to 60 minutes each. Short enough to fit your schedule, deep enough to apply at work immediately.",
+    /** The two stat cards the slide renders, caption above the number, verbatim. */
+    stats: [
+      { caption: "every 2 weeks", number: "1", unit: "new module" },
+      { caption: "annually", number: "26", unit: "modules" },
+    ],
+  },
+  inside: {
+    title: "Hands-on with real examples",
+    body: "Hands-on modules on what's new from OpenAI, Anthropic, Google and other important AI labs, so you can stay updated with minimal effort.",
+  },
 } as const;
 
 /**
