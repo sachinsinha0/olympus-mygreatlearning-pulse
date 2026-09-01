@@ -1,4 +1,6 @@
+import { useEffect, useRef, useState } from "react";
 import { Box, Stack, Typography } from "@mui/material";
+import { useInView, useReducedMotion } from "framer-motion";
 import { GL } from "../landingTheme";
 import { ContentColumn, EyebrowRule } from "../parts";
 import { INTRO_PITCH } from "../content";
@@ -17,16 +19,78 @@ import { INTRO_PITCH } from "../content";
  * gradient text is one of the things this page rules out.
  */
 
-function StatCard({ caption, number, unit }: { caption: string; number: string; unit: string }) {
+/**
+ * Counts up to the target, the way the slide does: 900ms on an easeOutCubic, driven
+ * by requestAnimationFrame. The slide starts on becoming active; the equivalent
+ * trigger on a scrolling page is entering the viewport, and it runs once.
+ *
+ * Only the accumulating number gets this. Counting to 1 would be pointless, and the
+ * product animates only its 26 as well.
+ */
+function useCountUp(target: number, run: boolean, enabled: boolean) {
+  const [value, setValue] = useState(enabled ? 0 : target);
+
+  useEffect(() => {
+    if (!enabled) {
+      setValue(target);
+      return;
+    }
+    if (!run) return;
+    let raf = 0;
+    const start = performance.now();
+    const duration = 900;
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - t, 3);
+      setValue(Math.round(eased * target));
+      if (t < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [target, run, enabled]);
+
+  return value;
+}
+
+/**
+ * The slide's stat card. The second one is highlighted, because the product
+ * highlights it: 26 a year is the payoff, not an equal twin of the fortnightly
+ * figure, and two identical cards would present one idea as two.
+ *
+ * The product draws that highlight as a gradient border. Here it is a solid blue
+ * tint, the same choice already made for the numbers themselves.
+ */
+function StatCard({
+  caption,
+  number,
+  unit,
+  highlight = false,
+}: {
+  caption: string;
+  number: string;
+  unit: string;
+  highlight?: boolean;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, amount: 0.5 });
+  const reduce = useReducedMotion();
+  // Only a whole number can count. "1" is left alone regardless.
+  const numeric = Number(number);
+  const countable = highlight && Number.isFinite(numeric) && numeric > 1 && !reduce;
+  const counted = useCountUp(numeric, inView, countable);
+
   return (
     <Box
+      ref={ref}
       sx={{
         flex: 1,
         minWidth: 0,
-        backgroundColor: "#ffffff",
-        border: `1px solid ${GL.border}`,
+        backgroundColor: highlight ? "#F1F6FE" : "#ffffff",
+        border: `1px solid ${highlight ? "rgba(25, 106, 229, 0.22)" : GL.border}`,
         borderRadius: "16px",
-        boxShadow: "0 1px 2px rgba(16, 24, 40, 0.04), 0 12px 32px rgba(16, 24, 40, 0.08)",
+        boxShadow: highlight
+          ? "0 1px 2px rgba(16, 24, 40, 0.04), 0 14px 36px rgba(25, 106, 229, 0.12)"
+          : "0 1px 2px rgba(16, 24, 40, 0.04), 0 12px 32px rgba(16, 24, 40, 0.08)",
         px: { xs: 3, md: 3.5 },
         py: { xs: 3, md: 4 },
       }}
@@ -53,7 +117,7 @@ function StatCard({ caption, number, unit }: { caption: string; number: string; 
             fontVariantNumeric: "tabular-nums",
           }}
         >
-          {number}
+          {countable ? counted : number}
         </Typography>
         <Typography sx={{ fontSize: { xs: 17, md: 19 }, fontWeight: 600, color: GL.heading }}>
           {unit}
@@ -97,8 +161,8 @@ export function PitchCadenceSection() {
           </Box>
 
           <Stack direction="row" gap={{ xs: 2, md: 3 }}>
-            {stats.map((s) => (
-              <StatCard key={s.caption} {...s} />
+            {stats.map((s, i) => (
+              <StatCard key={s.caption} {...s} highlight={i === stats.length - 1} />
             ))}
           </Stack>
         </Box>
