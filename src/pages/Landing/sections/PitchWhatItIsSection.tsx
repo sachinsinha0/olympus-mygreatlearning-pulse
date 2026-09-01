@@ -15,7 +15,7 @@ import { AI_LABS, INTRO_PITCH } from "../content";
  * wash to itself.
  */
 export function PitchWhatItIsSection() {
-  const { kicker, title, body } = INTRO_PITCH.welcome;
+  const { title, body, labsLabel } = INTRO_PITCH.welcome;
 
   return (
     <Box
@@ -30,20 +30,8 @@ export function PitchWhatItIsSection() {
       <ContentColumn>
         <Box sx={{ maxWidth: 760, mx: "auto", textAlign: "center" }}>
           <Typography
-            sx={{
-              fontSize: { xs: 26, md: 34 },
-              fontWeight: 600,
-              letterSpacing: "-0.5px",
-              lineHeight: 1.2,
-              color: "#A8C4EE",
-            }}
-          >
-            {kicker}
-          </Typography>
-          <Typography
             component="h2"
             sx={{
-              mt: 0.5,
               fontSize: { xs: 30, md: 42 },
               fontWeight: 600,
               lineHeight: 1.15,
@@ -58,28 +46,54 @@ export function PitchWhatItIsSection() {
           </Typography>
         </Box>
 
-        {/* The labs, given their own air rather than tucked under a paragraph. */}
+        {/* The labs, announced and named. Ten bare marks assume the reader knows every
+            one of them, and several of these are not household logos. */}
+        <Typography
+          sx={{
+            mt: { xs: 7, md: 9 },
+            textAlign: "center",
+            fontSize: 11,
+            fontWeight: 600,
+            letterSpacing: "1.4px",
+            textTransform: "uppercase",
+            color: GL.body,
+          }}
+        >
+          {labsLabel}
+        </Typography>
         <Box
           sx={{
-            mt: { xs: 7, md: 10 },
+            mt: { xs: 3.5, md: 4.5 },
             display: "grid",
             gridTemplateColumns: { xs: "repeat(5, 1fr)", sm: "repeat(10, 1fr)" },
             gap: { xs: 4, md: 3 },
-            alignItems: "center",
+            // Top aligned, so the two names that wrap to a second line do not push
+            // their logos out of line with the rest of the row.
+            alignItems: "start",
             justifyItems: "center",
             maxWidth: 960,
             mx: "auto",
           }}
         >
           {AI_LABS.map((lab) => (
-            <Box
-              key={lab.slug}
-              component="img"
-              src={`/brand-logos/${lab.slug}.png`}
-              alt={lab.label}
-              loading="lazy"
-              sx={{ width: { xs: 40, md: 46 }, height: { xs: 40, md: 46 }, objectFit: "contain", display: "block" }}
-            />
+            <Box key={lab.slug} sx={{ textAlign: "center", minWidth: 0 }}>
+              <Box
+                component="img"
+                src={`/brand-logos/${lab.slug}.png`}
+                alt=""
+                loading="lazy"
+                sx={{
+                  width: { xs: 38, md: 44 },
+                  height: { xs: 38, md: 44 },
+                  objectFit: "contain",
+                  display: "block",
+                  mx: "auto",
+                }}
+              />
+              <Typography sx={{ mt: 1.25, fontSize: 12, color: GL.body, lineHeight: 1.35 }}>
+                {lab.label}
+              </Typography>
+            </Box>
           ))}
         </Box>
       </ContentColumn>

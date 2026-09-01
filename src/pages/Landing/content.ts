@@ -91,9 +91,13 @@ export const AI_LABS: { slug: string; label: string }[] = [
  */
 export const INTRO_PITCH = {
   welcome: {
-    /** The pale label the slide sets above its title. */
-    kicker: "AI Pulse",
     title: "Your AI learning companion",
+    /**
+     * The logo row needs announcing. On the slide it is ambient branding behind an
+     * animated title; on a static page ten unlabelled marks are a claim nobody made.
+     * This is the only line in this section that is not the product's.
+     */
+    labsLabel: "The labs we follow",
     body: "Learn new AI tools and how you can use them at work.",
   },
   release: {
