@@ -5,7 +5,7 @@ import { Check } from "lucide-react";
 import { GL } from "./landingTheme";
 
 /**
- * The template's 1256px content column. Every band on the page lines its content up
+ * The site's 1280px content column. Every band on the page lines its content up
  * on the same left edge, including the header and the fixed bottom bar, which are not
  * Sections and so use this directly.
  */

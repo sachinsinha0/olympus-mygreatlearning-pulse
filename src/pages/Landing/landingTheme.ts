@@ -30,7 +30,12 @@ export const GL = {
   border: "#E4E7EC",
   darkBorder: "#2A3140",
   gold: "#F5B301",
-  maxWidth: 1256,
+  /**
+   * The Great Learning site grid. The course pages measure 1256 in places, but the
+   * homepage and the site at large run a 1280 container, and this page follows the
+   * site for consistency.
+   */
+  maxWidth: 1280,
 } as const;
 
 const FONT = '"Poppins", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif';

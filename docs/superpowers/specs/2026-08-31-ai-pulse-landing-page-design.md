@@ -65,7 +65,7 @@ Measured from the live pages, not guessed.
 | Primary button | Solid `#196AE5`, white text |
 | Secondary button | Transparent, 1px `#196AE5` border, blue text |
 | Cards | 8px radius, 1px light border, subtle shadow |
-| Content width | 1256px |
+| Content width | 1280px, the site grid |
 
 Section backgrounds this page uses:
 

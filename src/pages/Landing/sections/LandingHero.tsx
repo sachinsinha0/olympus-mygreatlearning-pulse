@@ -34,7 +34,9 @@ export function LandingHero() {
   const goToLogin = () => navigate("/ai-pulse/login");
 
   return (
-    <Box component="section" id="landing-hero" sx={{ bgcolor: "#ffffff", py: { xs: 4, md: 6 } }}>
+    // 32px above the banner rather than 48. The bottom keeps 48 at desktop, the gap
+    // into the next section is doing different work than the gap under the header.
+    <Box component="section" id="landing-hero" sx={{ bgcolor: "#ffffff", pt: 4, pb: { xs: 4, md: 6 } }}>
       <ContentColumn>
         <motion.div
           initial={reduce ? false : { opacity: 0, y: 16 }}
