@@ -91,10 +91,13 @@ export const AI_LABS: { slug: string; label: string }[] = [
  */
 export const INTRO_PITCH = {
   welcome: {
+    /** The pale label the slide sets above its title. */
+    kicker: "AI Pulse",
     title: "Your AI learning companion",
     body: "Learn new AI tools and how you can use them at work.",
   },
   release: {
+    label: "Release",
     title: "Learn one cutting-edge AI tool or innovation, every two weeks",
     body: "Up to 60 minutes each. Short enough to fit your schedule, deep enough to apply at work immediately.",
     /** The two stat cards the slide renders, caption above the number, verbatim. */
@@ -104,6 +107,7 @@ export const INTRO_PITCH = {
     ],
   },
   inside: {
+    label: "What's inside",
     title: "Hands-on with real examples",
     body: "Hands-on modules on what's new from OpenAI, Anthropic, Google and other important AI labs, so you can stay updated with minimal effort.",
   },

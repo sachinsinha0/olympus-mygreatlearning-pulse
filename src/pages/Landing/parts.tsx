@@ -93,31 +93,6 @@ export function Lede({ children, align = "left" }: { children: ReactNode; align?
 
 
 
-/**
- * The reference template's skill chip: pale blue fill, uppercase blue label, wide
- * letter spacing, 4px radius. Used for the topic list under the modules.
- */
-export function Chip({ children }: { children: ReactNode }) {
-  return (
-    <Box
-      component="span"
-      sx={{
-        display: "inline-block",
-        backgroundColor: "#EAF1FD",
-        color: GL.blue,
-        borderRadius: "4px",
-        padding: "6px 10px",
-        fontSize: 11,
-        fontWeight: 600,
-        letterSpacing: 0.8,
-        textTransform: "uppercase",
-        whiteSpace: "nowrap",
-      }}
-    >
-      {children}
-    </Box>
-  );
-}
 
 /** Blue circled ticks with plain sentences beside them. */
 export function CheckList({ items, dense = false }: { items: string[]; dense?: boolean }) {

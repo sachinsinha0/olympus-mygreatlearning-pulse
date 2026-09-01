@@ -2,14 +2,13 @@ import { useMemo, useState } from "react";
 import { Box, Stack, Typography } from "@mui/material";
 import { Minus, Plus } from "lucide-react";
 import { GL } from "../landingTheme";
-import { CheckList, Chip, Lede, Section, SectionHeading } from "../parts";
+import { CheckList, Lede, Section, SectionHeading } from "../parts";
 import { TrialRailCard } from "./TrialRailCard";
 import { RAIL_GUTTER } from "./TrialRailRegion";
 import { selectLandingModules } from "../../../lib/pulse/landingModules";
 import { useUnitLabel } from "../../../lib/pulse/terminology";
 import type { PulseIssue } from "../../../lib/pulse/types";
 import issuesData from "../../../mocks/pulse-issues.json";
-import { TOPICS } from "../content";
 
 /**
  * The module accordion, built from the same mock file /pulse reads.
@@ -156,20 +155,6 @@ export function ModulesSection() {
           );
         })}
       </Stack>
-
-      {/* The topic vocabulary the onboarding carousel already carries. It is written at
-          concept level rather than naming tools, so it does not go stale as the modules
-          change. */}
-      <Box sx={{ mt: 6, maxWidth: 900, mx: "auto" }}>
-        <Typography sx={{ fontSize: 18, fontWeight: 600, color: GL.heading }}>
-          Topics you will cover
-        </Typography>
-        <Box sx={{ mt: 2, display: "flex", flexWrap: "wrap", gap: 1 }}>
-          {TOPICS.map((topic) => (
-            <Chip key={topic}>{topic}</Chip>
-          ))}
-        </Box>
-      </Box>
 
       </Box>
 
