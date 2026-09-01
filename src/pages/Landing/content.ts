@@ -78,13 +78,14 @@ export const AI_LABS: { slug: string; label: string }[] = [
 ];
 
 /**
- * Both lines are the onboarding carousel's third slide, verbatim. The heading is the
- * first line of that slide's title; the body is its body, including "what's" as the
- * product contracts it.
+ * Both lines come from the onboarding carousel's third slide. One word differs: the
+ * slide says "stay current", which reads bookish, and this page says "stay updated",
+ * which is how people actually say it. Landing copy follows spoken tone even where
+ * the product does not.
  */
 export const LABS_SECTION = {
   title: "Hands-on with real examples",
-  body: "Hands-on modules on what's new from OpenAI, Anthropic, Google and other important AI labs, so you can stay current with minimal effort.",
+  body: "Hands-on modules on what's new from OpenAI, Anthropic, Google and other important AI labs, so you can stay updated with minimal effort.",
 } as const;
 
 /**
@@ -125,7 +126,7 @@ export const TRIAL_FOOTNOTE = `After ${TRIAL_DAYS} days you can subscribe to kee
 
 export const PG_SECTION = {
   title: "Ready to go deeper than two weeks at a time?",
-  body: "Pulse keeps you current on what is new. The PG Program in AI and Machine Learning builds the whole skill set.",
+  body: "Pulse keeps you updated on what's new. The PG Program in AI and Machine Learning builds the whole skill set.",
   points: [
     "Live mentoring from faculty and working practitioners",
     "A full curriculum, not a two week slice",
@@ -157,7 +158,7 @@ export const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "How does this relate to the PG Program?",
-    a: "Pulse keeps you current on what is new. The PG Program builds the full skill set. It adds live mentoring and career support. Many learners do both.",
+    a: "Pulse keeps you updated on what's new. The PG Program builds the full skill set. It adds live mentoring and career support. Many learners do both.",
   },
 ];
 
