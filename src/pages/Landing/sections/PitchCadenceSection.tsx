@@ -64,7 +64,7 @@ function StatCard({ caption, number, unit }: { caption: string; number: string; 
 }
 
 export function PitchCadenceSection() {
-  const { label, title, body, vetting, stats } = INTRO_PITCH.release;
+  const { label, title, body, stats } = INTRO_PITCH.release;
 
   return (
     <Box component="section" sx={{ bgcolor: "#ffffff", py: { xs: 8, md: 13 } }}>
@@ -94,15 +94,6 @@ export function PitchCadenceSection() {
             <Typography sx={{ mt: 2, fontSize: 16, lineHeight: 1.65, color: GL.body, maxWidth: 520 }}>
               {body}
             </Typography>
-
-            {/* The vetting promise, set apart by a hairline rather than a box. It is
-                the page's only concession, so it should read as an aside someone
-                added, not as another marketing claim in a container. */}
-            <Box sx={{ mt: 3.5, pt: 3, borderTop: `1px solid ${GL.border}`, maxWidth: 520 }}>
-              <Typography sx={{ fontSize: 15.5, lineHeight: 1.65, color: GL.heading }}>
-                {vetting}
-              </Typography>
-            </Box>
           </Box>
 
           <Stack direction="row" gap={{ xs: 2, md: 3 }}>

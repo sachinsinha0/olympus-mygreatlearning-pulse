@@ -22,22 +22,6 @@ export const HERO = {
 
 
 /**
- * The reader's problem, in the reader's words, before the page says anything about
- * itself. This is the beat the page was missing: without it a lead never gets the
- * moment where they recognise their own week.
- *
- * The three alternatives are named rather than gestured at, which is what human
- * writing does. It stays one flowing paragraph rather than three cards, because the
- * point is that this reads like someone talking, not like a comparison table.
- */
-export const RECOGNITION = {
-  title: "There is a new AI tool every week. You have a job.",
-  body: "You cannot test all of them. Most of what you read tells you a tool exists, not whether it is worth your afternoon.",
-  alternatives:
-    "YouTube has everything, in no order. A forty hour course assumes you have forty hours. Newsletters tell you what shipped, not how to use it.",
-} as const;
-
-/**
  * Great Learning's own review scores, copied from the live course landing pages,
  * with the review sites' logos taken from the same pages' CDN into
  * public/rating-logos/. Confirm the scores are current before this page goes in
@@ -116,15 +100,6 @@ export const INTRO_PITCH = {
     label: "Release",
     title: "Learn one cutting-edge AI tool or innovation, every two weeks",
     body: "Up to 60 minutes each. Short enough to fit your schedule, deep enough to apply at work immediately.",
-    /**
-     * Not from the slides. The human vetting gate is the strongest claim in
-     * docs/great-learning-pulse-brief.md and appeared nowhere on the page. It sits
-     * here because the reader's first objection to "one tool every two weeks" is
-     * whether the hour is worth it. It is also the only line on the page that
-     * concedes anything, which is what makes the rest believable.
-     */
-    vetting:
-      "Someone here uses the tool on real work before it becomes a module. If it does not hold up, we drop it and you never see it.",
     /** The two stat cards the slide renders, caption above the number, verbatim. */
     stats: [
       { caption: "every 2 weeks", number: "1", unit: "new module" },

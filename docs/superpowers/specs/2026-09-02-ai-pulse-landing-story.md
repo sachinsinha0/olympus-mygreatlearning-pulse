@@ -2,6 +2,16 @@
 
 _Copy deck. 2 September 2026._
 
+> **Outcome, recorded 2 September.** Three of the six proposed changes were reversed
+> after review, and the reasoning is worth keeping. The recognition section and the
+> vetting concession were cut as too much to read, and the ratings row went back to
+> second on the page to build trust early. The audience is the reason: this lead
+> arrives from a sales call already knowing what Pulse is, so a beat that establishes
+> the problem is work they do not need, and a brand they already half trust is worth
+> confirming immediately. The arc below still describes the reasoning; sections 2, 4
+> and the ratings move are not what shipped. What did ship: the trial heading reframed
+> to the reader's outcome, and the FAQ resequenced with two entries added.
+
 ## Who is reading
 
 A working professional. A Great Learning salesperson called them about the PG Program
