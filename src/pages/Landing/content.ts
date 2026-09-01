@@ -22,6 +22,22 @@ export const HERO = {
 
 
 /**
+ * The reader's problem, in the reader's words, before the page says anything about
+ * itself. This is the beat the page was missing: without it a lead never gets the
+ * moment where they recognise their own week.
+ *
+ * The three alternatives are named rather than gestured at, which is what human
+ * writing does. It stays one flowing paragraph rather than three cards, because the
+ * point is that this reads like someone talking, not like a comparison table.
+ */
+export const RECOGNITION = {
+  title: "There is a new AI tool every week. You have a job.",
+  body: "You cannot test all of them. Most of what you read tells you a tool exists, not whether it is worth your afternoon.",
+  alternatives:
+    "YouTube has everything, in no order. A forty hour course assumes you have forty hours. Newsletters tell you what shipped, not how to use it.",
+} as const;
+
+/**
  * Great Learning's own review scores, copied from the live course landing pages,
  * with the review sites' logos taken from the same pages' CDN into
  * public/rating-logos/. Confirm the scores are current before this page goes in
@@ -100,6 +116,15 @@ export const INTRO_PITCH = {
     label: "Release",
     title: "Learn one cutting-edge AI tool or innovation, every two weeks",
     body: "Up to 60 minutes each. Short enough to fit your schedule, deep enough to apply at work immediately.",
+    /**
+     * Not from the slides. The human vetting gate is the strongest claim in
+     * docs/great-learning-pulse-brief.md and appeared nowhere on the page. It sits
+     * here because the reader's first objection to "one tool every two weeks" is
+     * whether the hour is worth it. It is also the only line on the page that
+     * concedes anything, which is what makes the rest believable.
+     */
+    vetting:
+      "Someone here uses the tool on real work before it becomes a module. If it does not hold up, we drop it and you never see it.",
     /** The two stat cards the slide renders, caption above the number, verbatim. */
     stats: [
       { caption: "every 2 weeks", number: "1", unit: "new module" },
@@ -141,6 +166,12 @@ export const TOPICS: string[] = [
   "AI Research",
 ];
 
+/**
+ * The heading was "How does the free trial work?", which describes our mechanism.
+ * The reader wants to know what they get and when.
+ */
+export const TRIAL_HEADING = "You can finish your first module tonight";
+
 export const TRIAL_STEPS: { title: string; body: string }[] = [
   { title: "Log in with your email", body: "No card and no forms. Your email is enough." },
   { title: "Open any module", body: "Every released module is unlocked from day one." },
@@ -160,14 +191,20 @@ export const PG_SECTION = {
   cta: "Explore the PG Program",
 } as const;
 
+/**
+ * Ordered by when the reader worries, not by what we want to say. Time is always the
+ * first objection. Two entries were missing: whether you need to code, which was
+ * buried inside the who-is-it-for answer, and how this differs from free videos and
+ * newsletters, which every reader wonders and the page never asked.
+ */
 export const FAQ: { q: string; a: string }[] = [
   {
-    q: "What is AI Pulse?",
-    a: "A learning subscription from Great Learning. You get one new module every two weeks on a new AI tool or shift. Each one takes under an hour.",
+    q: "How much time does a module take?",
+    a: "Under an hour. Around 35 minutes of learning, then 14 to 20 minutes building something with the tool.",
   },
   {
-    q: "Who is it for?",
-    a: "Working professionals who want to keep up with AI. You do not need to code. The modules assume you use AI at work, not that you build it.",
+    q: "Do I need to know how to code?",
+    a: "No. The modules assume you use AI at work, not that you build it. Where a module involves code, you are shown what to run and why.",
   },
   {
     q: "Do I need a credit card to start?",
@@ -178,8 +215,12 @@ export const FAQ: { q: string; a: string }[] = [
     a: "You can subscribe to keep going. Anything you finished during the trial stays in your account.",
   },
   {
-    q: "How much time does a module take?",
-    a: "Under 60 minutes. Around 35 minutes of learning, then 14 to 20 minutes hands-on.",
+    q: "How is this different from free videos and newsletters?",
+    a: "Someone here uses the tool on real work first, so the hour you spend is on something that held up. A newsletter tells you what shipped. A module shows you how to use it and has you build something.",
+  },
+  {
+    q: "Who is it for?",
+    a: "Working professionals who want to keep up with AI without taking time off to do it.",
   },
   {
     q: "How does this relate to the PG Program?",

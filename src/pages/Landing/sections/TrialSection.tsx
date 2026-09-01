@@ -1,7 +1,7 @@
 import { Box, Stack, Typography } from "@mui/material";
 import { GL } from "../landingTheme";
 import { Section, SectionHeading } from "../parts";
-import { TRIAL_FOOTNOTE, TRIAL_STEPS } from "../content";
+import { TRIAL_FOOTNOTE, TRIAL_HEADING, TRIAL_STEPS } from "../content";
 
 /**
  * The three steps of the free trial, on the pale band.
@@ -13,7 +13,7 @@ import { TRIAL_FOOTNOTE, TRIAL_STEPS } from "../content";
 export function TrialSection() {
   return (
     <Section bg={GL.pale}>
-      <SectionHeading align="center">How does the free trial work?</SectionHeading>
+      <SectionHeading align="center">{TRIAL_HEADING}</SectionHeading>
 
       <Box
         sx={{

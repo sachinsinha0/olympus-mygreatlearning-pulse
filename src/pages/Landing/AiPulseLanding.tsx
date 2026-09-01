@@ -3,6 +3,7 @@ import { Box, CssBaseline } from "@mui/material";
 import { landingTheme } from "./landingTheme";
 import { GlobalNav } from "./sections/GlobalNav";
 import { LandingHero } from "./sections/LandingHero";
+import { RecognitionSection } from "./sections/RecognitionSection";
 import { RatingsRow } from "./sections/RatingsRow";
 import { PitchWhatItIsSection } from "./sections/PitchWhatItIsSection";
 import { PitchCadenceSection } from "./sections/PitchCadenceSection";
@@ -22,7 +23,8 @@ export function AiPulseLanding() {
       <Box sx={{ bgcolor: "#ffffff", minHeight: "100vh" }}>
         <GlobalNav />
         <LandingHero />
-        <RatingsRow />
+        {/* The reader's own problem, before the page describes itself. */}
+        <RecognitionSection />
         {/* The product's three slide onboarding pitch, one section per beat. */}
         <PitchWhatItIsSection />
         <PitchCadenceSection />
@@ -30,6 +32,9 @@ export function AiPulseLanding() {
         <TrialRailRegion>
           <ModulesSection />
         </TrialRailRegion>
+        {/* Trust signals sit here, just before the ask, rather than second on the
+            page where they asked for trust before there was interest to protect. */}
+        <RatingsRow />
         <TrialSection />
         <PgProgramSection />
         <FaqSection />
