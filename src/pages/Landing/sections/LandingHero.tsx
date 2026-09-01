@@ -14,10 +14,11 @@ import { HERO, VALUE_PROPS } from "../content";
  * CTA label, reassurance line and the three pillars are the product's, verbatim.
  * Staging diverges from the in-app banner, the strings never do.
  *
- * The asset makes this work. The photograph is 1979x718, a 2.76:1 panorama with the
- * device cluster anchored right and a calm pale left half, so the dark text sits on
- * quiet ground with no overlay needed. Anchored right center, the subject survives
- * every crop.
+ * The asset makes this work. hero-wide.jpg is a 2285x718 extension of the product
+ * banner's photograph, the same scene with 300px more calm space on its left, made
+ * for exactly this staging: the device cluster anchors right and the dark text sits
+ * on quiet ground with no overlay needed. The product's own hero image.jpg stays
+ * untouched for /pulse.
  *
  * The pillars strip plays the role of the reference's bottom anchor bar: a full
  * bleed translucent band over the image's foot, its content on the grid. The fill
@@ -45,7 +46,7 @@ export function LandingHero() {
           display: { xs: "none", lg: "block" },
           position: "absolute",
           inset: 0,
-          backgroundImage: 'url("/hero/hero%20image.jpg")',
+          backgroundImage: 'url("/hero/hero-wide.jpg")',
           backgroundSize: "cover",
           backgroundPosition: "right center",
         }}
@@ -57,7 +58,7 @@ export function LandingHero() {
         sx={{
           display: { xs: "block", lg: "none" },
           height: { xs: 190, sm: 230, md: 280 },
-          backgroundImage: 'url("/hero/hero%20image.jpg")',
+          backgroundImage: 'url("/hero/hero-wide.jpg")',
           backgroundSize: "cover",
           backgroundPosition: "right center",
         }}
