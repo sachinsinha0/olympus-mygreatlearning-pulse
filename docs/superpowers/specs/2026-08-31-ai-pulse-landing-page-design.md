@@ -215,8 +215,8 @@ Follows the reference part for part.
 ### Ratings row
 
 Centred heading "Delivered by Great Learning", then four bordered white boxes, each a score, a gold
-star, and the review site name. These are Great Learning's own scores, so the section is real. We do
-not have the review site logos as local assets, so the name is set as text.
+star, and the review site's logo, served locally from `public/rating-logos/`. These are Great
+Learning's own scores, so the section is real.
 
 ### 5. Why subscribe
 
@@ -414,8 +414,8 @@ The page itself is checked by running it and looking at it, at 1440px, at 768px,
 Two things must be settled before this page is shown to a real lead:
 
 1. The four review site scores are copied from the live reference pages. Confirm they are current.
-   We also do not have the Google, Course Report, Switchup and Career Karma logos as local assets,
-   so the rating boxes show the site name as text next to a gold star.
+   The Google, Course Report, Switchup and Career Karma logos are served locally from
+   `public/rating-logos/`, downloaded from Great Learning's own CDN.
 2. The footer still prints a contact phone number, which is the one from the reference pages.
    Confirm the right number for AI Pulse.
 

@@ -22,15 +22,16 @@ export const HERO = {
 
 
 /**
- * Great Learning's own review scores, copied from the live course landing pages.
- * We do not ship the review site logos as local assets, so the site name is set as text.
- * Confirm these are current before this page goes in front of a real lead.
+ * Great Learning's own review scores, copied from the live course landing pages,
+ * with the review sites' logos taken from the same pages' CDN into
+ * public/rating-logos/. Confirm the scores are current before this page goes in
+ * front of a real lead.
  */
-export const RATINGS: { score: string; site: string }[] = [
-  { score: "4.6", site: "Google" },
-  { score: "4.89", site: "Course Report" },
-  { score: "4.94", site: "Switchup" },
-  { score: "4.7", site: "Career Karma" },
+export const RATINGS: { score: string; site: string; logo: string }[] = [
+  { score: "4.6", site: "Google", logo: "/rating-logos/google-logo.png" },
+  { score: "4.89", site: "Course Report", logo: "/rating-logos/course-report.png" },
+  { score: "4.94", site: "Switchup", logo: "/rating-logos/switchup.png" },
+  { score: "4.7", site: "Career Karma", logo: "/rating-logos/career-karma.png" },
 ];
 
 /**

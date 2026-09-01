@@ -5,11 +5,10 @@ import { Section, SectionHeading } from "../parts";
 import { RATINGS } from "../content";
 
 /**
- * Great Learning's review scores.
- *
- * The live pages set each score beside the review site's logo. We do not ship those
- * logos as local assets, so each box carries the score, one gold star and the site
- * name as text.
+ * Great Learning's review scores, each beside its review site's logo, the way the
+ * live pages set them. The box keeps its aria label because the logos are pictures
+ * of words: a screen reader hears the score and the site once, and the image adds
+ * nothing it needs to repeat.
  */
 export function RatingsRow() {
   return (
@@ -46,9 +45,14 @@ export function RatingsRow() {
             <Box aria-hidden sx={{ display: "flex" }}>
               <Star size={16} fill={GL.gold} color={GL.gold} />
             </Box>
-            <Typography sx={{ fontSize: 14, fontWeight: 500, color: GL.body }}>
-              {rating.site}
-            </Typography>
+            <Box
+              component="img"
+              src={rating.logo}
+              alt=""
+              aria-hidden
+              loading="lazy"
+              sx={{ height: 22, width: "auto", display: "block" }}
+            />
           </Box>
         ))}
       </Box>
