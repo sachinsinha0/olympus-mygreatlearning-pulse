@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, keyframes } from "@mui/material";
 import { GL } from "../landingTheme";
 import { ContentColumn } from "../parts";
 import { AI_LABS, INTRO_PITCH } from "../content";
@@ -14,6 +14,92 @@ import { AI_LABS, INTRO_PITCH } from "../content";
  * opening statement, so it is centred, set large, and given the carousel's blue
  * wash to itself.
  */
+/**
+ * The intro carousel's marquee, same keyframes and same 64 second period. The list is
+ * rendered twice and travelled to -50%, which is what makes the loop seamless.
+ */
+const marqueeScroll = keyframes`
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+`;
+
+/**
+ * The labs, scrolling the way /pulse/intro scrolls them.
+ *
+ * Faithful to the product: 64s linear, the doubled list, and the same edge mask so
+ * logos fade in and out rather than clipping at a hard edge. The mask is a gradient,
+ * which this page permits as a mask and never as paint.
+ *
+ * Two additions. The row pauses under the pointer, because each logo now carries its
+ * lab's name and a reader may want to stop and read one. And it freezes entirely
+ * under prefers-reduced-motion.
+ *
+ * At this speed the row travels about 23px per second, so the names stay readable
+ * while moving.
+ */
+function LabsMarquee() {
+  const doubled = [...AI_LABS, ...AI_LABS];
+
+  return (
+    <Box
+      sx={{
+        mt: { xs: 3.5, md: 4.5 },
+        maxWidth: 1000,
+        mx: "auto",
+        overflow: "hidden",
+        maskImage:
+          "linear-gradient(90deg, transparent 0%, black 12%, black 88%, transparent 100%)",
+        WebkitMaskImage:
+          "linear-gradient(90deg, transparent 0%, black 12%, black 88%, transparent 100%)",
+        "&:hover .labs-track": { animationPlayState: "paused" },
+        "@media (prefers-reduced-motion: reduce)": {
+          "& .labs-track": { animation: "none" },
+        },
+      }}
+    >
+      <Box
+        className="labs-track"
+        sx={{
+          display: "flex",
+          alignItems: "flex-start",
+          width: "max-content",
+          animation: `${marqueeScroll} 64s linear infinite`,
+          willChange: "transform",
+        }}
+      >
+        {doubled.map((lab, i) => (
+          <Box
+            key={`${lab.slug}-${i}`}
+            sx={{
+              flexShrink: 0,
+              width: { xs: 104, md: 124 },
+              textAlign: "center",
+              px: { xs: 1, md: 1.5 },
+            }}
+          >
+            <Box
+              component="img"
+              src={`/brand-logos/${lab.slug}.png`}
+              alt=""
+              loading="lazy"
+              sx={{
+                width: { xs: 38, md: 44 },
+                height: { xs: 38, md: 44 },
+                objectFit: "contain",
+                display: "block",
+                mx: "auto",
+              }}
+            />
+            <Typography sx={{ mt: 1.25, fontSize: 12, color: GL.body, lineHeight: 1.35 }}>
+              {lab.label}
+            </Typography>
+          </Box>
+        ))}
+      </Box>
+    </Box>
+  );
+}
+
 export function PitchWhatItIsSection() {
   const { title, body, labsLabel } = INTRO_PITCH.welcome;
 
@@ -46,8 +132,7 @@ export function PitchWhatItIsSection() {
           </Typography>
         </Box>
 
-        {/* The labs, announced and named. Ten bare marks assume the reader knows every
-            one of them, and several of these are not household logos. */}
+        {/* The labs, announced, named, and scrolling as the carousel scrolls them. */}
         <Typography
           sx={{
             mt: { xs: 7, md: 9 },
@@ -61,41 +146,7 @@ export function PitchWhatItIsSection() {
         >
           {labsLabel}
         </Typography>
-        <Box
-          sx={{
-            mt: { xs: 3.5, md: 4.5 },
-            display: "grid",
-            gridTemplateColumns: { xs: "repeat(5, 1fr)", sm: "repeat(10, 1fr)" },
-            gap: { xs: 4, md: 3 },
-            // Top aligned, so the two names that wrap to a second line do not push
-            // their logos out of line with the rest of the row.
-            alignItems: "start",
-            justifyItems: "center",
-            maxWidth: 960,
-            mx: "auto",
-          }}
-        >
-          {AI_LABS.map((lab) => (
-            <Box key={lab.slug} sx={{ textAlign: "center", minWidth: 0 }}>
-              <Box
-                component="img"
-                src={`/brand-logos/${lab.slug}.png`}
-                alt=""
-                loading="lazy"
-                sx={{
-                  width: { xs: 38, md: 44 },
-                  height: { xs: 38, md: 44 },
-                  objectFit: "contain",
-                  display: "block",
-                  mx: "auto",
-                }}
-              />
-              <Typography sx={{ mt: 1.25, fontSize: 12, color: GL.body, lineHeight: 1.35 }}>
-                {lab.label}
-              </Typography>
-            </Box>
-          ))}
-        </Box>
+        <LabsMarquee />
       </ContentColumn>
     </Box>
   );
