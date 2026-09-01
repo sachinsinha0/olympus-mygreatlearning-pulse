@@ -4,7 +4,9 @@ import { landingTheme } from "./landingTheme";
 import { GlobalNav } from "./sections/GlobalNav";
 import { LandingHero } from "./sections/LandingHero";
 import { RatingsRow } from "./sections/RatingsRow";
-import { IntroPitchSection } from "./sections/IntroPitchSection";
+import { PitchWhatItIsSection } from "./sections/PitchWhatItIsSection";
+import { PitchCadenceSection } from "./sections/PitchCadenceSection";
+import { PitchInsideSection } from "./sections/PitchInsideSection";
 import { ModulesSection } from "./sections/ModulesSection";
 import { TrialSection } from "./sections/TrialSection";
 import { PgProgramSection } from "./sections/PgProgramSection";
@@ -21,7 +23,10 @@ export function AiPulseLanding() {
         <GlobalNav />
         <LandingHero />
         <RatingsRow />
-        <IntroPitchSection />
+        {/* The product's three slide onboarding pitch, one section per beat. */}
+        <PitchWhatItIsSection />
+        <PitchCadenceSection />
+        <PitchInsideSection />
         <TrialRailRegion>
           <ModulesSection />
         </TrialRailRegion>

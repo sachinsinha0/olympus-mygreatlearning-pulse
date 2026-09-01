@@ -94,6 +94,32 @@ export function Lede({ children, align = "left" }: { children: ReactNode; align?
 
 
 
+/**
+ * A small uppercase label on a rule, the eyebrow the product's onboarding carousel
+ * puts above a slide title. Deliberately carries no number: the trial section runs
+ * an 01/02/03 sequence for its steps, and a second numbered sequence elsewhere on
+ * the page would read as related to it.
+ */
+export function EyebrowRule({ label }: { label: string }) {
+  return (
+    <Stack direction="row" alignItems="baseline" gap={1} sx={{ mb: 2.5 }}>
+      <Typography
+        sx={{
+          fontSize: 11,
+          fontWeight: 600,
+          letterSpacing: "1.2px",
+          textTransform: "uppercase",
+          color: GL.body,
+          whiteSpace: "nowrap",
+        }}
+      >
+        {label}
+      </Typography>
+      <Box sx={{ flex: 1, height: "1px", backgroundColor: GL.border }} />
+    </Stack>
+  );
+}
+
 /** Blue circled ticks with plain sentences beside them. */
 export function CheckList({ items, dense = false }: { items: string[]; dense?: boolean }) {
   return (
