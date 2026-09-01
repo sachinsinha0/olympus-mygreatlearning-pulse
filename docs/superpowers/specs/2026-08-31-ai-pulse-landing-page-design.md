@@ -207,10 +207,11 @@ Follows the reference part for part.
   dates fall on Wednesdays and Fridays, so naming a weekday would be untrue.
 - Stat strip, four cells: `14 Days / Free trial`, `Every 2 weeks / New module`,
   `Under 60 min / Per module`, `11 modules / Available now`.
-- The hero is the product's own banner, PulseV2Hero reproduced value for value: the gradient
-  card, the masked photograph, the lockup, the headline, the subtitle, the CTA row and the
-  pillars strip. Six invented hero visuals were explored and rejected before settling here. The
-  banner a lead sees on this page is the banner they see after logging in.
+- The hero carries the product's words staged like a platform product page: the photograph is
+  the section's full bleed background, the content sits on the 1280 grid over its calm left
+  half, and the pillars strip runs as a full bleed translucent bar at the section's foot. The
+  staging reference is microsoft.com's product pages; every string is still PulseV2Hero's,
+  verbatim. Six invented hero visuals and a boxed copy of the product banner preceded this.
 
 ### Ratings row
 
