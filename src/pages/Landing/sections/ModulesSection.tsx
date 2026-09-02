@@ -1,8 +1,8 @@
 import { useMemo, useState } from "react";
 import { Box, Stack, Typography } from "@mui/material";
-import { CalendarClock, Minus, Plus } from "lucide-react";
+import { CalendarClock } from "lucide-react";
 import { GL } from "../landingTheme";
-import { CheckList, Section, SectionHeading } from "../parts";
+import { AccordionRow, CheckList, Section, SectionHeading } from "../parts";
 import { MODULES_HEADING, MODULES_NEXT } from "../content";
 import { selectLandingModules } from "../../../lib/pulse/landingModules";
 import { useUnitLabel } from "../../../lib/pulse/terminology";
@@ -54,137 +54,54 @@ export function ModulesSection() {
             : `${issue.learningMinutes} min learning`;
 
           return (
-            <Box
+            <AccordionRow
               key={issue.id}
-              sx={{
-                border: "1px solid",
-                // Tinted while open as well as on hover, so the row you are reading
-                // stays marked once the pointer has moved away from it.
-                borderColor: open ? "rgba(25, 106, 229, 0.35)" : GL.border,
-                borderRadius: "8px",
-                backgroundColor: "#ffffff",
-                boxShadow: "0 1px 2px rgba(16,24,40,0.04)",
-                overflow: "hidden",
-                transition: "border-color 160ms ease, box-shadow 160ms ease",
-                "&:hover": {
-                  borderColor: "rgba(25, 106, 229, 0.35)",
-                  boxShadow: "0 6px 20px rgba(16, 24, 40, 0.10)",
-                },
-                // The control fills as well, because the row is one target and a
-                // border that lights while the button it belongs to stays grey reads
-                // as two separate things reacting.
-                "&:hover .module-toggle": {
-                  backgroundColor: GL.blue,
-                  color: "#ffffff",
-                },
-                // Keyboard gets the same treatment as the pointer. Without this the
-                // row a Tab has landed on is the one row with no sign it is next.
-                "&:focus-within": {
-                  borderColor: "rgba(25, 106, 229, 0.35)",
-                  boxShadow: "0 6px 20px rgba(16, 24, 40, 0.10)",
-                },
-                "&:focus-within .module-toggle": {
-                  backgroundColor: GL.blue,
-                  color: "#ffffff",
-                },
-              }}
+              title={`${unit.numbered(issue.issueNumber)}: ${issue.title}`}
+              open={open}
+              onToggle={() => setExpanded(open ? null : issue.id)}
+              panelId={panelId}
             >
-              <Box
-                component="button"
-                type="button"
-                aria-expanded={open}
-                aria-controls={panelId}
-                onClick={() => setExpanded(open ? null : issue.id)}
-                sx={{
-                  width: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  gap: 2,
-                  padding: "20px 22px",
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  textAlign: "left",
-                  fontFamily: "inherit",
-                  // Inset, because an outline drawn outside the button would sit
-                  // under the row's own rounded border and be clipped by it.
-                  "&:focus-visible": {
-                    outline: `2px solid ${GL.blue}`,
-                    outlineOffset: "-3px",
-                    borderRadius: "8px",
-                  },
-                }}
-              >
-                <Typography component="span" sx={{ fontSize: 16, fontWeight: 600, color: GL.heading }}>
-                  {`${unit.numbered(issue.issueNumber)}: ${issue.title}`}
-                </Typography>
-                <Box
-                  aria-hidden
-                  className="module-toggle"
-                  sx={{
-                    flexShrink: 0,
-                    width: 32,
-                    height: 32,
-                    borderRadius: "999px",
-                    backgroundColor: open ? GL.blue : "#F2F4F7",
-                    color: open ? "#ffffff" : GL.heading,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    transition: "background-color 160ms ease, color 160ms ease",
-                  }}
-                >
-                  {open ? <Minus size={16} /> : <Plus size={16} />}
-                </Box>
+              <Typography sx={{ fontSize: 15, lineHeight: 1.65, color: GL.body }}>
+                {issue.description}
+              </Typography>
+
+              <Box sx={{ mt: 2.5 }}>
+                <CheckList items={issue.outcomes} dense />
               </Box>
 
-              {/* Rendered whether open or not, and hidden with the attribute. A button
-                  whose aria-controls points at an id that is not in the document reads
-                  as a broken reference to some assistive tech. */}
-              <Box id={panelId} hidden={!open} sx={{ padding: "0 22px 22px" }}>
-                  <Typography sx={{ fontSize: 15, lineHeight: 1.65, color: GL.body }}>
-                    {issue.description}
+              <Typography sx={{ fontSize: 14, color: GL.body, mt: 2.5 }}>{minutes}</Typography>
+
+              {issue.toolName && (
+                <Box sx={{ mt: 2, display: "flex", alignItems: "center", gap: 1.25 }}>
+                  <Typography
+                    component="span"
+                    sx={{
+                      fontSize: 12,
+                      fontWeight: 600,
+                      textTransform: "uppercase",
+                      letterSpacing: 1.2,
+                      color: GL.body,
+                    }}
+                  >
+                    Tool
                   </Typography>
-
-                  <Box sx={{ mt: 2.5 }}>
-                    <CheckList items={issue.outcomes} dense />
-                  </Box>
-
-                  <Typography sx={{ fontSize: 14, color: GL.body, mt: 2.5 }}>{minutes}</Typography>
-
-                  {issue.toolName && (
-                    <Box sx={{ mt: 2, display: "flex", alignItems: "center", gap: 1.25 }}>
-                      <Typography
-                        component="span"
-                        sx={{
-                          fontSize: 12,
-                          fontWeight: 600,
-                          textTransform: "uppercase",
-                          letterSpacing: 1.2,
-                          color: GL.body,
-                        }}
-                      >
-                        Tool
-                      </Typography>
-                      {issue.toolLogo && (
-                        <Box
-                          component="img"
-                          src={issue.toolLogo}
-                          alt=""
-                          sx={{ height: 22, width: 22, objectFit: "contain" }}
-                        />
-                      )}
-                      <Typography
-                        component="span"
-                        sx={{ fontSize: 14, fontWeight: 500, color: GL.heading }}
-                      >
-                        {issue.toolName}
-                      </Typography>
-                    </Box>
+                  {issue.toolLogo && (
+                    <Box
+                      component="img"
+                      src={issue.toolLogo}
+                      alt=""
+                      sx={{ height: 22, width: 22, objectFit: "contain" }}
+                    />
                   )}
-              </Box>
-            </Box>
+                  <Typography
+                    component="span"
+                    sx={{ fontSize: 14, fontWeight: 500, color: GL.heading }}
+                  >
+                    {issue.toolName}
+                  </Typography>
+                </Box>
+              )}
+            </AccordionRow>
           );
         })}
 

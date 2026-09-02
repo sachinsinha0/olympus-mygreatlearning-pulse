@@ -1,17 +1,15 @@
 import { useState } from "react";
-import { Box, Stack, Typography } from "@mui/material";
-import { Minus, Plus } from "lucide-react";
+import { Stack, Typography } from "@mui/material";
 import { GL } from "../landingTheme";
-import { Section, SectionHeading } from "../parts";
+import { AccordionRow, Section, SectionHeading } from "../parts";
 import { FAQ } from "../content";
 
 /**
  * The FAQ accordion.
  *
- * The rows are styled the same way as the module accordion on purpose, so the page
- * reads as one design. They are written out again here rather than shared, because
- * the two hold different content shapes and two small readable files beat one
- * component with a variant prop.
+ * The rows are AccordionRow, the same component the module list uses, so the two
+ * cannot drift apart again. They were written out separately until the module rows
+ * gained hover and focus states and these silently did not.
  */
 export function FaqSection() {
   const [expanded, setExpanded] = useState<number | null>(null);
@@ -23,72 +21,18 @@ export function FaqSection() {
       <Stack gap={1.25} sx={{ mt: 4, maxWidth: 900, mx: "auto" }}>
         {FAQ.map((item, i) => {
           const open = expanded === i;
-          const panelId = `faq-panel-${i}`;
-
           return (
-            <Box
+            <AccordionRow
               key={item.q}
-              sx={{
-                border: `1px solid ${GL.border}`,
-                borderRadius: "8px",
-                backgroundColor: "#ffffff",
-                boxShadow: "0 1px 2px rgba(16,24,40,0.04)",
-                overflow: "hidden",
-              }}
+              title={item.q}
+              open={open}
+              onToggle={() => setExpanded(open ? null : i)}
+              panelId={`faq-panel-${i}`}
             >
-              <Box
-                component="button"
-                type="button"
-                aria-expanded={open}
-                aria-controls={panelId}
-                onClick={() => setExpanded(open ? null : i)}
-                sx={{
-                  width: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  gap: 2,
-                  padding: "20px 22px",
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  textAlign: "left",
-                  fontFamily: "inherit",
-                }}
-              >
-                <Typography
-                  component="span"
-                  sx={{ fontSize: 16, fontWeight: 600, color: GL.heading }}
-                >
-                  {item.q}
-                </Typography>
-                <Box
-                  aria-hidden
-                  sx={{
-                    flexShrink: 0,
-                    width: 32,
-                    height: 32,
-                    borderRadius: "999px",
-                    backgroundColor: "#F2F4F7",
-                    color: GL.heading,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  {open ? <Minus size={16} /> : <Plus size={16} />}
-                </Box>
-              </Box>
-
-              {/* Rendered whether open or not, and hidden with the attribute. A button
-                  whose aria-controls points at an id that is not in the document reads
-                  as a broken reference to some assistive tech. */}
-              <Box id={panelId} hidden={!open} sx={{ padding: "0 22px 22px" }}>
-                  <Typography sx={{ fontSize: 15, lineHeight: 1.65, color: GL.body }}>
-                    {item.a}
-                  </Typography>
-              </Box>
-            </Box>
+              <Typography sx={{ fontSize: 15, lineHeight: 1.65, color: GL.body }}>
+                {item.a}
+              </Typography>
+            </AccordionRow>
           );
         })}
       </Stack>

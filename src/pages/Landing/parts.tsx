@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { Box, Stack, Typography, keyframes } from "@mui/material";
 import type { SxProps, Theme } from "@mui/material/styles";
-import { Check } from "lucide-react";
+import { Check, Minus, Plus } from "lucide-react";
 import { GL } from "./landingTheme";
 
 /**
@@ -248,5 +248,118 @@ export function CheckList({ items, dense = false }: { items: string[]; dense?: b
         </Stack>
       ))}
     </Stack>
+  );
+}
+
+/**
+ * One row of an accordion, chrome only.
+ *
+ * The module list and the FAQ both use it. They were written out separately, on the
+ * reasoning that two small readable files beat one component with a variant prop, and
+ * that held while the chrome was a border and a button. It is a border, a button, a
+ * toggle, a hover rule, a focus rule and an open rule now, and the moment the module
+ * rows got their states the FAQ rows silently lost parity with them. That is the drift
+ * duplication was always going to cause, so the chrome lives here and each section
+ * keeps only what goes inside its panel.
+ */
+export function AccordionRow({
+  title,
+  open,
+  onToggle,
+  panelId,
+  children,
+}: {
+  title: string;
+  open: boolean;
+  onToggle: () => void;
+  panelId: string;
+  children: ReactNode;
+}) {
+  return (
+    <Box
+      sx={{
+        border: "1px solid",
+        // Tinted while open as well as on hover, so the row you are reading stays
+        // marked once the pointer has moved away from it.
+        borderColor: open ? "rgba(25, 106, 229, 0.35)" : GL.border,
+        borderRadius: "8px",
+        backgroundColor: "#ffffff",
+        boxShadow: "0 1px 2px rgba(16,24,40,0.04)",
+        overflow: "hidden",
+        transition: "border-color 160ms ease, box-shadow 160ms ease",
+        "&:hover": {
+          borderColor: "rgba(25, 106, 229, 0.35)",
+          boxShadow: "0 6px 20px rgba(16, 24, 40, 0.10)",
+        },
+        // The control fills as well, because the row is one target and a border that
+        // lights while the button it belongs to stays grey reads as two separate
+        // things reacting.
+        "&:hover .accordion-toggle": { backgroundColor: GL.blue, color: "#ffffff" },
+        // Keyboard gets the same treatment as the pointer. Without this the row a Tab
+        // has landed on is the one row with no sign it is next.
+        "&:focus-within": {
+          borderColor: "rgba(25, 106, 229, 0.35)",
+          boxShadow: "0 6px 20px rgba(16, 24, 40, 0.10)",
+        },
+        "&:focus-within .accordion-toggle": { backgroundColor: GL.blue, color: "#ffffff" },
+      }}
+    >
+      <Box
+        component="button"
+        type="button"
+        aria-expanded={open}
+        aria-controls={panelId}
+        onClick={onToggle}
+        sx={{
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 2,
+          padding: "20px 22px",
+          background: "none",
+          border: "none",
+          cursor: "pointer",
+          textAlign: "left",
+          fontFamily: "inherit",
+          // Inset, because an outline drawn outside the button would sit under the
+          // row's own rounded border and be clipped by it.
+          "&:focus-visible": {
+            outline: `2px solid ${GL.blue}`,
+            outlineOffset: "-3px",
+            borderRadius: "8px",
+          },
+        }}
+      >
+        <Typography component="span" sx={{ fontSize: 16, fontWeight: 600, color: GL.heading }}>
+          {title}
+        </Typography>
+        <Box
+          aria-hidden
+          className="accordion-toggle"
+          sx={{
+            flexShrink: 0,
+            width: 32,
+            height: 32,
+            borderRadius: "999px",
+            backgroundColor: open ? GL.blue : "#F2F4F7",
+            color: open ? "#ffffff" : GL.heading,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            transition: "background-color 160ms ease, color 160ms ease",
+          }}
+        >
+          {open ? <Minus size={16} /> : <Plus size={16} />}
+        </Box>
+      </Box>
+
+      {/* Rendered whether open or not, and hidden with the attribute. A button whose
+          aria-controls points at an id that is not in the document reads as a broken
+          reference to some assistive tech. */}
+      <Box id={panelId} hidden={!open} sx={{ padding: "0 22px 22px" }}>
+        {children}
+      </Box>
+    </Box>
   );
 }
