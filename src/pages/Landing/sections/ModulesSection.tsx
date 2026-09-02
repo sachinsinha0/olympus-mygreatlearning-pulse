@@ -40,9 +40,11 @@ export function ModulesSection() {
       {/* From lg up the trial card floats over the right of this section, so the
           heading and the accordion centre inside what is left rather than under it. */}
       <Box sx={{ pr: { lg: `${RAIL_GUTTER}px` } }}>
-      <SectionHeading align="center">{MODULES_HEADING}</SectionHeading>
+      <SectionHeading>{MODULES_HEADING}</SectionHeading>
 
-      <Stack gap={1.25} sx={{ mt: { xs: 4, md: 5 }, maxWidth: 900, mx: "auto" }}>
+      {/* Left, on the same edge as the heading. The cap only bites below lg, where
+          the trial card drops out of the rail and the column is wider. */}
+      <Stack gap={1.25} sx={{ mt: { xs: 4, md: 5 }, maxWidth: 900 }}>
         {modules.map((issue) => {
           const open = expanded === issue.id;
           const panelId = `module-panel-${issue.id}`;

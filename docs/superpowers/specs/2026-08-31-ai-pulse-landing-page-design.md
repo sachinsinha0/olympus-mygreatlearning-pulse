@@ -241,7 +241,7 @@ The sticky trial card floats over the right of this section, as the reference fo
 The centrepiece, and the reason the page can be short. It reads `src/mocks/pulse-issues.json`, the
 same file the product reads.
 
-- Centred heading "Here are the modules", then the accordion. No intro line: a count
+- Left-aligned heading "Here are the modules", then the accordion on the same edge. No intro line: a count
   above a visible list is arithmetic the reader does not need, and the heading must not
   repeat the "What's inside" beat directly above it.
 - The list closes on a dashed, non-expanding row saying a new module lands every two
