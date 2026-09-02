@@ -9,12 +9,13 @@ import { GL_SITE, PG_SECTION } from "../content";
  * The cross sell to Great Learning's catalogue.
  *
  * These leads came from the sales team, so the deeper programmes belong on the page.
- * Our story is on the left, and Great Learning's own categories run underneath it,
- * each one a real outbound link to the live site rather than a route.
+ * Our story is on the left and Great Learning's own categories are on the right, two
+ * to a line, each one a real outbound link to the live site rather than a route.
  *
- * Four across the full grid, heading above, which is how the live homepage lays the
- * same tiles out. They were in a half column beside the text before, two across, and
- * eight tiles in half a band is a list pretending to be a grid.
+ * Tried the homepage's own arrangement, four across the full grid with the heading
+ * above, and it lost the thing this band is for. The story and the doors out of it
+ * belong side by side, where the reader takes in both at once, rather than stacked so
+ * that reading one means scrolling past the other.
  *
  * The ground stays dark where the homepage's is white. This is the page's one dark
  * band between the pale topics and the black footer, and turning it white would put
@@ -106,63 +107,59 @@ function CategoryTile({
 export function PgProgramSection() {
   return (
     <Section bg={GL.dark}>
-      <Stack
-        direction={{ xs: "column", md: "row" }}
-        justifyContent="space-between"
-        alignItems={{ xs: "flex-start", md: "flex-end" }}
-        gap={{ xs: 3, md: 5 }}
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: { xs: "1fr", md: "1fr 1.15fr" },
+          gap: { xs: 5, md: 8 },
+          alignItems: "center",
+        }}
       >
         <Box>
           <DarkHeading>{PG_SECTION.title}</DarkHeading>
           <Typography
-            sx={{ fontSize: 16, lineHeight: 1.65, color: GL.darkBody, mt: 2.5, maxWidth: 560 }}
+            sx={{ fontSize: 16, lineHeight: 1.65, color: GL.darkBody, mt: 2.5, maxWidth: 460 }}
           >
             {PG_SECTION.body}
           </Typography>
+
+          {/* Secondary, not primary. Start Free Trial is the one filled button on the
+              page, and a second one here would put a twelve month programme and a
+              fortnight trial in the same weight. */}
+          <Button
+            variant="outlined"
+            component="a"
+            href={GL_SITE}
+            target="_blank"
+            rel="noopener noreferrer"
+            sx={{
+              mt: 4,
+              color: "#ffffff",
+              borderColor: "rgba(255, 255, 255, 0.45)",
+              "&:hover": {
+                borderColor: "#ffffff",
+                backgroundColor: "rgba(255, 255, 255, 0.08)",
+              },
+            }}
+          >
+            {PG_SECTION.cta}
+          </Button>
         </Box>
 
-        {/* Secondary, not primary. Start Free Trial is the one filled button on the
-            page, and a second one here would put a twelve month programme and a
-            fortnight trial in the same weight. */}
-        <Button
-          variant="outlined"
-          component="a"
-          href={GL_SITE}
-          target="_blank"
-          rel="noopener noreferrer"
+        <Box
           sx={{
-            flexShrink: 0,
-            color: "#ffffff",
-            borderColor: "rgba(255, 255, 255, 0.45)",
-            "&:hover": {
-              borderColor: "#ffffff",
-              backgroundColor: "rgba(255, 255, 255, 0.08)",
-            },
+            display: "grid",
+            gridTemplateColumns: { xs: "1fr", sm: "repeat(2, 1fr)" },
+            // Equal rows whatever the longest name does. Without it a single name
+            // wrapping makes its whole row taller than the one beside it.
+            gridAutoRows: "1fr",
+            gap: 1.5,
           }}
         >
-          {PG_SECTION.cta}
-        </Button>
-      </Stack>
-
-      <Box
-        sx={{
-          display: "grid",
-          gridTemplateColumns: {
-            xs: "1fr",
-            sm: "repeat(2, 1fr)",
-            md: "repeat(3, 1fr)",
-            lg: "repeat(4, 1fr)",
-          },
-          // Equal rows whatever the longest name does. Without it a single name
-          // wrapping makes its whole row taller than the one beside it.
-          gridAutoRows: "1fr",
-          gap: 1.75,
-          mt: { xs: 4, md: 6 },
-        }}
-      >
-        {PG_SECTION.categories.map((category) => (
-          <CategoryTile key={category.path} {...category} />
-        ))}
+          {PG_SECTION.categories.map((category) => (
+            <CategoryTile key={category.path} {...category} />
+          ))}
+        </Box>
       </Box>
     </Section>
   );

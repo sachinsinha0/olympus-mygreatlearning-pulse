@@ -186,7 +186,7 @@ a "Speak with our expert" line is not wanted on this page.
 | 7 | What's inside | Pale | Onboarding beat three, with the topic chips |
 | 6 | Why subscribe | `#0C111D` | The three product pillars in `PulseV2Hero`, plus the archive argument from the brief |
 | 6 | Here are the modules | White | `src/mocks/pulse-issues.json`, the file the product reads |
-| 8 | The catalogue cross sell | `#0C111D` | The homepage's "Know more about" categories: its names and its domain paths |
+| 8 | The catalogue cross sell | `#0C111D` | Story left, the homepage's "Know more about" categories right, two to a line |
 | 9 | FAQ | White | Written answers, no invented facts |
 | 10 | Footer | Dark | GL footer links |
 | 11 | Sticky bottom bar | White | Appears once the hero scrolls out of view |
