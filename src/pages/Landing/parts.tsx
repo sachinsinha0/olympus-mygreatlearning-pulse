@@ -62,11 +62,16 @@ export function SectionHeading({
 }
 
 /** 30px / 500 white. The template's heading on a dark band. */
+/**
+ * SectionHeading on a dark ground. Same size and same weight: it was a step smaller
+ * and a weight lighter, which made the one section on a dark band the one section
+ * whose heading did not carry.
+ */
 export function DarkHeading({ children }: { children: ReactNode }) {
   return (
     <Typography
       component="h2"
-      sx={{ fontSize: { xs: 24, md: 30 }, fontWeight: 500, lineHeight: 1.3, color: "#ffffff" }}
+      sx={{ fontSize: { xs: 26, md: 32 }, fontWeight: 600, lineHeight: 1.25, color: "#ffffff" }}
     >
       {children}
     </Typography>
@@ -177,7 +182,7 @@ export function Marquee<T>({
  * an 01/02/03 sequence for its steps, and a second numbered sequence elsewhere on
  * the page would read as related to it.
  */
-export function EyebrowRule({ label }: { label: string }) {
+export function EyebrowRule({ label, dark = false }: { label: string; dark?: boolean }) {
   return (
     <Stack direction="row" alignItems="baseline" gap={1} sx={{ mb: 2.5 }}>
       <Typography
@@ -186,13 +191,13 @@ export function EyebrowRule({ label }: { label: string }) {
           fontWeight: 600,
           letterSpacing: "1.2px",
           textTransform: "uppercase",
-          color: GL.body,
+          color: dark ? GL.darkBody : GL.body,
           whiteSpace: "nowrap",
         }}
       >
         {label}
       </Typography>
-      <Box sx={{ flex: 1, height: "1px", backgroundColor: GL.border }} />
+      <Box sx={{ flex: 1, height: "1px", backgroundColor: dark ? GL.darkBorder : GL.border }} />
     </Stack>
   );
 }

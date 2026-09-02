@@ -2,7 +2,7 @@ import { Box, Button, Stack, Typography } from "@mui/material";
 import { ArrowUpRight } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { GL } from "../landingTheme";
-import { DarkHeading, Section } from "../parts";
+import { DarkHeading, EyebrowRule, Section } from "../parts";
 import { GL_SITE, PG_SECTION } from "../content";
 
 /**
@@ -116,6 +116,7 @@ export function PgProgramSection() {
         }}
       >
         <Box>
+          <EyebrowRule label={PG_SECTION.eyebrow} dark />
           <DarkHeading>{PG_SECTION.title}</DarkHeading>
           <Typography
             sx={{ fontSize: 16, lineHeight: 1.65, color: GL.darkBody, mt: 2.5, maxWidth: 460 }}

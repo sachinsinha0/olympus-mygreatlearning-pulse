@@ -180,6 +180,7 @@ export const MODULES_NEXT = {
  * asked the reader to answer something before it told them anything.
  */
 export const PG_SECTION = {
+  eyebrow: "Programs",
   title: "Go further with a full program",
   body: "Pulse keeps you updated on what is new. A Great Learning program builds the whole skill set, with university faculty behind it.",
   cta: "Explore Programs",
