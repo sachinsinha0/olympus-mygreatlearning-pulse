@@ -155,28 +155,31 @@ export function ModulesSection() {
 
         {/* The list closes on what has not landed yet. Dashed and grey read as an
             unfinished card sitting after eight finished ones, so it is a solid tinted
-            one instead, in the blue the highlighted stat card already uses. Same
-            height and same radius as the rows above, and the icon sits left where
-            every one of them has its control on the right, so it is not mistaken for
-            a ninth module. */}
-        <Box
+            one instead, in the blue the highlighted stat card already uses.
+
+            Both lines sit on one row from sm up, which keeps it shorter than the rows
+            above it. It is a note on the list rather than another entry in it, so it
+            should not take more room than the entries do. On phones only the text
+            wraps; the icon stays beside it, because dropping it onto its own line
+            costs a whole row of height to say nothing. */}
+        <Stack
+          direction="row"
+          alignItems="center"
+          gap={2}
           sx={{
             mt: 1,
-            display: "flex",
-            alignItems: "center",
-            gap: 2,
             backgroundColor: "#F1F6FE",
             border: "1px solid rgba(25, 106, 229, 0.22)",
             borderRadius: "8px",
-            padding: "20px 22px",
+            padding: "16px 22px",
           }}
         >
           <Box
             aria-hidden
             sx={{
               flexShrink: 0,
-              width: 36,
-              height: 36,
+              width: 32,
+              height: 32,
               borderRadius: "999px",
               backgroundColor: GL.blue,
               color: "#ffffff",
@@ -185,17 +188,19 @@ export function ModulesSection() {
               justifyContent: "center",
             }}
           >
-            <CalendarClock size={18} />
+            <CalendarClock size={17} />
           </Box>
-          <Box>
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            alignItems={{ sm: "baseline" }}
+            gap={{ xs: 0.25, sm: 1.5 }}
+          >
             <Typography sx={{ fontSize: 16, fontWeight: 600, color: GL.heading }}>
               {MODULES_NEXT.title}
             </Typography>
-            <Typography sx={{ fontSize: 14, color: GL.body, mt: 0.25 }}>
-              {MODULES_NEXT.body}
-            </Typography>
-          </Box>
-        </Box>
+            <Typography sx={{ fontSize: 14, color: GL.body }}>{MODULES_NEXT.body}</Typography>
+          </Stack>
+        </Stack>
       </Stack>
 
       </Box>
