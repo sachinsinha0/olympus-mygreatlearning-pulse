@@ -169,7 +169,7 @@ export const MODULES_NEXT = {
  */
 export const PG_SECTION = {
   title: "Go further with a full program",
-  body: "Pulse keeps you updated on what is new. The PG Program builds the whole skill set.",
+  body: "Pulse keeps you updated on what is new. A Great Learning program builds the whole skill set.",
   /** The programme page's own headline numbers. */
   stats: [
     { figure: "50%", caption: "avg. salary hike" },
@@ -178,6 +178,8 @@ export const PG_SECTION = {
   ],
   /** Laid out in the order a Great Learning programme card uses. */
   card: {
+    /** Why this one and not another. The card is a pick, so it should say so. */
+    eyebrow: "Closest to AI Pulse",
     university: "McCombs School of Business, The University of Texas at Austin",
     partner: "with Great Lakes Executive Learning",
     name: "PG Program in Artificial Intelligence & Machine Learning",
@@ -190,7 +192,31 @@ export const PG_SECTION = {
     ],
     cta: "View Program",
   },
+  /**
+   * The other doors. A lead arriving from a sales call may want data science or
+   * management, and one featured card is a dead end for all of them.
+   *
+   * Great Learning has no single "all programs" page. Its navigation browses by
+   * domain, so these are its real domain listings with their real paths, and the
+   * label is its own heading for the same device.
+   */
+  browse: {
+    label: "Browse by domain",
+    domains: [
+      { name: "Artificial Intelligence", path: "/artificial-intelligence/courses" },
+      { name: "Data Science & Analytics", path: "/data-science/courses" },
+      { name: "Generative AI", path: "/gen-ai/courses" },
+      { name: "Agentic AI", path: "/agentic-ai/courses" },
+      { name: "Software & Tech", path: "/software-engineering/courses" },
+      { name: "Cloud Computing", path: "/cloud-computing/courses" },
+      { name: "Management", path: "/management/courses" },
+      { name: "Leadership Programs", path: "/executive-leadership/courses" },
+    ],
+  },
 } as const;
+
+/** Everything the cross sell links to lives on the marketing site. */
+export const GL_SITE = "https://www.mygreatlearning.com";
 
 /**
  * Ordered by when the reader worries, not by what we want to say. Time is always the

@@ -2,7 +2,7 @@ import { Box, Button, Stack, Typography } from "@mui/material";
 import { Check } from "lucide-react";
 import { GL } from "../landingTheme";
 import { DarkHeading, Section } from "../parts";
-import { PG_PROGRAM_URL, PG_SECTION } from "../content";
+import { GL_SITE, PG_PROGRAM_URL, PG_SECTION } from "../content";
 
 /**
  * The cross sell to the PG Program.
@@ -20,6 +20,10 @@ import { PG_PROGRAM_URL, PG_SECTION } from "../content";
  *
  * The numbers on the left are the programme page's own. A dark band carrying headline
  * statistics is Great Learning's device, not one invented for this page.
+ *
+ * One featured card is a dead end for a lead who wants data science or management, so
+ * the band closes on the domain listings. Great Learning has no single "all programs"
+ * page: its navigation browses by domain, and these are its real domain paths.
  */
 function MetaPill({ label }: { label: string }) {
   return (
@@ -42,7 +46,7 @@ function MetaPill({ label }: { label: string }) {
 }
 
 function ProgramCard() {
-  const { university, partner, name, meta, badge, points, cta } = PG_SECTION.card;
+  const { eyebrow, university, partner, name, meta, badge, points, cta } = PG_SECTION.card;
 
   return (
     <Box
@@ -53,6 +57,21 @@ function ProgramCard() {
         p: { xs: 3, md: 3.5 },
       }}
     >
+      {/* The card is a pick out of many, so it says which pick and why, rather than
+          appearing to be the only programme Great Learning runs. */}
+      <Typography
+        sx={{
+          fontSize: 11,
+          fontWeight: 600,
+          letterSpacing: "1.1px",
+          textTransform: "uppercase",
+          color: GL.blue,
+          mb: 1.5,
+        }}
+      >
+        {eyebrow}
+      </Typography>
+
       <Typography sx={{ fontSize: 13, fontWeight: 600, color: GL.heading, lineHeight: 1.45 }}>
         {university}
       </Typography>
@@ -174,6 +193,51 @@ export function PgProgramSection() {
 
         <ProgramCard />
       </Box>
+
+      <Box sx={{ height: "1px", backgroundColor: GL.darkBorder, mt: { xs: 5, md: 7 } }} />
+
+      <Typography
+        sx={{
+          mt: 3,
+          fontSize: 11,
+          fontWeight: 600,
+          letterSpacing: "1.2px",
+          textTransform: "uppercase",
+          color: GL.darkBody,
+        }}
+      >
+        {PG_SECTION.browse.label}
+      </Typography>
+
+      <Stack direction="row" flexWrap="wrap" gap={1.25} sx={{ mt: 2 }}>
+        {PG_SECTION.browse.domains.map((domain) => (
+          <Box
+            key={domain.path}
+            component="a"
+            href={`${GL_SITE}${domain.path}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            sx={{
+              border: "1px solid rgba(255, 255, 255, 0.22)",
+              borderRadius: "999px",
+              px: 2,
+              py: 0.875,
+              fontSize: 14,
+              color: "#ffffff",
+              textDecoration: "none",
+              whiteSpace: "nowrap",
+              transition: "border-color 160ms ease, background-color 160ms ease",
+              "&:hover": {
+                borderColor: "#ffffff",
+                backgroundColor: "rgba(255, 255, 255, 0.08)",
+              },
+              "&:focus-visible": { outline: "2px solid #ffffff", outlineOffset: "2px" },
+            }}
+          >
+            {domain.name}
+          </Box>
+        ))}
+      </Stack>
     </Section>
   );
 }
