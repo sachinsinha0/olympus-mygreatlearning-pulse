@@ -29,6 +29,15 @@ export const GL = {
   pale: "#F5F5F5",
   border: "#E4E7EC",
   darkBorder: "#2A3140",
+  /**
+   * The site footer's black, and the grey that reads on it.
+   *
+   * Neutral, not the navy the PG band uses. The live Great Learning footer is black,
+   * and darkBody is a blue cast grey tuned for that navy, which goes faintly blue
+   * once the ground behind it stops being blue.
+   */
+  footer: "#111111",
+  footerBody: "#C7C7C7",
   gold: "#F5B301",
   /**
    * The Great Learning site grid. The course pages measure 1256 in places, but the

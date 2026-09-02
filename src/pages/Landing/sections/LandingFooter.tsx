@@ -14,6 +14,10 @@ import logo from "../../../assets/gl-logo.svg";
  * column, which is how the live footer stacks them: Degrees has two links and would
  * otherwise leave most of a column empty.
  *
+ * Black, not the navy the PG band higher up uses. The live footer is black, and the
+ * two darks are far enough apart on the page that matching them would be a worse
+ * match to the real site than letting each be what it is.
+ *
  * gl-logo.svg is a dark blue wordmark and there is no light variant, so it is
  * inverted here rather than duplicated as a second file. The filter takes a
  * single-colour mark to pure white and nothing else in it changes.
@@ -39,7 +43,7 @@ function LinkColumn({ heading, links }: { heading: string; links: string[] }) {
         {links.map((link) => (
           <Typography
             key={link}
-            sx={{ fontSize: 15, lineHeight: 1.45, color: GL.darkBody, cursor: "default" }}
+            sx={{ fontSize: 15, lineHeight: 1.45, color: GL.footerBody, cursor: "default" }}
           >
             {link}
           </Typography>
@@ -53,7 +57,7 @@ export function LandingFooter() {
   const [trending, browse, degrees, quick] = FOOTER_COLUMNS;
 
   return (
-    <Section bg={GL.dark} py={{ xs: 6, md: 8 }}>
+    <Section bg={GL.footer} py={{ xs: 6, md: 8 }}>
       <Box
         sx={{
           display: "grid",
@@ -89,7 +93,7 @@ export function LandingFooter() {
                       <Box aria-hidden sx={{ color: "#ffffff", display: "flex", flexShrink: 0 }}>
                         {row.kind === "mail" ? <Mail size={18} /> : <Phone size={18} />}
                       </Box>
-                      <Typography sx={{ fontSize: 15, color: GL.darkBody, cursor: "default" }}>
+                      <Typography sx={{ fontSize: 15, color: GL.footerBody, cursor: "default" }}>
                         {row.value}
                       </Typography>
                     </Stack>
@@ -113,7 +117,7 @@ export function LandingFooter() {
                   height: 36,
                   borderRadius: "999px",
                   backgroundColor: "#ffffff",
-                  color: GL.dark,
+                  color: GL.footer,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
