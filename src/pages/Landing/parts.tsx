@@ -182,6 +182,14 @@ export function Marquee<T>({
  * an 01/02/03 sequence for its steps, and a second numbered sequence elsewhere on
  * the page would read as related to it.
  */
+/**
+ * The label is brand blue, and one flat colour.
+ *
+ * It was grey, which is what made it read as flat. A gradient across the letters was
+ * the other way to fix that, and it is the exact thing this page rules out: purple to
+ * blue text is the signature of a machine made layout, and purple is not in Great
+ * Learning's palette either.
+ */
 export function EyebrowRule({ label, dark = false }: { label: string; dark?: boolean }) {
   return (
     <Stack direction="row" alignItems="baseline" gap={1} sx={{ mb: 2.5 }}>
@@ -191,7 +199,7 @@ export function EyebrowRule({ label, dark = false }: { label: string; dark?: boo
           fontWeight: 600,
           letterSpacing: "1.2px",
           textTransform: "uppercase",
-          color: dark ? GL.darkBody : GL.body,
+          color: dark ? GL.blueOnDark : GL.blue,
           whiteSpace: "nowrap",
         }}
       >

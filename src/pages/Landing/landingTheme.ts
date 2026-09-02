@@ -36,6 +36,11 @@ export const GL = {
    * and darkBody is a blue cast grey tuned for that navy, which goes faintly blue
    * once the ground behind it stops being blue.
    */
+  /**
+   * The brand blue, lightened for dark grounds. #196AE5 on #0C111D is about 3:1,
+   * which fails for 11px type; this clears 7:1 on the same ground.
+   */
+  blueOnDark: "#8AB2F5",
   footer: "#111111",
   footerBody: "#C7C7C7",
   gold: "#F5B301",
