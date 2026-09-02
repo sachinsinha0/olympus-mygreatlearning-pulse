@@ -27,6 +27,23 @@ import { INTRO_PITCH, TOPIC_ROWS } from "../content";
  */
 
 /**
+ * How long the wave takes to cross the cluster, and how long a single pill's loop
+ * lasts. Eighteen pills at STEP apart means the crest reaches the last one 2.9s after
+ * the first, so a cycle much longer than that is dead time with nothing happening.
+ * CYCLE leaves about three quarters of a second of rest and no more.
+ */
+const STEP = 0.16;
+const CYCLE = 4.4;
+
+/**
+ * One pill's loop, in seconds rather than percentages. The shape of the crest is what
+ * makes the wave read, and it should not change every time the cycle does.
+ */
+const RISE = 0.39;
+const CREST = 0.22;
+const at = (t: number) => `${((t / CYCLE) * 100).toFixed(2)}%`;
+
+/**
  * The wave. Paint only. A pill never changes size, so the cluster holds one fixed
  * shape and a word is never a different size from the word beside it.
  *
@@ -34,23 +51,18 @@ import { INTRO_PITCH, TOPIC_ROWS } from "../content";
  * the background made the crest hard to find on a light ground, and the colour is the
  * one thing that carries at a glance.
  *
- * The crest is held across a couple of frames rather than hit at a single instant.
- * A peak with no dwell is a value the pill passes through on its way back down, and
- * the eye never sees the colour it was aiming for.
- *
- * The lit phase is longer than the gap between two pills starting, so at any moment
- * about six of them are somewhere in the tint with one at its peak. That overlap is
- * the point: a band with soft edges reads as a wave passing through, where a single
- * pill switching on and off would read as a blink.
+ * The crest is held rather than hit at a single instant. A peak with no dwell is a
+ * value the pill passes through on its way back down, and the eye never sees the
+ * colour it was aiming for.
  */
 const swell = keyframes`
-  0%, 12%, 100% {
+  0%, ${at(RISE * 2 + CREST)}, 100% {
     background-color: #ffffff;
     border-color: ${GL.border};
     color: ${GL.heading};
     box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
   }
-  4%, 6.5% {
+  ${at(RISE)}, ${at(RISE + CREST)} {
     background-color: #F1F6FE;
     border-color: rgba(25, 106, 229, 0.38);
     color: ${GL.blue};
@@ -58,9 +70,6 @@ const swell = keyframes`
   }
 `;
 
-/** How long the wave takes to cross the whole cluster, and how long it rests after. */
-const STEP = 0.16;
-const CYCLE = 9;
 /** How long the pills wait for the text to land before they start arriving. */
 const LEAD = 180;
 /** Clear of the entrance, so the two are never running on the same pill. */
