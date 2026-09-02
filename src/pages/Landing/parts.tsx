@@ -197,7 +197,17 @@ export function EyebrowRule({ label, dark = false }: { label: string; dark?: boo
       >
         {label}
       </Typography>
-      <Box sx={{ flex: 1, height: "1px", backgroundColor: dark ? GL.darkBorder : GL.border }} />
+      {/* The rule fades out rather than stopping dead at the column edge.
+          A gradient on the rule, never on the label: gradient text is the tell this
+          page is built to avoid, and a hairline dissolving is an old typographic
+          device rather than a 2023 one. */}
+      <Box
+        sx={{
+          flex: 1,
+          height: "1px",
+          background: `linear-gradient(90deg, ${dark ? GL.darkBorder : GL.border} 0%, transparent 100%)`,
+        }}
+      />
     </Stack>
   );
 }
