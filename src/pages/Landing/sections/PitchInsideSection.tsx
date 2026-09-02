@@ -27,9 +27,8 @@ import { INTRO_PITCH, TOPIC_ROWS } from "../content";
  */
 
 /**
- * The wave. Paint and a transform, which is deliberately not the same thing as
- * geometry: a scale is composited, so a pill can swell without reflowing the wrap or
- * nudging a single neighbour. Nothing here can move a word to a new place.
+ * The wave. Paint only. A pill never changes size, so the cluster holds one fixed
+ * shape and a word is never a different size from the word beside it.
  *
  * The word itself turns blue at the crest, not just the pill under it. Tinting only
  * the background made the crest hard to find on a light ground, and the colour is the
@@ -50,14 +49,12 @@ const swell = keyframes`
     border-color: ${GL.border};
     color: ${GL.heading};
     box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
-    transform: none;
   }
   4%, 6.5% {
     background-color: #F1F6FE;
     border-color: rgba(25, 106, 229, 0.38);
     color: ${GL.blue};
     box-shadow: 0 6px 18px rgba(25, 106, 229, 0.18);
-    transform: scale(1.045);
   }
 `;
 
@@ -113,8 +110,10 @@ export function PitchInsideSection() {
                   boxShadow: "0 1px 2px rgba(16, 24, 40, 0.04)",
                   // They arrive in reading order as the section comes up, then the
                   // wave takes over on the same order, so the two read as one gesture.
+                  // A rise and a fade, no scale: a pill is never a size other than
+                  // its own, on the way in or once the wave reaches it.
                   opacity: reduce || inView ? 1 : 0,
-                  transform: reduce || inView ? "none" : "translateY(10px) scale(0.97)",
+                  transform: reduce || inView ? "none" : "translateY(10px)",
                   transition: reduce
                     ? "none"
                     : `opacity 420ms cubic-bezier(0.05, 0.7, 0.1, 1) ${LEAD + i * 25}ms,
