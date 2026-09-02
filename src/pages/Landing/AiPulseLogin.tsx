@@ -1,17 +1,12 @@
 import { useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import { Box, Button, CssBaseline, TextField, Typography } from "@mui/material";
 import { GL, landingTheme } from "./landingTheme";
 import { TRIAL_FORM } from "./content";
 import logo from "../../assets/gl-logo.svg";
 import { TRIAL_DAYS } from "../../lib/pulse/trial";
-import { selectLandingModules } from "../../lib/pulse/landingModules";
-import { getDefaultItemId } from "../../lib/pulse/courseItems";
-import { usePricing } from "../../lib/pulse/pricing";
-import { usePageLoader } from "../../components/common/PageLoader";
-import type { PulseIssue } from "../../lib/pulse/types";
-import issuesData from "../../mocks/pulse-issues.json";
+import { useStartTrial } from "./useStartTrial";
 
 /**
  * PROTOTYPE SHIM. There is no authentication here.
@@ -26,30 +21,14 @@ import issuesData from "../../mocks/pulse-issues.json";
  * site behaves.
  */
 export function AiPulseLogin() {
-  const navigate = useNavigate();
   const [params] = useSearchParams();
   const [email, setEmail] = useState(() => params.get("email") ?? "");
-  const { runWithPageLoader } = usePageLoader();
-  const { startTrial } = usePricing();
+  const startTrial = useStartTrial();
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim()) return;
-    // The freshest module, which is the far end of the chronological list the landing
-    // page shows. Same destination as the Start Free Trial button on /pulse.
-    const newest = selectLandingModules(issuesData as PulseIssue[]).newest;
-    runWithPageLoader(() => {
-      startTrial();
-      if (!newest) {
-        // Nothing released. Send them to the Pulse home rather than to
-        // /pulse/modules/, which matches no route and would strand them on a blank page.
-        navigate("/pulse");
-        return;
-      }
-      const itemId = getDefaultItemId(newest.id, false);
-      const itemPath = itemId ? `/items/${itemId}` : "";
-      navigate(`/pulse/modules/${newest.id}${itemPath}?trial=started`);
-    }, 950);
+    startTrial();
   };
 
   return (

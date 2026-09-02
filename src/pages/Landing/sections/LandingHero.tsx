@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, ShieldCheck } from "lucide-react";
+import { useOpenTrialDialog } from "../TrialDialog";
 import { GL } from "../landingTheme";
 import { ContentColumn } from "../parts";
 import { HERO, VALUE_PROPS } from "../content";
@@ -35,7 +36,7 @@ export function LandingHero() {
   const navigate = useNavigate();
   const reduce = useReducedMotion();
 
-  const goToLogin = () => navigate("/ai-pulse/login");
+  const openTrialDialog = useOpenTrialDialog();
 
   return (
     <Box component="section" id="landing-hero" sx={{ position: "relative", bgcolor: "#ffffff" }}>
@@ -110,7 +111,7 @@ export function LandingHero() {
               <Button
                 variant="contained"
                 endIcon={<ArrowRight size={18} />}
-                onClick={goToLogin}
+                onClick={openTrialDialog}
                 sx={{
                   // The product button's proportions, not the landing theme's.
                   height: { xs: 44, md: 40 },

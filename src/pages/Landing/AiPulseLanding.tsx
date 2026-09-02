@@ -12,10 +12,12 @@ import { PgProgramSection } from "./sections/PgProgramSection";
 import { FaqSection } from "./sections/FaqSection";
 import { LandingFooter } from "./sections/LandingFooter";
 import { StickyCtaBar } from "./sections/StickyCtaBar";
+import { TrialDialogProvider } from "./TrialDialog";
 
 export function AiPulseLanding() {
   return (
     <ThemeProvider theme={landingTheme}>
+      <TrialDialogProvider>
       <CssBaseline />
       <Box sx={{ bgcolor: "#ffffff", minHeight: "100vh" }}>
         <GlobalNav />
@@ -37,6 +39,7 @@ export function AiPulseLanding() {
         <LandingFooter />
         <StickyCtaBar />
       </Box>
+      </TrialDialogProvider>
     </ThemeProvider>
   );
 }

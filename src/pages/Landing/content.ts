@@ -206,6 +206,15 @@ export const FAQ: { q: string; a: string }[] = [
 ];
 
 /**
+ * The sign up dialog behind every Start Free Trial button.
+ */
+export const TRIAL_DIALOG = {
+  title: "Start your free trial",
+  body: `${TRIAL_DAYS} days of full access. No credit card.`,
+  google: "Continue with Google",
+} as const;
+
+/**
  * The two strings the login step needs.
  *
  * They are the remains of the rail card, which is gone: the sticky bottom bar already
@@ -223,9 +232,75 @@ export const STICKY_BAR = {
   primaryCta: "Start Free Trial",
 } as const;
 
+/**
+ * The Great Learning site footer, copied from the live one.
+ *
+ * The link lists are the real site's, not this page's. A prototype footer that
+ * invented its own navigation would be the one part of the page a Great Learning
+ * reader could tell was fake at a glance.
+ */
 export const FOOTER_COLUMNS: { heading: string; links: string[] }[] = [
-  { heading: "Browse Courses", links: ["Data Science", "Artificial Intelligence", "Generative AI", "Software Engineering", "Cloud Computing"] },
-  { heading: "Degrees", links: ["Online MBA", "Masters Programs", "Doctorate", "PG Programs"] },
-  { heading: "Quick Links", links: ["About Us", "Careers", "Contact Us", "Grievance Redressal", "Privacy Policy"] },
-  { heading: "Great Learning", links: ["Blog", "Academy", "Enterprise", "For Recruiters", "Success Stories"] },
+  {
+    heading: "Trending Programs",
+    links: [
+      "UT Austin: PG Program in Data Science with Gen AI",
+      "UT Austin: PG Program in Artificial Intelligence and Machine Learning",
+      "UT Austin: PG Program in Artificial Intelligence for Leaders",
+      "MIT: Applied AI and Data Science Program",
+      "MIT IDSS Data Science and Machine Learning Course",
+      "IITB (ePGD) in Artificial Intelligence and Data Science",
+      "IITB Supply Chain Analytics with AI and ML",
+      "Great Lakes: PG Diploma in Management (Online)",
+    ],
+  },
+  {
+    heading: "Browse Courses",
+    links: [
+      "Data Science Courses",
+      "Artificial Intelligence Courses",
+      "Generative AI",
+      "Software Engineering Courses",
+      "Cloud Computing Courses",
+      "Design Courses",
+      "Cyber Security Courses",
+      "Management Courses",
+      "Post Graduate (PG) Certificate Courses",
+    ],
+  },
+  {
+    heading: "Degrees",
+    links: ["MBA Courses", "Masters Courses"],
+  },
+  {
+    heading: "Quick Links",
+    links: [
+      "About Us",
+      "Transparency Hub",
+      "Careers at Great Learning",
+      "Grievance Redressal",
+      "Contact Us",
+    ],
+  },
+];
+
+/** The contact block in the footer's right column, in the live site's own grouping. */
+export const FOOTER_CONTACT: { label: string; rows: { kind: "mail" | "phone"; value: string }[] }[] = [
+  {
+    label: "India :",
+    rows: [
+      { kind: "mail", value: "info@greatlearning.in" },
+      { kind: "phone", value: "080 6947 4555" },
+    ],
+  },
+  {
+    label: "US and Other countries :",
+    rows: [
+      { kind: "mail", value: "info@mygreatlearning.com" },
+      { kind: "phone", value: "+1 512 647 2647" },
+    ],
+  },
+  {
+    label: "For Enterprise queries:",
+    rows: [{ kind: "mail", value: "business@greatlearning.in" }],
+  },
 ];
