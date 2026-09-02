@@ -153,16 +153,20 @@ export function ModulesSection() {
           );
         })}
 
-        {/* The list closes on what has not landed yet. Dashed and with no control on
-            it, because there is nothing here to open, and the icon sits left where
-            every other row has its control on the right, so it is not mistaken for
+        {/* The list closes on what has not landed yet. Dashed and grey read as an
+            unfinished card sitting after eight finished ones, so it is a solid tinted
+            one instead, in the blue the highlighted stat card already uses. Same
+            height and same radius as the rows above, and the icon sits left where
+            every one of them has its control on the right, so it is not mistaken for
             a ninth module. */}
         <Box
           sx={{
+            mt: 1,
             display: "flex",
             alignItems: "center",
             gap: 2,
-            border: "1px dashed #D0D5DD",
+            backgroundColor: "#F1F6FE",
+            border: "1px solid rgba(25, 106, 229, 0.22)",
             borderRadius: "8px",
             padding: "20px 22px",
           }}
@@ -171,17 +175,17 @@ export function ModulesSection() {
             aria-hidden
             sx={{
               flexShrink: 0,
-              width: 32,
-              height: 32,
+              width: 36,
+              height: 36,
               borderRadius: "999px",
-              border: "1px dashed #D0D5DD",
-              color: GL.body,
+              backgroundColor: GL.blue,
+              color: "#ffffff",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
             }}
           >
-            <CalendarClock size={16} />
+            <CalendarClock size={18} />
           </Box>
           <Box>
             <Typography sx={{ fontSize: 16, fontWeight: 600, color: GL.heading }}>
