@@ -9,8 +9,16 @@ import { GL_SITE, PG_SECTION } from "../content";
  * The cross sell to Great Learning's catalogue.
  *
  * These leads came from the sales team, so the deeper programmes belong on the page.
- * Our story is on the left and Great Learning's own categories are on the right, each
- * one a real outbound link to the live site rather than a route.
+ * Our story is on the left, and Great Learning's own categories run underneath it,
+ * each one a real outbound link to the live site rather than a route.
+ *
+ * Four across the full grid, heading above, which is how the live homepage lays the
+ * same tiles out. They were in a half column beside the text before, two across, and
+ * eight tiles in half a band is a list pretending to be a grid.
+ *
+ * The ground stays dark where the homepage's is white. This is the page's one dark
+ * band between the pale topics and the black footer, and turning it white would put
+ * three white bands in a row and hand the footer straight to the FAQ.
  *
  * It used to be a single featured programme card. That was a dead end for a lead who
  * wants data science or management, and it read as though Great Learning ran one
@@ -55,15 +63,15 @@ function CategoryTile({
         "&:focus-visible": { outline: "2px solid #ffffff", outlineOffset: "2px" },
       }}
     >
-      <Stack direction="row" alignItems="center" gap={1.75} sx={{ minWidth: 0 }}>
+      <Stack direction="row" alignItems="center" gap={1.5} sx={{ minWidth: 0 }}>
         {/* On a well behind the glyph, so eight of them read as one set rather than
             as eight loose marks at eight different weights. */}
         <Box
           aria-hidden
           sx={{
             flexShrink: 0,
-            width: 36,
-            height: 36,
+            width: 34,
+            height: 34,
             borderRadius: "8px",
             backgroundColor: "rgba(255, 255, 255, 0.08)",
             color: "#ffffff",
@@ -74,7 +82,7 @@ function CategoryTile({
         >
           <Icon size={18} />
         </Box>
-        <Typography sx={{ fontSize: 15, fontWeight: 600, color: "#ffffff", lineHeight: 1.35 }}>
+        <Typography sx={{ fontSize: 14.5, fontWeight: 600, color: "#ffffff", lineHeight: 1.35 }}>
           {name}
         </Typography>
       </Stack>
@@ -98,56 +106,63 @@ function CategoryTile({
 export function PgProgramSection() {
   return (
     <Section bg={GL.dark}>
-      <Box
-        sx={{
-          display: "grid",
-          gridTemplateColumns: { xs: "1fr", md: "1fr 1.15fr" },
-          gap: { xs: 5, md: 8 },
-          alignItems: "center",
-        }}
+      <Stack
+        direction={{ xs: "column", md: "row" }}
+        justifyContent="space-between"
+        alignItems={{ xs: "flex-start", md: "flex-end" }}
+        gap={{ xs: 3, md: 5 }}
       >
         <Box>
           <DarkHeading>{PG_SECTION.title}</DarkHeading>
           <Typography
-            sx={{ fontSize: 16, lineHeight: 1.65, color: GL.darkBody, mt: 2.5, maxWidth: 460 }}
+            sx={{ fontSize: 16, lineHeight: 1.65, color: GL.darkBody, mt: 2.5, maxWidth: 560 }}
           >
             {PG_SECTION.body}
           </Typography>
-
-          {/* Secondary, not primary. Start Free Trial is the one filled button on the
-              page, and a second one here would put a twelve month programme and a
-              fortnight trial in the same weight. */}
-          <Button
-            variant="outlined"
-            component="a"
-            href={GL_SITE}
-            target="_blank"
-            rel="noopener noreferrer"
-            sx={{
-              mt: 4,
-              color: "#ffffff",
-              borderColor: "rgba(255, 255, 255, 0.45)",
-              "&:hover": {
-                borderColor: "#ffffff",
-                backgroundColor: "rgba(255, 255, 255, 0.08)",
-              },
-            }}
-          >
-            {PG_SECTION.cta}
-          </Button>
         </Box>
 
-        <Box
+        {/* Secondary, not primary. Start Free Trial is the one filled button on the
+            page, and a second one here would put a twelve month programme and a
+            fortnight trial in the same weight. */}
+        <Button
+          variant="outlined"
+          component="a"
+          href={GL_SITE}
+          target="_blank"
+          rel="noopener noreferrer"
           sx={{
-            display: "grid",
-            gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
-            gap: 1.5,
+            flexShrink: 0,
+            color: "#ffffff",
+            borderColor: "rgba(255, 255, 255, 0.45)",
+            "&:hover": {
+              borderColor: "#ffffff",
+              backgroundColor: "rgba(255, 255, 255, 0.08)",
+            },
           }}
         >
-          {PG_SECTION.categories.map((category) => (
-            <CategoryTile key={category.path} {...category} />
-          ))}
-        </Box>
+          {PG_SECTION.cta}
+        </Button>
+      </Stack>
+
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: {
+            xs: "1fr",
+            sm: "repeat(2, 1fr)",
+            md: "repeat(3, 1fr)",
+            lg: "repeat(4, 1fr)",
+          },
+          // Equal rows whatever the longest name does. Without it a single name
+          // wrapping makes its whole row taller than the one beside it.
+          gridAutoRows: "1fr",
+          gap: 1.75,
+          mt: { xs: 4, md: 6 },
+        }}
+      >
+        {PG_SECTION.categories.map((category) => (
+          <CategoryTile key={category.path} {...category} />
+        ))}
       </Box>
     </Section>
   );
