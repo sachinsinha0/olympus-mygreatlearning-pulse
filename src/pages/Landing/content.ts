@@ -15,6 +15,15 @@ import { TRIAL_DAYS } from "../../lib/pulse/trial";
 export const ADVISOR_PHONE = "+91 797-117-1332";
 
 /**
+ * The product banner's reassurance line, and the sticky bar's.
+ *
+ * One constant because they are one promise. The bar used to abbreviate it to "14
+ * days free · No credit card", which is the same fact in a fragment, and two wordings
+ * of one promise on one page invites the reader to wonder which is the real offer.
+ */
+export const TRIAL_REASSURANCE = `Free for ${TRIAL_DAYS} days · No credit card required`;
+
+/**
  * The hero is the product's banner, so every string here is PulseV2Hero's, verbatim:
  * the headline it renders as two lines, the subtitle, the CTA label and the
  * reassurance line. A lead sees this banner here and then sees the same banner after
@@ -25,7 +34,7 @@ export const HERO = {
   titleLines: ["AI moves fast.", "Pulse keeps you in sync."],
   body: "A biweekly learning module on the new AI tools, innovations, and workflows reshaping work, distilled into 60 minutes of learning that you can actually apply.",
   primaryCta: "Start Free Trial",
-  reassurance: `Free for ${TRIAL_DAYS} days · No credit card required`,
+  reassurance: TRIAL_REASSURANCE,
 } as const;
 
 
@@ -259,7 +268,7 @@ export const TRIAL_FORM = {
 
 export const STICKY_BAR = {
   name: "AI Pulse",
-  meta: `${TRIAL_DAYS} days free · No credit card`,
+  meta: TRIAL_REASSURANCE,
   primaryCta: "Start Free Trial",
 } as const;
 
