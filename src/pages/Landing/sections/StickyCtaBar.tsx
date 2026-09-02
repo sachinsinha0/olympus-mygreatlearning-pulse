@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, Button, Stack, Typography } from "@mui/material";
+import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import { GL } from "../landingTheme";
 import { ContentColumn } from "../parts";
-import { STICKY_BAR } from "../content";
+import { STICKY_BAR, TRIAL_FORM } from "../content";
+import pulseArt from "../../../assets/pulse-home-asset.png";
 
 /**
  * The bar that follows the lead down the page once the hero has scrolled away.
@@ -16,6 +17,16 @@ import { STICKY_BAR } from "../content";
  * scroll handler stays cheap and never forces a layout.
  *
  * The bar stays mounted at all times and slides on a transform, so it never pops in.
+ *
+ * It carries the email field from md up, because it is now the only call to action
+ * the reader has once the hero is gone. The card that used to float beside the module
+ * list took an email and handed it to the login step so nobody typed it twice, and
+ * that was the one thing worth keeping when the card went. An empty field is allowed
+ * and just goes to the login step with no query, which is what the button alone did.
+ *
+ * The field starts at md rather than sm. A bar is a bad place for a text input on a
+ * narrow screen: it sits under the thumb, it summons the keyboard over the page, and
+ * the login step is one tap away and asks for the same thing.
  */
 export function StickyCtaBar() {
   const navigate = useNavigate();
@@ -39,7 +50,13 @@ export function StickyCtaBar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [threshold]);
 
-  const goToLogin = () => navigate("/ai-pulse/login");
+  const [email, setEmail] = useState("");
+
+  const start = (e: React.FormEvent) => {
+    e.preventDefault();
+    const trimmed = email.trim();
+    navigate(trimmed ? `/ai-pulse/login?email=${encodeURIComponent(trimmed)}` : "/ai-pulse/login");
+  };
 
   return (
     <Box
@@ -69,17 +86,51 @@ export function StickyCtaBar() {
       <ContentColumn
         sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 2 }}
       >
-        <Box sx={{ display: { xs: "none", sm: "block" } }}>
-          <Typography sx={{ fontSize: 17, fontWeight: 600, color: GL.heading, lineHeight: 1.3 }}>
-            {STICKY_BAR.name}
-          </Typography>
-          <Typography sx={{ fontSize: 13, color: GL.body }}>{STICKY_BAR.meta}</Typography>
-        </Box>
+        {/* The product's own mark, so this reads as the AI Pulse bar and not a
+            generic ribbon. Decorative next to the name, hence the empty alt. */}
+        <Stack
+          direction="row"
+          alignItems="center"
+          gap={1.5}
+          sx={{ display: { xs: "none", sm: "flex" }, minWidth: 0 }}
+        >
+          <Box
+            component="img"
+            src={pulseArt}
+            alt=""
+            sx={{ width: 38, height: 38, objectFit: "contain", flexShrink: 0 }}
+          />
+          <Box sx={{ minWidth: 0 }}>
+            <Typography sx={{ fontSize: 17, fontWeight: 600, color: GL.heading, lineHeight: 1.3 }}>
+              {STICKY_BAR.name}
+            </Typography>
+            <Typography sx={{ fontSize: 13, color: GL.body }}>{STICKY_BAR.meta}</Typography>
+          </Box>
+        </Stack>
 
-        <Stack direction="row" gap={1.5} sx={{ width: { xs: "100%", sm: "auto" } }}>
+        <Box
+          component="form"
+          onSubmit={start}
+          sx={{ display: "flex", gap: 1.5, width: { xs: "100%", sm: "auto" } }}
+        >
+          <TextField
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder={TRIAL_FORM.placeholder}
+            // The field has no visible label, so it needs one here or it reaches a
+            // screen reader as an unnamed text box.
+            inputProps={{ "aria-label": "Email address" }}
+            sx={{
+              display: { xs: "none", md: "block" },
+              width: 260,
+              "& .MuiOutlinedInput-root": { height: 44, backgroundColor: "#ffffff" },
+              "& .MuiOutlinedInput-input": { fontSize: 15, padding: "0 14px" },
+            }}
+          />
           <Button
+            type="submit"
             variant="contained"
-            onClick={goToLogin}
             sx={{
               width: { xs: "100%", sm: "auto" },
               minHeight: 44,
@@ -89,7 +140,7 @@ export function StickyCtaBar() {
           >
             {STICKY_BAR.primaryCta}
           </Button>
-        </Stack>
+        </Box>
       </ContentColumn>
     </Box>
   );

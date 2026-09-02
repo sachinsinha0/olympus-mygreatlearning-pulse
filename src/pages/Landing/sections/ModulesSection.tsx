@@ -21,7 +21,8 @@ import issuesData from "../../../mocks/pulse-issues.json";
  * to begin with.
  *
  * No trial card in a rail beside it any more, so the heading and the list share one
- * centred block. Flush left would leave a void where the card used to be.
+ * centred block. Flush left would leave a void where the card used to be, and the
+ * heading centres over the block the way the FAQ's does.
  *
  * No count above the list. It used to read "11 modules are live right now, here are
  * the first 8", which spent the reader's attention on arithmetic about a list they
@@ -42,9 +43,8 @@ export function ModulesSection() {
           because a row is a title and a plus, and stretched to the full 1280 the plus
           ends up a long way from the words it belongs to. */}
       <Box sx={{ maxWidth: 900, mx: "auto" }}>
-      <SectionHeading>{MODULES_HEADING}</SectionHeading>
+      <SectionHeading align="center">{MODULES_HEADING}</SectionHeading>
 
-      {/* The heading stays left inside the block, on the same edge as the rows. */}
       <Stack gap={1.25} sx={{ mt: { xs: 4, md: 5 } }}>
         {modules.map((issue) => {
           const open = expanded === issue.id;

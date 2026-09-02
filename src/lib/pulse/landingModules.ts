@@ -34,7 +34,7 @@ export type LandingModules = {
 export function selectLandingModules(
   all: PulseIssue[],
   today: string = PULSE_TODAY,
-  limit = 8,
+  limit = 10,
 ): LandingModules {
   const released = all
     .filter((i) => i.releasedAt <= today)

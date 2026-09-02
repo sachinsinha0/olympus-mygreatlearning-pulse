@@ -149,7 +149,7 @@ export const MODULES_HEADING = "Here are the modules";
  * The row that closes the module list.
  *
  * The list shows what is already there, so the last thing the reader sees should be
- * what is not there yet. Without it the curriculum looks like a fixed set of eight
+ * what is not there yet. Without it the curriculum looks like a closed set
  * rather than something that keeps arriving.
  */
 export const MODULES_NEXT = {
