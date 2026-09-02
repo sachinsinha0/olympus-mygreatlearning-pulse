@@ -157,28 +157,6 @@ export const MODULES_NEXT = {
   body: "The list keeps growing after you join.",
 };
 
-/**
- * The trial section's copy.
- *
- * It used to be written as a defence. The heading made the value finishing rather
- * than gaining, and every line under it was a negation: no card, no forms, unlocked,
- * under an hour, after 14 days, stays yours. Six reassurances in a row answer fears
- * the reader may not have arrived with, and reading them puts the fears there.
- *
- * Rewritten to say what happens instead of what will not. Speed is still the point,
- * but it is the speed of starting, which is a benefit, and not the speed of getting
- * it over with, which is not.
- */
-export const TRIAL_HEADING = "Starting takes two minutes";
-
-export const TRIAL_STEPS: { title: string; body: string }[] = [
-  { title: "Sign in with your email", body: "That is the whole sign up." },
-  { title: "Open any module", body: "All of them are open from day one." },
-  { title: "Build something with it", body: "Watch how the tool works, then use it on your own work." },
-];
-
-export const TRIAL_FOOTNOTE = `${TRIAL_DAYS} days is enough to know if it fits you. If it does, you can subscribe and keep going.`;
-
 export const PG_SECTION = {
   title: "Ready to go deeper than two weeks at a time?",
   body: "Pulse keeps you updated on what's new. The PG Program in AI and Machine Learning builds the whole skill set.",

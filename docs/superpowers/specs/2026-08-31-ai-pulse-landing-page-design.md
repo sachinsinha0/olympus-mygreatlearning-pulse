@@ -186,7 +186,6 @@ a "Speak with our expert" line is not wanted on this page.
 | 7 | What's inside | Pale | Onboarding beat three, with the topic chips |
 | 6 | Why subscribe | `#0C111D` | The three product pillars in `PulseV2Hero`, plus the archive argument from the brief |
 | 6 | Here are the modules | White | `src/mocks/pulse-issues.json`, the file the product reads |
-| 7 | How the trial works | Pale | The real trial flow |
 | 8 | The PG Program | `#0C111D` | Real programme, real link, real number |
 | 9 | FAQ | White | Written answers, no invented facts |
 | 10 | Footer | Dark | GL footer links |
@@ -262,16 +261,15 @@ sequence, while the product numbers them by `issueNumber`. This spec makes the l
 the product, because the landing page sits one click from the product. It does not resolve the email
 mismatch. That still needs one decision across the whole set.
 
-### 7. How the trial works
+### 7. How the trial works: cut
 
-Centred heading "How does the free trial work?" Three numbered steps as large numerals.
+Removed on 2 September. It was three numbered steps and a footnote, and three of its
+four facts were already answered in the FAQ in nearly the same words: the credit card,
+the under an hour, and what happens after the trial. Its copy was also written as a
+defence, a run of negations answering fears the reader may not have arrived with.
 
-1. Log in with your email.
-2. Open any module.
-3. Finish it in under an hour.
-
-Then one line: "After 14 days you can subscribe to keep going. Everything you finished stays yours."
-No price, per the decision above.
+The trial card in the rail is the one place that has to explain the trial, because it is
+the one place you can start it. The FAQ carries the detail.
 
 ### 8. The PG Program
 
@@ -365,7 +363,6 @@ src/pages/Landing/
     RatingsRow.tsx
     WhySubscribe.tsx
     ModulesSection.tsx
-    TrialSection.tsx
     PgProgramSection.tsx
     FaqSection.tsx
     LandingFooter.tsx

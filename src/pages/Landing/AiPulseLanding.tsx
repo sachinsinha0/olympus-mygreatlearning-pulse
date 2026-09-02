@@ -8,7 +8,6 @@ import { PitchWhatItIsSection } from "./sections/PitchWhatItIsSection";
 import { PitchCadenceSection } from "./sections/PitchCadenceSection";
 import { PitchInsideSection } from "./sections/PitchInsideSection";
 import { ModulesSection } from "./sections/ModulesSection";
-import { TrialSection } from "./sections/TrialSection";
 import { PgProgramSection } from "./sections/PgProgramSection";
 import { FaqSection } from "./sections/FaqSection";
 import { LandingFooter } from "./sections/LandingFooter";
@@ -32,7 +31,10 @@ export function AiPulseLanding() {
         <TrialRailRegion>
           <ModulesSection />
         </TrialRailRegion>
-        <TrialSection />
+        {/* No trial-steps section here. It restated the FAQ: the credit card, the
+            under an hour, and what happens after the trial are all answered there in
+            nearly the same words. The trial card in the rail is the one place that
+            needs to explain the trial, because it is the one place you can start it. */}
         <PgProgramSection />
         <FaqSection />
         <LandingFooter />
