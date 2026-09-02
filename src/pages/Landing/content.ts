@@ -240,8 +240,8 @@ export const FAQ: { q: string; a: string }[] = [
     a: "Working professionals who want to keep up with AI without taking time off to do it.",
   },
   {
-    q: "How does this relate to the PG Program?",
-    a: "Pulse keeps you updated on what's new. The PG Program builds the full skill set. It adds live mentoring and career support. Many learners do both.",
+    q: "How does this relate to a Great Learning program?",
+    a: "Pulse keeps you updated on what's new. A full program builds the whole skill set, and adds live mentoring and career support. Many learners do both.",
   },
 ];
 
