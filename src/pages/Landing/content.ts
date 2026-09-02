@@ -132,10 +132,6 @@ export const TOPIC_ROWS: readonly (readonly string[])[] = [
 ];
 
 /**
- * The heading was "How does the free trial work?", which describes our mechanism.
- * The reader wants to know what they get and when.
- */
-/**
  * The module list's heading.
  *
  * It used to ask "What is inside AI Pulse?", directly under a beat the product heads
@@ -157,15 +153,43 @@ export const MODULES_NEXT = {
   body: "The list keeps growing after you join.",
 };
 
+/**
+ * The cross sell, taken from the live programme page rather than written here.
+ *
+ * Everything in the card is the real programme's: the full name with the ampersand,
+ * both institutions, the twelve month online format, the ranking badge the homepage
+ * card carries, and three of the programme page's own "why this program" lines word
+ * for word. The section used to name it "the PG Program in AI and Machine Learning",
+ * mention no university at all, and list three benefits nobody at Great Learning had
+ * written.
+ *
+ * The heading is a statement, not a question. Great Learning's own headings are
+ * imperatives and noun phrases, and "Ready to go deeper than two weeks at a time?"
+ * asked the reader to answer something before it told them anything.
+ */
 export const PG_SECTION = {
-  title: "Ready to go deeper than two weeks at a time?",
-  body: "Pulse keeps you updated on what's new. The PG Program in AI and Machine Learning builds the whole skill set.",
-  points: [
-    "Live mentoring from faculty and working practitioners",
-    "A full curriculum, not a two week slice",
-    "Career support: portfolio, resume and mock interviews",
+  title: "Go further with a full program",
+  body: "Pulse keeps you updated on what is new. The PG Program builds the whole skill set.",
+  /** The programme page's own headline numbers. */
+  stats: [
+    { figure: "50%", caption: "avg. salary hike" },
+    { figure: "3900+", caption: "hiring companies" },
+    { figure: "3 out of 4", caption: "learners in AI roles" },
   ],
-  cta: "Explore the PG Program",
+  /** Laid out in the order a Great Learning programme card uses. */
+  card: {
+    university: "McCombs School of Business, The University of Texas at Austin",
+    partner: "with Great Lakes Executive Learning",
+    name: "PG Program in Artificial Intelligence & Machine Learning",
+    meta: ["12 Months", "Online"],
+    badge: "#1 Ranked AI Program",
+    points: [
+      "Learn from Texas McCombs Faculty",
+      "Attend Weekly Live Mentorship Sessions with Industry Experts",
+      "Learn Without Disrupting Your Work Schedule",
+    ],
+    cta: "View Program",
+  },
 } as const;
 
 /**
