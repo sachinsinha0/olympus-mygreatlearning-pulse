@@ -1,10 +1,11 @@
 import { useMemo, useState } from "react";
 import { Box, Stack, Typography } from "@mui/material";
-import { Minus, Plus } from "lucide-react";
+import { CalendarClock, Minus, Plus } from "lucide-react";
 import { GL } from "../landingTheme";
-import { CheckList, Lede, Section, SectionHeading } from "../parts";
+import { CheckList, Section, SectionHeading } from "../parts";
 import { TrialRailCard } from "./TrialRailCard";
 import { RAIL_GUTTER } from "./TrialRailRegion";
+import { MODULES_NEXT } from "../content";
 import { selectLandingModules } from "../../../lib/pulse/landingModules";
 import { useUnitLabel } from "../../../lib/pulse/terminology";
 import type { PulseIssue } from "../../../lib/pulse/types";
@@ -21,11 +22,14 @@ import issuesData from "../../../mocks/pulse-issues.json";
  * and why it starts at Module 01 rather than at whatever the eight most recent happen
  * to begin with.
  *
- * The lede carries the real total, so trimming the list never overstates the library.
+ * No count above the list. It used to read "11 modules are live right now, here are
+ * the first 8", which spent the reader's attention on arithmetic about a list they
+ * can see. What they cannot see is that it keeps growing, so that goes at the end
+ * instead, as the row the list closes on.
  */
 export function ModulesSection() {
   const unit = useUnitLabel();
-  const { modules, total } = useMemo(
+  const { modules } = useMemo(
     () => selectLandingModules(issuesData as PulseIssue[]),
     [],
   );
@@ -38,15 +42,7 @@ export function ModulesSection() {
       <Box sx={{ pr: { lg: `${RAIL_GUTTER}px` } }}>
       <SectionHeading align="center">What is inside AI Pulse?</SectionHeading>
 
-      <Box sx={{ mt: 2 }}>
-        <Lede align="center">
-          {modules.length < total
-            ? `${total} modules are live right now. Here are the first ${modules.length}.`
-            : `${total} modules are live right now. A new one lands every two weeks.`}
-        </Lede>
-      </Box>
-
-      <Stack gap={1.25} sx={{ mt: 4, maxWidth: 900, mx: "auto" }}>
+      <Stack gap={1.25} sx={{ mt: { xs: 4, md: 5 }, maxWidth: 900, mx: "auto" }}>
         {modules.map((issue) => {
           const open = expanded === issue.id;
           const panelId = `module-panel-${issue.id}`;
@@ -154,6 +150,46 @@ export function ModulesSection() {
             </Box>
           );
         })}
+
+        {/* The list closes on what has not landed yet. Dashed and with no control on
+            it, because there is nothing here to open, and the icon sits left where
+            every other row has its control on the right, so it is not mistaken for
+            a ninth module. */}
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 2,
+            border: "1px dashed #D0D5DD",
+            borderRadius: "8px",
+            padding: "20px 22px",
+          }}
+        >
+          <Box
+            aria-hidden
+            sx={{
+              flexShrink: 0,
+              width: 32,
+              height: 32,
+              borderRadius: "999px",
+              border: "1px dashed #D0D5DD",
+              color: GL.body,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <CalendarClock size={16} />
+          </Box>
+          <Box>
+            <Typography sx={{ fontSize: 16, fontWeight: 600, color: GL.heading }}>
+              {MODULES_NEXT.title}
+            </Typography>
+            <Typography sx={{ fontSize: 14, color: GL.body, mt: 0.25 }}>
+              {MODULES_NEXT.body}
+            </Typography>
+          </Box>
+        </Box>
       </Stack>
 
       </Box>

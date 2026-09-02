@@ -135,6 +135,18 @@ export const TOPIC_ROWS: readonly (readonly string[])[] = [
  * The heading was "How does the free trial work?", which describes our mechanism.
  * The reader wants to know what they get and when.
  */
+/**
+ * The row that closes the module list.
+ *
+ * The list shows what is already there, so the last thing the reader sees should be
+ * what is not there yet. Without it the curriculum looks like a fixed set of eight
+ * rather than something that keeps arriving.
+ */
+export const MODULES_NEXT = {
+  title: "A new module every two weeks",
+  body: "The list keeps growing after you join.",
+};
+
 export const TRIAL_HEADING = "You can finish your first module tonight";
 
 export const TRIAL_STEPS: { title: string; body: string }[] = [
@@ -199,7 +211,6 @@ export const RAIL_CARD = {
   placeholder: "Enter your email",
   cta: "Start Free Trial",
   consent: "By continuing you agree to our Terms of Use and Privacy Policy.",
-  footnote: "New module every two weeks.",
 } as const;
 
 export const STICKY_BAR = {

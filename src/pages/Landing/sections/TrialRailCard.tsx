@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, Button, Divider, TextField, Typography } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import { GL } from "../landingTheme";
 import { RAIL_CARD } from "../content";
 import pulseArt from "../../../assets/pulse-home-asset.png";
@@ -93,12 +93,6 @@ export function TrialRailCard() {
           sx={{ fontSize: 11, color: GL.body, textAlign: "center", mt: 1.5, lineHeight: 1.5 }}
         >
           {RAIL_CARD.consent}
-        </Typography>
-
-        <Divider sx={{ mt: 1.5 }} />
-
-        <Typography sx={{ fontSize: 13, color: GL.body, textAlign: "center", mt: 1.5 }}>
-          {RAIL_CARD.footnote}
         </Typography>
       </Box>
     </Box>
