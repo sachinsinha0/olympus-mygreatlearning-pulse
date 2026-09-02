@@ -27,8 +27,17 @@ import { INTRO_PITCH, TOPIC_ROWS } from "../content";
  */
 
 /**
- * The wave. Only paint changes, never geometry, so a pill never nudges its
- * neighbours and the text stays exactly where the eye left it.
+ * The wave. Paint and a transform, which is deliberately not the same thing as
+ * geometry: a scale is composited, so a pill can swell without reflowing the wrap or
+ * nudging a single neighbour. Nothing here can move a word to a new place.
+ *
+ * The word itself turns blue at the crest, not just the pill under it. Tinting only
+ * the background made the crest hard to find on a light ground, and the colour is the
+ * one thing that carries at a glance.
+ *
+ * The crest is held across a couple of frames rather than hit at a single instant.
+ * A peak with no dwell is a value the pill passes through on its way back down, and
+ * the eye never sees the colour it was aiming for.
  *
  * The lit phase is longer than the gap between two pills starting, so at any moment
  * about six of them are somewhere in the tint with one at its peak. That overlap is
@@ -39,20 +48,26 @@ const swell = keyframes`
   0%, 12%, 100% {
     background-color: #ffffff;
     border-color: ${GL.border};
+    color: ${GL.heading};
     box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+    transform: none;
   }
-  5% {
+  4%, 6.5% {
     background-color: #F1F6FE;
     border-color: rgba(25, 106, 229, 0.38);
-    box-shadow: 0 4px 14px rgba(25, 106, 229, 0.16);
+    color: ${GL.blue};
+    box-shadow: 0 6px 18px rgba(25, 106, 229, 0.18);
+    transform: scale(1.045);
   }
 `;
 
 /** How long the wave takes to cross the whole cluster, and how long it rests after. */
 const STEP = 0.16;
 const CYCLE = 9;
+/** How long the pills wait for the text to land before they start arriving. */
+const LEAD = 180;
 /** Clear of the entrance, so the two are never running on the same pill. */
-const SETTLE = 1.1;
+const SETTLE = 1.5;
 
 export function PitchInsideSection() {
   const { label, title, body } = INTRO_PITCH.inside;
@@ -102,8 +117,8 @@ export function PitchInsideSection() {
                   transform: reduce || inView ? "none" : "translateY(10px) scale(0.97)",
                   transition: reduce
                     ? "none"
-                    : `opacity 420ms cubic-bezier(0.05, 0.7, 0.1, 1) ${i * 25}ms,
-                       transform 420ms cubic-bezier(0.05, 0.7, 0.1, 1) ${i * 25}ms`,
+                    : `opacity 420ms cubic-bezier(0.05, 0.7, 0.1, 1) ${LEAD + i * 25}ms,
+                       transform 420ms cubic-bezier(0.05, 0.7, 0.1, 1) ${LEAD + i * 25}ms`,
                   animation:
                     inView && !reduce
                       ? `${swell} ${CYCLE}s linear ${SETTLE + i * STEP}s infinite`
@@ -115,7 +130,19 @@ export function PitchInsideSection() {
             ))}
           </Box>
 
-          <Box sx={{ order: { xs: 1, md: 2 } }}>
+          {/* The text lands first and the pills follow, so the section introduces
+              itself before its payload rather than everything arriving at once. */}
+          <Box
+            sx={{
+              order: { xs: 1, md: 2 },
+              opacity: reduce || inView ? 1 : 0,
+              transform: reduce || inView ? "none" : "translateY(14px)",
+              transition: reduce
+                ? "none"
+                : `opacity 520ms cubic-bezier(0.05, 0.7, 0.1, 1),
+                   transform 520ms cubic-bezier(0.05, 0.7, 0.1, 1)`,
+            }}
+          >
             <EyebrowRule label={label} />
             <Typography
               component="h2"
