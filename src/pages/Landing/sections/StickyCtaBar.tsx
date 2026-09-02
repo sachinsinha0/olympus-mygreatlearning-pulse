@@ -87,10 +87,10 @@ export function StickyCtaBar() {
             sx={{ width: 44, height: 44, objectFit: "contain", flexShrink: 0 }}
           />
           <Box sx={{ minWidth: 0 }}>
-            <Typography sx={{ fontSize: 17, fontWeight: 600, color: GL.heading, lineHeight: 1.3 }}>
+            <Typography sx={{ fontSize: 18, fontWeight: 600, color: GL.heading, lineHeight: 1.3 }}>
               {STICKY_BAR.name}
             </Typography>
-            <Typography sx={{ fontSize: 13, color: GL.body }}>{STICKY_BAR.meta}</Typography>
+            <Typography sx={{ fontSize: 14, color: GL.body }}>{STICKY_BAR.meta}</Typography>
           </Box>
         </Stack>
 
