@@ -1,5 +1,6 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { ArrowUpRight } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { GL } from "../landingTheme";
 import { DarkHeading, Section } from "../parts";
 import { GL_SITE, PG_SECTION } from "../content";
@@ -13,14 +14,22 @@ import { GL_SITE, PG_SECTION } from "../content";
  *
  * It used to be a single featured programme card. That was a dead end for a lead who
  * wants data science or management, and it read as though Great Learning ran one
- * course. The tiles are the homepage's own "Know more about" grid: its category
- * names, its programme counts, and the real domain paths from its navigation.
+ * course. The tiles are the homepage's own "Know more about" grid: its category names
+ * and the real domain paths from its navigation.
  *
  * The programme page's headline numbers used to sit under the heading. They went with
  * the card, because they belong to that one programme and would read as claims about
  * the whole catalogue once the programme they describe is no longer on screen.
  */
-function CategoryTile({ name, count, path }: { name: string; count: string; path: string }) {
+function CategoryTile({
+  Icon,
+  name,
+  path,
+}: {
+  Icon: LucideIcon;
+  name: string;
+  path: string;
+}) {
   return (
     <Box
       component="a"
@@ -34,8 +43,8 @@ function CategoryTile({ name, count, path }: { name: string; count: string; path
         gap: 1.5,
         border: `1px solid ${GL.darkBorder}`,
         borderRadius: "10px",
-        px: 2.25,
-        py: 2,
+        px: 2,
+        py: 1.75,
         textDecoration: "none",
         transition: "border-color 160ms ease, background-color 160ms ease",
         "&:hover": {
@@ -46,12 +55,29 @@ function CategoryTile({ name, count, path }: { name: string; count: string; path
         "&:focus-visible": { outline: "2px solid #ffffff", outlineOffset: "2px" },
       }}
     >
-      <Box sx={{ minWidth: 0 }}>
+      <Stack direction="row" alignItems="center" gap={1.75} sx={{ minWidth: 0 }}>
+        {/* On a well behind the glyph, so eight of them read as one set rather than
+            as eight loose marks at eight different weights. */}
+        <Box
+          aria-hidden
+          sx={{
+            flexShrink: 0,
+            width: 36,
+            height: 36,
+            borderRadius: "8px",
+            backgroundColor: "rgba(255, 255, 255, 0.08)",
+            color: "#ffffff",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Icon size={18} />
+        </Box>
         <Typography sx={{ fontSize: 15, fontWeight: 600, color: "#ffffff", lineHeight: 1.35 }}>
           {name}
         </Typography>
-        <Typography sx={{ fontSize: 13, color: GL.darkBody, mt: 0.25 }}>{count}</Typography>
-      </Box>
+      </Stack>
       {/* Points off the page, because every one of these leaves the prototype. */}
       <Box
         aria-hidden

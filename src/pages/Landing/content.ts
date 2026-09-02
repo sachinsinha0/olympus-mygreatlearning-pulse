@@ -1,4 +1,14 @@
-import { Briefcase, Clock, Sparkles } from "lucide-react";
+import {
+  BarChart3,
+  Bot,
+  BrainCircuit,
+  Briefcase,
+  Cloud,
+  Clock,
+  Compass,
+  GraduationCap,
+  Sparkles,
+} from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { TRIAL_DAYS } from "../../lib/pulse/trial";
 
@@ -158,12 +168,12 @@ export const MODULES_NEXT = {
  * one featured programme card, which was a dead end for a lead who wants data science
  * or management, and it read as though Great Learning ran a single course.
  *
- * The categories are the homepage's "Know more about" tiles: its names, its programme
- * counts, and the real domain paths from its navigation. Ordered by count, so the
- * biggest catalogue is the first thing a browsing lead sees.
+ * The categories are the homepage's "Know more about" tiles, with its names and the
+ * real domain paths from its navigation. Its programme counts are not shown: they
+ * date, and a lead choosing a field does not pick it by how many courses are in it.
  *
- * The counts date. They are the one thing here that will go stale, so check them
- * against the homepage before this page goes in front of a real lead.
+ * Ordered by how close each one sits to what the reader has just been reading about,
+ * so the AI categories come first and the broader ones follow.
  *
  * The heading is a statement, not a question. Great Learning's headings are
  * imperatives and noun phrases, and "Ready to go deeper than two weeks at a time?"
@@ -174,14 +184,14 @@ export const PG_SECTION = {
   body: "Pulse keeps you updated on what is new. A Great Learning program builds the whole skill set, with university faculty behind it.",
   cta: "Explore Programs",
   categories: [
-    { name: "AI & Machine Learning", count: "24 programs", path: "/artificial-intelligence/courses" },
-    { name: "Leadership Programs", count: "13 programs", path: "/executive-leadership/courses" },
-    { name: "Generative AI", count: "12 programs", path: "/gen-ai/courses" },
-    { name: "Data Science & Analytics", count: "10 programs", path: "/data-science/courses" },
-    { name: "Masters", count: "9 programs", path: "/degrees/masters-courses" },
-    { name: "Agentic AI", count: "8 programs", path: "/agentic-ai/courses" },
-    { name: "Management", count: "8 programs", path: "/management/courses" },
-    { name: "Cloud Computing", count: "2 programs", path: "/cloud-computing/courses" },
+    { Icon: BrainCircuit, name: "AI & Machine Learning", path: "/artificial-intelligence/courses" },
+    { Icon: Sparkles, name: "Generative AI", path: "/gen-ai/courses" },
+    { Icon: Bot, name: "Agentic AI", path: "/agentic-ai/courses" },
+    { Icon: BarChart3, name: "Data Science & Analytics", path: "/data-science/courses" },
+    { Icon: Cloud, name: "Cloud Computing", path: "/cloud-computing/courses" },
+    { Icon: Briefcase, name: "Management", path: "/management/courses" },
+    { Icon: Compass, name: "Leadership Programs", path: "/executive-leadership/courses" },
+    { Icon: GraduationCap, name: "Masters", path: "/degrees/masters-courses" },
   ],
 } as const;
 
