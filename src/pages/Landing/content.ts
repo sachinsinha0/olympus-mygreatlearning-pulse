@@ -3,8 +3,6 @@ import type { LucideIcon } from "lucide-react";
 import { TRIAL_DAYS } from "../../lib/pulse/trial";
 
 export const ADVISOR_PHONE = "+91 797-117-1332";
-export const PG_PROGRAM_URL =
-  "https://www.mygreatlearning.com/pg-program-online-artificial-intelligence-machine-learning";
 
 /**
  * The hero is the product's banner, so every string here is PulseV2Hero's, verbatim:
@@ -154,65 +152,37 @@ export const MODULES_NEXT = {
 };
 
 /**
- * The cross sell, taken from the live programme page rather than written here.
+ * The cross sell.
  *
- * Everything in the card is the real programme's: the full name with the ampersand,
- * both institutions, the twelve month online format, the ranking badge the homepage
- * card carries, and three of the programme page's own "why this program" lines word
- * for word. The section used to name it "the PG Program in AI and Machine Learning",
- * mention no university at all, and list three benefits nobody at Great Learning had
- * written.
+ * Our story on the left, Great Learning's own categories on the right. It used to be
+ * one featured programme card, which was a dead end for a lead who wants data science
+ * or management, and it read as though Great Learning ran a single course.
  *
- * The heading is a statement, not a question. Great Learning's own headings are
+ * The categories are the homepage's "Know more about" tiles: its names, its programme
+ * counts, and the real domain paths from its navigation. Ordered by count, so the
+ * biggest catalogue is the first thing a browsing lead sees.
+ *
+ * The counts date. They are the one thing here that will go stale, so check them
+ * against the homepage before this page goes in front of a real lead.
+ *
+ * The heading is a statement, not a question. Great Learning's headings are
  * imperatives and noun phrases, and "Ready to go deeper than two weeks at a time?"
  * asked the reader to answer something before it told them anything.
  */
 export const PG_SECTION = {
   title: "Go further with a full program",
-  body: "Pulse keeps you updated on what is new. A Great Learning program builds the whole skill set.",
-  /** The programme page's own headline numbers. */
-  stats: [
-    { figure: "50%", caption: "avg. salary hike" },
-    { figure: "3900+", caption: "hiring companies" },
-    { figure: "3 out of 4", caption: "learners in AI roles" },
+  body: "Pulse keeps you updated on what is new. A Great Learning program builds the whole skill set, with university faculty behind it.",
+  cta: "Explore Programs",
+  categories: [
+    { name: "AI & Machine Learning", count: "24 programs", path: "/artificial-intelligence/courses" },
+    { name: "Leadership Programs", count: "13 programs", path: "/executive-leadership/courses" },
+    { name: "Generative AI", count: "12 programs", path: "/gen-ai/courses" },
+    { name: "Data Science & Analytics", count: "10 programs", path: "/data-science/courses" },
+    { name: "Masters", count: "9 programs", path: "/degrees/masters-courses" },
+    { name: "Agentic AI", count: "8 programs", path: "/agentic-ai/courses" },
+    { name: "Management", count: "8 programs", path: "/management/courses" },
+    { name: "Cloud Computing", count: "2 programs", path: "/cloud-computing/courses" },
   ],
-  /** Laid out in the order a Great Learning programme card uses. */
-  card: {
-    /** Why this one and not another. The card is a pick, so it should say so. */
-    eyebrow: "Closest to AI Pulse",
-    university: "McCombs School of Business, The University of Texas at Austin",
-    partner: "with Great Lakes Executive Learning",
-    name: "PG Program in Artificial Intelligence & Machine Learning",
-    meta: ["12 Months", "Online"],
-    badge: "#1 Ranked AI Program",
-    points: [
-      "Learn from Texas McCombs Faculty",
-      "Attend Weekly Live Mentorship Sessions with Industry Experts",
-      "Learn Without Disrupting Your Work Schedule",
-    ],
-    cta: "View Program",
-  },
-  /**
-   * The other doors. A lead arriving from a sales call may want data science or
-   * management, and one featured card is a dead end for all of them.
-   *
-   * Great Learning has no single "all programs" page. Its navigation browses by
-   * domain, so these are its real domain listings with their real paths, and the
-   * label is its own heading for the same device.
-   */
-  browse: {
-    label: "Browse by domain",
-    domains: [
-      { name: "Artificial Intelligence", path: "/artificial-intelligence/courses" },
-      { name: "Data Science & Analytics", path: "/data-science/courses" },
-      { name: "Generative AI", path: "/gen-ai/courses" },
-      { name: "Agentic AI", path: "/agentic-ai/courses" },
-      { name: "Software & Tech", path: "/software-engineering/courses" },
-      { name: "Cloud Computing", path: "/cloud-computing/courses" },
-      { name: "Management", path: "/management/courses" },
-      { name: "Leadership Programs", path: "/executive-leadership/courses" },
-    ],
-  },
 } as const;
 
 /** Everything the cross sell links to lives on the marketing site. */
