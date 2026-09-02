@@ -12,7 +12,6 @@ import { PgProgramSection } from "./sections/PgProgramSection";
 import { FaqSection } from "./sections/FaqSection";
 import { LandingFooter } from "./sections/LandingFooter";
 import { StickyCtaBar } from "./sections/StickyCtaBar";
-import { TrialRailRegion } from "./sections/TrialRailRegion";
 
 export function AiPulseLanding() {
   return (
@@ -28,9 +27,7 @@ export function AiPulseLanding() {
         <PitchWhatItIsSection />
         <PitchCadenceSection />
         <PitchInsideSection />
-        <TrialRailRegion>
-          <ModulesSection />
-        </TrialRailRegion>
+        <ModulesSection />
         {/* No trial-steps section here. It restated the FAQ: the credit card, the
             under an hour, and what happens after the trial are all answered there in
             nearly the same words. The trial card in the rail is the one place that

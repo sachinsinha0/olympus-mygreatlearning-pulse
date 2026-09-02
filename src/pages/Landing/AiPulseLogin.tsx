@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import { Box, Button, CssBaseline, TextField, Typography } from "@mui/material";
 import { GL, landingTheme } from "./landingTheme";
-import { RAIL_CARD } from "./content";
+import { TRIAL_FORM } from "./content";
 import logo from "../../assets/gl-logo.svg";
 import { TRIAL_DAYS } from "../../lib/pulse/trial";
 import { selectLandingModules } from "../../lib/pulse/landingModules";
@@ -107,7 +107,7 @@ export function AiPulseLogin() {
               size="medium"
               type="email"
               label="Email"
-              placeholder={RAIL_CARD.placeholder}
+              placeholder={TRIAL_FORM.placeholder}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               sx={{ mt: 3 }}
@@ -121,7 +121,7 @@ export function AiPulseLogin() {
           <Typography
             sx={{ fontSize: 11, color: GL.body, textAlign: "center", mt: 2, lineHeight: 1.5 }}
           >
-            {RAIL_CARD.consent}
+            {TRIAL_FORM.consent}
           </Typography>
         </Box>
       </Box>

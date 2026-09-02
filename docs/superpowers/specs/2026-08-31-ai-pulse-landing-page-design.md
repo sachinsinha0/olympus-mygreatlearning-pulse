@@ -191,7 +191,13 @@ a "Speak with our expert" line is not wanted on this page.
 | 10 | Footer | Dark | GL footer links |
 | 11 | Sticky bottom bar | White | Appears once the hero scrolls out of view |
 
-Plus the sticky trial card in the right rail, which starts at section 5 and releases at the end of
+The sticky trial card in the right rail was removed on 2 September. The sticky bottom bar
+already carries the call to action past every section, so a second one floating beside the
+module list put the same button on screen twice. It also took 448px out of that section,
+which is why the module list now sits on the same centred 900px measure as the FAQ. The
+email it used to prefill is collected at the login step instead.
+
+Superseded text: it started at section 5 and released at the end of
 section 6.
 
 ### 2. Hero
@@ -366,7 +372,6 @@ src/pages/Landing/
     PgProgramSection.tsx
     FaqSection.tsx
     LandingFooter.tsx
-    TrialRailCard.tsx
     StickyCtaBar.tsx
 
 src/lib/pulse/trial.ts             TRIAL_DAYS

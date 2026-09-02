@@ -205,11 +205,15 @@ export const FAQ: { q: string; a: string }[] = [
   },
 ];
 
-export const RAIL_CARD = {
-  title: "Start your free trial",
-  body: `${TRIAL_DAYS} days of full access. No credit card.`,
+/**
+ * The two strings the login step needs.
+ *
+ * They are the remains of the rail card, which is gone: the sticky bottom bar already
+ * carries the call to action past every section, so a second one floating beside the
+ * module list was the same button twice on one screen.
+ */
+export const TRIAL_FORM = {
   placeholder: "Enter your email",
-  cta: "Start Free Trial",
   consent: "By continuing you agree to our Terms of Use and Privacy Policy.",
 } as const;
 

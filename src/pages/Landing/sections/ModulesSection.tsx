@@ -3,8 +3,6 @@ import { Box, Stack, Typography } from "@mui/material";
 import { CalendarClock, Minus, Plus } from "lucide-react";
 import { GL } from "../landingTheme";
 import { CheckList, Section, SectionHeading } from "../parts";
-import { TrialRailCard } from "./TrialRailCard";
-import { RAIL_GUTTER } from "./TrialRailRegion";
 import { MODULES_HEADING, MODULES_NEXT } from "../content";
 import { selectLandingModules } from "../../../lib/pulse/landingModules";
 import { useUnitLabel } from "../../../lib/pulse/terminology";
@@ -22,6 +20,9 @@ import issuesData from "../../../mocks/pulse-issues.json";
  * and why it starts at Module 01 rather than at whatever the eight most recent happen
  * to begin with.
  *
+ * No trial card in a rail beside it any more, so the heading and the list share one
+ * centred block. Flush left would leave a void where the card used to be.
+ *
  * No count above the list. It used to read "11 modules are live right now, here are
  * the first 8", which spent the reader's attention on arithmetic about a list they
  * can see. What they cannot see is that it keeps growing, so that goes at the end
@@ -37,14 +38,14 @@ export function ModulesSection() {
 
   return (
     <Section py={{ xs: 6, md: 9 }}>
-      {/* From lg up the trial card floats over the right of this section, so the
-          heading and the accordion centre inside what is left rather than under it. */}
-      <Box sx={{ pr: { lg: `${RAIL_GUTTER}px` } }}>
+      {/* Heading and list in one 900px block, centred on the grid. The cap is there
+          because a row is a title and a plus, and stretched to the full 1280 the plus
+          ends up a long way from the words it belongs to. */}
+      <Box sx={{ maxWidth: 900, mx: "auto" }}>
       <SectionHeading>{MODULES_HEADING}</SectionHeading>
 
-      {/* Left, on the same edge as the heading. The cap only bites below lg, where
-          the trial card drops out of the rail and the column is wider. */}
-      <Stack gap={1.25} sx={{ mt: { xs: 4, md: 5 }, maxWidth: 900 }}>
+      {/* The heading stays left inside the block, on the same edge as the rows. */}
+      <Stack gap={1.25} sx={{ mt: { xs: 4, md: 5 } }}>
         {modules.map((issue) => {
           const open = expanded === issue.id;
           const panelId = `module-panel-${issue.id}`;
@@ -203,12 +204,6 @@ export function ModulesSection() {
         </Stack>
       </Stack>
 
-      </Box>
-
-      {/* The card once for phones and tablets. From lg up TrialRailRegion's sticky
-          copy is the one that shows, so it never appears twice. */}
-      <Box sx={{ display: { xs: "flex", lg: "none" }, justifyContent: "center", mt: 6 }}>
-        <TrialRailCard />
       </Box>
     </Section>
   );
