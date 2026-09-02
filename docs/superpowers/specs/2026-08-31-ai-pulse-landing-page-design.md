@@ -185,7 +185,7 @@ a "Speak with our expert" line is not wanted on this page.
 | 6 | The cadence | White | Onboarding beat two, with its 1 and 26 stat cards |
 | 7 | What's inside | Pale | Onboarding beat three, with the topic chips |
 | 6 | Why subscribe | `#0C111D` | The three product pillars in `PulseV2Hero`, plus the archive argument from the brief |
-| 6 | What is inside AI Pulse | White | `src/mocks/pulse-issues.json`, the file the product reads |
+| 6 | Here are the modules | White | `src/mocks/pulse-issues.json`, the file the product reads |
 | 7 | How the trial works | Pale | The real trial flow |
 | 8 | The PG Program | `#0C111D` | Real programme, real link, real number |
 | 9 | FAQ | White | Written answers, no invented facts |
@@ -236,12 +236,16 @@ which is what this page is selling.
 
 The sticky trial card floats over the right of this section, as the reference form does.
 
-### 6. What is inside AI Pulse
+### 6. Here are the modules
 
 The centrepiece, and the reason the page can be short. It reads `src/mocks/pulse-issues.json`, the
 same file the product reads.
 
-- Centred heading "What is inside AI Pulse?", centred intro line, then the accordion.
+- Centred heading "Here are the modules", then the accordion. No intro line: a count
+  above a visible list is arithmetic the reader does not need, and the heading must not
+  repeat the "What's inside" beat directly above it.
+- The list closes on a dashed, non-expanding row saying a new module lands every two
+  weeks, so the curriculum does not read as a fixed set.
 - Released modules only, meaning `releasedAt <= PULSE_TODAY`. That is 11 of the 13.
 - Newest first, sorted by `releasedAt` descending. Same rule as `PulseHome`.
 - Six rows, then a `View all modules` control that reveals the remaining five.

@@ -136,6 +136,16 @@ export const TOPIC_ROWS: readonly (readonly string[])[] = [
  * The reader wants to know what they get and when.
  */
 /**
+ * The module list's heading.
+ *
+ * It used to ask "What is inside AI Pulse?", directly under a beat the product heads
+ * "What's inside". The reader met the same question twice and had no way to tell the
+ * two sections apart. The difference is topics against modules, so the heading names
+ * modules and lets the real titles below it do the selling.
+ */
+export const MODULES_HEADING = "Here are the modules";
+
+/**
  * The row that closes the module list.
  *
  * The list shows what is already there, so the last thing the reader sees should be

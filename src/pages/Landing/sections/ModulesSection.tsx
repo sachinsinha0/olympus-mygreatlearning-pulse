@@ -5,7 +5,7 @@ import { GL } from "../landingTheme";
 import { CheckList, Section, SectionHeading } from "../parts";
 import { TrialRailCard } from "./TrialRailCard";
 import { RAIL_GUTTER } from "./TrialRailRegion";
-import { MODULES_NEXT } from "../content";
+import { MODULES_HEADING, MODULES_NEXT } from "../content";
 import { selectLandingModules } from "../../../lib/pulse/landingModules";
 import { useUnitLabel } from "../../../lib/pulse/terminology";
 import type { PulseIssue } from "../../../lib/pulse/types";
@@ -40,7 +40,7 @@ export function ModulesSection() {
       {/* From lg up the trial card floats over the right of this section, so the
           heading and the accordion centre inside what is left rather than under it. */}
       <Box sx={{ pr: { lg: `${RAIL_GUTTER}px` } }}>
-      <SectionHeading align="center">What is inside AI Pulse?</SectionHeading>
+      <SectionHeading align="center">{MODULES_HEADING}</SectionHeading>
 
       <Stack gap={1.25} sx={{ mt: { xs: 4, md: 5 }, maxWidth: 900, mx: "auto" }}>
         {modules.map((issue) => {
