@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
-import { Box, Link, Stack, Tab, Tabs, Typography } from "@mui/material";
+import { Link, Tab, Tabs, Typography } from "@mui/material";
 import { alpha, type Theme } from "@mui/material/styles";
-import { TopNav } from "../../components/TopNav/TopNav";
+import { OlympusShell } from "../../components/common/OlympusShell";
 import type { FeeAccount } from "../../lib/fees/feeAccount";
 
 /**
@@ -35,18 +35,7 @@ export const paperSx = {
 
 /** Olympus shell: content capped at 1232px, centered under the top nav. */
 export function FeeShell({ children }: { children: ReactNode }) {
-  return (
-    <Box sx={{ minHeight: "100vh", bgcolor: "background.default", display: "flex", flexDirection: "column" }}>
-      <TopNav />
-      <Box
-        component="main"
-        sx={{ flex: 1, width: "100%", maxWidth: 1232, mx: "auto", px: { xs: 2, md: 3, lg: 0 }, pt: { xs: 1, md: 4 }, pb: 6 }}
-      >
-        {children}
-      </Box>
-      <PageFooter />
-    </Box>
-  );
+  return <OlympusShell maxWidth={1232}>{children}</OlympusShell>;
 }
 
 export type FeeTab = "payment" | "history";
@@ -91,19 +80,5 @@ export function QueriesLine({ contact }: { contact: FeeAccount["contact"] }) {
         {contact.email}
       </Link>
     </Typography>
-  );
-}
-
-function PageFooter() {
-  return (
-    <Box component="footer" sx={{ py: 2.5, bgcolor: "surfaceContainer.high" }}>
-      <Stack direction="row" justifyContent="center" gap={1} sx={{ fontSize: 13, color: "text.secondary" }}>
-        <span>© {new Date().getFullYear()} All rights reserved</span>
-        <span aria-hidden>·</span>
-        <Link href="#" underline="hover" color="inherit">
-          Privacy
-        </Link>
-      </Stack>
-    </Box>
   );
 }

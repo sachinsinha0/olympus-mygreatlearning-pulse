@@ -1,22 +1,21 @@
+import { REFER_AND_EARN_PATH } from "./referral";
+
 /**
- * Refer & Earn offer promoted on the fee payment thank-you page. `maxReward`
- * matches the "Refer & Earn Up to $150" headline on the dashboard card.
+ * The Refer & Earn headline offer, shown on the Refer & Earn page and promoted
+ * on the fee payment thank-you page. `maxReward` matches the "Refer & Earn Up
+ * to $150" headline on the dashboard card.
  */
 export type ReferralOffer = {
   maxReward: number;
   currency: "USD" | "INR";
-  /**
-   * Where "Refer a Friend" goes. null renders a link that goes nowhere.
-   * TODO: point at the Olympus Refer & Earn page (/refer_and_earn?p=<program>&pb_id=<batch>)
-   * once this prototype has one.
-   */
-  url: string | null;
+  /** Where "Refer a Friend" goes: the Refer & Earn page. */
+  url: string;
 };
 
 export const referralOffer: ReferralOffer = {
   maxReward: 150,
   currency: "USD",
-  url: null,
+  url: REFER_AND_EARN_PATH,
 };
 
 /** "$150" — whole units, no decimals. */

@@ -1,10 +1,11 @@
-import { useEffect, type MouseEvent } from "react";
+import { useEffect } from "react";
+import { Link as RouterLink } from "react-router-dom";
 import { Box, Button, Typography } from "@mui/material";
 import { alpha, darken, type SxProps, type Theme } from "@mui/material/styles";
 import { ArrowRight } from "lucide-react";
 import coins from "../../assets/referral-coins.png";
 import { track } from "../../lib/analytics";
-import { formatReward, type ReferralOffer } from "../../lib/fees/referral";
+import { formatReward, type ReferralOffer } from "../../lib/referral/offer";
 import { EASE_OUT } from "./motion";
 
 /**
@@ -34,16 +35,15 @@ export function ReferralPanel({ offer, program, sx }: Props) {
     track("GL:FeePaymentReferral_Shown", { program, maxReward: offer.maxReward });
   }, [program, offer.maxReward]);
 
-  const onClick = (e: MouseEvent<HTMLAnchorElement>) => {
+  const onClick = () => {
     track("GL:FeePaymentReferral_Clicked", { program, maxReward: offer.maxReward });
-    if (!offer.url) e.preventDefault();
   };
 
   // The whole panel is one link; the button inside is only its visual call to action.
   return (
     <Box
-      component="a"
-      href={offer.url ?? "#"}
+      component={RouterLink}
+      to={offer.url}
       onClick={onClick}
       aria-labelledby="referral-title"
       sx={[
