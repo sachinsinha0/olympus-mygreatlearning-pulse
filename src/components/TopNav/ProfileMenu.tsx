@@ -22,9 +22,9 @@ import {
 import { useLocation, useNavigate } from "react-router-dom";
 import { useColorMode } from "../../theme/ColorModeContext";
 
-const staticItems: { label: string; Icon: LucideIcon }[] = [
+const staticItems: { label: string; Icon: LucideIcon; to?: string }[] = [
   { label: "My ePortfolio", Icon: Folder },
-  { label: "Fee Payment", Icon: CreditCard },
+  { label: "Fee Payment", Icon: CreditCard, to: "/fee_payment" },
   { label: "Grade Sheet", Icon: LineChart },
   { label: "MyGreatLearning", Icon: Hash },
   { label: "Industry Articles", Icon: Newspaper },
@@ -43,9 +43,10 @@ export function ProfileMenu() {
   const open = !!anchor;
   const { mode, toggle } = useColorMode();
   const navigate = useNavigate();
-  const supportActive = useLocation().pathname === "/program_support";
-  const items: ({ label: string; Icon: LucideIcon; onClick?: () => void })[] = [
-    ...staticItems,
+  const { pathname } = useLocation();
+  const supportActive = pathname === "/program_support";
+  const items: ({ label: string; Icon: LucideIcon; onClick?: () => void; to?: string })[] = [
+    ...staticItems.map((item) => ({ ...item, onClick: item.to ? () => navigate(item.to!) : undefined })),
     {
       label: mode === "dark" ? "Change to light mode" : "Change to dark mode",
       Icon: mode === "dark" ? Sun : Moon,
@@ -162,9 +163,10 @@ export function ProfileMenu() {
         </Box>
         <Divider sx={{ mb: 0.5 }} />
 
-        {items.map(({ label, Icon, onClick }) => (
+        {items.map(({ label, Icon, onClick, to }) => (
           <MenuItem
             key={label}
+            selected={!!to && pathname.startsWith(to)}
             onClick={() => {
               onClick?.();
               setAnchor(null);
@@ -175,7 +177,7 @@ export function ProfileMenu() {
               gap: 1.5,
               borderRadius: "8px",
               mx: 0.5,
-              "&:hover": {
+              "&:hover, &.Mui-selected, &.Mui-selected:hover": {
                 bgcolor: theme.palette.mode === "dark"
                   ? "rgba(179, 197, 255, 0.12)"
                   : "rgba(218, 225, 255, 0.32)",

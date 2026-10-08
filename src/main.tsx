@@ -8,6 +8,7 @@ import "@fontsource/inter/700.css";
 import { ColorModeProvider } from "./theme/ColorModeContext";
 import { PricingProvider } from "./lib/pulse/pricing";
 import { LearningProgressProvider } from "./lib/pulse/learningProgress";
+import { FeeAccountProvider } from "./lib/fees/feeAccount";
 import { App } from "./App";
 
 createRoot(document.getElementById("root")!).render(
@@ -15,6 +16,7 @@ createRoot(document.getElementById("root")!).render(
     <ColorModeProvider>
       <PricingProvider>
       <LearningProgressProvider>
+      <FeeAccountProvider>
       <CssBaseline />
       <GlobalStyles
         styles={(theme) => ({
@@ -30,6 +32,7 @@ createRoot(document.getElementById("root")!).render(
         })}
       />
       <App />
+      </FeeAccountProvider>
       </LearningProgressProvider>
       </PricingProvider>
     </ColorModeProvider>
