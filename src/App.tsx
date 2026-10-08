@@ -20,6 +20,8 @@ import { ProtoGuidedSteps } from "./pages/ProtoGuidedSteps";
 import { ProtoStepper } from "./pages/ProtoStepper";
 import { ProtoIndex } from "./pages/ProtoIndex";
 import { InterviewReport } from "./pages/InterviewReport/InterviewReport";
+import { FeePayment } from "./pages/FeePayment/FeePayment";
+import { FeePaymentSuccess } from "./pages/FeePayment/FeePaymentSuccess";
 
 // Lazy so the Poppins font CSS and the marketing theme only load for someone who
 // actually visits the landing page. Product users never download them.
@@ -54,6 +56,8 @@ const router = createBrowserRouter([
       { path: "/", element: <Dashboard /> },
       { path: "/courses", element: <Courses /> },
       { path: "/courses/:id", element: <CourseDetail /> },
+      { path: "/fee_payment", element: <FeePayment /> },
+      { path: "/fee_payment/success", element: <FeePaymentSuccess /> },
       { path: "/program_support", element: <ProgramSupport /> },
       { path: "/program_support/ask", element: <AskQuestion /> },
       { path: "/program_support/glaide", element: <TopicCompose /> },

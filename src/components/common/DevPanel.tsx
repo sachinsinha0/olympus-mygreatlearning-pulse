@@ -4,15 +4,18 @@ import { RotateCcw, X } from "lucide-react";
 import { usePricing, type PricingState } from "../../lib/pulse/pricing";
 import { useLearningProgress } from "../../lib/pulse/learningProgress";
 import { clearIntroSeen, useHasSeenIntro } from "../../lib/pulse/onboarding";
+import { useFeeAccount, type FeeScenario } from "../../lib/fees/feeAccount";
 
 export function DevPanel() {
   const [open, setOpen] = useState(false);
   const { state, activeUntil, trialStartedAt, setState, setActiveUntil, startTrial, reset: resetPricing } = usePricing();
   const { reset: resetLearning } = useLearningProgress();
   const introSeen = useHasSeenIntro();
+  const { account: feeAccount, setScenario: setFeeScenario, setReferralEnabled, reset: resetFees } = useFeeAccount();
 
   const resetAll = () => {
     resetPricing();
+    resetFees();
     resetLearning();
     clearIntroSeen();
   };
@@ -170,6 +173,33 @@ export function DevPanel() {
           </Stack>
           )}
 
+        </Section>
+
+        <Box sx={{ height: 24 }} />
+
+        <Section title="Fee Payment">
+          <SegmentedControl<FeeScenario>
+            value={feeAccount.scenario}
+            onChange={setFeeScenario}
+            options={[
+              { value: "due", label: "Payment due (₹)" },
+              { value: "paid", label: "All paid ($)" },
+            ]}
+          />
+          <Typography sx={{ fontSize: 12.5, color: "text.secondary" }}>
+            Refreshing the page, or picking a scenario, starts it over unpaid so you can run the payment flow again.
+          </Typography>
+          <Stack gap={0.75} sx={{ mt: 1 }}>
+            <Label>Refer &amp; Earn on thank-you page</Label>
+            <SegmentedControl<"on" | "off">
+              value={feeAccount.referralEnabled ? "on" : "off"}
+              onChange={(v) => setReferralEnabled(v === "on")}
+              options={[
+                { value: "on", label: "Program has it" },
+                { value: "off", label: "Program doesn't" },
+              ]}
+            />
+          </Stack>
         </Section>
 
         <Box sx={{ height: 24 }} />
