@@ -1,7 +1,7 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { Link as RouterLink, useSearchParams } from "react-router-dom";
 import { useFeeAccount } from "../../lib/fees/feeAccount";
-import { referralOffer } from "../../lib/fees/referral";
+import { referralOffer } from "../../lib/referral/offer";
 import { FeeShell } from "./parts";
 import { PaymentSuccessCard } from "./PaymentSuccessCard";
 import { ReferralPanel } from "./ReferralPanel";

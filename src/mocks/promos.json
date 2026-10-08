@@ -15,7 +15,8 @@
     "headline": "Refer & Earn Up to $150",
     "body": "Earn big rewards when your friend joins a program",
     "cta": "Refer a Friend",
-    "ctaColor": "warning"
+    "ctaColor": "warning",
+    "href": "/refer_and_earn"
   },
   {
     "id": "interview",

@@ -28,7 +28,7 @@ const staticItems: { label: string; Icon: LucideIcon; to?: string }[] = [
   { label: "Grade Sheet", Icon: LineChart },
   { label: "MyGreatLearning", Icon: Hash },
   { label: "Industry Articles", Icon: Newspaper },
-  { label: "Refer & Earn", Icon: Banknote },
+  { label: "Refer & Earn", Icon: Banknote, to: "/refer_and_earn" },
   { label: "Testimonials", Icon: FilePen },
   { label: "Settings", Icon: Settings },
 ];
