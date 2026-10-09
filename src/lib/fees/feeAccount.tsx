@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import {
   allocatePayment,
   randomHex,
+  stateForPincode,
   type Currency,
   type Installment,
   type PaymentMode,
@@ -44,6 +45,13 @@ export type PaymentRequest = {
   mode: PaymentMode;
 };
 
+/**
+ * Pincode the location card starts with, so learners can pay straight away and
+ * only edit it if it's wrong. Looking up the real one would need the browser's
+ * location permission plus a reverse-geocoding service, so we use a fixed one.
+ */
+export const DEFAULT_PINCODE = "560102";
+
 const SCENARIOS: Record<FeeScenario, () => FeeAccount> = {
   due: () => ({
     scenario: "due",
@@ -53,7 +61,7 @@ const SCENARIOS: Record<FeeScenario, () => FeeAccount> = {
     installments: [{ id: "admission", label: "Admission Fee", amount: 100000, dueDate: "2026-10-31", paid: 0 }],
     transactions: [],
     discountNote: null,
-    location: null,
+    location: { pincode: DEFAULT_PINCODE, state: stateForPincode(DEFAULT_PINCODE) },
     phone: "8800474004",
     email: "vi@gl.in",
     contact: { phones: ["+917752919436"], email: "testkt@gl.io" },
