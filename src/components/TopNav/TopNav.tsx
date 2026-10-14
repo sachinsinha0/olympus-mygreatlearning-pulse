@@ -33,7 +33,7 @@ export function TopNav() {
       }}
     >
       <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ width: "100%" }}>
-        <Stack direction="row" alignItems="center" gap={{ xs: 0.75, md: 1.5 }}>
+        <Stack direction="row" alignItems="center" gap={{ xs: 0.75, md: 1, xl: 1.5 }}>
           <IconButton
             onClick={() => setDrawerOpen(true)}
             disableRipple
@@ -57,7 +57,7 @@ export function TopNav() {
           <Stack
             direction="row"
             alignItems="center"
-            gap={1.5}
+            gap={{ md: 1, xl: 1.5 }}
             sx={{ display: { xs: "none", md: "flex" } }}
           >
             <ProgramSwitcher />

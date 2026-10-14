@@ -33,8 +33,9 @@ export function ProgramSwitcher({ variant = "topbar" }: { variant?: Variant } = 
           fontWeight: 500,
           fontSize: 14,
           justifyContent: isDrawer ? "center" : "space-between",
-          width: isDrawer ? "100%" : 134,
-          minWidth: isDrawer ? "100%" : 134,
+          // A little narrower from 1024 to 1279 so the top nav fits on one line.
+          width: isDrawer ? "100%" : { md: 112, xl: 134 },
+          minWidth: isDrawer ? "100%" : { md: 112, xl: 134 },
           "&:hover": { borderColor: "outline.main", bgcolor: "surfaceContainer.high" },
           "& .MuiButton-endIcon": { ml: 0.75, color: "primary.main" },
         }}

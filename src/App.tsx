@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect } from "react";
 import { createBrowserRouter, RouterProvider, Outlet, Navigate, useLocation } from "react-router-dom";
 import { DevPanel } from "./components/common/DevPanel";
+import { DevicePreview } from "./components/common/DevicePreview";
 import { PageLoaderProvider } from "./components/common/PageLoader";
 import { PricingModal } from "./components/pulse/PricingModal";
 import { Dashboard } from "./pages/Dashboard";
@@ -39,14 +40,16 @@ function ScrollToTop() {
 
 function RootLayout() {
   return (
-    <PageLoaderProvider>
-      <ScrollToTop />
-      <DevPanel />
-      <PricingModal />
-      <SupportProvider>
-        <Outlet />
-      </SupportProvider>
-    </PageLoaderProvider>
+    <DevicePreview>
+      <PageLoaderProvider>
+        <ScrollToTop />
+        <DevPanel />
+        <PricingModal />
+        <SupportProvider>
+          <Outlet />
+        </SupportProvider>
+      </PageLoaderProvider>
+    </DevicePreview>
   );
 }
 
