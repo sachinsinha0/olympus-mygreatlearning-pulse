@@ -12,6 +12,9 @@ import { EASE_OUT } from "./motion";
  * Refer & Earn side panel for the thank-you page. Ported from the approved
  * payment result page (gl-payment-page src/components/ReferralBanner.tsx).
  * Colours are the Olympus orange 50/100 and warning 160p tones.
+ *
+ * On desktop it is a tall aside. Below md it sits under the confirmation, so it
+ * is laid out wide and short: coins beside the title, tighter spacing.
  */
 function referralColors(t: Theme) {
   const dark = t.palette.mode === "dark";
@@ -52,10 +55,17 @@ export function ReferralPanel({ offer, program, sx }: Props) {
           return {
             position: "relative",
             overflow: "hidden",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-start",
-            p: { xs: 3, sm: 4 },
+            display: "grid",
+            gridTemplateColumns: { xs: "minmax(0, 1fr) auto", md: "minmax(0, 1fr)" },
+            gridTemplateAreas: {
+              xs: '"title art" "body body" "cta cta" "fine fine"',
+              // Tablets have the width for the coins to sit beside the title and the text under it.
+              sm: '"title art" "body art" "cta art" "fine fine"',
+              md: '"art" "title" "body" "cta" "fine"',
+            },
+            justifyItems: "start",
+            columnGap: 2,
+            p: { xs: 2.5, sm: 3, md: 4 },
             borderRadius: "8px",
             border: `1px solid ${c.border}`,
             color: "text.primary",
@@ -86,16 +96,29 @@ export function ReferralPanel({ offer, program, sx }: Props) {
         src={coins}
         alt=""
         className="referral-art"
-        sx={{ display: "block", width: { xs: 88, sm: 104 }, height: "auto", aspectRatio: "309 / 305" }}
+        sx={{ gridArea: "art", alignSelf: { xs: "start", sm: "center", md: "start" }, display: "block", width: { xs: 64, sm: 96, md: 104 }, height: "auto", aspectRatio: "309 / 305" }}
       />
 
-      <Typography id="referral-title" component="h2" sx={{ fontSize: 24, fontWeight: 600, lineHeight: "28px", letterSpacing: "-0.4px", mt: 3, textWrap: "balance" }}>
+      <Typography
+        id="referral-title"
+        component="h2"
+        sx={{
+          gridArea: "title",
+          alignSelf: "center",
+          fontSize: { xs: 20, md: 24 },
+          fontWeight: 600,
+          lineHeight: { xs: "26px", md: "28px" },
+          letterSpacing: "-0.4px",
+          mt: { xs: 0, md: 3 },
+          textWrap: "balance",
+        }}
+      >
         Refer a friend, earn up to{" "}
         <Box component="span" sx={(t) => ({ color: referralColors(t).reward })}>
           {formatReward(offer)}
         </Box>
       </Typography>
-      <Typography sx={{ fontSize: 14, lineHeight: "20px", color: "text.secondary", mt: 2, maxWidth: "40ch" }}>
+      <Typography sx={{ gridArea: "body", fontSize: 14, lineHeight: "20px", color: "text.secondary", mt: { xs: 1, md: 2 }, maxWidth: "40ch" }}>
         Your friend gets a fee waiver when they join a Great Learning program, and you earn a reward.
       </Typography>
       <Button
@@ -106,7 +129,8 @@ export function ReferralPanel({ offer, program, sx }: Props) {
         tabIndex={-1}
         aria-hidden
         sx={{
-          mt: 4,
+          gridArea: "cta",
+          mt: { xs: 2, md: 4 },
           height: 42,
           px: 2.75,
           fontSize: 15,
@@ -121,7 +145,7 @@ export function ReferralPanel({ offer, program, sx }: Props) {
         Refer a Friend
       </Button>
 
-      <Typography component="p" sx={{ fontSize: 12, lineHeight: "20px", letterSpacing: "0.4px", color: "text.secondary", mt: 4 }}>
+      <Typography component="p" sx={{ gridArea: "fine", fontSize: 12, lineHeight: "20px", letterSpacing: "0.4px", color: "text.secondary", mt: { xs: 1.5, md: 4 } }}>
         Reward amount depends on the program your friend joins. T&C apply.
       </Typography>
     </Box>

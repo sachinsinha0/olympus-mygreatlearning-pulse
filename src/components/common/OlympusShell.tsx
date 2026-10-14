@@ -14,7 +14,9 @@ export function OlympusShell({ children, maxWidth, sx }: { children: ReactNode; 
       <Box
         component="main"
         sx={[
-          { flex: 1, width: "100%", maxWidth, mx: "auto", px: { xs: 2, md: 3, lg: 0 }, pt: { xs: 1, md: 4 }, pb: 6 },
+          // md and lg are both 1024 in this theme, so the gutter stays on and is added
+          // to maxWidth: the content column is still `maxWidth` wide on large screens.
+          { flex: 1, width: "100%", maxWidth: maxWidth + 48, mx: "auto", px: { xs: 2, md: 3 }, pt: { xs: 1, md: 4 }, pb: 6 },
           ...(Array.isArray(sx) ? sx : [sx]),
         ]}
       >

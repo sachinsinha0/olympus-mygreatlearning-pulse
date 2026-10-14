@@ -3,7 +3,7 @@ import { Link as RouterLink, useSearchParams } from "react-router-dom";
 import { useFeeAccount } from "../../lib/fees/feeAccount";
 import { referralOffer } from "../../lib/referral/offer";
 import { FeeShell } from "./parts";
-import { PaymentSuccessCard } from "./PaymentSuccessCard";
+import { PaymentSuccessCard, SupportLine } from "./PaymentSuccessCard";
 import { ReferralPanel } from "./ReferralPanel";
 import { SUCCESS_TIMELINE, enterUp } from "./motion";
 
@@ -45,18 +45,20 @@ export function FeePaymentSuccess() {
     );
   }
 
-  const card = <PaymentSuccessCard txn={txn} account={account} sx={enterUp()} />;
+  // With a referral, phones and tablets show the support line after the panel: the
+  // referral is the next step we want seen, support is the fallback.
+  const card = <PaymentSuccessCard txn={txn} account={account} supportOnDesktopOnly={showReferral} sx={enterUp()} />;
 
   return (
     <FeeShell>
       {showReferral ? (
         <Box
           sx={{
-            // The shell gives 8px on phones; result pages sit 24px below the nav.
-            mt: { xs: 2, md: 0 },
+            // The shell gives 8px on phones; result pages sit 16px below the nav.
+            mt: { xs: 1, md: 0 },
             display: "grid",
             gridTemplateColumns: { xs: "minmax(0, 1fr)", md: "minmax(0, 7fr) minmax(0, 4fr)" },
-            gap: { xs: 3, md: 4 },
+            gap: { xs: 2, md: 4 },
             alignItems: "start",
             maxWidth: 1080,
             mx: "auto",
@@ -67,6 +69,10 @@ export function FeePaymentSuccess() {
             offer={referralOffer}
             program={account.programName}
             sx={[{ position: { md: "sticky" }, top: { md: STICKY_TOP } }, enterUp(SUCCESS_TIMELINE.aside)]}
+          />
+          <SupportLine
+            contact={account.contact}
+            sx={[{ display: { md: "none" }, px: 0.5 }, enterUp(SUCCESS_TIMELINE.aside + 100)]}
           />
         </Box>
       ) : (

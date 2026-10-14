@@ -35,8 +35,9 @@ export function NavTabs({ variant = "topbar", onNavigate }: { variant?: Variant;
   return (
     <Stack
       direction={isDrawer ? "column" : "row"}
-      gap={isDrawer ? 0.5 : 2}
-      sx={{ ml: isDrawer ? 0 : 1, width: isDrawer ? "100%" : "auto" }}
+      // Tighter from 1024 to 1279 so the tabs, switcher and profile icons fit on one line.
+      gap={isDrawer ? 0.5 : { md: 0.5, xl: 2 }}
+      sx={{ ml: isDrawer ? 0 : { md: 0, xl: 1 }, width: isDrawer ? "100%" : "auto" }}
     >
       {tabs.map(({ id, label, Icon, path, badge }) => {
         const selected = isActive(path);
@@ -55,8 +56,9 @@ export function NavTabs({ variant = "topbar", onNavigate }: { variant?: Variant;
             disableRipple
             sx={{
               height: isDrawer ? 48 : 40,
-              px: 2,
+              px: isDrawer ? 2 : { md: 1.25, xl: 2 },
               py: 1,
+              whiteSpace: "nowrap",
               borderRadius: "8px",
               fontSize: 14,
               fontWeight: 500,
