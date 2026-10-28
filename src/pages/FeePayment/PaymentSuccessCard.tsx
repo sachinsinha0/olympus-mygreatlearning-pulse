@@ -19,7 +19,7 @@ import { burstOut, drawStroke, enterUp, fadeIn, popIn, rippleOut, SUCCESS_TIMELI
  * in the headline) and the receipt download moves to the card's footer row.
  */
 
-const tabularNums = { fontVariantNumeric: "tabular-nums" } as const;
+export const tabularNums = { fontVariantNumeric: "tabular-nums" } as const;
 
 const visuallyHidden = {
   position: "absolute",
@@ -33,14 +33,14 @@ const visuallyHidden = {
   border: 0,
 } as const;
 
-const METHOD_LABEL: Record<PaymentMode, string> = {
+export const METHOD_LABEL: Record<PaymentMode, string> = {
   UPI: "UPI",
   "Credit Card": "Credit card",
   Netbanking: "Netbanking",
 };
 
 /** 24 / 32 / 40px side padding for every section of the card. */
-const sectionPx = { xs: 3, sm: 4, md: 5 };
+export const sectionPx = { xs: 3, sm: 4, md: 5 };
 
 type Props = {
   txn: Transaction;
@@ -361,7 +361,7 @@ function SuccessMark() {
   );
 }
 
-function Detail({ label, children, action }: { label: string; children: ReactNode; action?: ReactNode }) {
+export function Detail({ label, children, action }: { label: string; children: ReactNode; action?: ReactNode }) {
   return (
     <Box sx={{ minWidth: 0 }}>
       <Typography component="dt" variant="caption" sx={{ color: "text.secondary", display: "block", letterSpacing: 0 }}>
@@ -379,7 +379,7 @@ function Detail({ label, children, action }: { label: string; children: ReactNod
 
 type CopyState = "idle" | "copied" | "failed";
 
-function CopyButton({ value, label }: { value: string; label: string }) {
+export function CopyButton({ value, label }: { value: string; label: string }) {
   const [state, setState] = useState<CopyState>("idle");
 
   useEffect(() => {
