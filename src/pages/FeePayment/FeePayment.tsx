@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Box, CircularProgress, Stack, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { stateForPincode, type PaymentMode } from "../../lib/fees/fees";
 import { useFeeAccount } from "../../lib/fees/feeAccount";
 import { FeeShell, FeeTabs, QueriesLine, type FeeTab } from "./parts";
@@ -9,6 +9,7 @@ import { HistoryTab } from "./HistoryTab";
 import { LocationDialog } from "./LocationDialog";
 import { PaymentsDialog, type CheckoutRequest } from "./PaymentsDialog";
 import { MockCheckout } from "./MockCheckout";
+import type { FeeReturnState } from "./FeePaymentFailed";
 
 /** How long the pincode → state lookup "takes". */
 const RESOLVE_MS = 1100;
@@ -18,11 +19,14 @@ const PROCESSING_MS = 1800;
 /**
  * /fee_payment — clone of Olympus' fee payment page. Flow:
  * Make Payment → (location, if GST applies and none on file) → Payments dialog
- * → checkout → Payment Processing → /fee_payment/success.
+ * → checkout → Payment Processing → /fee_payment/success, or /fee_payment/failed
+ * when the Dev Panel has armed a failure. The failure page comes back here to
+ * retry the same payment or to pick another method.
  */
 export function FeePayment() {
   const navigate = useNavigate();
-  const { account, setLocation, setPhone, recordPayment } = useFeeAccount();
+  const location = useLocation();
+  const { account, setLocation, setPhone, recordPayment, recordFailure, lastFailure } = useFeeAccount();
   const [tab, setTab] = useState<FeeTab>("payment");
   const [locationDialog, setLocationDialog] = useState<{ open: boolean; forPayment: boolean }>({ open: false, forPayment: false });
   const [resolving, setResolving] = useState(false);
@@ -33,6 +37,21 @@ export function FeePayment() {
 
   useEffect(() => () => timers.current.forEach(clearTimeout), []);
   const later = (fn: () => void, ms: number) => timers.current.push(window.setTimeout(fn, ms));
+
+  // Back from the failure page: Retry reopens the checkout with the same payment,
+  // Change payment method reopens the Payments dialog. Runs only when the route
+  // state changes, and clears it, so each return is acted on once.
+  useEffect(() => {
+    const back = location.state as FeeReturnState | null;
+    if (!back) return;
+    if ("retry" in back && lastFailure) {
+      const { subtotal, tax, amount, phone, channel } = lastFailure;
+      setCheckout({ subtotal, tax, amount, phone, channel });
+    } else if ("changeMethod" in back) {
+      setPaymentsOpen(true);
+    }
+    navigate(location.pathname, { replace: true, state: null });
+  }, [location.state]);
 
   const needsLocation = account.gstRate > 0 && !account.location?.state;
 
@@ -58,15 +77,19 @@ export function FeePayment() {
     setCheckout(req);
   };
 
-  const onCheckoutSuccess = useCallback(
+  const onCheckoutComplete = useCallback(
     (mode: PaymentMode) => {
       if (!checkout) return;
-      const txn = recordPayment({ subtotal: checkout.subtotal, tax: checkout.tax, amount: checkout.amount, mode });
+      const req = { subtotal: checkout.subtotal, tax: checkout.tax, amount: checkout.amount, mode };
+      // The Dev Panel's "next payment fails" switch decides how this one ends.
+      const result = account.nextFailure
+        ? { path: "failed", ...recordFailure({ ...req, channel: checkout.channel, phone: checkout.phone }) }
+        : { path: "success", ...recordPayment(req) };
       setCheckout(null);
       setProcessing(true);
-      later(() => navigate(`/fee_payment/success?gl_trace_id=${txn.traceId}&txn_id=${txn.txnId}`), PROCESSING_MS);
+      later(() => navigate(`/fee_payment/${result.path}?gl_trace_id=${result.traceId}&txn_id=${result.txnId}`), PROCESSING_MS);
     },
-    [checkout, recordPayment, navigate],
+    [checkout, account.nextFailure, recordFailure, recordPayment, navigate],
   );
 
   return (
@@ -119,7 +142,7 @@ export function FeePayment() {
         onSave={saveLocation}
       />
       <PaymentsDialog open={paymentsOpen} account={account} onClose={() => setPaymentsOpen(false)} onProceed={proceedToCheckout} />
-      <MockCheckout request={checkout} currency={account.currency} onDismiss={() => setCheckout(null)} onSuccess={onCheckoutSuccess} />
+      <MockCheckout request={checkout} currency={account.currency} onDismiss={() => setCheckout(null)} onSuccess={onCheckoutComplete} />
     </FeeShell>
   );
 }
